@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact &amp; Bulk Quotes — XpertOne Prints, Dubai</title>
+<meta name="description" content="Request a bulk quote for safety vests, uniforms, cargo trousers or helmets. Call, email or WhatsApp our Al Quoz team in Dubai.">
+<meta name="theme-color" content="#0E1116">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+<link href="assets/css/main.css" rel="stylesheet">
+</head>
+<body data-page="contact">
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="siteHeader"></div>
+
+<main id="main">
+
+  <section style="background:var(--xo-surface-alt);border-bottom:1px solid var(--xo-line)">
+    <div class="container py-5">
+      <div class="row"><div class="col-lg-7">
+        <span class="eyebrow">Contact</span>
+        <h1 class="mt-2">Talk to the people who pack the boxes</h1>
+        <p class="lead mb-0">No call centre. Message us with your sizes and quantities and you will get
+           a price, not a callback request.</p>
+      </div></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="row g-5">
+
+        <div class="col-lg-5">
+          <h2 class="h4">Reach us directly</h2>
+          <ul class="spec-list mt-3" id="contactList"></ul>
+
+          <div class="d-flex flex-column gap-2 mt-4">
+            <a class="btn btn-wa btn-lg-xo" id="waMain" href="#" target="_blank" rel="noopener">
+              <i class="fa-brands fa-whatsapp"></i> WhatsApp our sales team</a>
+            <a class="btn btn-outline-xo btn-lg-xo" id="callMain" href="#">
+              <i class="fa-solid fa-phone"></i> Call now</a>
+          </div>
+
+          <div class="border rounded-3 p-4 mt-4" style="background:var(--xo-surface-alt)">
+            <h3 class="h6 mb-2"><i class="fa-solid fa-truck-fast" style="color:var(--xo-amber-600)"></i> Collection</h3>
+            <p class="mb-0" style="font-size:.92rem">You are welcome to collect from the warehouse.
+               Call ahead so we have the order picked and waiting.</p>
+          </div>
+        </div>
+
+        <div class="col-lg-7" id="quote">
+          <div class="border rounded-3 p-4 p-lg-5">
+            <h2 class="h4 mb-1">Request a bulk quote</h2>
+            <p class="text-muted-xo" style="font-size:.93rem">Tell us what you need. We reply with a firm
+               price, lead time and printing options.</p>
+
+            <form id="quoteForm" novalidate class="mt-4">
+              <div class="row g-3">
+                <div class="col-md-6"><label class="form-label" for="q_company">Company *</label>
+                  <input class="form-control" id="q_company" name="company" required autocomplete="organization"></div>
+                <div class="col-md-6"><label class="form-label" for="q_name">Your name *</label>
+                  <input class="form-control" id="q_name" name="name" required autocomplete="name"></div>
+                <div class="col-md-6"><label class="form-label" for="q_phone">Mobile / WhatsApp *</label>
+                  <input class="form-control" id="q_phone" name="phone" required inputmode="tel" autocomplete="tel"></div>
+                <div class="col-md-6"><label class="form-label" for="q_email">Email *</label>
+                  <input class="form-control" id="q_email" name="email" type="email" required autocomplete="email"></div>
+
+                <div class="col-md-6"><label class="form-label" for="q_product">What do you need</label>
+                  <select class="form-select" id="q_product" name="product">
+                    <option value="">Choose a range…</option>
+                  </select></div>
+                <div class="col-md-6"><label class="form-label" for="q_qty">Approximate quantity</label>
+                  <input class="form-control" id="q_qty" name="quantity" inputmode="numeric" placeholder="e.g. 250"></div>
+
+                <div class="col-12">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="q_logo" name="logo">
+                    <label class="form-check-label" for="q_logo">I need logo printing</label>
+                  </div>
+                </div>
+
+                <div class="col-12"><label class="form-label" for="q_msg">Details</label>
+                  <textarea class="form-control" id="q_msg" name="message" rows="4"
+                    placeholder="Size split if you have it, colours, deadline, delivery emirate…"></textarea></div>
+              </div>
+
+              <div class="d-flex flex-wrap gap-2 mt-4">
+                <button class="btn btn-xo btn-lg-xo" type="submit" id="quoteBtn">
+                  <i class="fa-solid fa-paper-plane"></i> Send request</button>
+                <button class="btn btn-wa btn-lg-xo" type="button" id="quoteWa">
+                  <i class="fa-brands fa-whatsapp"></i> Send on WhatsApp</button>
+              </div>
+              <p class="form-text mt-3 mb-0">We use your details only to quote this enquiry.</p>
+            </form>
+
+            <div id="quoteDone" hidden class="text-center py-4">
+              <div class="empty-state__icon" style="background:var(--xo-success-bg);color:var(--xo-success)">
+                <i class="fa-solid fa-check"></i></div>
+              <h3 class="h5">Request sent</h3>
+              <p class="text-muted-xo mb-0">We will come back to you within business hours.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div id="siteFooter"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/store.js"></script>
+<script src="assets/js/ui.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+  var C = XO_CONFIG.COMPANY;
+
+  XO.el('#contactList').innerHTML =
+    '<li><b>WhatsApp &amp; phone</b><span><a href="tel:+' + C.phoneRaw + '">' + XO.esc(C.phone) + '</a></span></li>' +
+    '<li><b>Email</b><span><a href="mailto:' + C.email + '">' + XO.esc(C.email) + '</a></span></li>' +
+    '<li><b>Warehouse</b><span>' + XO.esc(C.address) + '</span></li>' +
+    '<li><b>Hours</b><span>' + XO.esc(C.hours) + '</span></li>' +
+    '<li><b>Minimum order</b><span>' + XO_CONFIG.MOQ + ' pieces</span></li>';
+
+  XO.el('#waMain').href = XO.waLink('Hello XpertOne, I would like a quote for:');
+  XO.el('#callMain').href = 'tel:+' + C.phoneRaw;
+
+  var sel = XO.el('#q_product');
+  XO_CONFIG.CATEGORIES.forEach(function (c) {
+    var o = document.createElement('option');
+    o.value = c.name; o.textContent = c.name;
+    sel.appendChild(o);
+  });
+  var other = document.createElement('option');
+  other.value = 'Something else'; other.textContent = 'Something else';
+  sel.appendChild(other);
+
+  var pre = XO.qs('product');
+  if (pre) sel.value = pre;
+
+  function collect() {
+    var d = new FormData(XO.el('#quoteForm'));
+    return {
+      company: d.get('company') || '', name: d.get('name') || '',
+      phone: d.get('phone') || '', email: d.get('email') || '',
+      product: d.get('product') || '', quantity: d.get('quantity') || '',
+      logo: !!d.get('logo'), message: d.get('message') || ''
+    };
+  }
+
+  function asText(v) {
+    return ['Hello XpertOne, I would like a quote.', '',
+      'Company: ' + (v.company || '-'), 'Contact: ' + (v.name || '-'),
+      'Phone: ' + (v.phone || '-'), 'Email: ' + (v.email || '-'),
+      'Product: ' + (v.product || '-'), 'Quantity: ' + (v.quantity || '-'),
+      'Logo printing: ' + (v.logo ? 'yes' : 'no'), '', (v.message || '')].join('\n');
+  }
+
+  function validate() {
+    var ok = true;
+    XO.els('#quoteForm [required]').forEach(function (el) {
+      var bad = !el.value.trim() || (el.type === 'email' && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(el.value));
+      el.classList.toggle('is-invalid', bad);
+      if (bad && ok) { el.focus(); ok = false; }
+    });
+    if (!ok) XO.toast('Please complete the highlighted fields', 'fa-triangle-exclamation');
+    return ok;
+  }
+
+  XO.el('#quoteWa').addEventListener('click', function () {
+    window.open(XO.waLink(asText(collect())), '_blank', 'noopener');
+  });
+
+  XO.el('#quoteForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!validate()) return;
+
+    var v = collect();
+    var btn = XO.el('#quoteBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Sending…';
+
+    function finish() {
+      XO.el('#quoteForm').hidden = true;
+      XO.el('#quoteDone').hidden = false;
+    }
+
+    /* No inquiries endpoint yet — hand off to WhatsApp so nothing is lost.
+       Once POST /api/inquiries.php exists, set ORDER_MODE to 'api' in
+       config.js and this branch uses the API instead. */
+    if (XO_CONFIG.ORDER_MODE === 'whatsapp') {
+      window.open(XO.waLink(asText(v)), '_blank', 'noopener');
+      finish();
+      return;
+    }
+
+    fetch(XO_CONFIG.API_BASE + XO_CONFIG.ENDPOINTS.createInquiry, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(v)
+    })
+      .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+      .then(finish)
+      .catch(function (err) {
+        console.error('[XpertOne] Inquiry POST failed', err);
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Send request';
+        XO.toast('Could not reach the server — send it on WhatsApp instead', 'fa-triangle-exclamation');
+      });
+  });
+
+});
+</script>
+</body>
+</html>
