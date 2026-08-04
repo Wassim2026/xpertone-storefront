@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Contact &amp; Bulk Quotes — XpertOne Prints, Dubai</title>
-<meta name="description" content="Request a bulk quote for safety vests, uniforms, cargo trousers or helmets. Call, email or WhatsApp our Al Quoz team in Dubai.">
+<meta name="description" content="Request a bulk quote for safety vests, uniforms, cargo trousers or helmets. Upload your logo, call, email or WhatsApp our Al Quoz team in Dubai.">
 <meta name="theme-color" content="#0E1116">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -79,7 +79,22 @@
                 <div class="col-12">
                   <div class="form-check">
                     <input class="form-check-input" type="checkbox" id="q_logo" name="logo">
-                    <label class="form-check-label" for="q_logo">I need logo printing</label>
+                    <label class="form-check-label" for="q_logo">I need logo or text printing</label>
+                  </div>
+                </div>
+
+                <div class="col-12" id="q_printBlock" hidden>
+                  <div class="row g-3 p-3 border rounded-3" style="background:var(--xo-surface-alt)">
+                    <div class="col-md-6">
+                      <label class="form-label" for="q_artwork">Upload your logo</label>
+                      <input class="form-control" type="file" id="q_artwork" name="attachment">
+                      <p class="form-text mb-0" id="q_fileInfo" hidden></p>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label" for="q_printText">Text to print</label>
+                      <input class="form-control" id="q_printText" name="printText"
+                        placeholder="e.g. AL FAJER CONTRACTING L.L.C.">
+                    </div>
                   </div>
                 </div>
 
@@ -146,13 +161,44 @@ document.addEventListener('DOMContentLoaded', function () {
   var pre = XO.qs('product');
   if (pre) sel.value = pre;
 
+  /* Printing panel + artwork validation */
+  var logoBox = XO.el('#q_logo');
+  var printBlock = XO.el('#q_printBlock');
+  var artwork = XO.el('#q_artwork');
+  var fileInfo = XO.el('#q_fileInfo');
+  artwork.setAttribute('accept', XO_CONFIG.PRINTING.accept);
+
+  logoBox.addEventListener('change', function () { printBlock.hidden = !logoBox.checked; });
+
+  artwork.addEventListener('change', function () {
+    var f = artwork.files && artwork.files[0];
+    if (!f) { fileInfo.hidden = true; return; }
+    fileInfo.hidden = false;
+    if (f.size > XO_CONFIG.PRINTING.maxFileMB * 1024 * 1024) {
+      fileInfo.innerHTML = '<span style="color:var(--xo-danger)">' + XO.esc(f.name) + ' is over ' +
+        XO_CONFIG.PRINTING.maxFileMB + ' MB — send it on WhatsApp instead.</span>';
+      artwork.value = '';
+      return;
+    }
+    fileInfo.innerHTML = '<span style="color:var(--xo-success)"><i class="fa-solid fa-paperclip"></i> ' +
+      XO.esc(f.name) + ' attached.</span>';
+  });
+
+  /* Returning from the upload relay */
+  if (XO.qs('sent') === '1') {
+    XO.el('#quoteForm').hidden = true;
+    XO.el('#quoteDone').hidden = false;
+  }
+
   function collect() {
     var d = new FormData(XO.el('#quoteForm'));
     return {
       company: d.get('company') || '', name: d.get('name') || '',
       phone: d.get('phone') || '', email: d.get('email') || '',
       product: d.get('product') || '', quantity: d.get('quantity') || '',
-      logo: !!d.get('logo'), message: d.get('message') || ''
+      logo: !!d.get('logo'), printText: d.get('printText') || '',
+      artworkName: (artwork.files && artwork.files[0]) ? artwork.files[0].name : '',
+      message: d.get('message') || ''
     };
   }
 
@@ -161,7 +207,9 @@ document.addEventListener('DOMContentLoaded', function () {
       'Company: ' + (v.company || '-'), 'Contact: ' + (v.name || '-'),
       'Phone: ' + (v.phone || '-'), 'Email: ' + (v.email || '-'),
       'Product: ' + (v.product || '-'), 'Quantity: ' + (v.quantity || '-'),
-      'Logo printing: ' + (v.logo ? 'yes' : 'no'), '', (v.message || '')].join('\n');
+      'Logo printing: ' + (v.logo ? 'yes' : 'no'),
+      'Text to print: ' + (v.printText || '-'),
+      'Artwork: ' + (v.artworkName || 'to follow'), '', (v.message || '')].join('\n');
   }
 
   function validate() {
@@ -203,21 +251,61 @@ document.addEventListener('DOMContentLoaded', function () {
     /* Email the enquiry through the relay configured in config.js. */
     if (XO_CONFIG.ORDER_MODE === 'email') {
       var E = XO_CONFIG.EMAIL;
+
+      var fields = {
+        _subject: E.inquirySubject + ' — ' + (v.company || v.name || 'website'),
+        _template: 'table',
+        Company: v.company,
+        Contact: v.name,
+        Phone: v.phone,
+        Email: v.email,
+        Product: v.product || '—',
+        Quantity: v.quantity || '—',
+        'Logo / text printing': v.logo
+          ? 'Yes' + (v.printText ? ' — text: "' + v.printText + '"' : '') +
+            (v.artworkName ? ' — artwork attached: ' + v.artworkName : ' — artwork to follow')
+          : 'No',
+        Details: v.message || '—'
+      };
+
+      /* Artwork attached: multipart post, then FormSubmit returns the visitor
+         to this page with ?sent=1 so they see the confirmation panel. */
+      if (v.logo && artwork.files && artwork.files[0]) {
+        var relay = document.createElement('form');
+        relay.method = 'POST';
+        relay.action = E.uploadEndpoint;
+        relay.enctype = 'multipart/form-data';
+        relay.style.display = 'none';
+
+        Object.keys(fields).forEach(function (k) {
+          var input = document.createElement('input');
+          input.type = 'hidden'; input.name = k; input.value = fields[k];
+          relay.appendChild(input);
+        });
+
+        var nextInput = document.createElement('input');
+        nextInput.type = 'hidden';
+        nextInput.name = '_next';
+        nextInput.value = location.href.split('?')[0] + '?sent=1';
+        relay.appendChild(nextInput);
+
+        var noCaptcha = document.createElement('input');
+        noCaptcha.type = 'hidden';
+        noCaptcha.name = '_captcha';
+        noCaptcha.value = 'false';
+        relay.appendChild(noCaptcha);
+
+        artwork.name = 'attachment';
+        relay.appendChild(artwork);
+        document.body.appendChild(relay);
+        relay.submit();
+        return;
+      }
+
       fetch(E.endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({
-          _subject: E.inquirySubject + ' — ' + (v.company || v.name || 'website'),
-          _template: 'table',
-          Company: v.company,
-          Contact: v.name,
-          Phone: v.phone,
-          Email: v.email,
-          Product: v.product || '—',
-          Quantity: v.quantity || '—',
-          'Logo printing': v.logo ? 'Yes' : 'No',
-          Details: v.message || '—'
-        })
+        body: JSON.stringify(fields)
       })
         .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
         .then(finish)
