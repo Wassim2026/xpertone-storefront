@@ -36,14 +36,37 @@ window.XO_CONFIG = {
   /* ---------------------------------------------------------------------
      ORDER SUBMISSION BEHAVIOUR
      ---------------------------------------------------------------------
+     'email'    -> checkout emails the full order to EMAIL.to through a
+                   form-to-email relay. No mail server needed. CURRENT SETTING.
      'whatsapp' -> checkout builds a formatted order message and hands off to
-                   WhatsApp. Works with zero backend. This is the default so
-                   the site is commercially usable from day one.
+                   WhatsApp. Works with zero backend.
      'api'      -> checkout POSTs to ENDPOINTS.createOrder. Switch to this the
                    day the backend is ready — no other change required.
      'both'     -> POST to the API, and still offer the WhatsApp handoff.
+
+     In every mode the "Send on WhatsApp instead" button stays available, and
+     any failure falls back to WhatsApp so an order is never lost.
      --------------------------------------------------------------------- */
-  ORDER_MODE: 'whatsapp',
+  ORDER_MODE: 'email',
+
+  /* ---------------------------------------------------------------------
+     ORDER NOTIFICATION EMAIL
+     ---------------------------------------------------------------------
+     FormSubmit relays a POST into an email. It is free, needs no account and
+     no server, and the address must be confirmed once by clicking the link in
+     the first email it sends.
+
+     This is deliberately temporary. When POST /api/orders.php exists, set
+     ORDER_MODE to 'api' and the site sends orders to your own server instead,
+     with nothing passing through a third party.
+     --------------------------------------------------------------------- */
+  EMAIL: {
+    enabled: true,
+    to: 'xpertonecreative@gmail.com',
+    endpoint: 'https://formsubmit.co/ajax/xpertonecreative@gmail.com',
+    orderSubject: 'New website order',
+    inquirySubject: 'New quote request'
+  },
 
   /* ---------------------------------------------------------------------
      COMMERCIAL RULES
@@ -63,17 +86,26 @@ window.XO_CONFIG = {
     note: 'Front and back logo printing available — priced per artwork, confirmed on your quote.'
   },
 
-  /* Volume price breaks. Applied automatically to the line total.
-     Leave the array empty to disable tier pricing entirely.
-     min = quantity from which the discount applies. */
-  PRICE_TIERS: [],
-  /* Example — uncomment and set your real numbers to switch tiers on:
+  /* ---------------------------------------------------------------------
+     VOLUME PRICE BREAKS
+     ---------------------------------------------------------------------
+     Applied automatically per product line, based on the total pieces of
+     that product across all sizes. The highest tier the quantity reaches
+     wins — they are not cumulative.
+
+     On a 12.00 vest:  25 pcs -> 10.80   50 pcs -> 10.20   100 pcs -> 9.60
+
+     min      = quantity from which the discount applies
+     discount = fraction off the list price (0.10 = 10%)
+     label    = shown on the product page price-break table
+
+     Set the array to [] to switch volume pricing off entirely.
+     --------------------------------------------------------------------- */
   PRICE_TIERS: [
-    { min: 100, discount: 0.05 },
-    { min: 250, discount: 0.10 },
-    { min: 500, discount: 0.15 }
+    { min: 25,  discount: 0.10, label: 'Bundle of 25' },
+    { min: 50,  discount: 0.15, label: 'Bundle of 50' },
+    { min: 100, discount: 0.20, label: '100 or more' }
   ],
-  */
 
   /* ---------------------------------------------------------------------
      COMPANY
