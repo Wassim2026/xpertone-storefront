@@ -113,18 +113,6 @@ window.XO_CONFIG = {
       'Not sure - please advise'
     ],
 
-    /* Where each placement sits on the preview, as a fraction of the image.
-       x/y are the centre of the print, w is its maximum width. */
-    anchors: {
-      'Left chest':             { x: 0.37, y: 0.36, w: 0.17 },
-      'Full back':              { x: 0.50, y: 0.45, w: 0.34 },
-      'Front centre':           { x: 0.50, y: 0.46, w: 0.32 },
-      'Left chest + full back': { x: 0.37, y: 0.36, w: 0.17 },
-      'Both sleeves':           { x: 0.22, y: 0.40, w: 0.12 },
-      'Not sure - please advise': { x: 0.50, y: 0.44, w: 0.28 },
-      _default:                 { x: 0.50, y: 0.44, w: 0.30 }
-    },
-
     /* Offered as print colours, and used to draw the text on the preview. */
     inkColours: [
       { name: 'White',  hex: '#FFFFFF' },
