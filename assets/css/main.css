@@ -544,3 +544,14 @@ hr { border: 0; border-top: 1px solid var(--xo-line); opacity: 1; margin: 2rem 0
   body { font-size: 12px; }
   .summary-card { position: static; box-shadow: none; }
 }
+
+/* =========================================================================
+   Layout corrections
+   ========================================================================= */
+
+/* Keep every category tile the same height regardless of image size. */
+.cat-tile__media { overflow: hidden; }
+
+/* Keep the top navigation on a single line at desktop widths. */
+.mainnav { gap: .1rem; min-width: 0; }
+.mainnav a { white-space: nowrap; padding: .5rem .58rem; font-size: .875rem; }
