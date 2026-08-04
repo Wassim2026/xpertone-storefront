@@ -76,8 +76,8 @@
     describe: function (d) {
       if (!d) return '';
       var bits = [];
-      if (d.en) bits.push('English text: "' + d.en + '"');
-      if (d.ar) bits.push('Arabic text: "' + d.ar + '"');
+      var rows = (d.lines && d.lines.length) ? d.lines : [d.en, d.ar].filter(Boolean);
+      if (rows.length) bits.push('Text: ' + rows.map(function (r) { return '"' + r + '"'; }).join(' / '));
       if (d.logoName) bits.push('Logo: ' + d.logoName + (d.removedBg ? ' (background removed)' : ''));
       if (d.placement) bits.push('Placement: ' + d.placement);
       if (d.colour) bits.push('Print colour: ' + d.colour);
@@ -212,6 +212,142 @@
     });
   }
 
+  var ARABIC = /[؀-ۿݐ-ݿ]/;
+
+  function isArabic(s) { return ARABIC.test(s || ''); }
+
+  /* A design carries an array of rows. Older saved designs used separate
+     English and Arabic fields, so fall back to those. */
+  function linesOf(design) {
+    var rows = design.lines || [];
+    if (!rows.length) rows = [design.en, design.ar];
+    return rows.map(function (r) { return (r || '').trim(); }).filter(Boolean);
+  }
+
+  /* =======================================================================
+     Photo analysis
+     -----------------------------------------------------------------------
+     Finds the garment in the product photo so prints can be positioned
+     against the garment itself rather than the edges of the image. A photo
+     showing a front and a back view gives two blobs; a helmet gives one.
+     Everything downstream works in fractions of a blob, so the print lands
+     correctly whatever the photo looks like.
+     ======================================================================= */
+  function analysePhoto(img) {
+    var W = 180;
+    var H = Math.max(1, Math.round(img.height * (W / img.width)));
+    var cv = document.createElement('canvas');
+    cv.width = W; cv.height = H;
+    var ctx = cv.getContext('2d', { willReadFrequently: true });
+    ctx.drawImage(img, 0, 0, W, H);
+
+    var d;
+    try { d = ctx.getImageData(0, 0, W, H).data; }
+    catch (e) { return { blobs: [{ x: 0, y: 0, w: 1, h: 1 }] }; }
+
+    var c = [0, (W - 1) * 4, (H - 1) * W * 4, ((H - 1) * W + W - 1) * 4];
+    var br = 0, bg = 0, bb = 0;
+    c.forEach(function (i) { br += d[i]; bg += d[i + 1]; bb += d[i + 2]; });
+    br /= 4; bg /= 4; bb /= 4;
+
+    function isSubject(i) {
+      if (d[i + 3] < 24) return false;
+      var dr = d[i] - br, dg = d[i + 1] - bg, db = d[i + 2] - bb;
+      return (dr * dr + dg * dg + db * db) > 2400;
+    }
+
+    var colCount = new Array(W).fill(0);
+    var x, y;
+    for (y = 0; y < H; y++) {
+      for (x = 0; x < W; x++) {
+        if (isSubject((y * W + x) * 4)) colCount[x]++;
+      }
+    }
+
+    var floor = Math.max(2, H * 0.06);
+    var runs = [], run = null;
+    for (x = 0; x < W; x++) {
+      if (colCount[x] > floor) {
+        if (!run) { run = { a: x, b: x }; runs.push(run); }
+        else run.b = x;
+      } else if (run && x - run.b > W * 0.035) {
+        run = null;
+      } else if (run) {
+        run.b = x;
+      }
+    }
+    runs = runs.filter(function (r) { return (r.b - r.a) > W * 0.08; });
+    if (!runs.length) return { blobs: [{ x: 0, y: 0, w: 1, h: 1 }] };
+    if (runs.length > 2) {
+      runs.sort(function (a, b) { return (b.b - b.a) - (a.b - a.a); });
+      runs = runs.slice(0, 2).sort(function (a, b) { return a.a - b.a; });
+    }
+
+    var blobs = runs.map(function (r) {
+      var top = H, bottom = 0;
+      for (y = 0; y < H; y++) {
+        for (x = r.a; x <= r.b; x++) {
+          if (isSubject((y * W + x) * 4)) {
+            if (y < top) top = y;
+            if (y > bottom) bottom = y;
+            break;
+          }
+        }
+      }
+      if (bottom < top) { top = 0; bottom = H - 1; }
+      return { x: r.a / W, y: top / H, w: (r.b - r.a + 1) / W, h: (bottom - top + 1) / H };
+    });
+
+    return { blobs: blobs };
+  }
+
+  /* =======================================================================
+     Logo clean-up
+     -----------------------------------------------------------------------
+     Most logos arrive over WhatsApp, which means small and soft. Upscaling
+     in steps and sharpening afterwards will not invent detail, but it stops
+     the print looking like a screenshot of a screenshot.
+     ======================================================================= */
+  function sharpen(cv, amount) {
+    if (!amount) return cv;
+    var ctx = cv.getContext('2d', { willReadFrequently: true });
+    var w = cv.width, h = cv.height, img;
+    try { img = ctx.getImageData(0, 0, w, h); } catch (e) { return cv; }
+    var src = new Uint8ClampedArray(img.data);
+    var d = img.data;
+
+    for (var y = 1; y < h - 1; y++) {
+      for (var x = 1; x < w - 1; x++) {
+        var i = (y * w + x) * 4;
+        for (var ch = 0; ch < 3; ch++) {
+          var centre = src[i + ch];
+          var around = (src[i - 4 + ch] + src[i + 4 + ch] +
+                        src[i - w * 4 + ch] + src[i + w * 4 + ch]) / 4;
+          d[i + ch] = centre + (centre - around) * amount;
+        }
+      }
+    }
+    ctx.putImageData(img, 0, 0);
+    return cv;
+  }
+
+  /* Steps up in halves rather than one jump, which keeps edges cleaner. */
+  function upscale(source, targetSide) {
+    var cur = source, guard = 0;
+    while (Math.max(cur.width, cur.height) < targetSide && guard++ < 4) {
+      var factor = Math.min(2, targetSide / Math.max(cur.width, cur.height));
+      var cv = document.createElement('canvas');
+      cv.width = Math.round(cur.width * factor);
+      cv.height = Math.round(cur.height * factor);
+      var ctx = cv.getContext('2d');
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = 'high';
+      ctx.drawImage(cur, 0, 0, cv.width, cv.height);
+      cur = cv;
+    }
+    return cur;
+  }
+
   /* =======================================================================
      Mockup rendering
      ======================================================================= */
@@ -224,11 +360,29 @@
     return L[product.category] || 'single';
   }
 
-  function spotsFor(layout, placement) {
-    var sets = (CFG.PRINTING.anchors || {})[layout] || {};
-    var list = sets[placement] || sets._default || [{ x: 0.5, y: 0.44, w: 0.24, label: 'Print' }];
+  /* Placements are described against a view — "chest" is a third of the way
+     across the front view and 30% down it. Combined with the blobs found in
+     the photo, that puts the print in the right place automatically, on any
+     product, with no hand-tuned coordinates. */
+  function spotsFor(placement, analysis) {
+    var recipes = CFG.PRINTING.spots || {};
+    var list = recipes[placement] || recipes._default ||
+      [{ view: 0, rx: 0.5, ry: 0.42, rw: 0.5, label: 'Print' }];
+    var blobs = (analysis && analysis.blobs && analysis.blobs.length)
+      ? analysis.blobs : [{ x: 0, y: 0, w: 1, h: 1 }];
+
     return list.map(function (s) {
-      return { x: s.x, y: s.y, w: s.w, label: s.label || 'Print', scale: 1 };
+      /* A photo with only one view still honours a "back" print — it simply
+         lands on the view that is there. */
+      var b = blobs[Math.min(s.view, blobs.length - 1)];
+      return {
+        x: b.x + b.w * s.rx,
+        y: b.y + b.h * s.ry,
+        w: b.w * s.rw,
+        hMax: b.h * (s.rh || 0.40),
+        label: s.label || 'Print',
+        scale: 1
+      };
     });
   }
 
@@ -258,20 +412,40 @@
       return px;
     }
 
-    if (design.en) {
-      var f1 = "'Inter', Arial, sans-serif";
-      parts.push({ type: 'text', text: design.en, px: fit(design.en, f1, 'ltr'), font: f1, dir: 'ltr' });
-    }
-    if (design.ar) {
-      var f2 = "'Noto Sans Arabic', 'Segoe UI', Tahoma, Arial, sans-serif";
-      parts.push({ type: 'text', text: design.ar, px: fit(design.ar, f2, 'rtl'), font: f2, dir: 'rtl' });
-    }
+    /* Each row is typed on its own line and sized to fit on its own, so a
+       long company name and a short phone number both look deliberate. */
+    linesOf(design).forEach(function (line) {
+      var rtl = isArabic(line);
+      var font = rtl
+        ? "'Noto Sans Arabic', 'Segoe UI', Tahoma, Arial, sans-serif"
+        : "'Inter', Arial, sans-serif";
+      parts.push({
+        type: 'text', text: line, font: font,
+        dir: rtl ? 'rtl' : 'ltr', px: fit(line, font, rtl ? 'rtl' : 'ltr')
+      });
+    });
     if (!parts.length) return null;
 
     var gap = maxW * 0.06;
-    var total = parts.reduce(function (n, p, i) {
-      return n + (p.type === 'logo' ? p.h : p.px * 1.15) + (i ? gap : 0);
-    }, 0);
+    function measure() {
+      return parts.reduce(function (n, p, i) {
+        return n + (p.type === 'logo' ? p.h : p.px * 1.15) + (i ? gap : 0);
+      }, 0);
+    }
+    var total = measure();
+
+    /* Keep the whole print inside the panel it sits on. A logo plus three
+       rows of text would otherwise run off the garment. */
+    var hMax = SIZE * (spot.hMax || 0.4) * (spot.scale || 1);
+    if (total > hMax) {
+      var k = hMax / total;
+      parts.forEach(function (p) {
+        if (p.type === 'logo') { p.w *= k; p.h *= k; }
+        else p.px = Math.max(7, p.px * k);
+      });
+      gap *= k;
+      total = measure();
+    }
 
     var y = SIZE * spot.y - total / 2;
     var top = y;
@@ -283,7 +457,7 @@
         y += p.h;
       } else {
         ctx.fillStyle = design.inkColour || '#111111';
-        ctx.font = '700 ' + p.px + 'px ' + p.font;
+        ctx.font = '700 ' + Math.round(p.px) + 'px ' + p.font;
         ctx.direction = p.dir;
         ctx.fillText(p.text, cx, y);
         y += p.px * 1.15;
@@ -291,7 +465,10 @@
     });
     ctx.direction = 'ltr';
 
-    var box = { x: cx - maxW / 2, y: top, w: maxW, h: y - top };
+    var drawnW = parts.reduce(function (n, p) {
+      return Math.max(n, p.type === 'logo' ? p.w : ctx.measureText(p.text).width);
+    }, maxW * 0.2);
+    var box = { x: cx - drawnW / 2, y: top, w: drawnW, h: y - top };
 
     if (highlight) {
       var m = maxW * 0.12;
@@ -338,20 +515,21 @@
     if (!mount) return null;
 
     var product = opts.product;
-    var layout = layoutFor(product);
     var state = {
       logo: '',
       logoName: '',
+      logoPx: 0,
       removedBg: false,
-      en: '',
-      ar: '',
+      upscaled: false,
+      lines: [],
       placement: CFG.PRINTING.placements[0],
       colour: 'White',
       inkColour: '#FFFFFF',
-      _spots: spotsFor(layout, CFG.PRINTING.placements[0]),
+      _spots: [],
       _active: 0,
       _showGuides: true
     };
+    var analysis = null;
     var logoImg = null;
     var productImg = null;
     var busy = false;
@@ -397,18 +575,25 @@
                 '<label class="form-check-label" for="dsCut" style="font-size:.86rem">' +
                   'Remove the background automatically</label>' +
               '</div>' +
+              '<div class="form-check">' +
+                '<input class="form-check-input" type="checkbox" id="dsSharp" checked>' +
+                '<label class="form-check-label" for="dsSharp" style="font-size:.86rem">' +
+                  'Improve a low-resolution logo</label>' +
+              '</div>' +
               '<p class="form-text mb-0" id="dsFileNote">PNG, JPG or WebP. Works best on a plain background.</p>' +
             '</div>' +
 
-            '<div class="designer__field">' +
-              '<label class="form-label" for="dsEn">Text in English</label>' +
-              '<input class="form-control" id="dsEn" maxlength="40" placeholder="AL FAJER CONTRACTING">' +
-            '</div>' +
-
-            '<div class="designer__field">' +
-              '<label class="form-label" for="dsAr">النص بالعربية</label>' +
-              '<input class="form-control" id="dsAr" maxlength="40" dir="rtl" lang="ar" ' +
-                'style="font-family:\'Noto Sans Arabic\',Tahoma,Arial,sans-serif" placeholder="الفجر للمقاولات">' +
+            '<div class="designer__field designer__field--wide">' +
+              '<span class="form-label d-block">Text to print</span>' +
+              '<div id="dsLines">' +
+                new Array(CFG.PRINTING.maxLines || 3).fill(0).map(function (_, i) {
+                  return '<input class="form-control mb-2" data-line="' + i + '" maxlength="40" ' +
+                    'placeholder="' + (i === 0 ? 'AL FAJER CONTRACTING' :
+                                       i === 1 ? 'الفجر للمقاولات' : '+971 50 000 0000') + '">';
+                }).join('') +
+              '</div>' +
+              '<p class="form-text mb-0">One row per line — company name, Arabic name, phone number. ' +
+                'Arabic is detected automatically and printed right to left.</p>' +
             '</div>' +
 
             '<div class="designer__field">' +
@@ -454,8 +639,8 @@
       file: XO.el('#dsFile', mount),
       cut: XO.el('#dsCut', mount),
       note: XO.el('#dsFileNote', mount),
-      en: XO.el('#dsEn', mount),
-      ar: XO.el('#dsAr', mount),
+      lines: XO.els('[data-line]', mount),
+      sharp: XO.el('#dsSharp', mount),
       place: XO.el('#dsPlace', mount),
       colour: XO.el('#dsColour', mount),
       colourName: XO.el('#dsColourName', mount),
@@ -475,7 +660,7 @@
     }
 
     function active() {
-      return el.on.checked && !!(state.logo || state.en || state.ar);
+      return el.on.checked && !!(state.logo || state.lines.join(''));
     }
 
     /* One chip per print position, so a front-and-back placement can be
@@ -498,7 +683,7 @@
 
     function setPlacement(value) {
       state.placement = value;
-      state._spots = spotsFor(layout, value);
+      state._spots = spotsFor(value, analysis);
       state._active = 0;
       el.scale.value = 100;
       el.hint.innerHTML = state._spots.length > 1
@@ -564,7 +749,11 @@
     el.centre.addEventListener('click', function () { setPlacement(state.placement); });
 
     loadImage(product.images[0], true)
-      .then(function (img) { productImg = img; repaint(); })
+      .then(function (img) {
+        productImg = img;
+        analysis = analysePhoto(img);
+        setPlacement(state.placement);
+      })
       .catch(function () {
         var ctx = el.canvas.getContext('2d');
         el.canvas.width = SIZE; el.canvas.height = SIZE;
@@ -608,7 +797,18 @@
             state.removedBg = false;
           }
 
-          out = downscale(out, 700);
+          state.logoPx = Math.max(img.naturalWidth || img.width, img.naturalHeight || img.height);
+          state.upscaled = false;
+
+          var target = CFG.PRINTING.minLogoPx || 600;
+          if (el.sharp.checked && Math.max(out.width, out.height) < target) {
+            out = sharpen(upscale(out, target), CFG.PRINTING.sharpenAmount || 0.45);
+            state.upscaled = true;
+          } else if (el.sharp.checked) {
+            out = sharpen(out, (CFG.PRINTING.sharpenAmount || 0.45) * 0.5);
+          }
+
+          out = downscale(out, 900);
           state.logo = out.toDataURL('image/png');
 
           return loadImage(state.logo, false).then(function (li) {
@@ -622,8 +822,15 @@
               el.note.innerHTML = '<span style="color:var(--xo-danger)">Almost everything was removed. ' +
                 'Untick the box and we will cut it out for you by hand.</span>';
             } else {
+              var quality = state.logoPx < 200
+                ? '<span style="color:var(--xo-danger)"> Low resolution (' + state.logoPx + 'px) — ' +
+                  'ask the client for the original file if you can.</span>'
+                : state.logoPx < (CFG.PRINTING.minLogoPx || 600)
+                  ? '<span style="color:var(--xo-amber-600)"> ' + state.logoPx + 'px — usable, sharpened for print.</span>'
+                  : '<span style="color:var(--xo-muted)"> ' + state.logoPx + 'px — good quality.</span>';
               el.note.innerHTML = '<span style="color:var(--xo-success)"><i class="fa-solid fa-circle-check"></i> ' +
-                XO.esc(file.name) + ' added' + (state.removedBg ? ', background removed' : '') + '.</span>';
+                XO.esc(file.name) + ' added' + (state.removedBg ? ', background removed' : '') +
+                (state.upscaled ? ', upscaled' : '') + '.</span>' + quality;
             }
             repaint();
           });
@@ -641,9 +848,17 @@
     el.cut.addEventListener('change', function () {
       if (el.file.files && el.file.files[0]) processLogo(el.file.files[0]);
     });
+    el.sharp.addEventListener('change', function () {
+      if (el.file.files && el.file.files[0]) processLogo(el.file.files[0]);
+    });
 
-    el.en.addEventListener('input', function () { state.en = el.en.value.trim(); repaint(); });
-    el.ar.addEventListener('input', function () { state.ar = el.ar.value.trim(); repaint(); });
+    el.lines.forEach(function (inp, i) {
+      inp.addEventListener('input', function () {
+        state.lines[i] = inp.value.trim();
+        inp.setAttribute('dir', isArabic(inp.value) ? 'rtl' : 'ltr');
+        repaint();
+      });
+    });
     el.place.addEventListener('change', function () { setPlacement(el.place.value); });
 
     XO.els('[data-hex]', el.colour).forEach(function (sw) {
@@ -667,9 +882,10 @@
     });
 
     el.reset.addEventListener('click', function () {
-      state.logo = ''; state.logoName = ''; state.en = ''; state.ar = '';
+      state.logo = ''; state.logoName = ''; state.lines = [];
       logoImg = null;
-      el.file.value = ''; el.en.value = ''; el.ar.value = '';
+      el.file.value = '';
+      el.lines.forEach(function (i) { i.value = ''; });
       el.note.textContent = 'PNG, JPG or WebP. Works best on a plain background.';
       setPlacement(state.placement);
     });
@@ -692,8 +908,11 @@
           logo: state.logo,
           logoName: state.logoName,
           removedBg: state.removedBg,
-          en: state.en,
-          ar: state.ar,
+          upscaled: state.upscaled,
+          logoPx: state.logoPx,
+          lines: state.lines.filter(Boolean),
+          en: state.lines.filter(function (l) { return l && !isArabic(l); })[0] || '',
+          ar: state.lines.filter(function (l) { return isArabic(l); })[0] || '',
           placement: state.placement,
           positions: state._spots.map(function (s) {
             return { label: s.label, x: Math.round(s.x * 100) / 100,
@@ -777,6 +996,24 @@
         });
       });
     }
+  };
+
+  /* =======================================================================
+     Shared engine — reused by the brand kit
+     ======================================================================= */
+  window.XODesign = {
+    loadImage: loadImage,
+    removeBackground: removeBackground,
+    trim: trim,
+    downscale: downscale,
+    upscale: upscale,
+    sharpen: sharpen,
+    analysePhoto: analysePhoto,
+    spotsFor: spotsFor,
+    drawMockup: drawMockup,
+    linesOf: linesOf,
+    isArabic: isArabic,
+    SIZE: SIZE
   };
 
   /* =======================================================================
