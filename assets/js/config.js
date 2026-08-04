@@ -1,5 +1,5 @@
 /* =========================================================================
-   XpertOne Prints — Runtime configuration
+   XpertOne Prints - Runtime configuration
    -------------------------------------------------------------------------
    This is the ONLY file the backend developer needs to touch to point the
    storefront at a different server. Everything else reads from here.
@@ -19,11 +19,11 @@ window.XO_CONFIG = {
   API_BASE: 'https://api.xpertoneprints.com',
 
   ENDPOINTS: {
-    // GET  — existing endpoints, already live today
+    // GET - existing endpoints, already live today
     products:  '/api/safety_products.php',   // vests, pant & shirt sets, cargo trousers
     helmets:   '/api/helmets.php',           // helmets
 
-    // POST — NOT BUILT YET. See docs/API.md for the exact contract the
+    // POST - NOT BUILT YET. See docs/API.md for the exact contract the
     // front-end expects. Until these exist, ORDER_MODE below applies.
     createOrder:   '/api/orders.php',
     createInquiry: '/api/inquiries.php',
@@ -41,7 +41,7 @@ window.XO_CONFIG = {
      'whatsapp' -> checkout builds a formatted order message and hands off to
                    WhatsApp. Works with zero backend.
      'api'      -> checkout POSTs to ENDPOINTS.createOrder. Switch to this the
-                   day the backend is ready — no other change required.
+                   day the backend is ready - no other change required.
      'both'     -> POST to the API, and still offer the WhatsApp handoff.
 
      In every mode the "Send on WhatsApp instead" button stays available, and
@@ -64,6 +64,9 @@ window.XO_CONFIG = {
     enabled: true,
     to: 'xpertonecreative@gmail.com',
     endpoint: 'https://formsubmit.co/ajax/xpertonecreative@gmail.com',
+    /* Used only when the customer attaches artwork - a normal multipart POST,
+       because background requests cannot carry file attachments. */
+    uploadEndpoint: 'https://formsubmit.co/xpertonecreative@gmail.com',
     orderSubject: 'New website order',
     inquirySubject: 'New quote request'
   },
@@ -76,14 +79,39 @@ window.XO_CONFIG = {
   PRICES_INCLUDE_VAT: false,   // catalogue prices are ex-VAT
 
   MOQ: 10,                     // minimum order quantity per product line
-  FREE_DELIVERY_THRESHOLD: 1000,   // AED, ex-VAT — Dubai
+  FREE_DELIVERY_THRESHOLD: 1000,   // AED, ex-VAT - Dubai
   DELIVERY_FEE: 30,            // AED, below the threshold
 
   LOGO_PRINTING: {
     enabled: true,
     // Set to 0 to quote logo printing manually instead of charging inline.
     pricePerUnit: 0,
-    note: 'Front and back logo printing available — priced per artwork, confirmed on your quote.'
+    note: 'Front and back logo printing available - priced per artwork, confirmed on your quote.'
+  },
+
+  /* ---------------------------------------------------------------------
+     ARTWORK UPLOAD
+     ---------------------------------------------------------------------
+     Customers attach their logo at checkout and on the quote form. When a
+     file is attached the form is posted as multipart so the file arrives as
+     a real email attachment; with no file it goes as a background request
+     and the customer never leaves the page.
+
+     maxFileMB is enforced in the browser. Oversized files are refused with a
+     clear message rather than failing silently.
+     --------------------------------------------------------------------- */
+  PRINTING: {
+    maxFileMB: 10,
+    accept: '.pdf,.ai,.eps,.svg,.png,.jpg,.jpeg,.webp,.zip',
+    placements: [
+      'Left chest',
+      'Left chest + full back',
+      'Full back only',
+      'Front centre',
+      'Both sleeves',
+      'Left chest + back + sleeve',
+      'Not sure - please advise'
+    ]
   },
 
   /* ---------------------------------------------------------------------
@@ -91,7 +119,7 @@ window.XO_CONFIG = {
      ---------------------------------------------------------------------
      Applied automatically per product line, based on the total pieces of
      that product across all sizes. The highest tier the quantity reaches
-     wins — they are not cumulative.
+     wins - they are not cumulative.
 
      On a 12.00 vest:  25 pcs -> 10.80   50 pcs -> 10.20   100 pcs -> 9.60
 
@@ -118,7 +146,7 @@ window.XO_CONFIG = {
     whatsapp: '971545832318',
     email: 'info@xpertonecreative.com',
     address: 'Warehouse No 17M3, Street 15A, Al Quoz 4, Dubai, United Arab Emirates',
-    hours: 'Saturday – Thursday, 9:00 – 18:00 (GST)',
+    hours: 'Saturday to Thursday, 9:00 - 18:00 (GST)',
     trn: ''   // add your Tax Registration Number to print it on quotes
   },
 
@@ -132,14 +160,14 @@ window.XO_CONFIG = {
     {
       slug: 'safety-vests',
       name: 'Safety Vests',
-      blurb: 'Hi-vis reflective vests — general, supervisor and engineer grade.',
+      blurb: 'Hi-vis reflective vests - general, supervisor and engineer grade.',
       apiKeys: ['Safety Vest'],
       source: 'products'
     },
     {
       slug: 'uniforms',
       name: 'Pant & Shirt Sets',
-      blurb: 'Cotton and twill workwear sets, plain or reflective, 190–260 GSM.',
+      blurb: 'Cotton and twill workwear sets, plain or reflective, 190-260 GSM.',
       apiKeys: ['Pant-Shirts-Coveralls'],
       source: 'products'
     },
