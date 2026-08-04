@@ -555,3 +555,19 @@ hr { border: 0; border-top: 1px solid var(--xo-line); opacity: 1; margin: 2rem 0
 /* Keep the top navigation on a single line at desktop widths. */
 .mainnav { gap: .1rem; min-width: 0; }
 .mainnav a { white-space: nowrap; padding: .5rem .58rem; font-size: .875rem; }
+
+/* A box with aspect-ratio still grows to its content's min-content height, so
+   a tall product photo used to stretch one tile out of line with the others.
+   Fixing the media height and clamping the image keeps every row even. */
+.cat-tile__media {
+  aspect-ratio: auto;
+  height: clamp(170px, 17vw, 240px);
+  min-height: 0;
+}
+.cat-tile__media img,
+.product-card__media img {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+}
+.product-card__media { min-height: 0; }
