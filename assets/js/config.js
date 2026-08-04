@@ -113,42 +113,29 @@ window.XO_CONFIG = {
       'Not sure - please advise'
     ],
 
-    /* Most product photos show the garment twice, front and back side by
-       side; helmets and trousers are a single view. Each layout gets its own
-       set of print positions so the logo lands in the right place on both. */
-    layouts: {
-      'safety-vests': 'front-back',
-      'uniforms': 'front-back',
-      'cargo-trousers': 'single',
-      'helmets': 'single'
+    /* Print positions are described against a VIEW of the garment, not the
+       photo. view 0 is the front (or the only view), view 1 the back. rx/ry
+       are the centre of the print as a fraction of that view, rw its width
+       and rh the height it may fill. The site finds the views in each photo,
+       so these work on every product without hand-tuned coordinates. */
+    spots: {
+      'Left chest':             [{ view: 0, rx: 0.34, ry: 0.30, rw: 0.26, rh: 0.16, label: 'Chest' }],
+      'Full back':              [{ view: 1, rx: 0.50, ry: 0.40, rw: 0.58, rh: 0.38, label: 'Back' }],
+      'Front centre':           [{ view: 0, rx: 0.50, ry: 0.45, rw: 0.52, rh: 0.34, label: 'Front' }],
+      'Left chest + full back': [{ view: 0, rx: 0.34, ry: 0.30, rw: 0.26, rh: 0.16, label: 'Chest' },
+                                 { view: 1, rx: 0.50, ry: 0.40, rw: 0.58, rh: 0.38, label: 'Back' }],
+      'Both sleeves':           [{ view: 0, rx: 0.12, ry: 0.32, rw: 0.18, rh: 0.14, label: 'Sleeve' },
+                                 { view: 1, rx: 0.88, ry: 0.32, rw: 0.18, rh: 0.14, label: 'Sleeve' }],
+      _default:                 [{ view: 0, rx: 0.50, ry: 0.42, rw: 0.50, rh: 0.32, label: 'Print' }]
     },
 
-    /* Print positions as fractions of the whole image: x/y is the centre of
-       the print, w its width. A placement can have more than one position —
-       "Left chest + full back" prints on the front view and on the back view.
-       The customer can drag each one on the preview, so these are starting
-       points rather than exact coordinates. */
-    anchors: {
-      'front-back': {
-        'Left chest':              [{ x: 0.32, y: 0.35, w: 0.09, label: 'Chest' }],
-        'Full back':               [{ x: 0.74, y: 0.42, w: 0.22, label: 'Back' }],
-        'Front centre':            [{ x: 0.26, y: 0.46, w: 0.19, label: 'Front' }],
-        'Left chest + full back':  [{ x: 0.32, y: 0.35, w: 0.09, label: 'Chest' },
-                                    { x: 0.74, y: 0.42, w: 0.22, label: 'Back' }],
-        'Both sleeves':            [{ x: 0.13, y: 0.42, w: 0.07, label: 'Sleeve' },
-                                    { x: 0.41, y: 0.42, w: 0.07, label: 'Sleeve' }],
-        _default:                  [{ x: 0.26, y: 0.44, w: 0.18, label: 'Print' }]
-      },
-      'single': {
-        'Left chest':              [{ x: 0.42, y: 0.36, w: 0.13, label: 'Chest' }],
-        'Full back':               [{ x: 0.50, y: 0.45, w: 0.30, label: 'Back' }],
-        'Front centre':            [{ x: 0.50, y: 0.45, w: 0.28, label: 'Front' }],
-        'Left chest + full back':  [{ x: 0.42, y: 0.36, w: 0.13, label: 'Chest' }],
-        'Both sleeves':            [{ x: 0.28, y: 0.45, w: 0.10, label: 'Sleeve' },
-                                    { x: 0.72, y: 0.45, w: 0.10, label: 'Sleeve' }],
-        _default:                  [{ x: 0.50, y: 0.44, w: 0.26, label: 'Print' }]
-      }
-    },
+    /* How many rows of text a customer can type. */
+    maxLines: 3,
+
+    /* Logos arriving from WhatsApp are small. Anything under this many pixels
+       on the long edge is flagged, and upscaling targets this size. */
+    minLogoPx: 600,
+    sharpenAmount: 0.45,
 
     /* Offered as print colours, and used to draw the text on the preview. */
     inkColours: [
