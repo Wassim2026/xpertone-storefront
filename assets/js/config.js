@@ -64,8 +64,8 @@ window.XO_CONFIG = {
     enabled: true,
     to: 'xpertonecreative@gmail.com',
     endpoint: 'https://formsubmit.co/ajax/xpertonecreative@gmail.com',
-    /* Used only when the customer attaches artwork - a normal multipart POST,
-       because background requests cannot carry file attachments. */
+    /* Used when the order carries artwork - a normal multipart POST, because
+       background requests cannot carry file attachments. */
     uploadEndpoint: 'https://formsubmit.co/xpertonecreative@gmail.com',
     orderSubject: 'New website order',
     inquirySubject: 'New quote request'
@@ -90,27 +90,49 @@ window.XO_CONFIG = {
   },
 
   /* ---------------------------------------------------------------------
-     ARTWORK UPLOAD
+     PRODUCT DESIGNER
      ---------------------------------------------------------------------
-     Customers attach their logo at checkout and on the quote form. When a
-     file is attached the form is posted as multipart so the file arrives as
-     a real email attachment; with no file it goes as a background request
-     and the customer never leaves the page.
-
-     maxFileMB is enforced in the browser. Oversized files are refused with a
-     clear message rather than failing silently.
+     Drives the customiser on the product page: the logo upload, the English
+     and Arabic text, where the print sits on the preview, and which ink
+     colours are offered.
      --------------------------------------------------------------------- */
   PRINTING: {
     maxFileMB: 10,
     accept: '.pdf,.ai,.eps,.svg,.png,.jpg,.jpeg,.webp,.zip',
+
+    /* How aggressively the logo background is cleared, 0-120. Higher removes
+       more of an off-white or shadowed background but risks eating the logo. */
+    bgTolerance: 46,
+
     placements: [
       'Left chest',
-      'Left chest + full back',
-      'Full back only',
+      'Full back',
       'Front centre',
+      'Left chest + full back',
       'Both sleeves',
-      'Left chest + back + sleeve',
       'Not sure - please advise'
+    ],
+
+    /* Where each placement sits on the preview, as a fraction of the image.
+       x/y are the centre of the print, w is its maximum width. */
+    anchors: {
+      'Left chest':             { x: 0.37, y: 0.36, w: 0.17 },
+      'Full back':              { x: 0.50, y: 0.45, w: 0.34 },
+      'Front centre':           { x: 0.50, y: 0.46, w: 0.32 },
+      'Left chest + full back': { x: 0.37, y: 0.36, w: 0.17 },
+      'Both sleeves':           { x: 0.22, y: 0.40, w: 0.12 },
+      'Not sure - please advise': { x: 0.50, y: 0.44, w: 0.28 },
+      _default:                 { x: 0.50, y: 0.44, w: 0.30 }
+    },
+
+    /* Offered as print colours, and used to draw the text on the preview. */
+    inkColours: [
+      { name: 'White',  hex: '#FFFFFF' },
+      { name: 'Black',  hex: '#111111' },
+      { name: 'Navy',   hex: '#12284C' },
+      { name: 'Red',    hex: '#C8102E' },
+      { name: 'Yellow', hex: '#FFC72C' },
+      { name: 'Silver', hex: '#C7CBD1' }
     ]
   },
 
@@ -122,12 +144,6 @@ window.XO_CONFIG = {
      wins - they are not cumulative.
 
      On a 12.00 vest:  25 pcs -> 10.80   50 pcs -> 10.20   100 pcs -> 9.60
-
-     min      = quantity from which the discount applies
-     discount = fraction off the list price (0.10 = 10%)
-     label    = shown on the product page price-break table
-
-     Set the array to [] to switch volume pricing off entirely.
      --------------------------------------------------------------------- */
   PRICE_TIERS: [
     { min: 25,  discount: 0.10, label: 'Bundle of 25' },
@@ -152,10 +168,7 @@ window.XO_CONFIG = {
 
   /* ---------------------------------------------------------------------
      CATEGORY MODEL
-     ---------------------------------------------------------------------
-     apiKeys maps a storefront category to the raw category values the
-     API returns. Add a category here and it appears in the nav, on the
-     home page and in the shop filters automatically. --------------------- */
+     --------------------------------------------------------------------- */
   CATEGORIES: [
     {
       slug: 'safety-vests',
