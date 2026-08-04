@@ -6,7 +6,8 @@
 
      - upload a logo, background removed automatically in the browser
      - type the text in English and in Arabic
-     - choose where it goes and what colour it prints
+     - drag the print where they want it, and size it
+     - pick the ink colour from a swatch
      - see it composited onto the real product photo, live
 
    The finished mockup is stored with the cart line, shown again in the cart
@@ -420,12 +421,16 @@
             '</div>' +
 
             '<div class="designer__field">' +
-              '<label class="form-label" for="dsColour">Print colour</label>' +
-              '<select class="form-select" id="dsColour">' +
-                (CFG.PRINTING.inkColours || []).map(function (c) {
-                  return '<option value="' + c.hex + '">' + XO.esc(c.name) + '</option>';
+              '<span class="form-label d-block">Print colour</span>' +
+              '<div class="swatches" id="dsColour" role="group" aria-label="Print colour">' +
+                (CFG.PRINTING.inkColours || []).map(function (c, i) {
+                  return '<button type="button" class="swatch' + (i === 0 ? ' is-active' : '') + '" ' +
+                    'data-hex="' + c.hex + '" data-name="' + XO.esc(c.name) + '" ' +
+                    'style="--sw:' + c.hex + '" aria-label="' + XO.esc(c.name) + '" ' +
+                    'title="' + XO.esc(c.name) + '"></button>';
                 }).join('') +
-              '</select>' +
+              '</div>' +
+              '<p class="form-text mb-0" id="dsColourName">White print</p>' +
             '</div>' +
 
             '<div class="designer__field designer__field--wide d-flex flex-wrap gap-2">' +
@@ -453,11 +458,12 @@
       ar: XO.el('#dsAr', mount),
       place: XO.el('#dsPlace', mount),
       colour: XO.el('#dsColour', mount),
+      colourName: XO.el('#dsColourName', mount),
       scale: XO.el('#dsScale', mount),
       spots: XO.el('#dsSpots', mount),
       hint: XO.el('#dsHint', mount),
-      centre: XO.el('#dsCentre', mount),
       download: XO.el('#dsDownload', mount),
+      centre: XO.el('#dsCentre', mount),
       reset: XO.el('#dsReset', mount)
     };
 
@@ -471,7 +477,6 @@
     function active() {
       return el.on.checked && !!(state.logo || state.en || state.ar);
     }
-
 
     /* One chip per print position, so a front-and-back placement can be
        adjusted one side at a time. Hidden when there is only one. */
@@ -640,10 +645,16 @@
     el.en.addEventListener('input', function () { state.en = el.en.value.trim(); repaint(); });
     el.ar.addEventListener('input', function () { state.ar = el.ar.value.trim(); repaint(); });
     el.place.addEventListener('change', function () { setPlacement(el.place.value); });
-    el.colour.addEventListener('change', function () {
-      state.inkColour = el.colour.value;
-      state.colour = el.colour.options[el.colour.selectedIndex].text;
-      repaint();
+
+    XO.els('[data-hex]', el.colour).forEach(function (sw) {
+      sw.addEventListener('click', function () {
+        XO.els('[data-hex]', el.colour).forEach(function (o) { o.classList.remove('is-active'); });
+        sw.classList.add('is-active');
+        state.inkColour = sw.getAttribute('data-hex');
+        state.colour = sw.getAttribute('data-name');
+        el.colourName.textContent = state.colour + ' print';
+        repaint();
+      });
     });
 
     el.download.addEventListener('click', function () {
