@@ -89,16 +89,56 @@ document.addEventListener('DOMContentLoaded', function () {
             'placeholder="Building, street, site name, any gate or access instructions"></textarea></div>' +
         '</div>' +
 
-        '<h2 class="h5 mt-4 mb-3">Logo printing</h2>' +
-        '<div class="p-3 border rounded-3" style="background:var(--xo-surface-alt)">' +
-          '<div class="form-check mb-2">' +
+        '<h2 class="h5 mt-4 mb-3">Logo &amp; text printing</h2>' +
+        '<div class="p-3 p-lg-4 border rounded-3" style="background:var(--xo-surface-alt)">' +
+          '<div class="form-check mb-3">' +
             '<input class="form-check-input" type="checkbox" id="f_logo" name="logo">' +
-            '<label class="form-check-label" for="f_logo">I need my logo printed on this order</label></div>' +
-          '<label class="form-label" for="f_logoNotes">Placement &amp; artwork notes</label>' +
-          '<textarea class="form-control" id="f_logoNotes" name="logoNotes" rows="2" ' +
-            'placeholder="e.g. Left chest + full back, white print. Artwork to follow by email."></textarea>' +
-          '<p class="form-text mb-0">Email artwork to ' + XO_CONFIG.COMPANY.email +
-            ' or send it on WhatsApp — we proof before printing.</p>' +
+            '<label class="form-check-label" for="f_logo">' +
+              '<b style="color:var(--xo-ink)">I want my logo or text printed on this order</b></label></div>' +
+
+          '<div id="printBlock" hidden>' +
+            '<div class="row g-3">' +
+
+              '<div class="col-12">' +
+                '<label class="form-label" for="f_artwork">Upload your logo</label>' +
+                '<input class="form-control" type="file" id="f_artwork" name="attachment" ' +
+                  'accept="' + XO_CONFIG.PRINTING.accept + '">' +
+                '<p class="form-text mb-0">PDF, AI, EPS, SVG, PNG or JPG. Vector or 300 dpi gives the ' +
+                  'cleanest print. Up to ' + XO_CONFIG.PRINTING.maxFileMB + ' MB.</p>' +
+                '<p class="form-text mb-0" id="fileInfo" hidden></p>' +
+              '</div>' +
+
+              '<div class="col-12">' +
+                '<label class="form-label" for="f_printText">Text to print ' +
+                  '<span class="text-muted-xo">(exactly as it should appear)</span></label>' +
+                '<input class="form-control" id="f_printText" name="printText" ' +
+                  'placeholder="e.g. AL FAJER CONTRACTING L.L.C.">' +
+                '<p class="form-text mb-0">Company name, site name, department — leave blank if the logo alone is enough.</p>' +
+              '</div>' +
+
+              '<div class="col-md-7">' +
+                '<label class="form-label" for="f_placement">Where should it go</label>' +
+                '<select class="form-select" id="f_placement" name="placement">' +
+                  XO_CONFIG.PRINTING.placements.map(function (p) {
+                    return '<option>' + XO.esc(p) + '</option>';
+                  }).join('') +
+                '</select></div>' +
+
+              '<div class="col-md-5">' +
+                '<label class="form-label" for="f_printColour">Print colour</label>' +
+                '<input class="form-control" id="f_printColour" name="printColour" ' +
+                  'placeholder="e.g. white, or match logo"></div>' +
+
+              '<div class="col-12">' +
+                '<label class="form-label" for="f_logoNotes">Anything else about the printing</label>' +
+                '<textarea class="form-control" id="f_logoNotes" name="logoNotes" rows="2" ' +
+                  'placeholder="e.g. logo on left chest, company name across the full back"></textarea></div>' +
+
+            '</div>' +
+            '<p class="form-text mt-3 mb-0"><i class="fa-solid fa-circle-info"></i> ' +
+              'We send you a proof before anything is printed. If your file is too large or you would ' +
+              'rather send it later, leave it blank — we will ask for it by email or WhatsApp.</p>' +
+          '</div>' +
         '</div>' +
 
         '<h2 class="h5 mt-4 mb-3">How you would like to pay</h2>' +
@@ -160,6 +200,34 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
+  /* ---- Printing panel: only shown once they ask for printing ---- */
+  var logoBox = XO.el('#f_logo');
+  var printBlock = XO.el('#printBlock');
+  logoBox.addEventListener('change', function () {
+    printBlock.hidden = !logoBox.checked;
+    if (logoBox.checked) printBlock.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+
+  /* ---- Artwork file: size check and confirmation line ---- */
+  var artwork = XO.el('#f_artwork');
+  var fileInfo = XO.el('#fileInfo');
+  var maxBytes = XO_CONFIG.PRINTING.maxFileMB * 1024 * 1024;
+
+  artwork.addEventListener('change', function () {
+    var f = artwork.files && artwork.files[0];
+    if (!f) { fileInfo.hidden = true; return; }
+    fileInfo.hidden = false;
+    if (f.size > maxBytes) {
+      fileInfo.innerHTML = '<span style="color:var(--xo-danger)"><i class="fa-solid fa-triangle-exclamation"></i> ' +
+        XO.esc(f.name) + ' is ' + (f.size / 1048576).toFixed(1) + ' MB — too large. ' +
+        'Send it on WhatsApp instead and we will match it to your order.</span>';
+      artwork.value = '';
+      return;
+    }
+    fileInfo.innerHTML = '<span style="color:var(--xo-success)"><i class="fa-solid fa-paperclip"></i> ' +
+      XO.esc(f.name) + ' — ' + (f.size / 1024).toFixed(0) + ' KB, attached to your order.</span>';
+  });
+
   function collect() {
     var f = XO.el('#coForm');
     var d = new FormData(f);
@@ -173,10 +241,33 @@ document.addEventListener('DOMContentLoaded', function () {
       area: d.get('area') || '',
       address: d.get('address') || '',
       logo: !!d.get('logo'),
+      printText: d.get('printText') || '',
+      placement: d.get('placement') || '',
+      printColour: d.get('printColour') || '',
       logoNotes: d.get('logoNotes') || '',
+      artworkName: (artwork.files && artwork.files[0]) ? artwork.files[0].name : '',
       payment: d.get('payment') || '',
       notes: d.get('notes') || ''
     };
+  }
+
+  /* Printing details, formatted once and reused by email and WhatsApp. */
+  function printingSummary(c) {
+    if (!c.logo) return 'No';
+    var bits = [];
+    if (c.printText) bits.push('Text: "' + c.printText + '"');
+    if (c.placement) bits.push('Placement: ' + c.placement);
+    if (c.printColour) bits.push('Colour: ' + c.printColour);
+    bits.push(c.artworkName ? 'Artwork attached: ' + c.artworkName : 'Artwork to follow');
+    if (c.logoNotes) bits.push('Notes: ' + c.logoNotes);
+    return 'Yes — ' + bits.join(' | ');
+  }
+
+  /* WhatsApp copy of the order, with the printing details appended. */
+  function orderMessage(c) {
+    var m = Cart.asMessage(c);
+    if (c && c.logo) m += '\nPrinting: ' + printingSummary(c);
+    return m;
   }
 
   function validate() {
@@ -192,7 +283,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   XO.el('#waSend').addEventListener('click', function () {
-    window.open(XO.waLink(Cart.asMessage(collect())), '_blank', 'noopener');
+    window.open(XO.waLink(orderMessage(collect())), '_blank', 'noopener');
   });
 
   XO.el('#coForm').addEventListener('submit', function (e) {
@@ -211,7 +302,7 @@ document.addEventListener('DOMContentLoaded', function () {
           reference: reference || '',
           customer: customer,
           payload: payload,
-          message: Cart.asMessage(customer)
+          message: orderMessage(customer)
         }));
       } catch (err) {}
       Cart.clear();
@@ -231,33 +322,82 @@ document.addEventListener('DOMContentLoaded', function () {
     if (mode === 'email') {
       var E = XO_CONFIG.EMAIL;
       var t2 = Cart.totals();
+
+      var fields = {
+        _subject: E.orderSubject + ' — ' + (customer.company || customer.name || 'website'),
+        _template: 'table',
+        Company: customer.company,
+        Contact: customer.name,
+        Phone: customer.phone,
+        Email: customer.email,
+        TRN: customer.trn || '—',
+        Emirate: customer.emirate,
+        Area: customer.area || '—',
+        Address: customer.address,
+        Payment: customer.payment,
+        'Logo / text printing': printingSummary(customer),
+        Notes: customer.notes || '—',
+        'Total pieces': t2.units,
+        'Subtotal ex VAT': XO.money(t2.subtotal),
+        'Volume discount': t2.savings > 0 ? '-' + XO.money(t2.savings) : 'none',
+        Delivery: t2.delivery ? XO.money(t2.delivery) : 'Free',
+        'VAT 5%': XO.money(t2.vat),
+        'Total incl VAT': XO.money(t2.total),
+        'Full order': orderMessage(customer)
+      };
+
+      /* ---- Artwork attached: post as multipart so the file arrives as a real
+              email attachment, and let FormSubmit redirect back to the
+              confirmation page. The order summary is stored first, because
+              this navigates away from the page. ---- */
+      if (customer.logo && artwork.files && artwork.files[0]) {
+        try {
+          sessionStorage.setItem('xo_last_order', JSON.stringify({
+            reference: '', customer: customer, payload: payload,
+            message: orderMessage(customer)
+          }));
+        } catch (err) {}
+
+        var relay = document.createElement('form');
+        relay.method = 'POST';
+        relay.action = E.uploadEndpoint;
+        relay.enctype = 'multipart/form-data';
+        relay.style.display = 'none';
+
+        Object.keys(fields).forEach(function (k) {
+          var input = document.createElement('input');
+          input.type = 'hidden';
+          input.name = k;
+          input.value = fields[k];
+          relay.appendChild(input);
+        });
+
+        var next = document.createElement('input');
+        next.type = 'hidden';
+        next.name = '_next';
+        next.value = location.href.replace(/[^/]*$/, '') + 'order-confirmation.html';
+        relay.appendChild(next);
+
+        var noCaptcha = document.createElement('input');
+        noCaptcha.type = 'hidden';
+        noCaptcha.name = '_captcha';
+        noCaptcha.value = 'false';
+        relay.appendChild(noCaptcha);
+
+        /* Move the real file input into the relay form so the File goes with it. */
+        artwork.name = 'attachment';
+        relay.appendChild(artwork);
+
+        document.body.appendChild(relay);
+        Cart.clear();
+        relay.submit();
+        return;
+      }
+
       fetch(E.endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({
-          _subject: E.orderSubject + ' — ' + (customer.company || customer.name || 'website'),
-          _template: 'table',
-          Company: customer.company,
-          Contact: customer.name,
-          Phone: customer.phone,
-          Email: customer.email,
-          TRN: customer.trn || '—',
-          Emirate: customer.emirate,
-          Area: customer.area || '—',
-          Address: customer.address,
-          Payment: customer.payment,
-          'Logo printing': customer.logo
-            ? 'Yes — ' + (customer.logoNotes || 'placement to be confirmed')
-            : 'No',
-          Notes: customer.notes || '—',
-          'Total pieces': t2.units,
-          'Subtotal ex VAT': XO.money(t2.subtotal),
-          'Volume discount': t2.savings > 0 ? '-' + XO.money(t2.savings) : 'none',
-          Delivery: t2.delivery ? XO.money(t2.delivery) : 'Free',
-          'VAT 5%': XO.money(t2.vat),
-          'Total incl VAT': XO.money(t2.total),
-          'Full order': Cart.asMessage(customer)
-        })
+        body: JSON.stringify(fields)
       })
         .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
         .then(function () { done(''); })
@@ -267,7 +407,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /* ---- WhatsApp handoff. ---- */
     if (mode === 'whatsapp') {
-      window.open(XO.waLink(Cart.asMessage(customer)), '_blank', 'noopener');
+      window.open(XO.waLink(orderMessage(customer)), '_blank', 'noopener');
       done('');
       return;
     }
@@ -282,7 +422,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return r.json();
       })
       .then(function (res) {
-        if (mode === 'both') window.open(XO.waLink(Cart.asMessage(customer)), '_blank', 'noopener');
+        if (mode === 'both') window.open(XO.waLink(orderMessage(customer)), '_blank', 'noopener');
         done(res.reference || res.order_reference || '');
       })
       .catch(failToWhatsApp);
