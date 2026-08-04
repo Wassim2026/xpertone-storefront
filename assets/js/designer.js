@@ -216,9 +216,97 @@
      ======================================================================= */
   var SIZE = 760;
 
-  function anchorFor(placement) {
-    var a = CFG.PRINTING.anchors || {};
-    return a[placement] || a._default || { x: 0.5, y: 0.44, w: 0.30 };
+  /* A product photo either shows one view or a front and a back side by side.
+     Which one decides where "full back" actually is. */
+  function layoutFor(product) {
+    var L = (CFG.PRINTING.layouts || {});
+    return L[product.category] || 'single';
+  }
+
+  function spotsFor(layout, placement) {
+    var sets = (CFG.PRINTING.anchors || {})[layout] || {};
+    var list = sets[placement] || sets._default || [{ x: 0.5, y: 0.44, w: 0.24, label: 'Print' }];
+    return list.map(function (s) {
+      return { x: s.x, y: s.y, w: s.w, label: s.label || 'Print', scale: 1 };
+    });
+  }
+
+  /* Draws one print — logo, English line, Arabic line — inside a spot. */
+  function drawPrint(ctx, design, spot, highlight) {
+    var cx = SIZE * spot.x;
+    var maxW = SIZE * spot.w * (spot.scale || 1);
+    var parts = [];
+
+    if (design._logoImg) {
+      var li = design._logoImg;
+      var ls = maxW / li.width;
+      parts.push({ type: 'logo', img: li, w: maxW, h: li.height * ls });
+    }
+
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'top';
+
+    function fit(text, font, dir) {
+      var px = Math.max(9, Math.round(maxW * 0.19));
+      ctx.direction = dir;
+      while (px > 7) {
+        ctx.font = '700 ' + px + 'px ' + font;
+        if (ctx.measureText(text).width <= maxW) break;
+        px -= 1;
+      }
+      return px;
+    }
+
+    if (design.en) {
+      var f1 = "'Inter', Arial, sans-serif";
+      parts.push({ type: 'text', text: design.en, px: fit(design.en, f1, 'ltr'), font: f1, dir: 'ltr' });
+    }
+    if (design.ar) {
+      var f2 = "'Noto Sans Arabic', 'Segoe UI', Tahoma, Arial, sans-serif";
+      parts.push({ type: 'text', text: design.ar, px: fit(design.ar, f2, 'rtl'), font: f2, dir: 'rtl' });
+    }
+    if (!parts.length) return null;
+
+    var gap = maxW * 0.06;
+    var total = parts.reduce(function (n, p, i) {
+      return n + (p.type === 'logo' ? p.h : p.px * 1.15) + (i ? gap : 0);
+    }, 0);
+
+    var y = SIZE * spot.y - total / 2;
+    var top = y;
+
+    parts.forEach(function (p, i) {
+      if (i) y += gap;
+      if (p.type === 'logo') {
+        ctx.drawImage(p.img, cx - p.w / 2, y, p.w, p.h);
+        y += p.h;
+      } else {
+        ctx.fillStyle = design.inkColour || '#111111';
+        ctx.font = '700 ' + p.px + 'px ' + p.font;
+        ctx.direction = p.dir;
+        ctx.fillText(p.text, cx, y);
+        y += p.px * 1.15;
+      }
+    });
+    ctx.direction = 'ltr';
+
+    var box = { x: cx - maxW / 2, y: top, w: maxW, h: y - top };
+
+    if (highlight) {
+      var m = maxW * 0.12;
+      ctx.save();
+      ctx.strokeStyle = '#FFB800';
+      ctx.lineWidth = 2;
+      ctx.setLineDash([7, 5]);
+      ctx.strokeRect(box.x - m, box.y - m, box.w + m * 2, box.h + m * 2);
+      ctx.setLineDash([]);
+      ctx.fillStyle = '#FFB800';
+      ctx.font = "700 15px 'Inter', Arial, sans-serif";
+      ctx.textAlign = 'left';
+      ctx.fillText(spot.label, box.x - m, box.y - m - 8);
+      ctx.restore();
+    }
+    return box;
   }
 
   function drawMockup(canvas, productImg, design) {
@@ -229,66 +317,15 @@
     ctx.fillStyle = '#F6F7F9';
     ctx.fillRect(0, 0, SIZE, SIZE);
 
-    /* Product photo, contained and centred. */
-    var pad = SIZE * 0.05;
+    var pad = SIZE * 0.03;
     var box = SIZE - pad * 2;
     var s = Math.min(box / productImg.width, box / productImg.height);
     var pw = productImg.width * s, ph = productImg.height * s;
     ctx.drawImage(productImg, (SIZE - pw) / 2, (SIZE - ph) / 2, pw, ph);
 
-    var a = anchorFor(design.placement);
-    var cx = SIZE * a.x;
-    var cy = SIZE * a.y;
-    var maxW = SIZE * a.w;
-
-    var colour = design.inkColour || '#111111';
-    var cursorY = cy;
-
-    /* Logo */
-    if (design._logoImg) {
-      var li = design._logoImg;
-      var ls = Math.min(maxW / li.width, (SIZE * a.w * 0.9) / li.height);
-      var lw = li.width * ls, lh = li.height * ls;
-      ctx.drawImage(li, cx - lw / 2, cursorY - lh / 2, lw, lh);
-      cursorY += lh / 2 + SIZE * 0.018;
-    } else {
-      cursorY -= SIZE * 0.01;
-    }
-
-    /* Text */
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'top';
-    ctx.fillStyle = colour;
-
-    function fit(text, font, weight, startPx, dir) {
-      var px = startPx;
-      ctx.direction = dir || 'ltr';
-      do {
-        ctx.font = weight + ' ' + px + 'px ' + font;
-        if (ctx.measureText(text).width <= maxW || px <= 10) break;
-        px -= 1;
-      } while (true);
-      return px;
-    }
-
-    if (design.en) {
-      var pxEn = fit(design.en, "'Inter', Arial, sans-serif", '700', Math.round(SIZE * 0.042), 'ltr');
-      ctx.font = '700 ' + pxEn + "px 'Inter', Arial, sans-serif";
-      ctx.direction = 'ltr';
-      ctx.fillText(design.en, cx, cursorY);
-      cursorY += pxEn * 1.25;
-    }
-
-    if (design.ar) {
-      var arFont = "'Noto Sans Arabic', 'Segoe UI', Tahoma, Arial, sans-serif";
-      var pxAr = fit(design.ar, arFont, '700', Math.round(SIZE * 0.042), 'rtl');
-      ctx.font = '700 ' + pxAr + 'px ' + arFont;
-      ctx.direction = 'rtl';
-      ctx.fillText(design.ar, cx, cursorY);
-      cursorY += pxAr * 1.3;
-    }
-
-    ctx.direction = 'ltr';
+    design._boxes = (design._spots || []).map(function (spot, i) {
+      return drawPrint(ctx, design, spot, design._showGuides && i === design._active);
+    });
     return canvas;
   }
 
@@ -300,6 +337,7 @@
     if (!mount) return null;
 
     var product = opts.product;
+    var layout = layoutFor(product);
     var state = {
       logo: '',
       logoName: '',
@@ -308,7 +346,10 @@
       ar: '',
       placement: CFG.PRINTING.placements[0],
       colour: 'White',
-      inkColour: '#FFFFFF'
+      inkColour: '#FFFFFF',
+      _spots: spotsFor(layout, CFG.PRINTING.placements[0]),
+      _active: 0,
+      _showGuides: true
     };
     var logoImg = null;
     var productImg = null;
@@ -320,7 +361,7 @@
         '<div class="designer__head">' +
           '<div>' +
             '<b>Add your logo and text</b>' +
-            '<span>Upload once, see it on the product straight away.</span>' +
+            '<span>Upload once, drag it where you want it.</span>' +
           '</div>' +
           '<label class="switch">' +
             '<input type="checkbox" id="dsOn"><span>Customise this item</span>' +
@@ -328,62 +369,74 @@
         '</div>' +
 
         '<div id="dsBody" hidden>' +
-          '<div class="row g-3">' +
 
-            '<div class="col-lg-6">' +
-              '<div class="designer__preview">' +
-                '<canvas id="dsCanvas" aria-label="Preview of your design on the product"></canvas>' +
-                '<div class="designer__spinner" id="dsSpin" hidden>' +
-                  '<i class="fa-solid fa-circle-notch fa-spin"></i> Removing background…</div>' +
-              '</div>' +
-              '<p class="form-text text-center mb-0">Preview only — we send a production proof before printing.</p>' +
+          '<div class="designer__stage">' +
+            '<div class="designer__preview">' +
+              '<canvas id="dsCanvas" aria-label="Preview of your design on the product"></canvas>' +
+              '<div class="designer__spinner" id="dsSpin" hidden>' +
+                '<i class="fa-solid fa-circle-notch fa-spin"></i> Removing background…</div>' +
             '</div>' +
+            '<div class="designer__stagebar">' +
+              '<span id="dsSpots" class="designer__spots"></span>' +
+              '<label class="designer__size">Size' +
+                '<input type="range" id="dsScale" min="40" max="180" value="100">' +
+              '</label>' +
+            '</div>' +
+            '<p class="form-text mb-0" id="dsHint">Drag the print to move it. Preview only — ' +
+              'we send a production proof before printing.</p>' +
+          '</div>' +
 
-            '<div class="col-lg-6">' +
+          '<div class="designer__fields">' +
 
+            '<div class="designer__field designer__field--wide">' +
               '<label class="form-label" for="dsFile">Your logo</label>' +
               '<input class="form-control" type="file" id="dsFile" accept="image/png,image/jpeg,image/webp,image/svg+xml">' +
               '<div class="form-check mt-2">' +
                 '<input class="form-check-input" type="checkbox" id="dsCut" checked>' +
-                '<label class="form-check-label" for="dsCut" style="font-size:.88rem">' +
+                '<label class="form-check-label" for="dsCut" style="font-size:.86rem">' +
                   'Remove the background automatically</label>' +
               '</div>' +
               '<p class="form-text mb-0" id="dsFileNote">PNG, JPG or WebP. Works best on a plain background.</p>' +
+            '</div>' +
 
-              '<label class="form-label mt-3" for="dsEn">Text in English</label>' +
+            '<div class="designer__field">' +
+              '<label class="form-label" for="dsEn">Text in English</label>' +
               '<input class="form-control" id="dsEn" maxlength="40" placeholder="AL FAJER CONTRACTING">' +
+            '</div>' +
 
-              '<label class="form-label mt-3" for="dsAr">النص بالعربية</label>' +
+            '<div class="designer__field">' +
+              '<label class="form-label" for="dsAr">النص بالعربية</label>' +
               '<input class="form-control" id="dsAr" maxlength="40" dir="rtl" lang="ar" ' +
                 'style="font-family:\'Noto Sans Arabic\',Tahoma,Arial,sans-serif" placeholder="الفجر للمقاولات">' +
-
-              '<div class="row g-2 mt-1">' +
-                '<div class="col-7">' +
-                  '<label class="form-label" for="dsPlace">Placement</label>' +
-                  '<select class="form-select" id="dsPlace">' +
-                    CFG.PRINTING.placements.map(function (p) {
-                      return '<option>' + XO.esc(p) + '</option>';
-                    }).join('') +
-                  '</select>' +
-                '</div>' +
-                '<div class="col-5">' +
-                  '<label class="form-label" for="dsColour">Print colour</label>' +
-                  '<select class="form-select" id="dsColour">' +
-                    (CFG.PRINTING.inkColours || []).map(function (c) {
-                      return '<option value="' + c.hex + '">' + XO.esc(c.name) + '</option>';
-                    }).join('') +
-                  '</select>' +
-                '</div>' +
-              '</div>' +
-
-              '<div class="d-flex flex-wrap gap-2 mt-3">' +
-                '<button class="btn btn-outline-xo btn-sm-xo" type="button" id="dsDownload">' +
-                  '<i class="fa-solid fa-download"></i> Save this preview</button>' +
-                '<button class="btn btn-outline-xo btn-sm-xo" type="button" id="dsReset">' +
-                  '<i class="fa-solid fa-rotate-left"></i> Start again</button>' +
-              '</div>' +
-
             '</div>' +
+
+            '<div class="designer__field">' +
+              '<label class="form-label" for="dsPlace">Where to print</label>' +
+              '<select class="form-select" id="dsPlace">' +
+                CFG.PRINTING.placements.map(function (p) {
+                  return '<option>' + XO.esc(p) + '</option>';
+                }).join('') +
+              '</select>' +
+            '</div>' +
+
+            '<div class="designer__field">' +
+              '<label class="form-label" for="dsColour">Print colour</label>' +
+              '<select class="form-select" id="dsColour">' +
+                (CFG.PRINTING.inkColours || []).map(function (c) {
+                  return '<option value="' + c.hex + '">' + XO.esc(c.name) + '</option>';
+                }).join('') +
+              '</select>' +
+            '</div>' +
+
+            '<div class="designer__field designer__field--wide d-flex flex-wrap gap-2">' +
+              '<button class="btn btn-outline-xo btn-sm-xo" type="button" id="dsDownload">' +
+                '<i class="fa-solid fa-download"></i> Save this preview</button>' +
+              '<button class="btn btn-outline-xo btn-sm-xo" type="button" id="dsCentre">' +
+                '<i class="fa-solid fa-crosshairs"></i> Reset position</button>' +
+              '<button class="btn btn-outline-xo btn-sm-xo" type="button" id="dsReset">' +
+                '<i class="fa-solid fa-rotate-left"></i> Start again</button>' +
+            '</div>' +
+
           '</div>' +
         '</div>' +
       '</div>';
@@ -400,6 +453,10 @@
       ar: XO.el('#dsAr', mount),
       place: XO.el('#dsPlace', mount),
       colour: XO.el('#dsColour', mount),
+      scale: XO.el('#dsScale', mount),
+      spots: XO.el('#dsSpots', mount),
+      hint: XO.el('#dsHint', mount),
+      centre: XO.el('#dsCentre', mount),
       download: XO.el('#dsDownload', mount),
       reset: XO.el('#dsReset', mount)
     };
@@ -414,6 +471,92 @@
     function active() {
       return el.on.checked && !!(state.logo || state.en || state.ar);
     }
+
+
+    /* One chip per print position, so a front-and-back placement can be
+       adjusted one side at a time. Hidden when there is only one. */
+    function renderSpots() {
+      if (state._spots.length < 2) { el.spots.innerHTML = ''; return; }
+      el.spots.innerHTML = state._spots.map(function (s, i) {
+        return '<button type="button" data-spot="' + i + '"' +
+          (i === state._active ? ' class="is-active"' : '') + '>' + XO.esc(s.label) + '</button>';
+      }).join('');
+      XO.els('[data-spot]', el.spots).forEach(function (b) {
+        b.addEventListener('click', function () {
+          state._active = parseInt(b.getAttribute('data-spot'), 10);
+          el.scale.value = Math.round((state._spots[state._active].scale || 1) * 100);
+          renderSpots();
+          repaint();
+        });
+      });
+    }
+
+    function setPlacement(value) {
+      state.placement = value;
+      state._spots = spotsFor(layout, value);
+      state._active = 0;
+      el.scale.value = 100;
+      el.hint.innerHTML = state._spots.length > 1
+        ? 'Two prints on this item — tap <b>' + XO.esc(state._spots[0].label) + '</b> or <b>' +
+          XO.esc(state._spots[1].label) + '</b>, then drag it into place.'
+        : 'Drag the print to move it. Preview only — we send a production proof before printing.';
+      renderSpots();
+      repaint();
+    }
+
+    /* ---- drag the print around the garment ---- */
+    var dragging = false;
+
+    function pointAt(e) {
+      var r = el.canvas.getBoundingClientRect();
+      var pt = e.touches && e.touches.length ? e.touches[0] : e;
+      return { x: (pt.clientX - r.left) / r.width, y: (pt.clientY - r.top) / r.height };
+    }
+
+    function nearestSpot(pt) {
+      var best = 0, bestD = Infinity;
+      state._spots.forEach(function (s, i) {
+        var d = Math.pow(s.x - pt.x, 2) + Math.pow(s.y - pt.y, 2);
+        if (d < bestD) { bestD = d; best = i; }
+      });
+      return best;
+    }
+
+    function startDrag(e) {
+      if (!el.on.checked) return;
+      var pt = pointAt(e);
+      state._active = nearestSpot(pt);
+      el.scale.value = Math.round((state._spots[state._active].scale || 1) * 100);
+      dragging = true;
+      renderSpots();
+      moveDrag(e);
+    }
+
+    function moveDrag(e) {
+      if (!dragging) return;
+      if (e.cancelable) e.preventDefault();
+      var pt = pointAt(e);
+      var s = state._spots[state._active];
+      s.x = Math.min(0.96, Math.max(0.04, pt.x));
+      s.y = Math.min(0.96, Math.max(0.04, pt.y));
+      repaint();
+    }
+
+    function endDrag() { dragging = false; }
+
+    el.canvas.addEventListener('mousedown', startDrag);
+    el.canvas.addEventListener('touchstart', startDrag, { passive: true });
+    window.addEventListener('mousemove', moveDrag);
+    window.addEventListener('touchmove', moveDrag, { passive: false });
+    window.addEventListener('mouseup', endDrag);
+    window.addEventListener('touchend', endDrag);
+
+    el.scale.addEventListener('input', function () {
+      state._spots[state._active].scale = parseInt(el.scale.value, 10) / 100;
+      repaint();
+    });
+
+    el.centre.addEventListener('click', function () { setPlacement(state.placement); });
 
     loadImage(product.images[0], true)
       .then(function (img) { productImg = img; repaint(); })
@@ -496,7 +639,7 @@
 
     el.en.addEventListener('input', function () { state.en = el.en.value.trim(); repaint(); });
     el.ar.addEventListener('input', function () { state.ar = el.ar.value.trim(); repaint(); });
-    el.place.addEventListener('change', function () { state.placement = el.place.value; repaint(); });
+    el.place.addEventListener('change', function () { setPlacement(el.place.value); });
     el.colour.addEventListener('change', function () {
       state.inkColour = el.colour.value;
       state.colour = el.colour.options[el.colour.selectedIndex].text;
@@ -504,8 +647,10 @@
     });
 
     el.download.addEventListener('click', function () {
+      state._showGuides = false; repaint();
       var a = document.createElement('a');
       a.href = el.canvas.toDataURL('image/png');
+      state._showGuides = true; setTimeout(repaint, 50);
       a.download = XO.slug(product.title) + '-design.png';
       a.click();
     });
@@ -515,8 +660,10 @@
       logoImg = null;
       el.file.value = ''; el.en.value = ''; el.ar.value = '';
       el.note.textContent = 'PNG, JPG or WebP. Works best on a plain background.';
-      repaint();
+      setPlacement(state.placement);
     });
+
+    setPlacement(CFG.PRINTING.placements[0]);
 
     return {
       isActive: active,
@@ -524,7 +671,11 @@
       design: function () {
         if (!active()) return null;
         var mockup = '';
+        state._showGuides = false;
+        repaint();
         try { mockup = el.canvas.toDataURL('image/jpeg', 0.72); } catch (e) {}
+        state._showGuides = true;
+        repaint();
         return {
           product: product.title,
           logo: state.logo,
@@ -533,6 +684,10 @@
           en: state.en,
           ar: state.ar,
           placement: state.placement,
+          positions: state._spots.map(function (s) {
+            return { label: s.label, x: Math.round(s.x * 100) / 100,
+                     y: Math.round(s.y * 100) / 100, scale: s.scale || 1 };
+          }),
           colour: state.colour,
           inkColour: state.inkColour,
           mockup: mockup
