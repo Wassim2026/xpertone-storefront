@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shop Safety Vests, Uniforms &amp; Helmets in Bulk | XpertOne Prints</title>
+<meta name="description" content="Full catalogue of safety vests, cotton pant &amp; shirt sets, cargo trousers and helmets. Trade prices per piece, ex VAT. Filter by range, sort by price, order online.">
+<meta name="theme-color" content="#0E1116">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+<link href="assets/css/main.css" rel="stylesheet">
+</head>
+<body data-page="shop">
+<a class="skip-link" href="#main">Skip to content</a>
+<div id="siteHeader"></div>
+
+<main id="main">
+
+  <section style="background:var(--xo-surface-alt);border-bottom:1px solid var(--xo-line)">
+    <div class="container py-4">
+      <nav aria-label="Breadcrumb" style="font-size:.85rem">
+        <a href="index.html" class="text-muted-xo">Home</a>
+        <span class="text-muted-xo mx-1">/</span>
+        <span id="crumb" style="color:var(--xo-ink);font-weight:600">All products</span>
+      </nav>
+      <h1 class="mt-2 mb-1" id="pageTitle">All products</h1>
+      <p class="mb-0 text-muted-xo" id="pageBlurb">Trade prices per piece, excluding 5% VAT. Logo printing available on every line.</p>
+    </div>
+  </section>
+
+  <section class="py-4" style="border-bottom:1px solid var(--xo-line)">
+    <div class="container">
+      <div class="row g-3 align-items-center">
+        <div class="col-lg-5">
+          <label class="form-label visually-hidden" for="searchBox">Search products</label>
+          <div class="position-relative">
+            <i class="fa-solid fa-magnifying-glass position-absolute text-muted-xo"
+               style="left:14px;top:50%;transform:translateY(-50%)"></i>
+            <input class="form-control" id="searchBox" type="search" style="padding-left:40px"
+                   placeholder="Search — e.g. reflective vest, 200 GSM, cargo">
+          </div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <label class="form-label visually-hidden" for="catFilter">Category</label>
+          <select class="form-select" id="catFilter"><option value="all">All categories</option></select>
+        </div>
+        <div class="col-6 col-lg-2">
+          <label class="form-label visually-hidden" for="sortBy">Sort</label>
+          <select class="form-select" id="sortBy">
+            <option value="price-asc">Price: low to high</option>
+            <option value="price-desc">Price: high to low</option>
+            <option value="name">Name A–Z</option>
+          </select>
+        </div>
+        <div class="col-lg-2 text-lg-end">
+          <span class="text-muted-xo" style="font-size:.88rem" id="resultCount">&nbsp;</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section pt-4">
+    <div class="container">
+      <div class="row g-4" id="grid"></div>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container text-center">
+      <h2>Can't find the exact item?</h2>
+      <p class="lead mx-auto" style="max-width:56ch">We stock more than we list, and we source to spec —
+         gloves, safety shoes, coveralls, custom colourways. Tell us what you need.</p>
+      <div class="d-flex gap-2 justify-content-center flex-wrap">
+        <a class="btn btn-wa btn-lg-xo" id="waAsk" href="#" target="_blank" rel="noopener">
+          <i class="fa-brands fa-whatsapp"></i> Ask on WhatsApp</a>
+        <a class="btn btn-outline-xo btn-lg-xo" href="contact.html#quote">Request a quote</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div id="siteFooter"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/store.js"></script>
+<script src="assets/js/ui.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+  var all = [];
+  var state = {
+    cat: XO.qs('category') || 'all',
+    q: '',
+    sort: 'price-asc'
+  };
+
+  XO.el('#waAsk').href = XO.waLink('Hello XpertOne, I am looking for a product I could not find on your site: ');
+
+  /* Populate the category dropdown from config. */
+  var sel = XO.el('#catFilter');
+  XO_CONFIG.CATEGORIES.forEach(function (c) {
+    var o = document.createElement('option');
+    o.value = c.slug; o.textContent = c.name;
+    sel.appendChild(o);
+  });
+  sel.value = state.cat;
+
+  function headings() {
+    var c = XO_CONFIG.CATEGORIES.filter(function (x) { return x.slug === state.cat; })[0];
+    XO.el('#pageTitle').textContent = c ? c.name : 'All products';
+    XO.el('#crumb').textContent = c ? c.name : 'All products';
+    XO.el('#pageBlurb').textContent = c ? c.blurb
+      : 'Trade prices per piece, excluding 5% VAT. Logo printing available on every line.';
+    document.title = (c ? c.name : 'All products') + ' — XpertOne Prints';
+  }
+
+  function apply() {
+    var list = all.slice();
+
+    if (state.cat !== 'all') list = list.filter(function (p) { return p.category === state.cat; });
+
+    if (state.q) {
+      var q = state.q.toLowerCase();
+      list = list.filter(function (p) {
+        return (p.title + ' ' + p.categoryName + ' ' + p.description + ' ' + p.subtitle + ' ' + p.attribute)
+          .toLowerCase().indexOf(q) > -1;
+      });
+    }
+
+    if (state.sort === 'price-asc') list.sort(function (a, b) { return a.price - b.price; });
+    if (state.sort === 'price-desc') list.sort(function (a, b) { return b.price - a.price; });
+    if (state.sort === 'name') list.sort(function (a, b) { return a.title.localeCompare(b.title); });
+
+    XO.el('#resultCount').textContent = list.length + (list.length === 1 ? ' product' : ' products');
+    ProductGrid('#grid', list, state.q ? 'No match for “' + state.q + '”' : 'Nothing in this range yet');
+    headings();
+  }
+
+  GridSkeleton('#grid', 12);
+
+  Catalog.load().then(function (list) {
+    all = list;
+    apply();
+  }).catch(function (err) {
+    console.error(err);
+    ProductGrid('#grid', [], 'Catalogue could not be loaded');
+  });
+
+  XO.el('#searchBox').addEventListener('input', function (e) {
+    state.q = e.target.value.trim(); apply();
+  });
+
+  sel.addEventListener('change', function (e) {
+    state.cat = e.target.value;
+    var url = new URL(location.href);
+    if (state.cat === 'all') url.searchParams.delete('category'); else url.searchParams.set('category', state.cat);
+    history.replaceState({}, '', url);
+    apply();
+  });
+
+  XO.el('#sortBy').addEventListener('change', function (e) { state.sort = e.target.value; apply(); });
+
+});
+</script>
+</body>
+</html>
