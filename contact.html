@@ -193,9 +193,39 @@ document.addEventListener('DOMContentLoaded', function () {
       XO.el('#quoteDone').hidden = false;
     }
 
-    /* No inquiries endpoint yet — hand off to WhatsApp so nothing is lost.
-       Once POST /api/inquiries.php exists, set ORDER_MODE to 'api' in
-       config.js and this branch uses the API instead. */
+    function failed(err) {
+      console.error('[XpertOne] Enquiry failed', err);
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Send request';
+      XO.toast('Could not send it — use the WhatsApp button instead', 'fa-triangle-exclamation');
+    }
+
+    /* Email the enquiry through the relay configured in config.js. */
+    if (XO_CONFIG.ORDER_MODE === 'email') {
+      var E = XO_CONFIG.EMAIL;
+      fetch(E.endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          _subject: E.inquirySubject + ' — ' + (v.company || v.name || 'website'),
+          _template: 'table',
+          Company: v.company,
+          Contact: v.name,
+          Phone: v.phone,
+          Email: v.email,
+          Product: v.product || '—',
+          Quantity: v.quantity || '—',
+          'Logo printing': v.logo ? 'Yes' : 'No',
+          Details: v.message || '—'
+        })
+      })
+        .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+        .then(finish)
+        .catch(failed);
+      return;
+    }
+
+    /* WhatsApp handoff, so nothing is lost if email is switched off. */
     if (XO_CONFIG.ORDER_MODE === 'whatsapp') {
       window.open(XO.waLink(asText(v)), '_blank', 'noopener');
       finish();
@@ -209,12 +239,7 @@ document.addEventListener('DOMContentLoaded', function () {
     })
       .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
       .then(finish)
-      .catch(function (err) {
-        console.error('[XpertOne] Inquiry POST failed', err);
-        btn.disabled = false;
-        btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Send request';
-        XO.toast('Could not reach the server — send it on WhatsApp instead', 'fa-triangle-exclamation');
-      });
+      .catch(failed);
   });
 
 });
