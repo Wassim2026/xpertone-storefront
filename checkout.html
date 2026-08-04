@@ -220,9 +220,52 @@ document.addEventListener('DOMContentLoaded', function () {
 
     var mode = XO_CONFIG.ORDER_MODE;
 
-    /* No backend yet: hand off to WhatsApp, which is how orders are
-       actually worked today. Switch ORDER_MODE to 'api' in config.js
-       the day POST /api/orders.php exists. */
+    function failToWhatsApp(err) {
+      console.error('[XpertOne] Order submission failed', err);
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Place order';
+      XO.toast('Could not send it — use the WhatsApp button instead', 'fa-triangle-exclamation');
+    }
+
+    /* ---- Email the order. Totals are read before done() clears the cart. ---- */
+    if (mode === 'email') {
+      var E = XO_CONFIG.EMAIL;
+      var t2 = Cart.totals();
+      fetch(E.endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          _subject: E.orderSubject + ' — ' + (customer.company || customer.name || 'website'),
+          _template: 'table',
+          Company: customer.company,
+          Contact: customer.name,
+          Phone: customer.phone,
+          Email: customer.email,
+          TRN: customer.trn || '—',
+          Emirate: customer.emirate,
+          Area: customer.area || '—',
+          Address: customer.address,
+          Payment: customer.payment,
+          'Logo printing': customer.logo
+            ? 'Yes — ' + (customer.logoNotes || 'placement to be confirmed')
+            : 'No',
+          Notes: customer.notes || '—',
+          'Total pieces': t2.units,
+          'Subtotal ex VAT': XO.money(t2.subtotal),
+          'Volume discount': t2.savings > 0 ? '-' + XO.money(t2.savings) : 'none',
+          Delivery: t2.delivery ? XO.money(t2.delivery) : 'Free',
+          'VAT 5%': XO.money(t2.vat),
+          'Total incl VAT': XO.money(t2.total),
+          'Full order': Cart.asMessage(customer)
+        })
+      })
+        .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+        .then(function () { done(''); })
+        .catch(failToWhatsApp);
+      return;
+    }
+
+    /* ---- WhatsApp handoff. ---- */
     if (mode === 'whatsapp') {
       window.open(XO.waLink(Cart.asMessage(customer)), '_blank', 'noopener');
       done('');
@@ -242,12 +285,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (mode === 'both') window.open(XO.waLink(Cart.asMessage(customer)), '_blank', 'noopener');
         done(res.reference || res.order_reference || '');
       })
-      .catch(function (err) {
-        console.error('[XpertOne] Order POST failed', err);
-        btn.disabled = false;
-        btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Place order';
-        XO.toast('Could not reach the server — send it on WhatsApp instead', 'fa-triangle-exclamation');
-      });
+      .catch(failToWhatsApp);
   });
 
 });
