@@ -5,6 +5,13 @@
 @media (min-width: 1400px) {
   .mainnav a { padding: .55rem .8rem; font-size: .9rem; }
 }
+
+/* Keep the top navigation on one line at desktop widths. */
+.mainnav { gap: .1rem; min-width: 0; }
+.mainnav a { white-space: nowrap; padding: .5rem .55rem; font-size: .875rem; }
+@media (min-width: 1400px) {
+  .mainnav a { padding: .55rem .8rem; font-size: .9rem; }
+}
 /* =========================================================================
    XpertOne Prints — Design System
    Single stylesheet. No build step. Bootstrap 5 is loaded first and this
