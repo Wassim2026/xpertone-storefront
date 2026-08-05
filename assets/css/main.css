@@ -870,15 +870,79 @@ hr { border: 0; border-top: 1px solid var(--xo-line); opacity: 1; margin: 2rem 0
 }
 .bk-out { display: grid; grid-template-columns: repeat(auto-fill, minmax(168px, 1fr)); gap: .8rem; }
 .bk-out__item {
-  position: relative; display: block; cursor: pointer; background: var(--xo-surface-alt);
+  position: relative; display: block; background: var(--xo-surface-alt);
   border: 1px solid var(--xo-line); border-radius: var(--xo-r); padding: .5rem;
   transition: border-color var(--xo-t), box-shadow var(--xo-t), opacity var(--xo-t);
   opacity: .55;
 }
 .bk-out__item.is-on { opacity: 1; border-color: var(--xo-ink); box-shadow: 0 0 0 1px var(--xo-ink); }
-.bk-out__item input { position: absolute; top: .55rem; left: .55rem; width: 17px; height: 17px; accent-color: var(--xo-ink); }
-.bk-out__item img { width: 100%; aspect-ratio: 1/1; object-fit: contain; border-radius: 6px; background: #fff; }
+.bk-out__tick {
+  position: absolute; top: .55rem; left: .55rem; z-index: 2; cursor: pointer;
+  background: rgba(255,255,255,.9); border-radius: 5px; padding: 2px; line-height: 0;
+}
+.bk-out__tick input { width: 17px; height: 17px; accent-color: var(--xo-ink); margin: 0; }
+.bk-out__flag {
+  position: absolute; top: .55rem; right: .55rem; z-index: 2;
+  background: var(--xo-amber); color: var(--xo-ink); font-size: .66rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .04em; padding: 2px 6px; border-radius: 20px;
+}
+.bk-out__shot {
+  position: relative; display: block; width: 100%; padding: 0; border: 0;
+  background: none; cursor: pointer; border-radius: 6px; overflow: hidden;
+}
+.bk-out__item img { width: 100%; aspect-ratio: 1/1; object-fit: contain; border-radius: 6px; background: #fff; display: block; }
+.bk-out__pen {
+  position: absolute; inset: auto 0 0 0; background: rgba(14,17,22,.82); color: #fff;
+  font-size: .76rem; font-weight: 600; padding: .35rem; opacity: 0;
+  transition: opacity var(--xo-t);
+}
+.bk-out__shot:hover .bk-out__pen,
+.bk-out__shot:focus-visible .bk-out__pen { opacity: 1; }
+@media (hover: none) { .bk-out__pen { opacity: 1; } }
 .bk-out__t { display: block; font-size: .78rem; font-weight: 600; color: var(--xo-ink); margin-top: .35rem; }
 .bk-out__s { display: block; font-size: .72rem; color: var(--xo-muted); }
 
 .bk-save { display: flex; align-items: center; gap: .8rem; flex-wrap: wrap; padding-bottom: 1rem; }
+
+/* --- per-item editor ------------------------------------------------------ */
+.bk-editor {
+  position: fixed; inset: 0; z-index: 1080; background: rgba(14, 17, 22, .62);
+  display: grid; place-items: center; padding: 1.5rem; overflow: auto;
+}
+.bk-editor[hidden] { display: none !important; }
+.bk-editor__box {
+  background: var(--xo-surface); border-radius: var(--xo-r-lg);
+  box-shadow: var(--xo-shadow-lg); width: min(1000px, 100%); max-height: 92vh;
+  display: flex; flex-direction: column; overflow: hidden;
+}
+.bk-editor__head {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: .9rem 1.1rem; border-bottom: 1px solid var(--xo-line);
+}
+.bk-editor__x {
+  background: none; border: 0; font-size: 1.1rem; color: var(--xo-muted);
+  cursor: pointer; line-height: 1; padding: .25rem .4rem; border-radius: 6px;
+}
+.bk-editor__x:hover { background: var(--xo-surface-alt); color: var(--xo-ink); }
+.bk-editor__body {
+  display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 1.2rem;
+  padding: 1.1rem; overflow: auto;
+}
+@media (max-width: 767px) { .bk-editor__body { grid-template-columns: 1fr; } }
+.bk-editor__stage canvas {
+  width: 100%; height: auto; display: block; border-radius: var(--xo-r);
+  background: var(--xo-surface-alt); border: 1px solid var(--xo-line);
+  touch-action: none; cursor: grab;
+}
+.bk-editor__stage canvas:active { cursor: grabbing; }
+.bk-editor__side { display: flex; flex-direction: column; }
+.bk-editor__foot { margin-top: auto; padding-top: 1rem; }
+
+.bk-chips { display: flex; flex-wrap: wrap; gap: .35rem; }
+.bk-chip {
+  background: var(--xo-surface-alt); border: 1px solid var(--xo-line-strong);
+  border-radius: 20px; padding: .3rem .7rem; font-size: .8rem; font-weight: 600;
+  color: var(--xo-body); cursor: pointer; transition: all var(--xo-t);
+}
+.bk-chip:hover { border-color: var(--xo-ink); }
+.bk-chip.is-active { background: var(--xo-ink); border-color: var(--xo-ink); color: #fff; }
