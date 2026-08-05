@@ -461,30 +461,62 @@
   }
 
   /* Draws one print — logo, English line, Arabic line — inside a spot. */
-  /* Draws one print - logo and text rows - inside a spot.
+  /* =======================================================================
+     Layers
+     -----------------------------------------------------------------------
+     A print is a stack of independent layers - the logo, and one layer per
+     line of text. Each carries its own offset from the print's anchor, its
+     own size and its own colour, so any of them can be moved or resized
+     without disturbing the others. Layers that share a group id move
+     together.
 
-     Three things are adjustable per print and per item, because a chest badge
-     and a full back never want the same treatment:
-       spot.logoScale  how big the logo is, 1 = the full print width
-       spot.textScale  how big the text is, independent of the logo
-       spot.layout     'stack' (logo above text), 'left' or 'right'
-                       (logo beside the text, baselines aligned)
-  */
-  function drawPrint(ctx, design, spot, highlight) {
-    var R = design._rect || { x: 0, y: 0, w: 1, h: 1 };
-    var cx = SIZE * (R.x + R.w * spot.x);
-    var cy = SIZE * (R.y + R.h * spot.y);
-    var scale = spot.scale || 1;
-    var logoK = spot.logoScale == null ? 1 : spot.logoScale;
-    var textK = spot.textScale == null ? 1 : spot.textScale;
+     The first render lays them out automatically, exactly as the old fixed
+     composition did, and then freezes that result into layer coordinates.
+     Nothing looks different until somebody moves something.
 
-    var base = SIZE * R.w * spot.w * scale;
-    var hMax = SIZE * R.h * (spot.hMax || 0.4) * scale;
-    var ink = spot.ink || design.inkColour || '#111111';
+     Offsets are fractions of the photo, sizes are fractions of the photo's
+     width, so a print stays put whatever size the canvas is drawn at.
+     ======================================================================= */
 
-    /* A chest badge or a sleeve has room for far less than a full back. The
-       recipe says how many rows belong there, so a long company name never
-       shrinks to something unreadable just to fit. */
+  var layerSeq = 0;
+  function nextLayerId() { return 'L' + (++layerSeq); }
+
+  function fontFor(text) {
+    return isArabic(text)
+      ? "'Noto Sans Arabic', 'Segoe UI', Tahoma, Arial, sans-serif"
+      : "'Inter', Arial, sans-serif";
+  }
+
+  /* A flat, single-colour version of the logo, keeping its shape. Screen
+     printing is often one colour anyway, and a client's logo frequently has
+     to be restated in the garment's ink. */
+  function tintImage(img, hex) {
+    if (!img) return img;
+    if (!img._tintCache) img._tintCache = {};
+    if (img._tintCache[hex]) return img._tintCache[hex];
+
+    var cv = document.createElement('canvas');
+    cv.width = img.naturalWidth || img.width;
+    cv.height = img.naturalHeight || img.height;
+    var c = cv.getContext('2d');
+    c.drawImage(img, 0, 0, cv.width, cv.height);
+    c.globalCompositeOperation = 'source-in';
+    c.fillStyle = hex;
+    c.fillRect(0, 0, cv.width, cv.height);
+    c.globalCompositeOperation = 'source-over';
+
+    img._tintCache[hex] = cv;
+    return cv;
+  }
+
+  /* Lays the logo and the text out automatically and returns the result as
+     layers. This is the old composition, measured rather than drawn. */
+  function autoLayers(ctx, design, spot, R) {
+    var U = SIZE * R.w;
+    var Hp = SIZE * R.h;
+    var base = U * spot.w;
+    var hMax = Hp * (spot.hMax || 0.4);
+
     var rows = linesOf(design);
     if (typeof spot.rows === 'number') {
       rows = rows.slice(0, design._logoImg ? spot.rows : Math.max(1, spot.rows));
@@ -492,12 +524,9 @@
 
     var hasLogo = !!design._logoImg;
     var layout = spot.layout || 'stack';
-    if (!hasLogo || !rows.length) layout = 'stack';
-    var beside = layout === 'left' || layout === 'right';
+    var beside = (layout === 'left' || layout === 'right') && hasLogo && rows.length;
 
     ctx.textBaseline = 'top';
-
-    /* Largest size at which the line still fits the width it has been given. */
     function fit(text, font, dir, avail) {
       var px = Math.max(9, Math.round(avail * 0.19));
       ctx.direction = dir;
@@ -509,112 +538,214 @@
       return px;
     }
 
-    /* Side by side, the logo and the text share the width between them. */
-    var textAvail = base * textK * (beside ? 0.60 : 1);
-    var logoW = base * logoK * (beside ? 0.34 : 1);
+    var textAvail = base * (beside ? 0.60 : 1);
+    var logoW = base * (beside ? 0.34 : 1);
 
     var tRows = rows.map(function (line) {
       var rtl = isArabic(line);
-      var font = rtl
-        ? "'Noto Sans Arabic', 'Segoe UI', Tahoma, Arial, sans-serif"
-        : "'Inter', Arial, sans-serif";
+      var font = fontFor(line);
       var px = fit(line, font, rtl ? 'rtl' : 'ltr', textAvail);
       ctx.font = '700 ' + px + 'px ' + font;
       ctx.direction = rtl ? 'rtl' : 'ltr';
-      var w = ctx.measureText(line).width;
-      return { text: line, font: font, dir: rtl ? 'rtl' : 'ltr', px: px, w: w };
+      return { text: line, font: font, dir: rtl ? 'rtl' : 'ltr', px: px, w: ctx.measureText(line).width };
     });
     ctx.direction = 'ltr';
 
-    var logo = null;
-    if (hasLogo) {
-      var li = design._logoImg;
-      logo = { img: li, w: logoW, h: li.height * (logoW / li.width) };
-    }
-    if (!logo && !tRows.length) return null;
+    var li = design._logoImg;
+    var logo = hasLogo ? { w: logoW, h: li.height * (logoW / li.width) } : null;
+    if (!logo && !tRows.length) return [];
 
     var gap = base * 0.06;
-
-    function textBlockH() {
-      return tRows.reduce(function (n, r, i) {
-        return n + r.px * 1.15 + (i ? gap * 0.55 : 0);
-      }, 0);
+    function textH() {
+      return tRows.reduce(function (n, r, i) { return n + r.px * 1.15 + (i ? gap * 0.55 : 0); }, 0);
     }
-    function textBlockW() {
+    function textW() {
       return tRows.reduce(function (n, r) { return Math.max(n, r.w); }, 0);
     }
 
-    var totalW, totalH;
-    function measure() {
-      if (beside) {
-        totalW = (logo ? logo.w : 0) + (logo && tRows.length ? gap : 0) + textBlockW();
-        totalH = Math.max(logo ? logo.h : 0, textBlockH());
-      } else {
-        totalW = Math.max(logo ? logo.w : 0, textBlockW());
-        totalH = (logo ? logo.h : 0) + (logo && tRows.length ? gap : 0) + textBlockH();
-      }
-    }
-    measure();
+    var totalH = beside
+      ? Math.max(logo ? logo.h : 0, textH())
+      : (logo ? logo.h : 0) + (logo && tRows.length ? gap : 0) + textH();
 
-    /* Keep the whole print inside the panel it sits on. A logo plus three
-       rows of text would otherwise run off the garment. */
+    /* Only the automatic pass is held inside the panel. Once a person takes
+       over, their sizes are their business. */
     if (totalH > hMax) {
       var k = hMax / totalH;
       if (logo) { logo.w *= k; logo.h *= k; }
-      tRows.forEach(function (r) { r.px = Math.max(7, r.px * k); r.w *= k; });
+      tRows.forEach(function (r) { r.px *= k; r.w *= k; });
       gap *= k;
-      measure();
+      totalH = beside
+        ? Math.max(logo ? logo.h : 0, textH())
+        : (logo ? logo.h : 0) + (logo && tRows.length ? gap : 0) + textH();
     }
 
-    var left = cx - totalW / 2;
-    var top = cy - totalH / 2;
+    var out = [];
+    function push(o) { o.id = nextLayerId(); o.scale = 1; o.group = null; out.push(o); }
 
-    function drawRows(x, y, align) {
-      ctx.textAlign = align;
-      ctx.fillStyle = ink;
-      tRows.forEach(function (r, i) {
-        if (i) y += gap * 0.55;
-        ctx.font = '700 ' + Math.round(r.px) + 'px ' + r.font;
-        ctx.direction = r.dir;
-        ctx.fillText(r.text, x, y);
-        y += r.px * 1.15;
-      });
-      ctx.direction = 'ltr';
+    /* Offsets are measured from the middle of the print, in canvas pixels
+       first and converted at the end. */
+    function place(kind, o, offX, offY) {
+      o.kind = kind;
+      o.dx = offX / U;
+      o.dy = offY / Hp;
+      push(o);
     }
 
     if (beside) {
-      var tw = textBlockW();
-      var th = textBlockH();
-      var logoX = layout === 'left' ? left : left + tw + gap;
-      var textX = layout === 'left' ? left + logo.w + gap : left;
-      ctx.drawImage(logo.img, logoX, cy - logo.h / 2, logo.w, logo.h);
-      drawRows(textX, cy - th / 2, 'left');
+      var tw = textW(), th = textH();
+      var totalW = logo.w + gap + tw;
+      var leftEdge = -totalW / 2;
+      var logoCx = layout === 'left' ? leftEdge + logo.w / 2 : leftEdge + tw + gap + logo.w / 2;
+      var textLeft = layout === 'left' ? leftEdge + logo.w + gap : leftEdge;
+
+      place('logo', { w: logo.w / U, tint: null }, logoCx, 0);
+
+      var y = -th / 2;
+      tRows.forEach(function (r, i) {
+        if (i) y += gap * 0.55;
+        place('text', {
+          text: r.text, font: r.font, dir: r.dir, size: r.px / U, ink: null
+        }, textLeft + tw / 2, y + r.px * 0.575);
+        y += r.px * 1.15;
+      });
     } else {
-      var y = top;
+      var yy = -totalH / 2;
       if (logo) {
-        ctx.drawImage(logo.img, cx - logo.w / 2, y, logo.w, logo.h);
-        y += logo.h + (tRows.length ? gap : 0);
+        place('logo', { w: logo.w / U, tint: null }, 0, yy + logo.h / 2);
+        yy += logo.h + (tRows.length ? gap : 0);
       }
-      drawRows(cx, y, 'center');
+      tRows.forEach(function (r, i) {
+        if (i) yy += gap * 0.55;
+        place('text', {
+          text: r.text, font: r.font, dir: r.dir, size: r.px / U, ink: null
+        }, 0, yy + r.px * 0.575);
+        yy += r.px * 1.15;
+      });
     }
 
-    var box = { x: left, y: top, w: totalW, h: totalH };
+    return out;
+  }
+
+  /* Draws every layer of a print and records where each one landed, in
+     canvas pixels, so the editor can work out what was clicked. */
+  function drawPrint(ctx, design, spot, highlight) {
+    var R = design._rect || { x: 0, y: 0, w: 1, h: 1 };
+
+    if (!spot.layers || spot._layoutKey !== layoutKey(design, spot)) {
+      spot.layers = autoLayers(ctx, design, spot, R);
+      spot._layoutKey = layoutKey(design, spot);
+    }
+    if (!spot.layers.length) { spot._boxes = []; return null; }
+
+    var U = SIZE * R.w;
+    var Hp = SIZE * R.h;
+    var s = spot.scale || 1;
+    var fallbackInk = spot.ink || design.inkColour || '#111111';
+    var boxes = [];
+    var minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+
+    spot.layers.forEach(function (L, i) {
+      var k = s * (L.scale || 1);
+      var cx = SIZE * (R.x + R.w * (spot.x + L.dx * s));
+      var cy = SIZE * (R.y + R.h * (spot.y + L.dy * s));
+      var bx, by, bw, bh;
+
+      if (L.kind === 'logo') {
+        var img = design._logoImg;
+        if (!img) return;
+        var src = L.tint ? tintImage(img, L.tint) : img;
+        bw = U * L.w * k;
+        bh = bw * (img.height / img.width);
+        bx = cx - bw / 2;
+        by = cy - bh / 2;
+        ctx.drawImage(src, bx, by, bw, bh);
+      } else {
+        if (!L.text) return;
+        var px = Math.max(6, U * L.size * k);
+        ctx.font = '700 ' + px + 'px ' + L.font;
+        ctx.direction = L.dir || 'ltr';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillStyle = L.ink || fallbackInk;
+        ctx.fillText(L.text, cx, cy);
+        ctx.direction = 'ltr';
+        bw = ctx.measureText(L.text).width;
+        bh = px * 1.2;
+        bx = cx - bw / 2;
+        by = cy - bh / 2;
+      }
+
+      boxes.push({ i: i, id: L.id, x: bx, y: by, w: bw, h: bh });
+      minX = Math.min(minX, bx); minY = Math.min(minY, by);
+      maxX = Math.max(maxX, bx + bw); maxY = Math.max(maxY, by + bh);
+    });
+
+    spot._boxes = boxes;
+    if (!boxes.length) return null;
+
+    var box = { x: minX, y: minY, w: maxX - minX, h: maxY - minY };
 
     if (highlight) {
-      var m = base * 0.12;
+      var target = box;
+      if (typeof spot._activeLayer === 'number' && boxes[spot._activeLayer]) {
+        target = boxes[spot._activeLayer];
+      }
+      var m = U * spot.w * 0.1;
       ctx.save();
       ctx.strokeStyle = '#FFB800';
       ctx.lineWidth = 2;
       ctx.setLineDash([7, 5]);
-      ctx.strokeRect(box.x - m, box.y - m, box.w + m * 2, box.h + m * 2);
+      ctx.strokeRect(target.x - m, target.y - m, target.w + m * 2, target.h + m * 2);
       ctx.setLineDash([]);
       ctx.fillStyle = '#FFB800';
       ctx.font = "700 15px 'Inter', Arial, sans-serif";
       ctx.textAlign = 'left';
-      ctx.fillText(spot.label, box.x - m, box.y - m - 8);
+      ctx.textBaseline = 'alphabetic';
+      ctx.fillText(spot.label, target.x - m, target.y - m - 8);
       ctx.restore();
     }
     return box;
+  }
+
+  /* Automatic layout is redone only when the ingredients change - not when
+     somebody nudges a layer. */
+  function layoutKey(design, spot) {
+    return [
+      linesOf(design).join('\u0001'),
+      design._logoImg ? (design._logoImg.src || '').slice(-40) : 'none',
+      spot.layout || 'stack',
+      spot.rows == null ? 'x' : spot.rows
+    ].join('|');
+  }
+
+  /* Which layer is under this canvas point? Topmost wins. */
+  function layerAt(spot, px, py) {
+    var boxes = spot._boxes || [];
+    for (var i = boxes.length - 1; i >= 0; i--) {
+      var b = boxes[i];
+      var pad = Math.max(6, b.h * 0.15);
+      if (px >= b.x - pad && px <= b.x + b.w + pad &&
+          py >= b.y - pad && py <= b.y + b.h + pad) return b.i;
+    }
+    return -1;
+  }
+
+  /* Adds a line of text to a print, under whatever is already there. */
+  function addTextLayer(spot, text) {
+    if (!spot.layers) spot.layers = [];
+    var lowest = spot.layers.reduce(function (n, L) { return Math.max(n, L.dy); }, 0);
+    var size = 0;
+    spot.layers.forEach(function (L) { if (L.kind === 'text') size = Math.max(size, L.size); });
+    if (!size) size = spot.w * 0.16;
+
+    var L = {
+      id: nextLayerId(), kind: 'text', text: text || 'New line',
+      font: fontFor(text), dir: isArabic(text) ? 'rtl' : 'ltr',
+      size: size, ink: null, scale: 1, group: null,
+      dx: 0, dy: lowest + size * 1.5
+    };
+    spot.layers.push(L);
+    return L;
   }
 
   function drawMockup(canvas, productImg, design) {
@@ -638,6 +769,7 @@
     design._rect = { x: dx / SIZE, y: dy / SIZE, w: pw / SIZE, h: ph / SIZE };
 
     design._boxes = (design._spots || []).map(function (spot, i) {
+      spot._activeLayer = (i === design._active) ? design._activeLayer : null;
       return drawPrint(ctx, design, spot, design._showGuides && i === design._active);
     });
     return canvas;
@@ -1553,6 +1685,11 @@
     isArabic: isArabic,
     patchLuminance: patchLuminance,
     inkFor: inkFor,
+    tintImage: tintImage,
+    layerAt: layerAt,
+    addTextLayer: addTextLayer,
+    autoLayers: autoLayers,
+    fontFor: fontFor,
     SIZE: SIZE
   };
 

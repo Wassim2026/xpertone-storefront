@@ -343,20 +343,42 @@
               '<div class="bk-chips" id="bkEdSpots"></div>' +
             '</div>' +
 
-            '<div class="bk-field" id="bkEdLogoWrap">' +
-              '<label class="form-label" for="bkEdLogo">Logo size ' +
-                '<b class="num" id="bkEdLogoVal"></b></label>' +
-              '<input type="range" class="form-range" id="bkEdLogo" min="20" max="220" step="5">' +
+            '<div class="bk-field">' +
+              '<div class="d-flex justify-content-between align-items-center mb-1">' +
+                '<label class="form-label mb-0">Layers</label>' +
+                '<button class="btn btn-link p-0" id="bkEdAdd" type="button" ' +
+                  'style="font-size:.8rem;text-decoration:none">' +
+                  '<i class="fa-solid fa-plus"></i> Add text</button>' +
+              '</div>' +
+              '<div class="bk-layers" id="bkEdLayers"></div>' +
+              '<p class="bk-hint mb-0 mt-1">Click a layer to select it, or click it on the ' +
+                'picture. The chain links layers so they move together.</p>' +
             '</div>' +
 
-            '<div class="bk-field" id="bkEdTextWrap">' +
-              '<label class="form-label" for="bkEdText">Text size ' +
-                '<b class="num" id="bkEdTextVal"></b></label>' +
-              '<input type="range" class="form-range" id="bkEdText" min="20" max="220" step="5">' +
+            '<div class="bk-field" id="bkEdSelWrap">' +
+              '<label class="form-label d-block" id="bkEdSelName">Selected layer</label>' +
+
+              '<input class="form-control form-control-sm mb-2" id="bkEdSelText" ' +
+                'placeholder="Text of this layer" hidden>' +
+
+              '<label class="form-label" for="bkEdSelSize">Size ' +
+                '<b class="num" id="bkEdSelSizeVal"></b></label>' +
+              '<input type="range" class="form-range mb-2" id="bkEdSelSize" ' +
+                'min="10" max="400" step="5">' +
+
+              '<label class="form-label d-block">Colour of this layer</label>' +
+              '<div class="swatches" id="bkEdInk">' + swatches +
+                '<button type="button" class="swatch swatch--custom" id="bkEdPick" ' +
+                  'title="Any other colour" aria-label="Any other colour">' +
+                  '<i class="fa-solid fa-eye-dropper"></i></button>' +
+              '</div>' +
+              '<button class="btn btn-link p-0 mt-1" id="bkEdOriginal" type="button" hidden ' +
+                'style="font-size:.8rem;text-decoration:none">' +
+                '<i class="fa-solid fa-rotate-left"></i> Keep the logo\'s own colours</button>' +
             '</div>' +
 
             '<div class="bk-field" id="bkEdLayWrap">' +
-              '<label class="form-label d-block">Arrangement</label>' +
+              '<label class="form-label d-block">Re-arrange automatically</label>' +
               '<div class="bk-seg" id="bkEdLayout">' +
                 '<button type="button" data-lay="stack" title="Logo above the text">' +
                   '<i class="fa-solid fa-bars-staggered fa-rotate-90"></i> Stacked</button>' +
@@ -365,25 +387,11 @@
                 '<button type="button" data-lay="right" title="Logo to the right of the text">' +
                   '<i class="fa-solid fa-align-right"></i> Logo right</button>' +
               '</div>' +
-            '</div>' +
-
-            '<div class="bk-field">' +
-              '<label class="form-label d-block">Colour of this print</label>' +
-              '<div class="swatches" id="bkEdInk">' + swatches +
-                '<button type="button" class="swatch swatch--custom" id="bkEdPick" ' +
-                  'title="Any other colour" aria-label="Any other colour">' +
-                  '<i class="fa-solid fa-eye-dropper"></i></button>' +
-              '</div>' +
-              '<button class="btn btn-link p-0 mt-2" id="bkEdAuto" type="button" ' +
+              '<button class="btn btn-link p-0 mt-1" id="bkEdAuto" type="button" ' +
                 'style="font-size:.82rem;text-decoration:none">' +
-                '<i class="fa-solid fa-wand-magic-sparkles"></i> Match this item to its garment</button>' +
+                '<i class="fa-solid fa-wand-magic-sparkles"></i> Match colours to the garment</button>' +
             '</div>' +
 
-            '<div class="bk-field">' +
-              '<label class="form-label d-block">Text on this item</label>' +
-              '<input class="form-control form-control-sm mb-2" data-edline="0" placeholder="Company name">' +
-              '<input class="form-control form-control-sm mb-2" data-edline="1" placeholder="Arabic name">' +
-              '<input class="form-control form-control-sm" data-edline="2" placeholder="Phone number">' +
             '</div>' +
 
             '<div class="bk-editor__foot">' +
@@ -425,11 +433,11 @@
       'bkOutWrap', 'bkOut', 'bkAllOn', 'bkAllOff', 'bkZip', 'bkPdf', 'bkWa',
       'bkSave', 'bkDelete', 'bkSaveNote', 'bkAutoInk',
       'bkEditor', 'bkEdTitle', 'bkEdClose', 'bkEdCanvas', 'bkEdHint', 'bkEdSpots',
-      'bkEdLogo', 'bkEdLogoVal', 'bkEdLogoWrap', 'bkEdText', 'bkEdTextVal', 'bkEdTextWrap',
+      'bkEdLayers', 'bkEdAdd', 'bkEdSelWrap', 'bkEdSelName', 'bkEdSelText',
+      'bkEdSelSize', 'bkEdSelSizeVal', 'bkEdOriginal',
       'bkEdLayout', 'bkEdLayWrap', 'bkEdInk', 'bkEdPick', 'bkEdAuto', 'bkEdDone', 'bkEdReset',
       'bkEdPrev', 'bkEdNext'
     ].forEach(function (id) { el[id] = XO.el('#' + id); });
-    el.edLines = XO.els('[data-edline]', XO.el('#bkEditor'));
 
     wire();
     paintState();
@@ -885,15 +893,26 @@
      ======================================================================= */
 
   var edIndex = -1;
-  var edActive = 0;
+  var edActive = 0;        // which print position
+  var edLayer = 0;         // which layer inside it
   var edDragging = false;
+  var edGrab = null;
 
   function edItem() { return results[edIndex] || null; }
+  function edSpot() {
+    var r = edItem();
+    return r ? r.design._spots[edActive] : null;
+  }
+  function edSel() {
+    var s = edSpot();
+    return s && s.layers ? s.layers[edLayer] : null;
+  }
 
   function openEditor(i) {
     if (!results[i]) return;
     edIndex = i;
     edActive = 0;
+    edLayer = 0;
     el.bkEditor.hidden = false;
     document.body.style.overflow = 'hidden';
     paintEditor();
@@ -905,6 +924,11 @@
     edIndex = -1;
   }
 
+  function layerLabel(L) {
+    if (L.kind === 'logo') return 'Logo';
+    return L.text ? (L.text.length > 22 ? L.text.slice(0, 22) + '…' : L.text) : 'Empty line';
+  }
+
   function paintEditor() {
     var r = edItem();
     if (!r) return;
@@ -913,6 +937,7 @@
 
     el.bkEdTitle.textContent = r.title;
 
+    /* Which print */
     el.bkEdSpots.innerHTML = d._spots.map(function (s, i) {
       return '<button type="button" class="bk-chip' + (i === edActive ? ' is-active' : '') +
         '" data-spot="' + i + '">' + XO.esc(s.label || ('Print ' + (i + 1))) + '</button>';
@@ -920,53 +945,123 @@
     XO.els('.bk-chip', el.bkEdSpots).forEach(function (b) {
       b.addEventListener('click', function () {
         edActive = parseInt(b.getAttribute('data-spot'), 10);
+        edLayer = 0;
         paintEditor();
       });
     });
 
-    var spot = d._spots[edActive];
+    /* Make sure the layers exist before we list them. */
+    d._active = edActive;
+    d._activeLayer = edLayer;
+    edPaintCanvas();
+
+    var spot = edSpot();
+    var layers = (spot && spot.layers) || [];
+    if (edLayer >= layers.length) edLayer = 0;
+
+    el.bkEdLayers.innerHTML = layers.map(function (L, i) {
+      return '<div class="bk-layer' + (i === edLayer ? ' is-active' : '') +
+        (L.group ? ' is-linked' : '') + '" data-layer="' + i + '">' +
+        '<span class="bk-layer__ico"><i class="fa-solid ' +
+          (L.kind === 'logo' ? 'fa-image' : 'fa-font') + '"></i></span>' +
+        '<span class="bk-layer__t">' + XO.esc(layerLabel(L)) + '</span>' +
+        '<button type="button" class="bk-layer__b" data-link="' + i + '" ' +
+          'title="' + (L.group ? 'Unlink from the group' : 'Link so it moves with the others') + '" ' +
+          'aria-label="Link layer"><i class="fa-solid ' +
+          (L.group ? 'fa-link' : 'fa-link-slash') + '"></i></button>' +
+        (L.kind === 'text'
+          ? '<button type="button" class="bk-layer__b bk-layer__b--x" data-del="' + i + '" ' +
+            'title="Remove this line" aria-label="Remove layer">' +
+            '<i class="fa-solid fa-xmark"></i></button>'
+          : '<span class="bk-layer__b"></span>') +
+      '</div>';
+    }).join('') || '<p class="bk-hint mb-0">Nothing on this print yet.</p>';
+
+    XO.els('.bk-layer', el.bkEdLayers).forEach(function (row) {
+      var i = parseInt(row.getAttribute('data-layer'), 10);
+      row.addEventListener('click', function (e) {
+        if (e.target.closest('[data-link]') || e.target.closest('[data-del]')) return;
+        edLayer = i;
+        paintEditor();
+      });
+    });
+    XO.els('[data-link]', el.bkEdLayers).forEach(function (b) {
+      b.addEventListener('click', function (e) {
+        e.stopPropagation();
+        toggleLink(parseInt(b.getAttribute('data-link'), 10));
+      });
+    });
+    XO.els('[data-del]', el.bkEdLayers).forEach(function (b) {
+      b.addEventListener('click', function (e) {
+        e.stopPropagation();
+        removeLayer(parseInt(b.getAttribute('data-del'), 10));
+      });
+    });
+
+    paintSelected();
+
     var hasLogo = !!d._logoImg;
-    var rowsHere = typeof spot.rows === 'number'
-      ? (hasLogo ? spot.rows : Math.max(1, spot.rows))
-      : 99;
-    var hasText = rowsHere > 0 && E.linesOf(d).length > 0;
-
-    var lp = Math.round((spot.logoScale == null ? 1 : spot.logoScale) * 100);
-    var tp = Math.round((spot.textScale == null ? 1 : spot.textScale) * 100);
-    el.bkEdLogo.value = lp;
-    el.bkEdLogoVal.textContent = lp + '%';
-    el.bkEdText.value = tp;
-    el.bkEdTextVal.textContent = tp + '%';
-
-    /* A sleeve carries the logo alone, so its text controls would do nothing. */
-    el.bkEdLogoWrap.hidden = !hasLogo;
-    el.bkEdTextWrap.hidden = !hasText;
+    var hasText = layers.some(function (L) { return L.kind === 'text'; });
     el.bkEdLayWrap.hidden = !(hasLogo && hasText);
-
     XO.els('button', el.bkEdLayout).forEach(function (b) {
       b.classList.toggle('is-active', b.getAttribute('data-lay') === (spot.layout || 'stack'));
     });
 
+    el.bkEdHint.innerHTML = 'Drag anything on the picture to move it. ' +
+      (d._spots.length > 1 ? 'Switch prints with the buttons above.' : '');
+  }
+
+  function paintSelected() {
+    var L = edSel();
+    if (!L) { el.bkEdSelWrap.hidden = true; return; }
+    el.bkEdSelWrap.hidden = false;
+
+    el.bkEdSelName.textContent = L.kind === 'logo' ? 'Logo' : 'Line of text';
+
+    el.bkEdSelText.hidden = L.kind !== 'text';
+    if (L.kind === 'text') {
+      el.bkEdSelText.value = L.text || '';
+      el.bkEdSelText.setAttribute('dir', E.isArabic(L.text) ? 'rtl' : 'ltr');
+    }
+
+    var pct = Math.round((L.scale || 1) * 100);
+    el.bkEdSelSize.value = Math.max(10, Math.min(400, pct));
+    el.bkEdSelSizeVal.textContent = pct + '%';
+
+    var current = L.kind === 'logo' ? L.tint : L.ink;
     var known = false;
     XO.els('.swatch', el.bkEdInk).forEach(function (b) {
-      var hit = b.getAttribute('data-hex') === spot.ink;
+      var hit = b.getAttribute('data-hex') === current;
       if (hit) known = true;
       b.classList.toggle('is-active', hit);
     });
-    el.bkEdPick.style.setProperty('--sw', spot.ink || '#FFFFFF');
-    el.bkEdPick.classList.toggle('is-active', !known);
+    el.bkEdPick.style.setProperty('--sw', current || 'transparent');
+    el.bkEdPick.classList.toggle('is-active', !!current && !known);
+    el.bkEdOriginal.hidden = L.kind !== 'logo';
+  }
 
-    for (var k = 0; k < el.edLines.length; k++) {
-      el.edLines[k].value = d.lines[k] || '';
-      el.edLines[k].setAttribute('dir', E.isArabic(d.lines[k]) ? 'rtl' : 'ltr');
+  function toggleLink(i) {
+    var s = edSpot();
+    if (!s || !s.layers[i]) return;
+    var L = s.layers[i];
+    if (L.group) {
+      L.group = null;
+    } else {
+      var g = null;
+      s.layers.forEach(function (o) { if (o.group) g = o.group; });
+      L.group = g || ('g' + Date.now().toString(36));
     }
+    edItem().edited = true;
+    paintEditor();
+  }
 
-    el.bkEdHint.innerHTML = d._spots.length > 1
-      ? 'Drag on the picture to move the <b>' + XO.esc(spot.label) + '</b> print. ' +
-        'Switch prints with the buttons above.'
-      : 'Drag on the picture to move the print.';
-
-    edPaintCanvas();
+  function removeLayer(i) {
+    var s = edSpot();
+    if (!s || !s.layers[i]) return;
+    s.layers.splice(i, 1);
+    if (edLayer >= s.layers.length) edLayer = Math.max(0, s.layers.length - 1);
+    edItem().edited = true;
+    paintEditor();
   }
 
   function edPaintCanvas() {
@@ -974,60 +1069,101 @@
     if (!r) return;
     r.design._showGuides = true;
     r.design._active = edActive;
+    r.design._activeLayer = edLayer;
     E.drawMockup(el.bkEdCanvas, r.img, r.design);
   }
 
-  /* Pointer position in the photo's own coordinates, so a print dragged onto
-     the shoulder stays on the shoulder whatever shape the photo is. */
+  /* Pointer in canvas pixels, and in the photo's own coordinates. */
   function edPoint(e) {
     var r = edItem();
     var box = el.bkEdCanvas.getBoundingClientRect();
     var pt = e.touches && e.touches.length ? e.touches[0] : e;
+    var fx = (pt.clientX - box.left) / box.width;
+    var fy = (pt.clientY - box.top) / box.height;
     var R = (r && r.design._rect) || { x: 0, y: 0, w: 1, h: 1 };
     return {
-      x: ((pt.clientX - box.left) / box.width - R.x) / R.w,
-      y: ((pt.clientY - box.top) / box.height - R.y) / R.h
+      cx: fx * el.bkEdCanvas.width,
+      cy: fy * el.bkEdCanvas.height,
+      px: (fx - R.x) / R.w,
+      py: (fy - R.y) / R.h
     };
   }
 
-  function edNearest(pt) {
-    var r = edItem(), best = 0, bestD = Infinity;
-    r.design._spots.forEach(function (s, i) {
-      var dd = Math.pow(s.x - pt.x, 2) + Math.pow(s.y - pt.y, 2);
-      if (dd < bestD) { bestD = dd; best = i; }
-    });
-    return best;
-  }
-
+  /* Clicking picks the print position under the pointer first, then the
+     layer within it, so a chest badge and a back print never fight. */
   function edStart(e) {
-    if (!edItem()) return;
-    edActive = edNearest(edPoint(e));
+    var r = edItem();
+    if (!r) return;
+    var pt = edPoint(e);
+
+    var bestSpot = -1, bestLayer = -1;
+    r.design._spots.forEach(function (s, si) {
+      var hit = E.layerAt(s, pt.cx, pt.cy);
+      if (hit > -1) { bestSpot = si; bestLayer = hit; }
+    });
+
+    if (bestSpot < 0) {
+      /* Nothing under the pointer - fall back to the nearest print. */
+      var bd = Infinity;
+      r.design._spots.forEach(function (s, si) {
+        var dd = Math.pow(s.x - pt.px, 2) + Math.pow(s.y - pt.py, 2);
+        if (dd < bd) { bd = dd; bestSpot = si; bestLayer = 0; }
+      });
+    }
+
+    edActive = bestSpot;
+    edLayer = Math.max(0, bestLayer);
+
+    var s = edSpot();
+    var L = edSel();
+    if (!s || !L) return;
+
+    /* Remember where inside the layer the grab happened, so it does not jump
+       to the cursor. */
+    var scale = s.scale || 1;
+    edGrab = { px: pt.px, py: pt.py, dx: L.dx, dy: L.dy, scale: scale };
     edDragging = true;
     paintEditor();
-    edMove(e);
   }
 
   function edMove(e) {
     if (!edDragging) return;
     var r = edItem();
-    if (!r) return;
+    var s = edSpot();
+    var L = edSel();
+    if (!r || !s || !L || !edGrab) return;
     if (e.cancelable) e.preventDefault();
+
     var pt = edPoint(e);
-    var s = r.design._spots[edActive];
-    s.x = Math.min(1.02, Math.max(-0.02, pt.x));
-    s.y = Math.min(1.02, Math.max(-0.02, pt.y));
+    var moveX = (pt.px - edGrab.px) / edGrab.scale;
+    var moveY = (pt.py - edGrab.py) / edGrab.scale;
+
+    if (L.group) {
+      /* Linked layers travel together. */
+      if (!edGrab.group) {
+        edGrab.group = s.layers.map(function (o) { return { dx: o.dx, dy: o.dy }; });
+      }
+      s.layers.forEach(function (o, i) {
+        if (o.group !== L.group) return;
+        o.dx = edGrab.group[i].dx + moveX;
+        o.dy = edGrab.group[i].dy + moveY;
+      });
+    } else {
+      L.dx = edGrab.dx + moveX;
+      L.dy = edGrab.dy + moveY;
+    }
+
     r.edited = true;
     edPaintCanvas();
   }
 
-  function edEnd() { edDragging = false; }
+  function edEnd() { edDragging = false; edGrab = null; }
 
-  /* Writing the item back out is the slow part, so it happens once, on Done,
-     rather than on every drag. */
   function edCommit() {
     var r = edItem();
     if (!r) return Promise.resolve();
     r.design._showGuides = false;
+    r.design._activeLayer = null;
     return renderResult(r).then(function () { renderResults(); });
   }
 
@@ -1037,71 +1173,94 @@
     edCommit().then(function () { openEditor(next); });
   }
 
+  function setLayerColour(hex, live) {
+    var r = edItem();
+    var L = edSel();
+    if (!r || !L) return;
+    if (L.kind === 'logo') L.tint = hex;
+    else L.ink = hex;
+    if (!live) { r.design.autoInk = false; r.edited = true; }
+    edPaintCanvas();
+  }
+
   function wireEditor() {
-    el.bkEdClose.addEventListener('click', function () {
-      edCommit().then(closeEditor);
-    });
-    el.bkEdDone.addEventListener('click', function () {
-      edCommit().then(closeEditor);
-    });
+    el.bkEdClose.addEventListener('click', function () { edCommit().then(closeEditor); });
+    el.bkEdDone.addEventListener('click', function () { edCommit().then(closeEditor); });
     el.bkEditor.addEventListener('click', function (e) {
-      if (e.target === el.bkEditor) { edCommit().then(closeEditor); }
+      if (e.target === el.bkEditor) edCommit().then(closeEditor);
     });
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && !el.bkEditor.hidden) { edCommit().then(closeEditor); }
+      if (e.key === 'Escape' && !el.bkEditor.hidden && !document.querySelector('.xo-picker[style*="block"]')) {
+        edCommit().then(closeEditor);
+      }
     });
 
-    function sizer(input, label, key) {
-      input.addEventListener('input', function () {
-        var r = edItem();
-        if (!r) return;
-        var pct = parseInt(input.value, 10);
-        label.textContent = pct + '%';
-        r.design._spots[edActive][key] = pct / 100;
-        r.edited = true;
-        edPaintCanvas();
-      });
-    }
-    sizer(el.bkEdLogo, el.bkEdLogoVal, 'logoScale');
-    sizer(el.bkEdText, el.bkEdTextVal, 'textScale');
-
-    XO.els('button', el.bkEdLayout).forEach(function (b) {
-      b.addEventListener('click', function () {
-        var r = edItem();
-        if (!r) return;
-        r.design._spots[edActive].layout = b.getAttribute('data-lay');
-        r.edited = true;
-        paintEditor();
-      });
+    el.bkEdSelSize.addEventListener('input', function () {
+      var r = edItem(), L = edSel();
+      if (!r || !L) return;
+      var pct = parseInt(el.bkEdSelSize.value, 10);
+      el.bkEdSelSizeVal.textContent = pct + '%';
+      L.scale = pct / 100;
+      r.edited = true;
+      edPaintCanvas();
     });
 
-    el.bkEdPick.addEventListener('click', function () {
-      var r = edItem();
-      if (!r) return;
-      var spot = r.design._spots[edActive];
-      XOColour.open({
-        hex: spot.ink || '#FFFFFF',
-        trigger: el.bkEdPick,
-        onChange: function (hex) {
-          spot.ink = hex;
-          el.bkEdPick.style.setProperty('--sw', hex);
-          edPaintCanvas();
-        },
-        onDone: function (hex) {
-          spot.ink = hex;
-          r.design.autoInk = false;
-          r.edited = true;
-          paintEditor();
-        }
-      });
+    el.bkEdSelText.addEventListener('input', function () {
+      var r = edItem(), L = edSel();
+      if (!r || !L || L.kind !== 'text') return;
+      L.text = el.bkEdSelText.value;
+      L.dir = E.isArabic(L.text) ? 'rtl' : 'ltr';
+      L.font = E.fontFor(L.text);
+      el.bkEdSelText.setAttribute('dir', L.dir);
+      r.edited = true;
+      edPaintCanvas();
+      var row = XO.el('.bk-layer.is-active .bk-layer__t', el.bkEdLayers);
+      if (row) row.textContent = layerLabel(L);
+    });
+
+    el.bkEdAdd.addEventListener('click', function () {
+      var r = edItem(), s = edSpot();
+      if (!r || !s) return;
+      E.addTextLayer(s, 'New line');
+      edLayer = s.layers.length - 1;
+      r.edited = true;
+      paintEditor();
+      el.bkEdSelText.focus();
+      el.bkEdSelText.select();
     });
 
     XO.els('.swatch', el.bkEdInk).forEach(function (b) {
       b.addEventListener('click', function () {
-        var r = edItem();
-        if (!r) return;
-        r.design._spots[edActive].ink = b.getAttribute('data-hex');
-        r.design.autoInk = false;
+        setLayerColour(b.getAttribute('data-hex'), false);
+        paintSelected();
+      });
+    });
+
+    el.bkEdOriginal.addEventListener('click', function () {
+      setLayerColour(null, false);
+      paintSelected();
+    });
+
+    el.bkEdPick.addEventListener('click', function () {
+      var L = edSel();
+      if (!L) return;
+      var was = L.kind === 'logo' ? L.tint : L.ink;
+      XOColour.open({
+        hex: was || '#FFFFFF',
+        trigger: el.bkEdPick,
+        onChange: function (hex) { setLayerColour(hex, true); },
+        onDone: function (hex) { setLayerColour(hex, false); paintSelected(); }
+      });
+    });
+
+    XO.els('button', el.bkEdLayout).forEach(function (b) {
+      b.addEventListener('click', function () {
+        var r = edItem(), s = edSpot();
+        if (!r || !s) return;
+        s.layout = b.getAttribute('data-lay');
+        s.layers = null;             // let the automatic pass run again
+        s._layoutKey = null;
+        edLayer = 0;
         r.edited = true;
         paintEditor();
       });
@@ -1112,19 +1271,13 @@
       if (!r) return;
       r.design.autoInk = true;
       applyInk(r.img, r.design);
+      r.design._spots.forEach(function (s) {
+        (s.layers || []).forEach(function (L) {
+          if (L.kind === 'text') L.ink = null; else L.tint = null;
+        });
+      });
       r.edited = true;
       paintEditor();
-    });
-
-    el.edLines.forEach(function (inp, k) {
-      inp.addEventListener('input', function () {
-        var r = edItem();
-        if (!r) return;
-        r.design.lines[k] = inp.value.trim();
-        inp.setAttribute('dir', E.isArabic(inp.value) ? 'rtl' : 'ltr');
-        r.edited = true;
-        edPaintCanvas();
-      });
     });
 
     el.bkEdReset.addEventListener('click', function () {
@@ -1133,6 +1286,7 @@
       r.design = freshDesign(r.img, r.analysis);
       r.edited = false;
       edActive = 0;
+      edLayer = 0;
       paintEditor();
     });
 
