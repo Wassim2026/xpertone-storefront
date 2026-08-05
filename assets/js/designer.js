@@ -437,7 +437,10 @@
       if (s.edge && b.profile && b.profile.length) {
         var n = b.profile.length;
         var e = b.profile[Math.max(0, Math.min(n - 1, Math.round(s.ry * n - 0.5)))];
-        var half = b.w * s.rw * 0.62;
+        /* Sit a full print-width in from the edge. The outline can pick up a
+           soft pixel just outside the fabric, and half a logo hanging off the
+           arm looks worse than one placed slightly too far in. */
+        var half = b.w * s.rw * 1.15;
         cx = s.edge === 'right' ? (e.r - half) : (e.l + half);
         /* Never let it cross the middle of the garment. */
         var mid = b.x + b.w * 0.5;
