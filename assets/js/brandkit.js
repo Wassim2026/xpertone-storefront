@@ -119,6 +119,8 @@
     target: 900,
     sharpAmount: Math.round((CFG.PRINTING.sharpenAmount || 0.45) * 100),
     logo: '', logoName: '', logoPx: 0, removedBg: false,
+    logo2: '', logo2Name: '',
+    twoLogos: false, backLogo2: false,
     autoInk: true,
     picks: {},
     dirty: false
@@ -126,6 +128,7 @@
 
   var products = [];
   var logoImg = null;
+  var logoImg2 = null;
   var results = [];       // { uid, title, price, category, png, jpeg, w, h, url, on }
   var running = false;
   var cancelled = false;
@@ -155,13 +158,18 @@
           'placeholder="Search company or number">' +
         '<div id="bkList" class="bk__list"></div>' +
         '<div class="bk__storage" id="bkStorage"></div>' +
+        '<button class="btn btn-xo btn-sm w-100 mt-2" id="bkExcel" type="button">' +
+          '<i class="fa-solid fa-file-excel"></i> Client list for Excel</button>' +
         '<div class="d-flex gap-2 mt-2">' +
-          '<button class="btn btn-outline-xo btn-sm flex-grow-1" id="bkExport" type="button">' +
-            '<i class="fa-solid fa-file-export"></i> Export</button>' +
+          '<button class="btn btn-outline-xo btn-sm flex-grow-1" id="bkExport" type="button" ' +
+            'title="A backup file that can be loaded back in">' +
+            '<i class="fa-solid fa-cloud-arrow-down"></i> Backup</button>' +
           '<button class="btn btn-outline-xo btn-sm flex-grow-1" id="bkImportBtn" type="button">' +
-            '<i class="fa-solid fa-file-import"></i> Import</button>' +
+            '<i class="fa-solid fa-file-import"></i> Restore</button>' +
           '<input type="file" id="bkImport" accept="application/json,.json" hidden>' +
         '</div>' +
+        '<p class="bk-hint mt-1 mb-0">Excel to read and share. Backup to move everything, ' +
+          'logos included, to another computer.</p>' +
       '</aside>' +
 
       '<div class="bk__main">' +
@@ -219,6 +227,29 @@
               '<button class="btn btn-link p-0 mt-1" id="bkClearLogo" type="button" hidden ' +
                 'style="font-size:.85rem;color:var(--xo-danger);text-decoration:none">' +
                 '<i class="fa-solid fa-xmark"></i> Remove this logo</button>' +
+
+              '<label class="bk-check mt-3">' +
+                '<input type="checkbox" id="bkTwoLogos"> ' +
+                '<span><b>This client has a second logo</b><br>' +
+                '<span class="bk-hint">A group mark and a division mark, or an English and ' +
+                'an Arabic version.</span></span>' +
+              '</label>' +
+
+              '<div id="bkLogo2Wrap" hidden>' +
+                '<div class="bk-drop bk-drop--sm" id="bkDrop2">' +
+                  '<div class="bk-drop__inner" id="bkDrop2Inner">' +
+                    '<i class="fa-solid fa-plus"></i>' +
+                    '<span class="bk-hint">Second logo</span>' +
+                  '</div>' +
+                  '<img id="bkLogo2Img" alt="" hidden>' +
+                '</div>' +
+                '<input type="file" id="bkFile2" accept="image/png,image/jpeg,image/webp" hidden>' +
+                '<label class="bk-check mt-2">' +
+                  '<input type="checkbox" id="bkBackLogo2"> ' +
+                  '<span><b>Use the second logo on the back</b><br>' +
+                  '<span class="bk-hint">Front keeps the first one.</span></span>' +
+                '</label>' +
+              '</div>' +
             '</div>' +
 
             '<div class="col-lg-7">' +
@@ -333,7 +364,10 @@
         '</div>' +
         '<div class="bk-editor__body">' +
           '<div class="bk-editor__stage">' +
-            '<canvas id="bkEdCanvas" width="760" height="760"></canvas>' +
+            '<div class="bk-stage" id="bkEdStage">' +
+              '<canvas id="bkEdCanvas" width="760" height="760"></canvas>' +
+              '<div class="bk-marquee" id="bkEdMarquee" hidden></div>' +
+            '</div>' +
             '<p class="bk-hint mt-2 mb-0" id="bkEdHint"></p>' +
           '</div>' +
           '<div class="bk-editor__side">' +
@@ -353,6 +387,33 @@
               '<div class="bk-layers" id="bkEdLayers"></div>' +
               '<p class="bk-hint mb-0 mt-1">Click a layer to select it, or click it on the ' +
                 'picture. The chain links layers so they move together.</p>' +
+            '</div>' +
+
+            '<div class="bk-field" id="bkEdAlignWrap">' +
+              '<label class="form-label d-block">Align</label>' +
+              '<div class="bk-align" id="bkEdAlign">' +
+                '<button type="button" data-al="left" title="Align left">' +
+                  '<i class="fa-solid fa-align-left"></i></button>' +
+                '<button type="button" data-al="cx" title="Centre across">' +
+                  '<i class="fa-solid fa-align-center"></i></button>' +
+                '<button type="button" data-al="right" title="Align right">' +
+                  '<i class="fa-solid fa-align-right"></i></button>' +
+                '<span class="bk-align__sep"></span>' +
+                '<button type="button" data-al="top" title="Align top">' +
+                  '<i class="fa-solid fa-arrow-up-long"></i></button>' +
+                '<button type="button" data-al="cy" title="Centre down">' +
+                  '<i class="fa-solid fa-arrows-up-down"></i></button>' +
+                '<button type="button" data-al="bottom" title="Align bottom">' +
+                  '<i class="fa-solid fa-arrow-down-long"></i></button>' +
+                '<span class="bk-align__sep"></span>' +
+                '<button type="button" data-al="centre" title="Centre on the print">' +
+                  '<i class="fa-solid fa-crosshairs"></i></button>' +
+              '</div>' +
+              '<label class="form-label mt-2" for="bkEdGap">Line spacing ' +
+                '<b class="num" id="bkEdGapVal"></b></label>' +
+              '<input type="range" class="form-range" id="bkEdGap" min="0" max="200" step="5">' +
+              '<p class="bk-hint mb-0">Spreads the selected lines out evenly. With nothing ' +
+                'selected it spaces every line on this print.</p>' +
             '</div>' +
 
             '<div class="bk-field" id="bkEdSelWrap">' +
@@ -375,6 +436,13 @@
               '<button class="btn btn-link p-0 mt-1" id="bkEdOriginal" type="button" hidden ' +
                 'style="font-size:.8rem;text-decoration:none">' +
                 '<i class="fa-solid fa-rotate-left"></i> Keep the logo\'s own colours</button>' +
+
+              '<div id="bkEdPalWrap" hidden class="mt-3">' +
+                '<label class="form-label d-block mb-1">Colours inside this logo</label>' +
+                '<div class="bk-pal" id="bkEdPal"></div>' +
+                '<p class="bk-hint mb-0 mt-1">Click one to replace just that colour, the way ' +
+                  'you would recolour a vector. Works on flat artwork.</p>' +
+              '</div>' +
             '</div>' +
 
             '<div class="bk-field" id="bkEdLayWrap">' +
@@ -425,14 +493,17 @@
     mount.innerHTML = shell();
 
     [
-      'bkNew', 'bkSearch', 'bkList', 'bkStorage', 'bkExport', 'bkImportBtn', 'bkImport',
+      'bkNew', 'bkSearch', 'bkList', 'bkStorage', 'bkExport', 'bkExcel', 'bkImportBtn', 'bkImport',
       'bkCompany', 'bkCompanyAr', 'bkPhone', 'bkContact', 'bkNotes', 'bkSleeves',
       'bkDrop', 'bkDropInner', 'bkLogoImg', 'bkSpin', 'bkFile', 'bkNote', 'bkClearLogo',
+      'bkTwoLogos', 'bkLogo2Wrap', 'bkDrop2', 'bkDrop2Inner', 'bkLogo2Img', 'bkFile2', 'bkBackLogo2',
       'bkCut', 'bkTolWrap', 'bkTol', 'bkTolVal', 'bkTarget', 'bkSharp', 'bkSharpVal', 'bkSwatches',
       'bkFilters', 'bkPicks', 'bkGo', 'bkStop', 'bkCount', 'bkProg', 'bkBar', 'bkProgText',
       'bkOutWrap', 'bkOut', 'bkAllOn', 'bkAllOff', 'bkZip', 'bkPdf', 'bkWa',
       'bkSave', 'bkDelete', 'bkSaveNote', 'bkAutoInk',
       'bkEditor', 'bkEdTitle', 'bkEdClose', 'bkEdCanvas', 'bkEdHint', 'bkEdSpots',
+      'bkEdStage', 'bkEdMarquee', 'bkEdAlign', 'bkEdAlignWrap', 'bkEdGap', 'bkEdGapVal',
+      'bkEdPal', 'bkEdPalWrap',
       'bkEdLayers', 'bkEdAdd', 'bkEdSelWrap', 'bkEdSelName', 'bkEdSelText',
       'bkEdSelSize', 'bkEdSelSizeVal', 'bkEdOriginal',
       'bkEdLayout', 'bkEdLayWrap', 'bkEdInk', 'bkEdPick', 'bkEdAuto', 'bkEdDone', 'bkEdReset',
@@ -496,6 +567,32 @@
       var f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
       if (f) processLogo(f);
     });
+    el.bkTwoLogos.addEventListener('change', function () {
+      S.twoLogos = el.bkTwoLogos.checked;
+      el.bkLogo2Wrap.hidden = !S.twoLogos;
+      if (!S.twoLogos) { S.logo2 = ''; S.backLogo2 = false; el.bkBackLogo2.checked = false; }
+      S.dirty = true;
+      paintLogo();
+    });
+    el.bkBackLogo2.addEventListener('change', function () {
+      S.backLogo2 = el.bkBackLogo2.checked;
+      S.dirty = true;
+    });
+    el.bkDrop2.addEventListener('click', function () { el.bkFile2.click(); });
+    el.bkFile2.addEventListener('change', function () {
+      if (el.bkFile2.files && el.bkFile2.files[0]) processLogo(el.bkFile2.files[0], 2);
+    });
+    ['dragenter', 'dragover'].forEach(function (ev) {
+      el.bkDrop2.addEventListener(ev, function (e) { e.preventDefault(); el.bkDrop2.classList.add('is-over'); });
+    });
+    ['dragleave', 'drop'].forEach(function (ev) {
+      el.bkDrop2.addEventListener(ev, function (e) { e.preventDefault(); el.bkDrop2.classList.remove('is-over'); });
+    });
+    el.bkDrop2.addEventListener('drop', function (e) {
+      var f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+      if (f) processLogo(f, 2);
+    });
+
     el.bkClearLogo.addEventListener('click', function (e) {
       e.stopPropagation();
       S.logo = ''; S.logoName = ''; S.logoPx = 0; logoImg = null; S.dirty = true;
@@ -545,6 +642,7 @@
     el.bkSave.addEventListener('click', saveCurrent);
     el.bkDelete.addEventListener('click', deleteCurrent);
     el.bkExport.addEventListener('click', exportAll);
+    el.bkExcel.addEventListener('click', exportExcel);
     el.bkImportBtn.addEventListener('click', function () { el.bkImport.click(); });
     el.bkImport.addEventListener('change', function () {
       if (el.bkImport.files && el.bkImport.files[0]) importFile(el.bkImport.files[0]);
@@ -569,6 +667,9 @@
     el.bkNotes.value = S.notes;
     el.bkSleeves.checked = !!S.sleeves;
     el.bkAutoInk.checked = S.autoInk !== false;
+    el.bkTwoLogos.checked = !!S.twoLogos;
+    el.bkLogo2Wrap.hidden = !S.twoLogos;
+    el.bkBackLogo2.checked = !!S.backLogo2;
     el.bkCut.checked = !!S.cut;
     el.bkTolWrap.hidden = !S.cut;
     el.bkTol.value = S.tolerance;
@@ -591,12 +692,20 @@
     el.bkClearLogo.hidden = !has;
     if (has) el.bkLogoImg.src = S.logo;
     else el.bkNote.innerHTML = 'No logo yet. Text-only branding works too.';
+
+    var has2 = !!S.logo2;
+    el.bkLogo2Img.hidden = !has2;
+    el.bkDrop2Inner.hidden = has2;
+    if (has2) el.bkLogo2Img.src = S.logo2;
+    el.bkBackLogo2.disabled = !has2;
   }
 
   function reset() {
     S.id = null;
     S.company = S.companyAr = S.phone = S.contact = S.notes = '';
     S.logo = ''; S.logoName = ''; S.logoPx = 0; S.removedBg = false;
+    S.logo2 = ''; S.logo2Name = ''; S.twoLogos = false; S.backLogo2 = false;
+    logoImg2 = null; rawFileImage2 = null;
     S.sleeves = false;
     S.dirty = false;
     logoImg = null;
@@ -610,21 +719,28 @@
      Logo processing
      ======================================================================= */
 
-  var rawFileImage = null;   // the untouched upload, so sliders can re-run
+  var rawFileImage = null;    // the untouched uploads, so the sliders can re-run
+  var rawFileImage2 = null;
 
-  function processLogo(file) {
+  function processLogo(file, slot) {
+    slot = slot || 1;
     if (!file) return;
     if (file.size > (CFG.PRINTING.maxFileMB || 10) * 1024 * 1024) {
       el.bkNote.innerHTML = '<span class="bk-bad">That file is over ' +
         (CFG.PRINTING.maxFileMB || 10) + ' MB. Please use a smaller one.</span>';
       return;
     }
-    S.logoName = file.name;
+    if (slot === 1) S.logoName = file.name; else S.logo2Name = file.name;
+
     var reader = new FileReader();
     reader.onload = function () {
       E.loadImage(reader.result, false).then(function (img) {
-        rawFileImage = img;
-        S.logoPx = Math.max(img.naturalWidth || img.width, img.naturalHeight || img.height);
+        if (slot === 1) {
+          rawFileImage = img;
+          S.logoPx = Math.max(img.naturalWidth || img.width, img.naturalHeight || img.height);
+        } else {
+          rawFileImage2 = img;
+        }
         return reprocess();
       }).catch(function () {
         el.bkNote.innerHTML = '<span class="bk-bad">That image could not be opened.</span>';
@@ -633,36 +749,54 @@
     reader.readAsDataURL(file);
   }
 
+  /* Both logos go through the same clean-up, so one set of controls covers
+     them. Returns the finished data URL. */
+  function cleanLogo(src) {
+    var work = E.downscale(src, 1400);
+    var out, removed = 0;
+
+    if (S.cut) {
+      var r = E.removeBackground(work, S.tolerance);
+      removed = r.removed;
+      out = E.trim(r.canvas);
+      S.removedBg = true;
+    } else {
+      out = work;
+      S.removedBg = false;
+    }
+
+    if (S.target && Math.max(out.width, out.height) < S.target) {
+      out = E.upscale(out, S.target);
+    }
+    if (S.sharpAmount > 0) out = E.sharpen(out, S.sharpAmount / 100);
+    out = E.downscale(out, Math.max(900, S.target || 900));
+
+    return { url: out.toDataURL('image/png'), removed: removed };
+  }
+
   function reprocess() {
-    if (!rawFileImage) return Promise.resolve();
+    if (!rawFileImage && !rawFileImage2) return Promise.resolve();
     el.bkSpin.hidden = false;
 
     return new Promise(function (resolve) {
       setTimeout(function () {
-        var work = E.downscale(rawFileImage, 1400);
-        var out, removed = 0;
+        var removed = 0;
+        var jobs = [];
 
-        if (S.cut) {
-          var r = E.removeBackground(work, S.tolerance);
-          removed = r.removed;
-          out = E.trim(r.canvas);
-          S.removedBg = true;
-        } else {
-          out = work;
-          S.removedBg = false;
+        if (rawFileImage) {
+          var a = cleanLogo(rawFileImage);
+          removed = a.removed;
+          S.logo = a.url;
+          jobs.push(E.loadImage(S.logo, false).then(function (li) { logoImg = li; }));
         }
-
-        if (S.target && Math.max(out.width, out.height) < S.target) {
-          out = E.upscale(out, S.target);
+        if (rawFileImage2) {
+          var b = cleanLogo(rawFileImage2);
+          S.logo2 = b.url;
+          jobs.push(E.loadImage(S.logo2, false).then(function (li) { logoImg2 = li; }));
         }
-        if (S.sharpAmount > 0) out = E.sharpen(out, S.sharpAmount / 100);
-        out = E.downscale(out, Math.max(900, S.target || 900));
-
-        S.logo = out.toDataURL('image/png');
         S.dirty = true;
 
-        E.loadImage(S.logo, false).then(function (li) {
-          logoImg = li;
+        Promise.all(jobs).then(function () {
           el.bkSpin.hidden = true;
           paintLogo();
           note(removed);
@@ -825,11 +959,22 @@
     var spots = E.spotsFor(BK.placement || 'Left chest + full back', analysis);
     if (S.sleeves) spots = spots.concat(E.spotsFor(BK.sleevePlacement || 'Both sleeves', analysis));
 
+    var logos = [logoImg, logoImg2].filter(Boolean);
+
+    /* When the client has two marks and has asked for the second on the back,
+       the back print is told to use it. */
+    if (S.twoLogos && S.backLogo2 && logos.length > 1) {
+      spots.forEach(function (s) {
+        if (/back/i.test(s.label || '')) s.logoIndex = 1;
+      });
+    }
+
     var design = {
       lines: textLines().slice(),
       autoInk: S.autoInk !== false,
       inkColour: S.colour,
-      _logoImg: logoImg,
+      _logoImg: logos[0] || null,
+      _logoImgs: logos,
       _spots: spots,
       _showGuides: false
     };
@@ -893,26 +1038,39 @@
      ======================================================================= */
 
   var edIndex = -1;
-  var edActive = 0;        // which print position
-  var edLayer = 0;         // which layer inside it
+  var edActive = 0;          // which print position
+  var edPick = [];           // selected layer indexes, in the order picked
   var edDragging = false;
   var edGrab = null;
+  var edMarquee = null;
 
   function edItem() { return results[edIndex] || null; }
   function edSpot() {
     var r = edItem();
     return r ? r.design._spots[edActive] : null;
   }
-  function edSel() {
+  function edLayers() {
     var s = edSpot();
-    return s && s.layers ? s.layers[edLayer] : null;
+    return (s && s.layers) || [];
+  }
+  function edSel() {
+    var L = edLayers();
+    return edPick.map(function (i) { return L[i]; }).filter(Boolean);
+  }
+  function edOne() {
+    var sel = edSel();
+    return sel.length ? sel[sel.length - 1] : null;
+  }
+  function edRect() {
+    var r = edItem();
+    return (r && r.design._rect) || { x: 0, y: 0, w: 1, h: 1 };
   }
 
   function openEditor(i) {
     if (!results[i]) return;
     edIndex = i;
     edActive = 0;
-    edLayer = 0;
+    edPick = [0];
     el.bkEditor.hidden = false;
     document.body.style.overflow = 'hidden';
     paintEditor();
@@ -925,9 +1083,11 @@
   }
 
   function layerLabel(L) {
-    if (L.kind === 'logo') return 'Logo';
-    return L.text ? (L.text.length > 22 ? L.text.slice(0, 22) + '…' : L.text) : 'Empty line';
+    if (L.kind === 'logo') return 'Logo' + (L.logoIndex ? ' 2' : '');
+    return L.text ? (L.text.length > 20 ? L.text.slice(0, 20) + '…' : L.text) : 'Empty line';
   }
+
+  /* ---------------------------------------------------------------- paint */
 
   function paintEditor() {
     var r = edItem();
@@ -937,7 +1097,6 @@
 
     el.bkEdTitle.textContent = r.title;
 
-    /* Which print */
     el.bkEdSpots.innerHTML = d._spots.map(function (s, i) {
       return '<button type="button" class="bk-chip' + (i === edActive ? ' is-active' : '') +
         '" data-spot="' + i + '">' + XO.esc(s.label || ('Print ' + (i + 1))) + '</button>';
@@ -945,34 +1104,31 @@
     XO.els('.bk-chip', el.bkEdSpots).forEach(function (b) {
       b.addEventListener('click', function () {
         edActive = parseInt(b.getAttribute('data-spot'), 10);
-        edLayer = 0;
+        edPick = [0];
         paintEditor();
       });
     });
 
-    /* Make sure the layers exist before we list them. */
     d._active = edActive;
-    d._activeLayer = edLayer;
     edPaintCanvas();
 
-    var spot = edSpot();
-    var layers = (spot && spot.layers) || [];
-    if (edLayer >= layers.length) edLayer = 0;
+    var layers = edLayers();
+    edPick = edPick.filter(function (i) { return i >= 0 && i < layers.length; });
+    if (!edPick.length && layers.length) edPick = [0];
 
     el.bkEdLayers.innerHTML = layers.map(function (L, i) {
-      return '<div class="bk-layer' + (i === edLayer ? ' is-active' : '') +
+      var on = edPick.indexOf(i) > -1;
+      return '<div class="bk-layer' + (on ? ' is-active' : '') +
         (L.group ? ' is-linked' : '') + '" data-layer="' + i + '">' +
         '<span class="bk-layer__ico"><i class="fa-solid ' +
           (L.kind === 'logo' ? 'fa-image' : 'fa-font') + '"></i></span>' +
         '<span class="bk-layer__t">' + XO.esc(layerLabel(L)) + '</span>' +
         '<button type="button" class="bk-layer__b" data-link="' + i + '" ' +
-          'title="' + (L.group ? 'Unlink from the group' : 'Link so it moves with the others') + '" ' +
-          'aria-label="Link layer"><i class="fa-solid ' +
-          (L.group ? 'fa-link' : 'fa-link-slash') + '"></i></button>' +
+          'title="' + (L.group ? 'Unlink' : 'Link so it always moves with the others') + '">' +
+          '<i class="fa-solid ' + (L.group ? 'fa-link' : 'fa-link-slash') + '"></i></button>' +
         (L.kind === 'text'
           ? '<button type="button" class="bk-layer__b bk-layer__b--x" data-del="' + i + '" ' +
-            'title="Remove this line" aria-label="Remove layer">' +
-            '<i class="fa-solid fa-xmark"></i></button>'
+            'title="Remove this line"><i class="fa-solid fa-xmark"></i></button>'
           : '<span class="bk-layer__b"></span>') +
       '</div>';
     }).join('') || '<p class="bk-hint mb-0">Nothing on this print yet.</p>';
@@ -981,8 +1137,7 @@
       var i = parseInt(row.getAttribute('data-layer'), 10);
       row.addEventListener('click', function (e) {
         if (e.target.closest('[data-link]') || e.target.closest('[data-del]')) return;
-        edLayer = i;
-        paintEditor();
+        choose(i, e.shiftKey || e.ctrlKey || e.metaKey);
       });
     });
     XO.els('[data-link]', el.bkEdLayers).forEach(function (b) {
@@ -1000,26 +1155,33 @@
 
     paintSelected();
 
-    var hasLogo = !!d._logoImg;
+    var spot = edSpot();
+    var hasLogo = layers.some(function (L) { return L.kind === 'logo'; });
     var hasText = layers.some(function (L) { return L.kind === 'text'; });
     el.bkEdLayWrap.hidden = !(hasLogo && hasText);
+    el.bkEdAlignWrap.hidden = layers.length < 2;
     XO.els('button', el.bkEdLayout).forEach(function (b) {
       b.classList.toggle('is-active', b.getAttribute('data-lay') === (spot.layout || 'stack'));
     });
 
-    el.bkEdHint.innerHTML = 'Drag anything on the picture to move it. ' +
-      (d._spots.length > 1 ? 'Switch prints with the buttons above.' : '');
+    el.bkEdHint.innerHTML = 'Drag to move. <b>Shift-click</b> or drag a box round several ' +
+      'layers to pick more than one.';
   }
 
   function paintSelected() {
-    var L = edSel();
-    if (!L) { el.bkEdSelWrap.hidden = true; return; }
+    var sel = edSel();
+    if (!sel.length) { el.bkEdSelWrap.hidden = true; return; }
     el.bkEdSelWrap.hidden = false;
 
-    el.bkEdSelName.textContent = L.kind === 'logo' ? 'Logo' : 'Line of text';
+    var L = edOne();
+    var many = sel.length > 1;
 
-    el.bkEdSelText.hidden = L.kind !== 'text';
-    if (L.kind === 'text') {
+    el.bkEdSelName.textContent = many
+      ? sel.length + ' layers selected'
+      : (L.kind === 'logo' ? 'Logo' : 'Line of text');
+
+    el.bkEdSelText.hidden = many || L.kind !== 'text';
+    if (!many && L.kind === 'text') {
       el.bkEdSelText.value = L.text || '';
       el.bkEdSelText.setAttribute('dir', E.isArabic(L.text) ? 'rtl' : 'ltr');
     }
@@ -1037,7 +1199,111 @@
     });
     el.bkEdPick.style.setProperty('--sw', current || 'transparent');
     el.bkEdPick.classList.toggle('is-active', !!current && !known);
-    el.bkEdOriginal.hidden = L.kind !== 'logo';
+
+    var soloLogo = !many && L.kind === 'logo';
+    el.bkEdOriginal.hidden = !soloLogo;
+    paintPalette(soloLogo ? L : null);
+  }
+
+  /* The colours the logo is actually made of, each swappable on its own. */
+  function paintPalette(L) {
+    var r = edItem();
+    if (!L || !r) { el.bkEdPalWrap.hidden = true; return; }
+
+    var img = E.logoSource(r.design, L);
+    if (!img) { el.bkEdPalWrap.hidden = true; return; }
+
+    var pal = E.logoPalette(img, 6);
+    if (!pal.length) { el.bkEdPalWrap.hidden = true; return; }
+    el.bkEdPalWrap.hidden = false;
+
+    var map = L.recolour || {};
+    el.bkEdPal.innerHTML = pal.map(function (c) {
+      var to = map[c.hex];
+      return '<button type="button" class="bk-pal__c' + (to ? ' is-changed' : '') +
+        '" data-from="' + c.hex + '" title="' + c.hex +
+        (to ? ' → ' + to : '') + '">' +
+        '<span style="background:' + (to || c.hex) + '"></span>' +
+        (to ? '<i class="fa-solid fa-arrow-right-arrow-left"></i>' : '') +
+      '</button>';
+    }).join('') +
+      (Object.keys(map).length
+        ? '<button type="button" class="bk-pal__reset" id="bkEdPalReset" ' +
+          'title="Put the original colours back"><i class="fa-solid fa-rotate-left"></i></button>'
+        : '');
+
+    XO.els('[data-from]', el.bkEdPal).forEach(function (b) {
+      b.addEventListener('click', function () {
+        var from = b.getAttribute('data-from');
+        var cur = (L.recolour && L.recolour[from]) || from;
+        XOColour.open({
+          hex: cur,
+          trigger: b,
+          onChange: function (hex) {
+            L.recolour = L.recolour || {};
+            L.recolour[from] = hex;
+            edPaintCanvas();
+          },
+          onDone: function (hex) {
+            L.recolour = L.recolour || {};
+            L.recolour[from] = hex;
+            L.tint = null;
+            r.edited = true;
+            paintSelected();
+            edPaintCanvas();
+          }
+        });
+      });
+    });
+    var reset = XO.el('#bkEdPalReset', el.bkEdPal);
+    if (reset) reset.addEventListener('click', function () {
+      L.recolour = null;
+      r.edited = true;
+      paintSelected();
+      edPaintCanvas();
+    });
+  }
+
+  function edPaintCanvas() {
+    var r = edItem();
+    if (!r) return;
+    r.design._showGuides = true;
+    r.design._active = edActive;
+    r.design._activeLayer = edPick.length === 1 ? edPick[0] : null;
+    E.drawMockup(el.bkEdCanvas, r.img, r.design);
+    paintPickOutlines();
+  }
+
+  /* A light box round everything selected, so a multiple selection is
+     obvious even though only one gets the dashed guide. */
+  function paintPickOutlines() {
+    if (edPick.length < 2) return;
+    var s = edSpot();
+    if (!s || !s._boxes) return;
+    var ctx = el.bkEdCanvas.getContext('2d');
+    ctx.save();
+    ctx.strokeStyle = '#FFB800';
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([4, 4]);
+    edPick.forEach(function (i) {
+      var b = s._boxes.filter(function (o) { return o.i === i; })[0];
+      if (!b) return;
+      ctx.strokeRect(b.x - 4, b.y - 4, b.w + 8, b.h + 8);
+    });
+    ctx.restore();
+  }
+
+  /* ------------------------------------------------------------ selecting */
+
+  function choose(i, add) {
+    if (add) {
+      var at = edPick.indexOf(i);
+      if (at > -1) { if (edPick.length > 1) edPick.splice(at, 1); }
+      else edPick.push(i);
+    } else {
+      edPick = [i];
+    }
+    paintEditor();
   }
 
   function toggleLink(i) {
@@ -1059,29 +1325,21 @@
     var s = edSpot();
     if (!s || !s.layers[i]) return;
     s.layers.splice(i, 1);
-    if (edLayer >= s.layers.length) edLayer = Math.max(0, s.layers.length - 1);
+    edPick = [Math.max(0, Math.min(i, s.layers.length - 1))];
     edItem().edited = true;
     paintEditor();
   }
 
-  function edPaintCanvas() {
-    var r = edItem();
-    if (!r) return;
-    r.design._showGuides = true;
-    r.design._active = edActive;
-    r.design._activeLayer = edLayer;
-    E.drawMockup(el.bkEdCanvas, r.img, r.design);
-  }
+  /* -------------------------------------------------------------- dragging */
 
-  /* Pointer in canvas pixels, and in the photo's own coordinates. */
   function edPoint(e) {
-    var r = edItem();
     var box = el.bkEdCanvas.getBoundingClientRect();
     var pt = e.touches && e.touches.length ? e.touches[0] : e;
     var fx = (pt.clientX - box.left) / box.width;
     var fy = (pt.clientY - box.top) / box.height;
-    var R = (r && r.design._rect) || { x: 0, y: 0, w: 1, h: 1 };
+    var R = edRect();
     return {
+      fx: fx, fy: fy,
       cx: fx * el.bkEdCanvas.width,
       cy: fy * el.bkEdCanvas.height,
       px: (fx - R.x) / R.w,
@@ -1089,75 +1347,209 @@
     };
   }
 
-  /* Clicking picks the print position under the pointer first, then the
-     layer within it, so a chest badge and a back print never fight. */
   function edStart(e) {
     var r = edItem();
     if (!r) return;
     var pt = edPoint(e);
+    var add = e.shiftKey || e.ctrlKey || e.metaKey;
 
-    var bestSpot = -1, bestLayer = -1;
+    var hitSpot = -1, hitLayer = -1;
     r.design._spots.forEach(function (s, si) {
-      var hit = E.layerAt(s, pt.cx, pt.cy);
-      if (hit > -1) { bestSpot = si; bestLayer = hit; }
+      var h = E.layerAt(s, pt.cx, pt.cy);
+      if (h > -1) { hitSpot = si; hitLayer = h; }
     });
 
-    if (bestSpot < 0) {
-      /* Nothing under the pointer - fall back to the nearest print. */
-      var bd = Infinity;
-      r.design._spots.forEach(function (s, si) {
-        var dd = Math.pow(s.x - pt.px, 2) + Math.pow(s.y - pt.py, 2);
-        if (dd < bd) { bd = dd; bestSpot = si; bestLayer = 0; }
-      });
+    if (hitSpot < 0) {
+      /* Empty space: start pulling a selection box. */
+      edMarquee = { x0: pt.fx, y0: pt.fy, x1: pt.fx, y1: pt.fy, add: add };
+      el.bkEdMarquee.hidden = false;
+      paintMarquee();
+      return;
     }
 
-    edActive = bestSpot;
-    edLayer = Math.max(0, bestLayer);
+    if (hitSpot !== edActive) { edActive = hitSpot; edPick = []; }
+    if (add) {
+      var at = edPick.indexOf(hitLayer);
+      if (at > -1) edPick.splice(at, 1); else edPick.push(hitLayer);
+      if (!edPick.length) edPick = [hitLayer];
+    } else if (edPick.indexOf(hitLayer) < 0) {
+      edPick = [hitLayer];
+    }
 
     var s = edSpot();
-    var L = edSel();
-    if (!s || !L) return;
-
-    /* Remember where inside the layer the grab happened, so it does not jump
-       to the cursor. */
-    var scale = s.scale || 1;
-    edGrab = { px: pt.px, py: pt.py, dx: L.dx, dy: L.dy, scale: scale };
+    edGrab = {
+      px: pt.px, py: pt.py, scale: s.scale || 1,
+      start: s.layers.map(function (o) { return { dx: o.dx, dy: o.dy }; }),
+      moving: movingSet()
+    };
     edDragging = true;
     paintEditor();
   }
 
-  function edMove(e) {
-    if (!edDragging) return;
-    var r = edItem();
+  /* Everything that should travel with this drag: the selection, plus any
+     layer linked to something in it. */
+  function movingSet() {
     var s = edSpot();
-    var L = edSel();
-    if (!r || !s || !L || !edGrab) return;
+    var set = {};
+    edPick.forEach(function (i) { set[i] = true; });
+    var groups = {};
+    edPick.forEach(function (i) { if (s.layers[i] && s.layers[i].group) groups[s.layers[i].group] = true; });
+    s.layers.forEach(function (o, i) { if (o.group && groups[o.group]) set[i] = true; });
+    return set;
+  }
+
+  function edMove(e) {
+    var r = edItem();
+    if (!r) return;
+
+    if (edMarquee) {
+      var m = edPoint(e);
+      edMarquee.x1 = m.fx; edMarquee.y1 = m.fy;
+      paintMarquee();
+      return;
+    }
+
+    if (!edDragging || !edGrab) return;
+    var s = edSpot();
+    if (!s) return;
     if (e.cancelable) e.preventDefault();
 
     var pt = edPoint(e);
-    var moveX = (pt.px - edGrab.px) / edGrab.scale;
-    var moveY = (pt.py - edGrab.py) / edGrab.scale;
+    var mx = (pt.px - edGrab.px) / edGrab.scale;
+    var my = (pt.py - edGrab.py) / edGrab.scale;
 
-    if (L.group) {
-      /* Linked layers travel together. */
-      if (!edGrab.group) {
-        edGrab.group = s.layers.map(function (o) { return { dx: o.dx, dy: o.dy }; });
-      }
-      s.layers.forEach(function (o, i) {
-        if (o.group !== L.group) return;
-        o.dx = edGrab.group[i].dx + moveX;
-        o.dy = edGrab.group[i].dy + moveY;
-      });
-    } else {
-      L.dx = edGrab.dx + moveX;
-      L.dy = edGrab.dy + moveY;
-    }
+    s.layers.forEach(function (o, i) {
+      if (!edGrab.moving[i]) return;
+      o.dx = edGrab.start[i].dx + mx;
+      o.dy = edGrab.start[i].dy + my;
+    });
 
     r.edited = true;
     edPaintCanvas();
   }
 
-  function edEnd() { edDragging = false; edGrab = null; }
+  function paintMarquee() {
+    var box = el.bkEdCanvas.getBoundingClientRect();
+    var stage = el.bkEdStage.getBoundingClientRect();
+    var m = edMarquee;
+    var x = Math.min(m.x0, m.x1) * box.width + (box.left - stage.left);
+    var y = Math.min(m.y0, m.y1) * box.height + (box.top - stage.top);
+    var w = Math.abs(m.x1 - m.x0) * box.width;
+    var h = Math.abs(m.y1 - m.y0) * box.height;
+    el.bkEdMarquee.style.left = x + 'px';
+    el.bkEdMarquee.style.top = y + 'px';
+    el.bkEdMarquee.style.width = w + 'px';
+    el.bkEdMarquee.style.height = h + 'px';
+  }
+
+  function edEnd() {
+    if (edMarquee) {
+      var m = edMarquee;
+      edMarquee = null;
+      el.bkEdMarquee.hidden = true;
+
+      var W = el.bkEdCanvas.width, H = el.bkEdCanvas.height;
+      var x0 = Math.min(m.x0, m.x1) * W, x1 = Math.max(m.x0, m.x1) * W;
+      var y0 = Math.min(m.y0, m.y1) * H, y1 = Math.max(m.y0, m.y1) * H;
+
+      if (Math.abs(x1 - x0) > 6 && Math.abs(y1 - y0) > 6) {
+        var r = edItem();
+        var best = -1, hits = [];
+        r.design._spots.forEach(function (s, si) {
+          var got = (s._boxes || []).filter(function (b) {
+            return b.x < x1 && b.x + b.w > x0 && b.y < y1 && b.y + b.h > y0;
+          }).map(function (b) { return b.i; });
+          if (got.length > hits.length) { hits = got; best = si; }
+        });
+        if (hits.length) {
+          edActive = best;
+          edPick = m.add ? edPick.concat(hits.filter(function (i) { return edPick.indexOf(i) < 0; })) : hits;
+          paintEditor();
+        }
+      }
+    }
+    edDragging = false;
+    edGrab = null;
+  }
+
+  /* ------------------------------------------------------------- aligning */
+
+  function boxOf(i) {
+    var s = edSpot();
+    return (s._boxes || []).filter(function (b) { return b.i === i; })[0] || null;
+  }
+
+  function setCentre(L, cxPx, cyPx) {
+    var s = edSpot();
+    var R = edRect();
+    var k = s.scale || 1;
+    var SZ = E.SIZE;
+    if (cxPx != null) L.dx = ((cxPx / SZ - R.x) / R.w - s.x) / k;
+    if (cyPx != null) L.dy = ((cyPx / SZ - R.y) / R.h - s.y) / k;
+  }
+
+  function align(mode) {
+    var r = edItem(), s = edSpot();
+    if (!r || !s) return;
+
+    var idx = edPick.length > 1 ? edPick.slice() : s.layers.map(function (_, i) { return i; });
+    var boxes = idx.map(boxOf).filter(Boolean);
+    if (boxes.length < 2 && mode !== 'centre') return;
+
+    if (mode === 'centre') {
+      edPick.forEach(function (i) { setCentre(s.layers[i], null, null); s.layers[i].dx = 0; });
+      r.edited = true;
+      paintEditor();
+      return;
+    }
+
+    var minX = Math.min.apply(null, boxes.map(function (b) { return b.x; }));
+    var maxX = Math.max.apply(null, boxes.map(function (b) { return b.x + b.w; }));
+    var minY = Math.min.apply(null, boxes.map(function (b) { return b.y; }));
+    var maxY = Math.max.apply(null, boxes.map(function (b) { return b.y + b.h; }));
+
+    idx.forEach(function (i) {
+      var b = boxOf(i);
+      if (!b) return;
+      var L = s.layers[i];
+      if (mode === 'left')   setCentre(L, minX + b.w / 2, null);
+      if (mode === 'right')  setCentre(L, maxX - b.w / 2, null);
+      if (mode === 'cx')     setCentre(L, (minX + maxX) / 2, null);
+      if (mode === 'top')    setCentre(L, null, minY + b.h / 2);
+      if (mode === 'bottom') setCentre(L, null, maxY - b.h / 2);
+      if (mode === 'cy')     setCentre(L, null, (minY + maxY) / 2);
+    });
+
+    r.edited = true;
+    paintEditor();
+  }
+
+  /* Even vertical gaps, measured as a share of the average line height. */
+  function spaceOut(pct) {
+    var r = edItem(), s = edSpot();
+    if (!r || !s) return;
+
+    var idx = (edPick.length > 1 ? edPick.slice() : s.layers.map(function (_, i) { return i; }))
+      .filter(function (i) { return boxOf(i); });
+    if (idx.length < 2) return;
+
+    idx.sort(function (a, b) { return boxOf(a).y - boxOf(b).y; });
+
+    var avgH = idx.reduce(function (n, i) { return n + boxOf(i).h; }, 0) / idx.length;
+    var gap = avgH * (pct / 100);
+
+    var y = boxOf(idx[0]).y;
+    idx.forEach(function (i, n) {
+      var b = boxOf(i);
+      if (n) setCentre(s.layers[i], null, y + b.h / 2);
+      y += b.h + gap;
+    });
+
+    r.edited = true;
+    edPaintCanvas();
+  }
+
+  /* --------------------------------------------------------------- output */
 
   function edCommit() {
     var r = edItem();
@@ -1173,12 +1565,13 @@
     edCommit().then(function () { openEditor(next); });
   }
 
-  function setLayerColour(hex, live) {
+  function setColour(hex, live) {
     var r = edItem();
-    var L = edSel();
-    if (!r || !L) return;
-    if (L.kind === 'logo') L.tint = hex;
-    else L.ink = hex;
+    if (!r) return;
+    edSel().forEach(function (L) {
+      if (L.kind === 'logo') { L.tint = hex; if (hex) L.recolour = null; }
+      else L.ink = hex;
+    });
     if (!live) { r.design.autoInk = false; r.edited = true; }
     edPaintCanvas();
   }
@@ -1190,23 +1583,41 @@
       if (e.target === el.bkEditor) edCommit().then(closeEditor);
     });
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && !el.bkEditor.hidden && !document.querySelector('.xo-picker[style*="block"]')) {
+      if (el.bkEditor.hidden) return;
+      if (e.key === 'Escape' && !document.querySelector('.xo-picker[style*="block"]')) {
         edCommit().then(closeEditor);
+        return;
+      }
+      /* Arrow keys nudge, which is far easier than a careful drag. */
+      var step = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] }[e.key];
+      if (step && document.activeElement && document.activeElement.tagName !== 'INPUT') {
+        e.preventDefault();
+        var r = edItem(), s = edSpot();
+        if (!r || !s) return;
+        var d = (e.shiftKey ? 0.02 : 0.004);
+        var moving = movingSet();
+        s.layers.forEach(function (L, i) {
+          if (!moving[i]) return;
+          L.dx += step[0] * d;
+          L.dy += step[1] * d;
+        });
+        r.edited = true;
+        edPaintCanvas();
       }
     });
 
     el.bkEdSelSize.addEventListener('input', function () {
-      var r = edItem(), L = edSel();
-      if (!r || !L) return;
+      var r = edItem();
+      if (!r) return;
       var pct = parseInt(el.bkEdSelSize.value, 10);
       el.bkEdSelSizeVal.textContent = pct + '%';
-      L.scale = pct / 100;
+      edSel().forEach(function (L) { L.scale = pct / 100; });
       r.edited = true;
       edPaintCanvas();
     });
 
     el.bkEdSelText.addEventListener('input', function () {
-      var r = edItem(), L = edSel();
+      var r = edItem(), L = edOne();
       if (!r || !L || L.kind !== 'text') return;
       L.text = el.bkEdSelText.value;
       L.dir = E.isArabic(L.text) ? 'rtl' : 'ltr';
@@ -1222,7 +1633,7 @@
       var r = edItem(), s = edSpot();
       if (!r || !s) return;
       E.addTextLayer(s, 'New line');
-      edLayer = s.layers.length - 1;
+      edPick = [s.layers.length - 1];
       r.edited = true;
       paintEditor();
       el.bkEdSelText.focus();
@@ -1231,26 +1642,40 @@
 
     XO.els('.swatch', el.bkEdInk).forEach(function (b) {
       b.addEventListener('click', function () {
-        setLayerColour(b.getAttribute('data-hex'), false);
+        setColour(b.getAttribute('data-hex'), false);
         paintSelected();
       });
     });
 
     el.bkEdOriginal.addEventListener('click', function () {
-      setLayerColour(null, false);
+      var L = edOne();
+      if (L) { L.tint = null; L.recolour = null; }
+      var r = edItem();
+      if (r) r.edited = true;
       paintSelected();
+      edPaintCanvas();
     });
 
     el.bkEdPick.addEventListener('click', function () {
-      var L = edSel();
+      var L = edOne();
       if (!L) return;
       var was = L.kind === 'logo' ? L.tint : L.ink;
       XOColour.open({
         hex: was || '#FFFFFF',
         trigger: el.bkEdPick,
-        onChange: function (hex) { setLayerColour(hex, true); },
-        onDone: function (hex) { setLayerColour(hex, false); paintSelected(); }
+        onChange: function (hex) { setColour(hex, true); },
+        onDone: function (hex) { setColour(hex, false); paintSelected(); }
       });
+    });
+
+    XO.els('button', el.bkEdAlign).forEach(function (b) {
+      b.addEventListener('click', function () { align(b.getAttribute('data-al')); });
+    });
+
+    el.bkEdGap.addEventListener('input', function () {
+      var pct = parseInt(el.bkEdGap.value, 10);
+      el.bkEdGapVal.textContent = pct + '%';
+      spaceOut(pct);
     });
 
     XO.els('button', el.bkEdLayout).forEach(function (b) {
@@ -1258,9 +1683,9 @@
         var r = edItem(), s = edSpot();
         if (!r || !s) return;
         s.layout = b.getAttribute('data-lay');
-        s.layers = null;             // let the automatic pass run again
+        s.layers = null;
         s._layoutKey = null;
-        edLayer = 0;
+        edPick = [0];
         r.edited = true;
         paintEditor();
       });
@@ -1273,7 +1698,7 @@
       applyInk(r.img, r.design);
       r.design._spots.forEach(function (s) {
         (s.layers || []).forEach(function (L) {
-          if (L.kind === 'text') L.ink = null; else L.tint = null;
+          if (L.kind === 'text') L.ink = null; else { L.tint = null; L.recolour = null; }
         });
       });
       r.edited = true;
@@ -1286,7 +1711,7 @@
       r.design = freshDesign(r.img, r.analysis);
       r.edited = false;
       edActive = 0;
-      edLayer = 0;
+      edPick = [0];
       paintEditor();
     });
 
@@ -1389,6 +1814,9 @@
     if (S.logo) {
       files.push({ name: folder + '/logo (cleaned up).png', data: dataUrlToU8(S.logo) });
     }
+    if (S.logo2) {
+      files.push({ name: folder + '/logo 2 (cleaned up).png', data: dataUrlToU8(S.logo2) });
+    }
 
     XOPack.download(XOPack.zip(files), folder + '.zip');
     XO.toast(list.length + ' images packed', 'fa-folder-open');
@@ -1469,6 +1897,7 @@
       colour: S.colour, sleeves: S.sleeves, autoInk: S.autoInk,
       cut: S.cut, tolerance: S.tolerance, target: S.target, sharpAmount: S.sharpAmount,
       logo: S.logo, logoName: S.logoName, logoPx: S.logoPx, removedBg: S.removedBg,
+      logo2: S.logo2, logo2Name: S.logo2Name, twoLogos: S.twoLogos, backLogo2: S.backLogo2,
       picks: Object.keys(S.picks).filter(function (k) { return S.picks[k]; })
     };
   }
@@ -1517,6 +1946,9 @@
     S.sharpAmount = typeof c.sharpAmount === 'number' ? c.sharpAmount : S.sharpAmount;
     S.logo = c.logo || ''; S.logoName = c.logoName || ''; S.logoPx = c.logoPx || 0;
     S.removedBg = !!c.removedBg;
+    S.logo2 = c.logo2 || ''; S.logo2Name = c.logo2Name || '';
+    S.twoLogos = !!c.twoLogos; S.backLogo2 = !!c.backLogo2;
+    logoImg2 = null; rawFileImage2 = null;
     S.dirty = false;
     rawFileImage = null;
     logoImg = null;
@@ -1531,6 +1963,9 @@
     renderPicks();
     renderClients();
 
+    if (S.logo2) {
+      E.loadImage(S.logo2, false).then(function (li) { logoImg2 = li; });
+    }
     if (S.logo) {
       E.loadImage(S.logo, false).then(function (li) {
         logoImg = li;
@@ -1576,6 +2011,51 @@
       ' used<div class="bk-meter"><span style="width:' + u.pct + '%"></span></div>';
   }
 
+  /* A plain spreadsheet of the client list - the thing a salesperson can
+     actually open, sort and send on. The backup file stays JSON because it
+     has to carry the logos and be loadable again. */
+  function exportExcel() {
+    var list = Clients.all();
+    if (!list.length) { XO.toast('No clients saved yet', 'fa-triangle-exclamation'); return; }
+
+    var byUid = {};
+    products.forEach(function (p) { byUid[p.uid] = p.title; });
+
+    var rows = [[
+      'Company', 'Company (Arabic)', 'Contact person', 'Number', 'Note',
+      'Print colour', 'Sleeves', 'Second logo', 'Items chosen', 'Item list',
+      'Logo on file', 'Added', 'Last updated'
+    ]];
+
+    list.forEach(function (c) {
+      var picks = Array.isArray(c.picks) ? c.picks : [];
+      rows.push([
+        c.company || '',
+        c.companyAr || '',
+        c.contact || '',
+        c.phone || '',
+        c.notes || '',
+        c.colour || '',
+        c.sleeves ? 'Yes' : 'No',
+        c.twoLogos ? 'Yes' : 'No',
+        picks.length,
+        picks.map(function (u) { return byUid[u] || u; }).join(', '),
+        c.logo ? (c.logoName || 'yes') : 'no',
+        (c.created || '').slice(0, 10),
+        (c.updated || '').slice(0, 10)
+      ]);
+    });
+
+    var blob = XOPack.xlsx([{
+      name: 'Clients',
+      widths: [30, 24, 18, 16, 34, 13, 9, 11, 12, 60, 20, 12, 13],
+      rows: rows
+    }]);
+
+    XOPack.download(blob, 'xpertone-clients-' + today() + '.xlsx');
+    XO.toast(list.length + ' clients exported to Excel', 'fa-file-excel');
+  }
+
   function exportAll() {
     var payload = {
       format: 'xpertone-clients',
@@ -1584,8 +2064,8 @@
       clients: Clients.all()
     };
     var blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
-    XOPack.download(blob, 'xpertone-clients-' + today() + '.json');
-    XO.toast('Client file downloaded', 'fa-file-export');
+    XOPack.download(blob, 'xpertone-clients-backup-' + today() + '.json');
+    XO.toast('Backup downloaded', 'fa-cloud-arrow-down');
   }
 
   function importFile(file) {

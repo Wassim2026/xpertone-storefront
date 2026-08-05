@@ -273,6 +273,141 @@
   }
 
   /* =======================================================================
+     XLSX
+     -----------------------------------------------------------------------
+     A real Excel workbook, built from the ZIP writer above. Strings go in
+     inline rather than through a shared-strings table, which costs a few
+     bytes and saves a whole moving part.
+
+     xlsx([{ name, rows: [[cell, cell, ...], ...], widths: [n, ...] }])
+     ======================================================================= */
+
+  function colName(n) {
+    var s = '';
+    n += 1;
+    while (n > 0) {
+      var r = (n - 1) % 26;
+      s = String.fromCharCode(65 + r) + s;
+      n = Math.floor((n - 1) / 26);
+    }
+    return s;
+  }
+
+  function xmlEsc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&apos;')
+      /* Control characters are illegal in XML and Excel refuses the file. */
+      .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, '');
+  }
+
+  function sheetXml(sheet) {
+    var rows = sheet.rows || [];
+    var cols = '';
+    if (sheet.widths && sheet.widths.length) {
+      cols = '<cols>' + sheet.widths.map(function (w, i) {
+        return '<col min="' + (i + 1) + '" max="' + (i + 1) + '" width="' + w + '" customWidth="1"/>';
+      }).join('') + '</cols>';
+    }
+
+    var body = rows.map(function (row, r) {
+      var cells = (row || []).map(function (v, c) {
+        var ref = colName(c) + (r + 1);
+        var style = r === 0 ? ' s="1"' : '';
+        if (typeof v === 'number' && isFinite(v)) {
+          return '<c r="' + ref + '"' + style + '><v>' + v + '</v></c>';
+        }
+        if (v == null || v === '') return '<c r="' + ref + '"' + style + '/>';
+        return '<c r="' + ref + '"' + style + ' t="inlineStr"><is><t xml:space="preserve">' +
+          xmlEsc(v) + '</t></is></c>';
+      }).join('');
+      return '<row r="' + (r + 1) + '">' + cells + '</row>';
+    }).join('');
+
+    return '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
+      '<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">' +
+      cols + '<sheetData>' + body + '</sheetData></worksheet>';
+  }
+
+  function xlsx(sheets) {
+    sheets = sheets && sheets.length ? sheets : [{ name: 'Sheet1', rows: [] }];
+
+    var types = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
+      '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">' +
+      '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>' +
+      '<Default Extension="xml" ContentType="application/xml"/>' +
+      '<Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>' +
+      '<Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>' +
+      sheets.map(function (s, i) {
+        return '<Override PartName="/xl/worksheets/sheet' + (i + 1) + '.xml" ' +
+          'ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>';
+      }).join('') +
+      '</Types>';
+
+    var rels = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
+      '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">' +
+      '<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/>' +
+      '</Relationships>';
+
+    var wb = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
+      '<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" ' +
+      'xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets>' +
+      sheets.map(function (s, i) {
+        return '<sheet name="' + xmlEsc((s.name || ('Sheet' + (i + 1))).slice(0, 31)) +
+          '" sheetId="' + (i + 1) + '" r:id="rId' + (i + 1) + '"/>';
+      }).join('') +
+      '</sheets></workbook>';
+
+    var wbRels = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
+      '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">' +
+      sheets.map(function (s, i) {
+        return '<Relationship Id="rId' + (i + 1) + '" ' +
+          'Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" ' +
+          'Target="worksheets/sheet' + (i + 1) + '.xml"/>';
+      }).join('') +
+      '<Relationship Id="rId' + (sheets.length + 1) + '" ' +
+      'Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/>' +
+      '</Relationships>';
+
+    /* Two formats: plain, and bold on a light fill for the header row. */
+    var styles = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
+      '<styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">' +
+      '<fonts count="2">' +
+      '<font><sz val="11"/><name val="Calibri"/></font>' +
+      '<font><b/><sz val="11"/><color rgb="FFFFFFFF"/><name val="Calibri"/></font>' +
+      '</fonts>' +
+      '<fills count="3">' +
+      '<fill><patternFill patternType="none"/></fill>' +
+      '<fill><patternFill patternType="gray125"/></fill>' +
+      '<fill><patternFill patternType="solid"><fgColor rgb="FF0E1116"/><bgColor indexed="64"/></patternFill></fill>' +
+      '</fills>' +
+      '<borders count="1"><border><left/><right/><top/><bottom/><diagonal/></border></borders>' +
+      '<cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs>' +
+      '<cellXfs count="2">' +
+      '<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/>' +
+      '<xf numFmtId="0" fontId="1" fillId="2" borderId="0" xfId="0" applyFont="1" applyFill="1"/>' +
+      '</cellXfs>' +
+      '<cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles>' +
+      '</styleSheet>';
+
+    var files = [
+      { name: '[Content_Types].xml', data: utf8(types) },
+      { name: '_rels/.rels', data: utf8(rels) },
+      { name: 'xl/workbook.xml', data: utf8(wb) },
+      { name: 'xl/_rels/workbook.xml.rels', data: utf8(wbRels) },
+      { name: 'xl/styles.xml', data: utf8(styles) }
+    ];
+    sheets.forEach(function (s, i) {
+      files.push({ name: 'xl/worksheets/sheet' + (i + 1) + '.xml', data: utf8(sheetXml(s)) });
+    });
+
+    var blob = zip(files);
+    return new Blob([blob], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    });
+  }
+
+  /* =======================================================================
      Small conveniences
      ======================================================================= */
 
@@ -321,6 +456,7 @@
   window.XOPack = {
     zip: zip,
     pdf: pdf,
+    xlsx: xlsx,
     crc32: crc32,
     utf8: utf8,
     blobToU8: blobToU8,

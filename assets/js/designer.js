@@ -509,6 +509,143 @@
     return cv;
   }
 
+  /* =======================================================================
+     Recolouring a logo
+     -----------------------------------------------------------------------
+     Illustrator recolours a vector by changing the fill on each path. A logo
+     that arrived as a PNG or a WhatsApp screenshot has no paths, so instead
+     we find the handful of distinct colours it is actually made of and let
+     each one be swapped. On flat artwork - which nearly every printed logo
+     is - the result is the same thing: change the red ring, keep the navy
+     lettering.
+
+     What this cannot do is give back clean edges the original file had. If
+     the client can send the AI, EPS or PDF, that is always the better route
+     and the production file should come from there.
+     ======================================================================= */
+
+  /* The distinct colours a logo is built from, biggest share first. */
+  function logoPalette(img, maxColours) {
+    maxColours = maxColours || 6;
+    if (img._palette) return img._palette;
+
+    var W = 90;
+    var H = Math.max(1, Math.round((img.height / img.width) * W));
+    var cv = document.createElement('canvas');
+    cv.width = W; cv.height = H;
+    var c = cv.getContext('2d');
+    c.drawImage(img, 0, 0, W, H);
+
+    var d;
+    try { d = c.getImageData(0, 0, W, H).data; } catch (e) { return []; }
+
+    /* Bucket into a coarse grid first, so anti-aliased pixels join the
+       nearest solid colour instead of each becoming its own entry. */
+    var bins = {};
+    for (var i = 0; i < d.length; i += 4) {
+      if (d[i + 3] < 128) continue;
+      var key = (d[i] >> 4) + ',' + (d[i + 1] >> 4) + ',' + (d[i + 2] >> 4);
+      var b = bins[key];
+      if (!b) b = bins[key] = { r: 0, g: 0, b: 0, n: 0 };
+      b.r += d[i]; b.g += d[i + 1]; b.b += d[i + 2]; b.n++;
+    }
+
+    var list = [];
+    Object.keys(bins).forEach(function (k) {
+      var b = bins[k];
+      list.push({
+        r: Math.round(b.r / b.n), g: Math.round(b.g / b.n), bl: Math.round(b.b / b.n),
+        n: b.n
+      });
+    });
+    list.sort(function (a, b) { return b.n - a.n; });
+
+    /* Merge anything close to a colour already kept. */
+    var keep = [];
+    list.forEach(function (o) {
+      for (var j = 0; j < keep.length; j++) {
+        var k = keep[j];
+        var dist = Math.abs(k.r - o.r) + Math.abs(k.g - o.g) + Math.abs(k.bl - o.bl);
+        if (dist < 60) { k.n += o.n; return; }
+      }
+      if (keep.length < maxColours) keep.push(o);
+    });
+
+    var total = keep.reduce(function (n, o) { return n + o.n; }, 0) || 1;
+    img._palette = keep.map(function (o) {
+      return { hex: rgbToHex(o.r, o.g, o.bl), share: o.n / total };
+    });
+    return img._palette;
+  }
+
+  /* Rebuilds the logo with some of its colours swapped. Every pixel is
+     matched to the nearest palette entry, so the anti-aliased edges follow
+     their colour rather than being left behind. */
+  function recolourImage(img, map) {
+    var keys = Object.keys(map || {}).filter(function (k) { return map[k]; });
+    if (!keys.length) return img;
+
+    var cacheKey = keys.sort().map(function (k) { return k + '>' + map[k]; }).join('|');
+    if (!img._recolourCache) img._recolourCache = {};
+    if (img._recolourCache[cacheKey]) return img._recolourCache[cacheKey];
+
+    var palette = logoPalette(img);
+    if (!palette.length) return img;
+
+    var swatches = palette.map(function (p) {
+      var rgb = hexToRgb(p.hex) || { r: 0, g: 0, b: 0 };
+      var to = map[p.hex] ? hexToRgb(map[p.hex]) : null;
+      return { from: rgb, to: to };
+    });
+
+    var cv = document.createElement('canvas');
+    cv.width = img.naturalWidth || img.width;
+    cv.height = img.naturalHeight || img.height;
+    var c = cv.getContext('2d');
+    c.drawImage(img, 0, 0, cv.width, cv.height);
+
+    var d;
+    try { d = c.getImageData(0, 0, cv.width, cv.height); } catch (e) { return img; }
+    var px = d.data;
+
+    for (var i = 0; i < px.length; i += 4) {
+      if (px[i + 3] < 8) continue;
+      var best = -1, bestD = Infinity;
+      for (var s = 0; s < swatches.length; s++) {
+        var f = swatches[s].from;
+        var dd = Math.abs(f.r - px[i]) + Math.abs(f.g - px[i + 1]) + Math.abs(f.b - px[i + 2]);
+        if (dd < bestD) { bestD = dd; best = s; }
+      }
+      var t = best > -1 ? swatches[best].to : null;
+      if (!t) continue;
+      /* Keep the pixel's own light and shade by carrying the difference from
+         its old colour across to the new one. */
+      var f2 = swatches[best].from;
+      px[i]     = Math.max(0, Math.min(255, t.r + (px[i]     - f2.r)));
+      px[i + 1] = Math.max(0, Math.min(255, t.g + (px[i + 1] - f2.g)));
+      px[i + 2] = Math.max(0, Math.min(255, t.b + (px[i + 2] - f2.b)));
+    }
+    c.putImageData(d, 0, 0);
+
+    img._recolourCache[cacheKey] = cv;
+    return cv;
+  }
+
+  /* Whichever version of the logo a layer should draw. */
+  function logoFor(design, L) {
+    var imgs = design._logoImgs || (design._logoImg ? [design._logoImg] : []);
+    var img = imgs[L.logoIndex || 0] || imgs[0];
+    if (!img) return null;
+    if (L.recolour && Object.keys(L.recolour).length) return recolourImage(img, L.recolour);
+    if (L.tint) return tintImage(img, L.tint);
+    return img;
+  }
+
+  function logoSource(design, L) {
+    var imgs = design._logoImgs || (design._logoImg ? [design._logoImg] : []);
+    return imgs[L.logoIndex || 0] || imgs[0] || null;
+  }
+
   /* Lays the logo and the text out automatically and returns the result as
      layers. This is the old composition, measured rather than drawn. */
   function autoLayers(ctx, design, spot, R) {
@@ -519,10 +656,11 @@
 
     var rows = linesOf(design);
     if (typeof spot.rows === 'number') {
-      rows = rows.slice(0, design._logoImg ? spot.rows : Math.max(1, spot.rows));
+      rows = rows.slice(0, logoSource(design, { logoIndex: spot.logoIndex || 0 })
+        ? spot.rows : Math.max(1, spot.rows));
     }
 
-    var hasLogo = !!design._logoImg;
+    var hasLogo = !!logoSource(design, { logoIndex: spot.logoIndex || 0 });
     var layout = spot.layout || 'stack';
     var beside = (layout === 'left' || layout === 'right') && hasLogo && rows.length;
 
@@ -551,8 +689,8 @@
     });
     ctx.direction = 'ltr';
 
-    var li = design._logoImg;
-    var logo = hasLogo ? { w: logoW, h: li.height * (logoW / li.width) } : null;
+    var li = logoSource(design, { logoIndex: spot.logoIndex || 0 });
+    var logo = li ? { w: logoW, h: li.height * (logoW / li.width) } : null;
     if (!logo && !tRows.length) return [];
 
     var gap = base * 0.06;
@@ -598,7 +736,8 @@
       var logoCx = layout === 'left' ? leftEdge + logo.w / 2 : leftEdge + tw + gap + logo.w / 2;
       var textLeft = layout === 'left' ? leftEdge + logo.w + gap : leftEdge;
 
-      place('logo', { w: logo.w / U, tint: null }, logoCx, 0);
+      place('logo', { w: logo.w / U, tint: null, recolour: null,
+                      logoIndex: spot.logoIndex || 0 }, logoCx, 0);
 
       var y = -th / 2;
       tRows.forEach(function (r, i) {
@@ -611,7 +750,8 @@
     } else {
       var yy = -totalH / 2;
       if (logo) {
-        place('logo', { w: logo.w / U, tint: null }, 0, yy + logo.h / 2);
+        place('logo', { w: logo.w / U, tint: null, recolour: null,
+                        logoIndex: spot.logoIndex || 0 }, 0, yy + logo.h / 2);
         yy += logo.h + (tRows.length ? gap : 0);
       }
       tRows.forEach(function (r, i) {
@@ -651,9 +791,9 @@
       var bx, by, bw, bh;
 
       if (L.kind === 'logo') {
-        var img = design._logoImg;
+        var img = logoSource(design, L);
         if (!img) return;
-        var src = L.tint ? tintImage(img, L.tint) : img;
+        var src = logoFor(design, L);
         bw = U * L.w * k;
         bh = bw * (img.height / img.width);
         bx = cx - bw / 2;
@@ -712,7 +852,9 @@
   function layoutKey(design, spot) {
     return [
       linesOf(design).join('\u0001'),
-      design._logoImg ? (design._logoImg.src || '').slice(-40) : 'none',
+      (design._logoImgs || []).length,
+      (function () { var i = logoSource(design, { logoIndex: spot.logoIndex || 0 });
+        return i ? (i.src || '').slice(-40) : 'none'; })(),
       spot.layout || 'stack',
       spot.rows == null ? 'x' : spot.rows
     ].join('|');
@@ -1686,6 +1828,9 @@
     patchLuminance: patchLuminance,
     inkFor: inkFor,
     tintImage: tintImage,
+    logoPalette: logoPalette,
+    recolourImage: recolourImage,
+    logoSource: logoSource,
     layerAt: layerAt,
     addTextLayer: addTextLayer,
     autoLayers: autoLayers,
