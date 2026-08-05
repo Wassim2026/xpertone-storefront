@@ -1035,3 +1035,48 @@ hr { border: 0; border-top: 1px solid var(--xo-line); opacity: 1; margin: 2rem 0
 .bk-layer__b:hover { background: var(--xo-surface-deep); color: var(--xo-ink); }
 .bk-layer.is-linked .bk-layer__b[data-link] { color: var(--xo-amber-600); }
 .bk-layer__b--x:hover { color: var(--xo-danger); }
+
+/* --- second logo slot ----------------------------------------------------- */
+.bk-drop--sm { min-height: 96px; margin-top: .6rem; }
+.bk-drop--sm .bk-drop__inner i { font-size: 1.1rem; margin-bottom: 0; }
+.bk-drop--sm img { max-height: 80px; }
+
+/* --- selection marquee ---------------------------------------------------- */
+.bk-stage { position: relative; }
+.bk-marquee {
+  position: absolute; border: 1px dashed var(--xo-ink);
+  background: rgba(255, 184, 0, .16); pointer-events: none; border-radius: 3px;
+}
+.bk-marquee[hidden] { display: none; }
+
+/* --- align toolbar -------------------------------------------------------- */
+.bk-align {
+  display: flex; align-items: center; gap: .15rem; flex-wrap: wrap;
+  border: 1px solid var(--xo-line-strong); border-radius: var(--xo-r); padding: .25rem;
+}
+.bk-align button {
+  width: 30px; height: 28px; border: 0; background: none; border-radius: 6px;
+  color: var(--xo-body); cursor: pointer; font-size: .78rem;
+}
+.bk-align button:hover { background: var(--xo-ink); color: #fff; }
+.bk-align__sep { width: 1px; height: 18px; background: var(--xo-line); margin: 0 .15rem; }
+
+/* --- logo colour palette -------------------------------------------------- */
+.bk-pal { display: flex; flex-wrap: wrap; gap: .35rem; align-items: center; }
+.bk-pal__c {
+  position: relative; width: 34px; height: 34px; padding: 0; cursor: pointer;
+  border: 1px solid var(--xo-line-strong); border-radius: 7px; background: var(--xo-surface);
+  overflow: hidden;
+}
+.bk-pal__c span { position: absolute; inset: 2px; border-radius: 5px; display: block; }
+.bk-pal__c i {
+  position: absolute; right: 1px; bottom: 1px; font-size: .5rem; color: #fff;
+  background: var(--xo-ink); border-radius: 3px; padding: 1px 2px;
+}
+.bk-pal__c:hover { border-color: var(--xo-ink); }
+.bk-pal__c.is-changed { border-color: var(--xo-amber); box-shadow: 0 0 0 1px var(--xo-amber); }
+.bk-pal__reset {
+  width: 34px; height: 34px; border: 1px dashed var(--xo-line-strong); border-radius: 7px;
+  background: none; color: var(--xo-muted); cursor: pointer; font-size: .75rem;
+}
+.bk-pal__reset:hover { border-color: var(--xo-ink); color: var(--xo-ink); }
