@@ -459,8 +459,9 @@
 
   /* Draws one print — logo, English line, Arabic line — inside a spot. */
   function drawPrint(ctx, design, spot, highlight) {
-    var cx = SIZE * spot.x;
-    var maxW = SIZE * spot.w * (spot.scale || 1);
+    var R = design._rect || { x: 0, y: 0, w: 1, h: 1 };
+    var cx = SIZE * (R.x + R.w * spot.x);
+    var maxW = SIZE * R.w * spot.w * (spot.scale || 1);
     var parts = [];
 
     if (design._logoImg) {
@@ -515,7 +516,7 @@
 
     /* Keep the whole print inside the panel it sits on. A logo plus three
        rows of text would otherwise run off the garment. */
-    var hMax = SIZE * (spot.hMax || 0.4) * (spot.scale || 1);
+    var hMax = SIZE * R.h * (spot.hMax || 0.4) * (spot.scale || 1);
     if (total > hMax) {
       var k = hMax / total;
       parts.forEach(function (p) {
@@ -526,7 +527,7 @@
       total = measure();
     }
 
-    var y = SIZE * spot.y - total / 2;
+    var y = SIZE * (R.y + R.h * spot.y) - total / 2;
     var top = y;
 
     parts.forEach(function (p, i) {
@@ -578,7 +579,13 @@
     var box = SIZE - pad * 2;
     var s = Math.min(box / productImg.width, box / productImg.height);
     var pw = productImg.width * s, ph = productImg.height * s;
-    ctx.drawImage(productImg, (SIZE - pw) / 2, (SIZE - ph) / 2, pw, ph);
+    var dx = (SIZE - pw) / 2, dy = (SIZE - ph) / 2;
+    ctx.drawImage(productImg, dx, dy, pw, ph);
+
+    /* Print positions are fractions of the PHOTO, but the photo is letterboxed
+       into a square canvas. Without this rectangle to map through, every print
+       drifts - barely on a square photo, badly on a tall one. */
+    design._rect = { x: dx / SIZE, y: dy / SIZE, w: pw / SIZE, h: ph / SIZE };
 
     design._boxes = (design._spots || []).map(function (spot, i) {
       return drawPrint(ctx, design, spot, design._showGuides && i === design._active);
@@ -779,7 +786,13 @@
     function pointAt(e) {
       var r = el.canvas.getBoundingClientRect();
       var pt = e.touches && e.touches.length ? e.touches[0] : e;
-      return { x: (pt.clientX - r.left) / r.width, y: (pt.clientY - r.top) / r.height };
+      var R = state._rect || { x: 0, y: 0, w: 1, h: 1 };
+      /* Back out of canvas space into the photo's own coordinates, so a print
+         dragged to the shoulder stays on the shoulder. */
+      return {
+        x: ((pt.clientX - r.left) / r.width - R.x) / R.w,
+        y: ((pt.clientY - r.top) / r.height - R.y) / R.h
+      };
     }
 
     function nearestSpot(pt) {
