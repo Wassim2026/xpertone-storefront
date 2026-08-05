@@ -775,12 +775,35 @@
       state._spots = spotsFor(value, analysis);
       state._active = 0;
       el.scale.value = 100;
+      renderSpots();
+      repaint();
+      refreshHint();
+    }
+
+    /* A chest badge has room for one line, a sleeve for none. If the customer
+       has typed more than the chosen placement can show, say so rather than
+       letting rows vanish from the preview without explanation. */
+    function refreshHint() {
+      if (!state._spots) return;
       el.hint.innerHTML = state._spots.length > 1
         ? 'Two prints on this item — tap <b>' + XO.esc(state._spots[0].label) + '</b> or <b>' +
           XO.esc(state._spots[1].label) + '</b>, then drag it into place.'
         : 'Drag the print to move it. Preview only — we send a production proof before printing.';
-      renderSpots();
-      repaint();
+
+      var typed = linesOf(state).length;
+      if (!typed) return;
+      var most = 0, capped = false;
+      state._spots.forEach(function (s) {
+        var n = typeof s.rows === 'number'
+          ? (state._logoImg ? s.rows : Math.max(1, s.rows))
+          : typed;
+        if (n < typed) capped = true;
+        if (n > most) most = n;
+      });
+      if (!capped || most >= typed) return;
+      el.hint.innerHTML += '<br><span style="color:var(--xo-amber-600)">' +
+        'This position fits ' + (most === 1 ? 'one line' : most + ' lines') +
+        ' of text. Choose a placement that includes the back to print all ' + typed + '.</span>';
     }
 
     /* ---- drag the print around the garment ---- */
@@ -952,6 +975,7 @@
         state.lines[i] = inp.value.trim();
         inp.setAttribute('dir', isArabic(inp.value) ? 'rtl' : 'ltr');
         repaint();
+        refreshHint();
       });
     });
     el.place.addEventListener('change', function () { setPlacement(el.place.value); });
