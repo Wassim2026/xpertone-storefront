@@ -202,12 +202,25 @@
     return cv;
   }
 
-  function loadImage(src, crossOrigin) {
+  function loadImage(src, crossOrigin, retry) {
     return new Promise(function (resolve, reject) {
       var img = new Image();
       if (crossOrigin) img.crossOrigin = 'anonymous';
       img.onload = function () { resolve(img); };
-      img.onerror = function () { reject(new Error('Could not load image')); };
+      img.onerror = function () {
+        /* A product photo the page has already shown as a plain thumbnail is
+           sitting in the browser cache without its CORS headers, and asking
+           for it again with crossOrigin fails against that cached copy. One
+           retry on a slightly different URL forces a fresh request that does
+           carry the headers. Without this the first preview of a session can
+           fail while every later one works. */
+        if (crossOrigin && !retry && src.indexOf('data:') !== 0) {
+          var bust = src + (src.indexOf('?') > -1 ? '&' : '?') + 'cors=1';
+          loadImage(bust, true, true).then(resolve, reject);
+          return;
+        }
+        reject(new Error('Could not load image'));
+      };
       img.src = src;
     });
   }

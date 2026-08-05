@@ -612,7 +612,7 @@
       return '<label class="bk-pick' + (S.picks[p.uid] ? ' is-on' : '') + '" data-uid="' + XO.esc(p.uid) + '">' +
         '<input type="checkbox"' + (S.picks[p.uid] ? ' checked' : '') + '>' +
         '<span class="bk-pick__img">' + (p.images[0]
-          ? '<img src="' + XO.esc(p.images[0]) + '" alt="" loading="lazy">'
+          ? '<img src="' + XO.esc(p.images[0]) + '" alt="" loading="lazy" crossorigin="anonymous">'
           : '<i class="fa-solid fa-image"></i>') + '</span>' +
         '<span class="bk-pick__t">' + XO.esc(p.title) + '</span>' +
       '</label>';
