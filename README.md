@@ -158,3 +158,43 @@ other domain.
 Evergreen Chrome, Safari, Firefox and Edge, plus iOS Safari and Chrome on Android.
 The JavaScript is ES5-compatible with the exception of fetch, Promise and
 URLSearchParams, all of which have been in every shipping browser since 2017.
+
+---
+
+## Brand kit (internal — sales team)
+
+`brand-kit.html` is a private page for the sales team. It is marked `noindex` and is
+not linked from anywhere on the site; the team reaches it by bookmarking the URL.
+
+Give it a client's company name, contact number and logo, and it brands every item in
+the catalogue on the chest and across the back automatically, using the same placement
+engine as the customer-facing designer. Sleeve printing is an extra tick, deliberately
+off by default. The output downloads as a ZIP of PNGs plus a `details.txt` covering
+letter, or as a one-page-per-item PDF catalogue.
+
+Client records live in `localStorage` under `xo_clients_v1` and can be exported to a
+JSON file and imported on another machine.
+
+**For the backend developer.** The export file is the intended migration path. Its
+shape is:
+
+```json
+{ "format": "xpertone-clients", "version": 1, "exported": "<ISO date>",
+  "clients": [ { "id": "...", "company": "...", "companyAr": "...", "phone": "...",
+                 "contact": "...", "notes": "...", "colour": "#FFFFFF",
+                 "sleeves": false, "logo": "data:image/png;base64,...",
+                 "logoName": "...", "picks": ["safety-vests-6", "..."],
+                 "created": "<ISO>", "updated": "<ISO>" } ] }
+```
+
+Once real accounts exist server-side, POST that array and have `Clients.all()` read
+from the API instead of `localStorage`. Everything else on the page is unchanged.
+Note that browser storage is capped at roughly 5 MB, so a team working from the
+browser alone should export regularly — the page shows how much room is left.
+
+Two files support it, and nothing else on the site depends on them:
+
+| File | Purpose |
+|---|---|
+| `assets/js/brandkit.js` | The tool itself |
+| `assets/js/pack.js` | ZIP and PDF writers, written from scratch so there is no third-party dependency |
