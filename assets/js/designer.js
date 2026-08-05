@@ -539,7 +539,7 @@
         ctx.drawImage(p.img, cx - p.w / 2, y, p.w, p.h);
         y += p.h;
       } else {
-        ctx.fillStyle = design.inkColour || '#111111';
+        ctx.fillStyle = spot.ink || design.inkColour || '#111111';
         ctx.font = '700 ' + Math.round(p.px) + 'px ' + p.font;
         ctx.direction = p.dir;
         ctx.fillText(p.text, cx, y);
@@ -1118,6 +1118,49 @@
   };
 
   /* =======================================================================
+     How light or dark is the garment where a print will sit?
+     -----------------------------------------------------------------------
+     Returns 0 (black) to 1 (white) for the patch of photo under a spot, so
+     the caller can put white ink on a navy coverall and black ink on a yellow
+     vest without anyone having to think about it.
+     ======================================================================= */
+  function patchLuminance(img, spot) {
+    var W = 140;
+    var H = Math.max(1, Math.round(img.height / img.width * W));
+    var cv = document.createElement('canvas');
+    cv.width = W; cv.height = H;
+    var ctx = cv.getContext('2d');
+    ctx.drawImage(img, 0, 0, W, H);
+
+    var halfW = (spot.w || 0.2) / 2;
+    var halfH = (spot.hMax || 0.2) / 2;
+    var x0 = Math.max(0, Math.round((spot.x - halfW) * W));
+    var x1 = Math.min(W, Math.round((spot.x + halfW) * W));
+    var y0 = Math.max(0, Math.round((spot.y - halfH) * H));
+    var y1 = Math.min(H, Math.round((spot.y + halfH) * H));
+    if (x1 <= x0) { x0 = Math.max(0, x0 - 1); x1 = x0 + 1; }
+    if (y1 <= y0) { y0 = Math.max(0, y0 - 1); y1 = y0 + 1; }
+
+    var d;
+    try { d = ctx.getImageData(x0, y0, x1 - x0, y1 - y0).data; }
+    catch (e) { return 0.5; }
+
+    var sum = 0, n = 0;
+    for (var i = 0; i < d.length; i += 4) {
+      if (d[i + 3] < 40) continue;
+      sum += (0.2126 * d[i] + 0.7152 * d[i + 1] + 0.0722 * d[i + 2]) / 255;
+      n++;
+    }
+    return n ? sum / n : 0.5;
+  }
+
+  /* White on a dark garment, near-black on a light one. The thresholds leave
+     a gap so a mid-tone does not flip between the two on a small change. */
+  function inkFor(img, spot) {
+    return patchLuminance(img, spot) > 0.52 ? '#111111' : '#FFFFFF';
+  }
+
+  /* =======================================================================
      Shared engine — reused by the brand kit
      ======================================================================= */
   window.XODesign = {
@@ -1132,6 +1175,8 @@
     drawMockup: drawMockup,
     linesOf: linesOf,
     isArabic: isArabic,
+    patchLuminance: patchLuminance,
+    inkFor: inkFor,
     SIZE: SIZE
   };
 

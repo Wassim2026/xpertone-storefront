@@ -119,6 +119,7 @@
     target: 900,
     sharpAmount: Math.round((CFG.PRINTING.sharpenAmount || 0.45) * 100),
     logo: '', logoName: '', logoPx: 0, removedBg: false,
+    autoInk: true,
     picks: {},
     dirty: false
   };
@@ -253,6 +254,12 @@
 
               '<div class="bk-field">' +
                 '<label class="form-label d-block">Print colour</label>' +
+                '<label class="bk-check mb-2">' +
+                  '<input type="checkbox" id="bkAutoInk" checked> ' +
+                  '<span><b>Match the colour to each garment</b><br>' +
+                  '<span class="bk-hint">White on a black or navy item, black on a yellow or ' +
+                  'orange one. You can override it on any item afterwards.</span></span>' +
+                '</label>' +
                 '<div class="swatches" id="bkSwatches">' + swatches + '</div>' +
               '</div>' +
             '</div>' +
@@ -314,6 +321,64 @@
         '</div>' +
 
       '</div>' +
+    '</div>' +
+
+    /* ---------------------------- editor ------------------------------- */
+    '<div class="bk-editor" id="bkEditor" hidden>' +
+      '<div class="bk-editor__box" role="dialog" aria-modal="true" aria-labelledby="bkEdTitle">' +
+        '<div class="bk-editor__head">' +
+          '<h2 class="h6 mb-0" id="bkEdTitle">Edit</h2>' +
+          '<button class="bk-editor__x" id="bkEdClose" type="button" aria-label="Close">' +
+            '<i class="fa-solid fa-xmark"></i></button>' +
+        '</div>' +
+        '<div class="bk-editor__body">' +
+          '<div class="bk-editor__stage">' +
+            '<canvas id="bkEdCanvas" width="760" height="760"></canvas>' +
+            '<p class="bk-hint mt-2 mb-0" id="bkEdHint"></p>' +
+          '</div>' +
+          '<div class="bk-editor__side">' +
+
+            '<div class="bk-field mt-0">' +
+              '<label class="form-label d-block">Which print</label>' +
+              '<div class="bk-chips" id="bkEdSpots"></div>' +
+            '</div>' +
+
+            '<div class="bk-field">' +
+              '<label class="form-label" for="bkEdSize">Size <b class="num" id="bkEdSizeVal"></b></label>' +
+              '<input type="range" class="form-range" id="bkEdSize" min="30" max="200" step="5">' +
+            '</div>' +
+
+            '<div class="bk-field">' +
+              '<label class="form-label d-block">Colour of this print</label>' +
+              '<div class="swatches" id="bkEdInk">' + swatches + '</div>' +
+              '<button class="btn btn-link p-0 mt-2" id="bkEdAuto" type="button" ' +
+                'style="font-size:.82rem;text-decoration:none">' +
+                '<i class="fa-solid fa-wand-magic-sparkles"></i> Match this item to its garment</button>' +
+            '</div>' +
+
+            '<div class="bk-field">' +
+              '<label class="form-label d-block">Text on this item</label>' +
+              '<input class="form-control form-control-sm mb-2" data-edline="0" placeholder="Company name">' +
+              '<input class="form-control form-control-sm mb-2" data-edline="1" placeholder="Arabic name">' +
+              '<input class="form-control form-control-sm" data-edline="2" placeholder="Phone number">' +
+            '</div>' +
+
+            '<div class="bk-editor__foot">' +
+              '<button class="btn btn-xo w-100" id="bkEdDone" type="button">' +
+                '<i class="fa-solid fa-check"></i> Done</button>' +
+              '<div class="d-flex gap-2 mt-2">' +
+                '<button class="btn btn-outline-xo btn-sm flex-grow-1" id="bkEdReset" type="button">' +
+                  'Start over</button>' +
+                '<button class="btn btn-outline-xo btn-sm flex-grow-1" id="bkEdPrev" type="button">' +
+                  '<i class="fa-solid fa-chevron-left"></i> Prev</button>' +
+                '<button class="btn btn-outline-xo btn-sm flex-grow-1" id="bkEdNext" type="button">' +
+                  'Next <i class="fa-solid fa-chevron-right"></i></button>' +
+              '</div>' +
+            '</div>' +
+
+          '</div>' +
+        '</div>' +
+      '</div>' +
     '</div>';
   }
 
@@ -335,8 +400,12 @@
       'bkCut', 'bkTolWrap', 'bkTol', 'bkTolVal', 'bkTarget', 'bkSharp', 'bkSharpVal', 'bkSwatches',
       'bkFilters', 'bkPicks', 'bkGo', 'bkStop', 'bkCount', 'bkProg', 'bkBar', 'bkProgText',
       'bkOutWrap', 'bkOut', 'bkAllOn', 'bkAllOff', 'bkZip', 'bkPdf', 'bkWa',
-      'bkSave', 'bkDelete', 'bkSaveNote'
+      'bkSave', 'bkDelete', 'bkSaveNote', 'bkAutoInk',
+      'bkEditor', 'bkEdTitle', 'bkEdClose', 'bkEdCanvas', 'bkEdHint', 'bkEdSpots',
+      'bkEdSize', 'bkEdSizeVal', 'bkEdInk', 'bkEdAuto', 'bkEdDone', 'bkEdReset',
+      'bkEdPrev', 'bkEdNext'
     ].forEach(function (id) { el[id] = XO.el('#' + id); });
+    el.edLines = XO.els('[data-edline]', XO.el('#bkEditor'));
 
     wire();
     paintState();
@@ -365,6 +434,13 @@
     });
 
     el.bkSleeves.addEventListener('change', function () { S.sleeves = el.bkSleeves.checked; S.dirty = true; });
+
+    el.bkAutoInk.addEventListener('change', function () {
+      S.autoInk = el.bkAutoInk.checked;
+      S.dirty = true;
+    });
+
+    wireEditor();
 
     el.bkNew.addEventListener('click', function () { reset(); XO.toast('Started a new client', 'fa-plus'); });
     el.bkSearch.addEventListener('input', renderClients);
@@ -460,6 +536,7 @@
     el.bkContact.value = S.contact;
     el.bkNotes.value = S.notes;
     el.bkSleeves.checked = !!S.sleeves;
+    el.bkAutoInk.checked = S.autoInk !== false;
     el.bkCut.checked = !!S.cut;
     el.bkTolWrap.hidden = !S.cut;
     el.bkTol.value = S.tolerance;
@@ -650,6 +727,7 @@
   }
 
   function clearResults() {
+    if (!el.bkEditor.hidden) closeEditor();
     results.forEach(function (r) { if (r.url) URL.revokeObjectURL(r.url); });
     results = [];
     el.bkOut.innerHTML = '';
@@ -709,44 +787,282 @@
     step(0);
   }
 
+  /* Builds the starting design for one product. Positions come from the
+     photo; ink follows the garment unless a colour has been forced. */
+  function freshDesign(img, analysis) {
+    var spots = E.spotsFor(BK.placement || 'Left chest + full back', analysis);
+    if (S.sleeves) spots = spots.concat(E.spotsFor(BK.sleevePlacement || 'Both sleeves', analysis));
+
+    var design = {
+      lines: textLines().slice(),
+      autoInk: S.autoInk !== false,
+      inkColour: S.colour,
+      _logoImg: logoImg,
+      _spots: spots,
+      _showGuides: false
+    };
+    applyInk(img, design);
+    return design;
+  }
+
+  function applyInk(img, design) {
+    design._spots.forEach(function (s) {
+      s.ink = design.autoInk ? E.inkFor(img, s) : (design.inkColour || S.colour);
+    });
+  }
+
+  /* Draws a result and refreshes its files and thumbnail. Used both when the
+     batch first runs and every time the salesperson edits one. */
+  function renderResult(r, canvas) {
+    var cv = canvas || document.createElement('canvas');
+    E.drawMockup(cv, r.img, r.design);
+
+    return XOPack.canvasBlob(cv, 'image/png').then(function (pngBlob) {
+      return XOPack.blobToU8(pngBlob).then(function (png) {
+        return XOPack.canvasBlob(cv, 'image/jpeg', BK.pdfQuality || 0.88)
+          .then(function (jpgBlob) {
+            return XOPack.blobToU8(jpgBlob).then(function (jpeg) {
+              if (r.url) URL.revokeObjectURL(r.url);
+              r.png = png;
+              r.jpeg = jpeg;
+              r.w = cv.width;
+              r.h = cv.height;
+              r.url = URL.createObjectURL(pngBlob);
+              return r;
+            });
+          });
+      });
+    });
+  }
+
   function one(p, canvas) {
     var src = p.images[0];
     if (!src) return Promise.resolve(null);
 
     return E.loadImage(src, true).then(function (img) {
       var analysis = E.analysePhoto(img);
-      var spots = E.spotsFor(BK.placement || 'Left chest + full back', analysis);
-      if (S.sleeves) spots = spots.concat(E.spotsFor(BK.sleevePlacement || 'Both sleeves', analysis));
-
-      var design = {
-        lines: textLines(),
-        inkColour: S.colour,
-        _logoImg: logoImg,
-        _spots: spots,
-        _showGuides: false
+      var r = {
+        uid: p.uid, title: p.title, price: p.price,
+        category: p.categoryName, sizes: p.sizes,
+        img: img, analysis: analysis,
+        design: freshDesign(img, analysis),
+        on: true, edited: false
       };
-
-      E.drawMockup(canvas, img, design);
-
-      return XOPack.canvasBlob(canvas, 'image/png')
-        .then(function (pngBlob) {
-          return XOPack.blobToU8(pngBlob).then(function (png) {
-            return XOPack.canvasBlob(canvas, 'image/jpeg', BK.pdfQuality || 0.88)
-              .then(function (jpgBlob) {
-                return XOPack.blobToU8(jpgBlob).then(function (jpeg) {
-                  return {
-                    uid: p.uid, title: p.title, price: p.price,
-                    category: p.categoryName, sizes: p.sizes,
-                    png: png, jpeg: jpeg,
-                    w: canvas.width, h: canvas.height,
-                    url: URL.createObjectURL(pngBlob),
-                    on: true
-                  };
-                });
-              });
-          });
-        });
+      return renderResult(r, canvas);
     }).catch(function () { return null; });
+  }
+
+  /* =======================================================================
+     Per-item editor
+     -----------------------------------------------------------------------
+     Automatic placement gets close, but a chest badge sitting over a zip or a
+     pocket needs a human eye. This opens one item at a time so the print can
+     be dragged, resized and recoloured before anything is downloaded.
+     ======================================================================= */
+
+  var edIndex = -1;
+  var edActive = 0;
+  var edDragging = false;
+
+  function edItem() { return results[edIndex] || null; }
+
+  function openEditor(i) {
+    if (!results[i]) return;
+    edIndex = i;
+    edActive = 0;
+    el.bkEditor.hidden = false;
+    document.body.style.overflow = 'hidden';
+    paintEditor();
+  }
+
+  function closeEditor() {
+    el.bkEditor.hidden = true;
+    document.body.style.overflow = '';
+    edIndex = -1;
+  }
+
+  function paintEditor() {
+    var r = edItem();
+    if (!r) return;
+    var d = r.design;
+    if (edActive >= d._spots.length) edActive = 0;
+
+    el.bkEdTitle.textContent = r.title;
+
+    el.bkEdSpots.innerHTML = d._spots.map(function (s, i) {
+      return '<button type="button" class="bk-chip' + (i === edActive ? ' is-active' : '') +
+        '" data-spot="' + i + '">' + XO.esc(s.label || ('Print ' + (i + 1))) + '</button>';
+    }).join('');
+    XO.els('.bk-chip', el.bkEdSpots).forEach(function (b) {
+      b.addEventListener('click', function () {
+        edActive = parseInt(b.getAttribute('data-spot'), 10);
+        paintEditor();
+      });
+    });
+
+    var spot = d._spots[edActive];
+    var pct = Math.round((spot.scale || 1) * 100);
+    el.bkEdSize.value = pct;
+    el.bkEdSizeVal.textContent = pct + '%';
+
+    XO.els('.swatch', el.bkEdInk).forEach(function (b) {
+      b.classList.toggle('is-active', b.getAttribute('data-hex') === spot.ink);
+    });
+
+    for (var k = 0; k < el.edLines.length; k++) {
+      el.edLines[k].value = d.lines[k] || '';
+      el.edLines[k].setAttribute('dir', E.isArabic(d.lines[k]) ? 'rtl' : 'ltr');
+    }
+
+    el.bkEdHint.innerHTML = d._spots.length > 1
+      ? 'Drag on the picture to move the <b>' + XO.esc(spot.label) + '</b> print. ' +
+        'Switch prints with the buttons above.'
+      : 'Drag on the picture to move the print.';
+
+    edPaintCanvas();
+  }
+
+  function edPaintCanvas() {
+    var r = edItem();
+    if (!r) return;
+    r.design._showGuides = true;
+    r.design._active = edActive;
+    E.drawMockup(el.bkEdCanvas, r.img, r.design);
+  }
+
+  /* Pointer position in the photo's own coordinates, so a print dragged onto
+     the shoulder stays on the shoulder whatever shape the photo is. */
+  function edPoint(e) {
+    var r = edItem();
+    var box = el.bkEdCanvas.getBoundingClientRect();
+    var pt = e.touches && e.touches.length ? e.touches[0] : e;
+    var R = (r && r.design._rect) || { x: 0, y: 0, w: 1, h: 1 };
+    return {
+      x: ((pt.clientX - box.left) / box.width - R.x) / R.w,
+      y: ((pt.clientY - box.top) / box.height - R.y) / R.h
+    };
+  }
+
+  function edNearest(pt) {
+    var r = edItem(), best = 0, bestD = Infinity;
+    r.design._spots.forEach(function (s, i) {
+      var dd = Math.pow(s.x - pt.x, 2) + Math.pow(s.y - pt.y, 2);
+      if (dd < bestD) { bestD = dd; best = i; }
+    });
+    return best;
+  }
+
+  function edStart(e) {
+    if (!edItem()) return;
+    edActive = edNearest(edPoint(e));
+    edDragging = true;
+    paintEditor();
+    edMove(e);
+  }
+
+  function edMove(e) {
+    if (!edDragging) return;
+    var r = edItem();
+    if (!r) return;
+    if (e.cancelable) e.preventDefault();
+    var pt = edPoint(e);
+    var s = r.design._spots[edActive];
+    s.x = Math.min(1.02, Math.max(-0.02, pt.x));
+    s.y = Math.min(1.02, Math.max(-0.02, pt.y));
+    r.edited = true;
+    edPaintCanvas();
+  }
+
+  function edEnd() { edDragging = false; }
+
+  /* Writing the item back out is the slow part, so it happens once, on Done,
+     rather than on every drag. */
+  function edCommit() {
+    var r = edItem();
+    if (!r) return Promise.resolve();
+    r.design._showGuides = false;
+    return renderResult(r).then(function () { renderResults(); });
+  }
+
+  function edStep(delta) {
+    var next = edIndex + delta;
+    if (next < 0 || next >= results.length) return;
+    edCommit().then(function () { openEditor(next); });
+  }
+
+  function wireEditor() {
+    el.bkEdClose.addEventListener('click', function () {
+      edCommit().then(closeEditor);
+    });
+    el.bkEdDone.addEventListener('click', function () {
+      edCommit().then(closeEditor);
+    });
+    el.bkEditor.addEventListener('click', function (e) {
+      if (e.target === el.bkEditor) { edCommit().then(closeEditor); }
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !el.bkEditor.hidden) { edCommit().then(closeEditor); }
+    });
+
+    el.bkEdSize.addEventListener('input', function () {
+      var r = edItem();
+      if (!r) return;
+      var pct = parseInt(el.bkEdSize.value, 10);
+      el.bkEdSizeVal.textContent = pct + '%';
+      r.design._spots[edActive].scale = pct / 100;
+      r.edited = true;
+      edPaintCanvas();
+    });
+
+    XO.els('.swatch', el.bkEdInk).forEach(function (b) {
+      b.addEventListener('click', function () {
+        var r = edItem();
+        if (!r) return;
+        r.design._spots[edActive].ink = b.getAttribute('data-hex');
+        r.design.autoInk = false;
+        r.edited = true;
+        paintEditor();
+      });
+    });
+
+    el.bkEdAuto.addEventListener('click', function () {
+      var r = edItem();
+      if (!r) return;
+      r.design.autoInk = true;
+      applyInk(r.img, r.design);
+      r.edited = true;
+      paintEditor();
+    });
+
+    el.edLines.forEach(function (inp, k) {
+      inp.addEventListener('input', function () {
+        var r = edItem();
+        if (!r) return;
+        r.design.lines[k] = inp.value.trim();
+        inp.setAttribute('dir', E.isArabic(inp.value) ? 'rtl' : 'ltr');
+        r.edited = true;
+        edPaintCanvas();
+      });
+    });
+
+    el.bkEdReset.addEventListener('click', function () {
+      var r = edItem();
+      if (!r) return;
+      r.design = freshDesign(r.img, r.analysis);
+      r.edited = false;
+      edActive = 0;
+      paintEditor();
+    });
+
+    el.bkEdPrev.addEventListener('click', function () { edStep(-1); });
+    el.bkEdNext.addEventListener('click', function () { edStep(1); });
+
+    el.bkEdCanvas.addEventListener('mousedown', edStart);
+    el.bkEdCanvas.addEventListener('touchstart', edStart, { passive: true });
+    window.addEventListener('mousemove', edMove);
+    window.addEventListener('touchmove', edMove, { passive: false });
+    window.addEventListener('mouseup', edEnd);
+    window.addEventListener('touchend', edEnd);
   }
 
   function renderResults() {
@@ -754,20 +1070,27 @@
     el.bkOutWrap.hidden = false;
 
     el.bkOut.innerHTML = results.map(function (r, i) {
-      return '<label class="bk-out__item' + (r.on ? ' is-on' : '') + '" data-i="' + i + '">' +
-        '<input type="checkbox"' + (r.on ? ' checked' : '') + '>' +
-        '<img src="' + r.url + '" alt="' + XO.esc(r.title) + '">' +
+      return '<div class="bk-out__item' + (r.on ? ' is-on' : '') + '" data-i="' + i + '">' +
+        '<label class="bk-out__tick"><input type="checkbox"' + (r.on ? ' checked' : '') +
+          ' aria-label="Include ' + XO.esc(r.title) + '"></label>' +
+        (r.edited ? '<span class="bk-out__flag">edited</span>' : '') +
+        '<button type="button" class="bk-out__shot" data-edit="' + i + '" ' +
+          'aria-label="Edit ' + XO.esc(r.title) + '">' +
+          '<img src="' + r.url + '" alt="">' +
+          '<span class="bk-out__pen"><i class="fa-solid fa-sliders"></i> Adjust</span>' +
+        '</button>' +
         '<span class="bk-out__t">' + XO.esc(r.title) + '</span>' +
         '<span class="bk-out__s">' + fmtBytes(r.png.length) + '</span>' +
-      '</label>';
+      '</div>';
     }).join('');
 
-    XO.els('.bk-out__item', el.bkOut).forEach(function (lab) {
-      var i = parseInt(lab.getAttribute('data-i'), 10);
-      XO.el('input', lab).addEventListener('change', function (e) {
+    XO.els('.bk-out__item', el.bkOut).forEach(function (box) {
+      var i = parseInt(box.getAttribute('data-i'), 10);
+      XO.el('input', box).addEventListener('change', function (e) {
         results[i].on = e.target.checked;
-        lab.classList.toggle('is-on', e.target.checked);
+        box.classList.toggle('is-on', e.target.checked);
       });
+      XO.el('[data-edit]', box).addEventListener('click', function () { openEditor(i); });
     });
   }
 
@@ -907,7 +1230,7 @@
       id: S.id || newId(),
       company: S.company, companyAr: S.companyAr, phone: S.phone,
       contact: S.contact, notes: S.notes,
-      colour: S.colour, sleeves: S.sleeves,
+      colour: S.colour, sleeves: S.sleeves, autoInk: S.autoInk,
       cut: S.cut, tolerance: S.tolerance, target: S.target, sharpAmount: S.sharpAmount,
       logo: S.logo, logoName: S.logoName, logoPx: S.logoPx, removedBg: S.removedBg,
       picks: Object.keys(S.picks).filter(function (k) { return S.picks[k]; })
@@ -951,6 +1274,7 @@
     S.phone = c.phone || ''; S.contact = c.contact || ''; S.notes = c.notes || '';
     S.colour = c.colour || S.colour;
     S.sleeves = !!c.sleeves;
+    S.autoInk = c.autoInk !== false;
     S.cut = c.cut !== false;
     S.tolerance = c.tolerance || S.tolerance;
     S.target = typeof c.target === 'number' ? c.target : S.target;
