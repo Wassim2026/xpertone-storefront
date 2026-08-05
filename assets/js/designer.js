@@ -461,34 +461,27 @@
   }
 
   /* Draws one print — logo, English line, Arabic line — inside a spot. */
+  /* Draws one print - logo and text rows - inside a spot.
+
+     Three things are adjustable per print and per item, because a chest badge
+     and a full back never want the same treatment:
+       spot.logoScale  how big the logo is, 1 = the full print width
+       spot.textScale  how big the text is, independent of the logo
+       spot.layout     'stack' (logo above text), 'left' or 'right'
+                       (logo beside the text, baselines aligned)
+  */
   function drawPrint(ctx, design, spot, highlight) {
     var R = design._rect || { x: 0, y: 0, w: 1, h: 1 };
     var cx = SIZE * (R.x + R.w * spot.x);
-    var maxW = SIZE * R.w * spot.w * (spot.scale || 1);
-    var parts = [];
+    var cy = SIZE * (R.y + R.h * spot.y);
+    var scale = spot.scale || 1;
+    var logoK = spot.logoScale == null ? 1 : spot.logoScale;
+    var textK = spot.textScale == null ? 1 : spot.textScale;
 
-    if (design._logoImg) {
-      var li = design._logoImg;
-      var ls = maxW / li.width;
-      parts.push({ type: 'logo', img: li, w: maxW, h: li.height * ls });
-    }
+    var base = SIZE * R.w * spot.w * scale;
+    var hMax = SIZE * R.h * (spot.hMax || 0.4) * scale;
+    var ink = spot.ink || design.inkColour || '#111111';
 
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'top';
-
-    function fit(text, font, dir) {
-      var px = Math.max(9, Math.round(maxW * 0.19));
-      ctx.direction = dir;
-      while (px > 7) {
-        ctx.font = '700 ' + px + 'px ' + font;
-        if (ctx.measureText(text).width <= maxW) break;
-        px -= 1;
-      }
-      return px;
-    }
-
-    /* Each row is typed on its own line and sized to fit on its own, so a
-       long company name and a short phone number both look deliberate. */
     /* A chest badge or a sleeve has room for far less than a full back. The
        recipe says how many rows belong there, so a long company name never
        shrinks to something unreadable just to fit. */
@@ -497,64 +490,118 @@
       rows = rows.slice(0, design._logoImg ? spot.rows : Math.max(1, spot.rows));
     }
 
-    rows.forEach(function (line) {
+    var hasLogo = !!design._logoImg;
+    var layout = spot.layout || 'stack';
+    if (!hasLogo || !rows.length) layout = 'stack';
+    var beside = layout === 'left' || layout === 'right';
+
+    ctx.textBaseline = 'top';
+
+    /* Largest size at which the line still fits the width it has been given. */
+    function fit(text, font, dir, avail) {
+      var px = Math.max(9, Math.round(avail * 0.19));
+      ctx.direction = dir;
+      while (px > 7) {
+        ctx.font = '700 ' + px + 'px ' + font;
+        if (ctx.measureText(text).width <= avail) break;
+        px -= 1;
+      }
+      return px;
+    }
+
+    /* Side by side, the logo and the text share the width between them. */
+    var textAvail = base * textK * (beside ? 0.60 : 1);
+    var logoW = base * logoK * (beside ? 0.34 : 1);
+
+    var tRows = rows.map(function (line) {
       var rtl = isArabic(line);
       var font = rtl
         ? "'Noto Sans Arabic', 'Segoe UI', Tahoma, Arial, sans-serif"
         : "'Inter', Arial, sans-serif";
-      parts.push({
-        type: 'text', text: line, font: font,
-        dir: rtl ? 'rtl' : 'ltr', px: fit(line, font, rtl ? 'rtl' : 'ltr')
-      });
-    });
-    if (!parts.length) return null;
-
-    var gap = maxW * 0.06;
-    function measure() {
-      return parts.reduce(function (n, p, i) {
-        return n + (p.type === 'logo' ? p.h : p.px * 1.15) + (i ? gap : 0);
-      }, 0);
-    }
-    var total = measure();
-
-    /* Keep the whole print inside the panel it sits on. A logo plus three
-       rows of text would otherwise run off the garment. */
-    var hMax = SIZE * R.h * (spot.hMax || 0.4) * (spot.scale || 1);
-    if (total > hMax) {
-      var k = hMax / total;
-      parts.forEach(function (p) {
-        if (p.type === 'logo') { p.w *= k; p.h *= k; }
-        else p.px = Math.max(7, p.px * k);
-      });
-      gap *= k;
-      total = measure();
-    }
-
-    var y = SIZE * (R.y + R.h * spot.y) - total / 2;
-    var top = y;
-
-    parts.forEach(function (p, i) {
-      if (i) y += gap;
-      if (p.type === 'logo') {
-        ctx.drawImage(p.img, cx - p.w / 2, y, p.w, p.h);
-        y += p.h;
-      } else {
-        ctx.fillStyle = spot.ink || design.inkColour || '#111111';
-        ctx.font = '700 ' + Math.round(p.px) + 'px ' + p.font;
-        ctx.direction = p.dir;
-        ctx.fillText(p.text, cx, y);
-        y += p.px * 1.15;
-      }
+      var px = fit(line, font, rtl ? 'rtl' : 'ltr', textAvail);
+      ctx.font = '700 ' + px + 'px ' + font;
+      ctx.direction = rtl ? 'rtl' : 'ltr';
+      var w = ctx.measureText(line).width;
+      return { text: line, font: font, dir: rtl ? 'rtl' : 'ltr', px: px, w: w };
     });
     ctx.direction = 'ltr';
 
-    var drawnW = parts.reduce(function (n, p) {
-      return Math.max(n, p.type === 'logo' ? p.w : ctx.measureText(p.text).width);
-    }, maxW * 0.2);
-    var box = { x: cx - drawnW / 2, y: top, w: drawnW, h: y - top };
+    var logo = null;
+    if (hasLogo) {
+      var li = design._logoImg;
+      logo = { img: li, w: logoW, h: li.height * (logoW / li.width) };
+    }
+    if (!logo && !tRows.length) return null;
+
+    var gap = base * 0.06;
+
+    function textBlockH() {
+      return tRows.reduce(function (n, r, i) {
+        return n + r.px * 1.15 + (i ? gap * 0.55 : 0);
+      }, 0);
+    }
+    function textBlockW() {
+      return tRows.reduce(function (n, r) { return Math.max(n, r.w); }, 0);
+    }
+
+    var totalW, totalH;
+    function measure() {
+      if (beside) {
+        totalW = (logo ? logo.w : 0) + (logo && tRows.length ? gap : 0) + textBlockW();
+        totalH = Math.max(logo ? logo.h : 0, textBlockH());
+      } else {
+        totalW = Math.max(logo ? logo.w : 0, textBlockW());
+        totalH = (logo ? logo.h : 0) + (logo && tRows.length ? gap : 0) + textBlockH();
+      }
+    }
+    measure();
+
+    /* Keep the whole print inside the panel it sits on. A logo plus three
+       rows of text would otherwise run off the garment. */
+    if (totalH > hMax) {
+      var k = hMax / totalH;
+      if (logo) { logo.w *= k; logo.h *= k; }
+      tRows.forEach(function (r) { r.px = Math.max(7, r.px * k); r.w *= k; });
+      gap *= k;
+      measure();
+    }
+
+    var left = cx - totalW / 2;
+    var top = cy - totalH / 2;
+
+    function drawRows(x, y, align) {
+      ctx.textAlign = align;
+      ctx.fillStyle = ink;
+      tRows.forEach(function (r, i) {
+        if (i) y += gap * 0.55;
+        ctx.font = '700 ' + Math.round(r.px) + 'px ' + r.font;
+        ctx.direction = r.dir;
+        ctx.fillText(r.text, x, y);
+        y += r.px * 1.15;
+      });
+      ctx.direction = 'ltr';
+    }
+
+    if (beside) {
+      var tw = textBlockW();
+      var th = textBlockH();
+      var logoX = layout === 'left' ? left : left + tw + gap;
+      var textX = layout === 'left' ? left + logo.w + gap : left;
+      ctx.drawImage(logo.img, logoX, cy - logo.h / 2, logo.w, logo.h);
+      drawRows(textX, cy - th / 2, 'left');
+    } else {
+      var y = top;
+      if (logo) {
+        ctx.drawImage(logo.img, cx - logo.w / 2, y, logo.w, logo.h);
+        y += logo.h + (tRows.length ? gap : 0);
+      }
+      drawRows(cx, y, 'center');
+    }
+
+    var box = { x: left, y: top, w: totalW, h: totalH };
 
     if (highlight) {
-      var m = maxW * 0.12;
+      var m = base * 0.12;
       ctx.save();
       ctx.strokeStyle = '#FFB800';
       ctx.lineWidth = 2;
@@ -703,6 +750,9 @@
                     'style="--sw:' + c.hex + '" aria-label="' + XO.esc(c.name) + '" ' +
                     'title="' + XO.esc(c.name) + '"></button>';
                 }).join('') +
+                '<button type="button" class="swatch swatch--custom" id="dsCustom" ' +
+                  'title="Any other colour" aria-label="Choose any other colour">' +
+                  '<i class="fa-solid fa-eye-dropper"></i></button>' +
               '</div>' +
               '<p class="form-text mb-0" id="dsColourName">White print</p>' +
             '</div>' +
@@ -733,6 +783,7 @@
       place: XO.el('#dsPlace', mount),
       colour: XO.el('#dsColour', mount),
       colourName: XO.el('#dsColourName', mount),
+      custom: XO.el('#dsCustom', mount),
       scale: XO.el('#dsScale', mount),
       spots: XO.el('#dsSpots', mount),
       hint: XO.el('#dsHint', mount),
@@ -991,6 +1042,26 @@
       });
     });
 
+    el.custom.addEventListener('click', function () {
+      XOColour.open({
+        hex: state.inkColour || '#FFFFFF',
+        trigger: el.custom,
+        onChange: function (hex) {
+          state.inkColour = hex;
+          el.custom.style.setProperty('--sw', hex);
+          repaint();
+        },
+        onDone: function (hex) {
+          XO.els('[data-hex]', el.colour).forEach(function (o) { o.classList.remove('is-active'); });
+          el.custom.classList.add('is-active');
+          state.inkColour = hex;
+          state.colour = hex;
+          el.colourName.textContent = hex + ' print';
+          repaint();
+        }
+      });
+    });
+
     el.download.addEventListener('click', function () {
       state._showGuides = false; repaint();
       var a = document.createElement('a');
@@ -1115,6 +1186,311 @@
         });
       });
     }
+  };
+
+  /* =======================================================================
+     Colour picker
+     -----------------------------------------------------------------------
+     The six swatches cover most jobs, but a client's brand colour rarely
+     lands on one of them. This is the usual saturation/brightness square with
+     a hue strip beside it, plus HEX, RGB and CMYK boxes that all stay in step
+     with each other. CMYK is a plain arithmetic conversion, good enough to
+     type a brand value into - the press proof remains the reference.
+     ======================================================================= */
+
+  function clamp255(n) { return Math.max(0, Math.min(255, Math.round(n))); }
+
+  function rgbToHex(r, g, b) {
+    return '#' + [r, g, b].map(function (v) {
+      var s = clamp255(v).toString(16);
+      return s.length < 2 ? '0' + s : s;
+    }).join('').toUpperCase();
+  }
+
+  function hexToRgb(hex) {
+    var h = String(hex || '').replace('#', '').trim();
+    if (h.length === 3) h = h.charAt(0) + h.charAt(0) + h.charAt(1) + h.charAt(1) + h.charAt(2) + h.charAt(2);
+    if (!/^[0-9a-fA-F]{6}$/.test(h)) return null;
+    return {
+      r: parseInt(h.slice(0, 2), 16),
+      g: parseInt(h.slice(2, 4), 16),
+      b: parseInt(h.slice(4, 6), 16)
+    };
+  }
+
+  function rgbToHsv(r, g, b) {
+    r /= 255; g /= 255; b /= 255;
+    var max = Math.max(r, g, b), min = Math.min(r, g, b), d = max - min;
+    var h = 0;
+    if (d) {
+      if (max === r) h = ((g - b) / d + (g < b ? 6 : 0));
+      else if (max === g) h = (b - r) / d + 2;
+      else h = (r - g) / d + 4;
+      h *= 60;
+    }
+    return { h: h, s: max ? d / max : 0, v: max };
+  }
+
+  function hsvToRgb(h, s, v) {
+    h = ((h % 360) + 360) % 360;
+    var c = v * s, x = c * (1 - Math.abs(((h / 60) % 2) - 1)), m = v - c;
+    var r = 0, g = 0, b = 0;
+    if (h < 60) { r = c; g = x; }
+    else if (h < 120) { r = x; g = c; }
+    else if (h < 180) { g = c; b = x; }
+    else if (h < 240) { g = x; b = c; }
+    else if (h < 300) { r = x; b = c; }
+    else { r = c; b = x; }
+    return { r: clamp255((r + m) * 255), g: clamp255((g + m) * 255), b: clamp255((b + m) * 255) };
+  }
+
+  function rgbToCmyk(r, g, b) {
+    var rr = r / 255, gg = g / 255, bb = b / 255;
+    var k = 1 - Math.max(rr, gg, bb);
+    if (k >= 1) return { c: 0, m: 0, y: 0, k: 100 };
+    return {
+      c: Math.round((1 - rr - k) / (1 - k) * 100),
+      m: Math.round((1 - gg - k) / (1 - k) * 100),
+      y: Math.round((1 - bb - k) / (1 - k) * 100),
+      k: Math.round(k * 100)
+    };
+  }
+
+  function cmykToRgb(c, m, y, k) {
+    c /= 100; m /= 100; y /= 100; k /= 100;
+    return {
+      r: clamp255(255 * (1 - c) * (1 - k)),
+      g: clamp255(255 * (1 - m) * (1 - k)),
+      b: clamp255(255 * (1 - y) * (1 - k))
+    };
+  }
+
+  var pickerEl = null;
+  var pickerState = null;
+
+  function buildPicker() {
+    var d = document.createElement('div');
+    d.className = 'xo-picker';
+    d.setAttribute('role', 'dialog');
+    d.setAttribute('aria-label', 'Choose a print colour');
+    d.innerHTML =
+      '<div class="xo-picker__top">' +
+        '<canvas class="xo-picker__sv" width="220" height="150"></canvas>' +
+        '<canvas class="xo-picker__hue" width="18" height="150"></canvas>' +
+      '</div>' +
+      '<div class="xo-picker__row">' +
+        '<span class="xo-picker__chip"></span>' +
+        '<label class="xo-picker__hex">HEX' +
+          '<input type="text" spellcheck="false" maxlength="7"></label>' +
+      '</div>' +
+      '<div class="xo-picker__grid" data-mode="rgb">' +
+        '<label>R<input type="number" min="0" max="255" data-k="r"></label>' +
+        '<label>G<input type="number" min="0" max="255" data-k="g"></label>' +
+        '<label>B<input type="number" min="0" max="255" data-k="b"></label>' +
+      '</div>' +
+      '<div class="xo-picker__grid" data-mode="cmyk">' +
+        '<label>C<input type="number" min="0" max="100" data-k="c"></label>' +
+        '<label>M<input type="number" min="0" max="100" data-k="m"></label>' +
+        '<label>Y<input type="number" min="0" max="100" data-k="y"></label>' +
+        '<label>K<input type="number" min="0" max="100" data-k="k"></label>' +
+      '</div>' +
+      '<div class="xo-picker__foot">' +
+        '<button type="button" class="xo-picker__cancel">Cancel</button>' +
+        '<button type="button" class="xo-picker__ok">Use this colour</button>' +
+      '</div>';
+    document.body.appendChild(d);
+    return d;
+  }
+
+  function paintPicker() {
+    var el = pickerEl, st = pickerState;
+    var sv = el.querySelector('.xo-picker__sv');
+    var hue = el.querySelector('.xo-picker__hue');
+    var c = sv.getContext('2d');
+
+    var pure = hsvToRgb(st.h, 1, 1);
+    c.fillStyle = 'rgb(' + pure.r + ',' + pure.g + ',' + pure.b + ')';
+    c.fillRect(0, 0, sv.width, sv.height);
+
+    var gw = c.createLinearGradient(0, 0, sv.width, 0);
+    gw.addColorStop(0, 'rgba(255,255,255,1)');
+    gw.addColorStop(1, 'rgba(255,255,255,0)');
+    c.fillStyle = gw;
+    c.fillRect(0, 0, sv.width, sv.height);
+
+    var gb = c.createLinearGradient(0, 0, 0, sv.height);
+    gb.addColorStop(0, 'rgba(0,0,0,0)');
+    gb.addColorStop(1, 'rgba(0,0,0,1)');
+    c.fillStyle = gb;
+    c.fillRect(0, 0, sv.width, sv.height);
+
+    var px = st.s * sv.width;
+    var py = (1 - st.v) * sv.height;
+    c.beginPath();
+    c.arc(px, py, 7, 0, Math.PI * 2);
+    c.strokeStyle = '#fff'; c.lineWidth = 2; c.stroke();
+    c.beginPath();
+    c.arc(px, py, 9, 0, Math.PI * 2);
+    c.strokeStyle = 'rgba(0,0,0,.5)'; c.lineWidth = 1; c.stroke();
+
+    var hc = hue.getContext('2d');
+    var g = hc.createLinearGradient(0, 0, 0, hue.height);
+    for (var i = 0; i <= 6; i++) {
+      var rg = hsvToRgb(i * 60, 1, 1);
+      g.addColorStop(i / 6, 'rgb(' + rg.r + ',' + rg.g + ',' + rg.b + ')');
+    }
+    hc.fillStyle = g;
+    hc.fillRect(0, 0, hue.width, hue.height);
+    var hy = (st.h / 360) * hue.height;
+    hc.fillStyle = '#fff';
+    hc.fillRect(0, Math.max(0, hy - 2), hue.width, 3);
+    hc.strokeStyle = 'rgba(0,0,0,.45)';
+    hc.strokeRect(0.5, Math.max(0, hy - 2.5), hue.width - 1, 4);
+
+    var rgb = hsvToRgb(st.h, st.s, st.v);
+    var hex = rgbToHex(rgb.r, rgb.g, rgb.b);
+    el.querySelector('.xo-picker__chip').style.background = hex;
+    if (document.activeElement !== el.querySelector('.xo-picker__hex input')) {
+      el.querySelector('.xo-picker__hex input').value = hex;
+    }
+    var cmyk = rgbToCmyk(rgb.r, rgb.g, rgb.b);
+    var vals = { r: rgb.r, g: rgb.g, b: rgb.b, c: cmyk.c, m: cmyk.m, y: cmyk.y, k: cmyk.k };
+    Array.prototype.forEach.call(el.querySelectorAll('[data-k]'), function (inp) {
+      if (document.activeElement !== inp) inp.value = vals[inp.getAttribute('data-k')];
+    });
+
+    st.hex = hex;
+    if (st.onChange) st.onChange(hex);
+  }
+
+  function setFromHex(hex) {
+    var rgb = hexToRgb(hex);
+    if (!rgb) return false;
+    var hsv = rgbToHsv(rgb.r, rgb.g, rgb.b);
+    pickerState.h = hsv.s < 0.001 ? pickerState.h : hsv.h;
+    pickerState.s = hsv.s;
+    pickerState.v = hsv.v;
+    return true;
+  }
+
+  function closePicker(commit) {
+    if (!pickerEl) return;
+    var st = pickerState;
+    pickerEl.style.display = 'none';
+    if (st) {
+      if (commit) { if (st.onDone) st.onDone(st.hex); }
+      else if (st.onChange) st.onChange(st.start);
+    }
+    pickerState = null;
+  }
+
+  function wirePicker() {
+    var el = pickerEl;
+    var sv = el.querySelector('.xo-picker__sv');
+    var hue = el.querySelector('.xo-picker__hue');
+    var dragging = null;
+
+    function svAt(e) {
+      var b = sv.getBoundingClientRect();
+      var pt = e.touches && e.touches.length ? e.touches[0] : e;
+      pickerState.s = Math.max(0, Math.min(1, (pt.clientX - b.left) / b.width));
+      pickerState.v = 1 - Math.max(0, Math.min(1, (pt.clientY - b.top) / b.height));
+      paintPicker();
+    }
+    function hueAt(e) {
+      var b = hue.getBoundingClientRect();
+      var pt = e.touches && e.touches.length ? e.touches[0] : e;
+      pickerState.h = Math.max(0, Math.min(1, (pt.clientY - b.top) / b.height)) * 360;
+      paintPicker();
+    }
+
+    sv.addEventListener('mousedown', function (e) { dragging = svAt; svAt(e); });
+    hue.addEventListener('mousedown', function (e) { dragging = hueAt; hueAt(e); });
+    sv.addEventListener('touchstart', function (e) { dragging = svAt; svAt(e); }, { passive: true });
+    hue.addEventListener('touchstart', function (e) { dragging = hueAt; hueAt(e); }, { passive: true });
+    window.addEventListener('mousemove', function (e) {
+      if (dragging && pickerState) { e.preventDefault(); dragging(e); }
+    });
+    window.addEventListener('touchmove', function (e) {
+      if (dragging && pickerState) dragging(e);
+    }, { passive: true });
+    window.addEventListener('mouseup', function () { dragging = null; });
+    window.addEventListener('touchend', function () { dragging = null; });
+
+    var hexIn = el.querySelector('.xo-picker__hex input');
+    hexIn.addEventListener('input', function () {
+      if (!pickerState) return;
+      if (setFromHex(hexIn.value)) paintPicker();
+    });
+
+    Array.prototype.forEach.call(el.querySelectorAll('[data-k]'), function (inp) {
+      inp.addEventListener('input', function () {
+        if (!pickerState) return;
+        var mode = inp.parentNode.parentNode.getAttribute('data-mode');
+        var read = function (k) {
+          var f = el.querySelector('[data-k="' + k + '"]');
+          return parseFloat(f.value) || 0;
+        };
+        var rgb = mode === 'rgb'
+          ? { r: read('r'), g: read('g'), b: read('b') }
+          : cmykToRgb(read('c'), read('m'), read('y'), read('k'));
+        setFromHex(rgbToHex(rgb.r, rgb.g, rgb.b));
+        paintPicker();
+      });
+    });
+
+    el.querySelector('.xo-picker__ok').addEventListener('click', function () { closePicker(true); });
+    el.querySelector('.xo-picker__cancel').addEventListener('click', function () { closePicker(false); });
+
+    document.addEventListener('mousedown', function (e) {
+      if (!pickerState) return;
+      if (el.contains(e.target)) return;
+      if (pickerState.trigger && pickerState.trigger.contains(e.target)) return;
+      closePicker(true);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (pickerState && e.key === 'Escape') closePicker(false);
+    });
+  }
+
+  /* open({ hex, trigger, onChange, onDone }) - onChange fires live as the
+     colour moves, onDone when it is accepted. */
+  var XOColour = window.XOColour = {
+    open: function (opts) {
+      if (!pickerEl) { pickerEl = buildPicker(); wirePicker(); }
+      pickerEl.style.display = 'block';
+
+      pickerState = {
+        h: 0, s: 1, v: 1,
+        start: opts.hex || '#FFFFFF',
+        hex: opts.hex || '#FFFFFF',
+        trigger: opts.trigger || null,
+        onChange: opts.onChange || null,
+        onDone: opts.onDone || null
+      };
+      if (!setFromHex(opts.hex)) setFromHex('#FFFFFF');
+
+      /* Sit under the control that opened it, nudged back on screen if that
+         would push it off the edge. */
+      var t = opts.trigger;
+      var w = 268, h = 330;
+      var x = 20, y = 20;
+      if (t) {
+        var b = t.getBoundingClientRect();
+        x = Math.min(window.innerWidth - w - 12, Math.max(12, b.left));
+        y = b.bottom + 8;
+        if (y + h > window.innerHeight - 12) y = Math.max(12, b.top - h - 8);
+      }
+      pickerEl.style.left = Math.round(x) + 'px';
+      pickerEl.style.top = Math.round(y) + 'px';
+
+      paintPicker();
+    },
+    close: function () { closePicker(false); },
+    hexToRgb: hexToRgb,
+    rgbToHex: rgbToHex,
+    rgbToCmyk: rgbToCmyk,
+    cmykToRgb: cmykToRgb
   };
 
   /* =======================================================================

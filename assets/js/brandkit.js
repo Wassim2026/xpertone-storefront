@@ -343,14 +343,37 @@
               '<div class="bk-chips" id="bkEdSpots"></div>' +
             '</div>' +
 
-            '<div class="bk-field">' +
-              '<label class="form-label" for="bkEdSize">Size <b class="num" id="bkEdSizeVal"></b></label>' +
-              '<input type="range" class="form-range" id="bkEdSize" min="30" max="200" step="5">' +
+            '<div class="bk-field" id="bkEdLogoWrap">' +
+              '<label class="form-label" for="bkEdLogo">Logo size ' +
+                '<b class="num" id="bkEdLogoVal"></b></label>' +
+              '<input type="range" class="form-range" id="bkEdLogo" min="20" max="220" step="5">' +
+            '</div>' +
+
+            '<div class="bk-field" id="bkEdTextWrap">' +
+              '<label class="form-label" for="bkEdText">Text size ' +
+                '<b class="num" id="bkEdTextVal"></b></label>' +
+              '<input type="range" class="form-range" id="bkEdText" min="20" max="220" step="5">' +
+            '</div>' +
+
+            '<div class="bk-field" id="bkEdLayWrap">' +
+              '<label class="form-label d-block">Arrangement</label>' +
+              '<div class="bk-seg" id="bkEdLayout">' +
+                '<button type="button" data-lay="stack" title="Logo above the text">' +
+                  '<i class="fa-solid fa-bars-staggered fa-rotate-90"></i> Stacked</button>' +
+                '<button type="button" data-lay="left" title="Logo to the left of the text">' +
+                  '<i class="fa-solid fa-align-left"></i> Logo left</button>' +
+                '<button type="button" data-lay="right" title="Logo to the right of the text">' +
+                  '<i class="fa-solid fa-align-right"></i> Logo right</button>' +
+              '</div>' +
             '</div>' +
 
             '<div class="bk-field">' +
               '<label class="form-label d-block">Colour of this print</label>' +
-              '<div class="swatches" id="bkEdInk">' + swatches + '</div>' +
+              '<div class="swatches" id="bkEdInk">' + swatches +
+                '<button type="button" class="swatch swatch--custom" id="bkEdPick" ' +
+                  'title="Any other colour" aria-label="Any other colour">' +
+                  '<i class="fa-solid fa-eye-dropper"></i></button>' +
+              '</div>' +
               '<button class="btn btn-link p-0 mt-2" id="bkEdAuto" type="button" ' +
                 'style="font-size:.82rem;text-decoration:none">' +
                 '<i class="fa-solid fa-wand-magic-sparkles"></i> Match this item to its garment</button>' +
@@ -402,7 +425,8 @@
       'bkOutWrap', 'bkOut', 'bkAllOn', 'bkAllOff', 'bkZip', 'bkPdf', 'bkWa',
       'bkSave', 'bkDelete', 'bkSaveNote', 'bkAutoInk',
       'bkEditor', 'bkEdTitle', 'bkEdClose', 'bkEdCanvas', 'bkEdHint', 'bkEdSpots',
-      'bkEdSize', 'bkEdSizeVal', 'bkEdInk', 'bkEdAuto', 'bkEdDone', 'bkEdReset',
+      'bkEdLogo', 'bkEdLogoVal', 'bkEdLogoWrap', 'bkEdText', 'bkEdTextVal', 'bkEdTextWrap',
+      'bkEdLayout', 'bkEdLayWrap', 'bkEdInk', 'bkEdPick', 'bkEdAuto', 'bkEdDone', 'bkEdReset',
       'bkEdPrev', 'bkEdNext'
     ].forEach(function (id) { el[id] = XO.el('#' + id); });
     el.edLines = XO.els('[data-edline]', XO.el('#bkEditor'));
@@ -901,13 +925,36 @@
     });
 
     var spot = d._spots[edActive];
-    var pct = Math.round((spot.scale || 1) * 100);
-    el.bkEdSize.value = pct;
-    el.bkEdSizeVal.textContent = pct + '%';
+    var hasLogo = !!d._logoImg;
+    var rowsHere = typeof spot.rows === 'number'
+      ? (hasLogo ? spot.rows : Math.max(1, spot.rows))
+      : 99;
+    var hasText = rowsHere > 0 && E.linesOf(d).length > 0;
 
-    XO.els('.swatch', el.bkEdInk).forEach(function (b) {
-      b.classList.toggle('is-active', b.getAttribute('data-hex') === spot.ink);
+    var lp = Math.round((spot.logoScale == null ? 1 : spot.logoScale) * 100);
+    var tp = Math.round((spot.textScale == null ? 1 : spot.textScale) * 100);
+    el.bkEdLogo.value = lp;
+    el.bkEdLogoVal.textContent = lp + '%';
+    el.bkEdText.value = tp;
+    el.bkEdTextVal.textContent = tp + '%';
+
+    /* A sleeve carries the logo alone, so its text controls would do nothing. */
+    el.bkEdLogoWrap.hidden = !hasLogo;
+    el.bkEdTextWrap.hidden = !hasText;
+    el.bkEdLayWrap.hidden = !(hasLogo && hasText);
+
+    XO.els('button', el.bkEdLayout).forEach(function (b) {
+      b.classList.toggle('is-active', b.getAttribute('data-lay') === (spot.layout || 'stack'));
     });
+
+    var known = false;
+    XO.els('.swatch', el.bkEdInk).forEach(function (b) {
+      var hit = b.getAttribute('data-hex') === spot.ink;
+      if (hit) known = true;
+      b.classList.toggle('is-active', hit);
+    });
+    el.bkEdPick.style.setProperty('--sw', spot.ink || '#FFFFFF');
+    el.bkEdPick.classList.toggle('is-active', !known);
 
     for (var k = 0; k < el.edLines.length; k++) {
       el.edLines[k].value = d.lines[k] || '';
@@ -1004,14 +1051,49 @@
       if (e.key === 'Escape' && !el.bkEditor.hidden) { edCommit().then(closeEditor); }
     });
 
-    el.bkEdSize.addEventListener('input', function () {
+    function sizer(input, label, key) {
+      input.addEventListener('input', function () {
+        var r = edItem();
+        if (!r) return;
+        var pct = parseInt(input.value, 10);
+        label.textContent = pct + '%';
+        r.design._spots[edActive][key] = pct / 100;
+        r.edited = true;
+        edPaintCanvas();
+      });
+    }
+    sizer(el.bkEdLogo, el.bkEdLogoVal, 'logoScale');
+    sizer(el.bkEdText, el.bkEdTextVal, 'textScale');
+
+    XO.els('button', el.bkEdLayout).forEach(function (b) {
+      b.addEventListener('click', function () {
+        var r = edItem();
+        if (!r) return;
+        r.design._spots[edActive].layout = b.getAttribute('data-lay');
+        r.edited = true;
+        paintEditor();
+      });
+    });
+
+    el.bkEdPick.addEventListener('click', function () {
       var r = edItem();
       if (!r) return;
-      var pct = parseInt(el.bkEdSize.value, 10);
-      el.bkEdSizeVal.textContent = pct + '%';
-      r.design._spots[edActive].scale = pct / 100;
-      r.edited = true;
-      edPaintCanvas();
+      var spot = r.design._spots[edActive];
+      XOColour.open({
+        hex: spot.ink || '#FFFFFF',
+        trigger: el.bkEdPick,
+        onChange: function (hex) {
+          spot.ink = hex;
+          el.bkEdPick.style.setProperty('--sw', hex);
+          edPaintCanvas();
+        },
+        onDone: function (hex) {
+          spot.ink = hex;
+          r.design.autoInk = false;
+          r.edited = true;
+          paintEditor();
+        }
+      });
     });
 
     XO.els('.swatch', el.bkEdInk).forEach(function (b) {
