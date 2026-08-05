@@ -730,3 +730,155 @@ hr { border: 0; border-top: 1px solid var(--xo-line); opacity: 1; margin: 2rem 0
   border-color: var(--xo-ink);
   box-shadow: inset 0 0 0 2px #fff, 0 0 0 2px var(--xo-ink);
 }
+
+/* ==========================================================================
+   Brand kit — internal sales tool (brand-kit.html)
+   ========================================================================== */
+
+.bk-banner {
+  background: var(--xo-ink); color: #fff; padding: .7rem 0; font-size: .9rem;
+}
+.bk-banner i { color: var(--xo-amber); font-size: 1.1rem; }
+.bk-banner b { color: #fff; }
+
+.bk-head { margin-bottom: 1.5rem; }
+
+.bk { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 1.5rem; align-items: start; }
+@media (max-width: 991px) { .bk { grid-template-columns: 1fr; } }
+
+/* --- client rail ---------------------------------------------------------- */
+.bk__side {
+  background: var(--xo-surface); border: 1px solid var(--xo-line);
+  border-radius: var(--xo-r-lg); padding: 1rem; box-shadow: var(--xo-shadow-sm);
+  position: sticky; top: calc(var(--xo-header-h) + 12px);
+}
+@media (max-width: 991px) { .bk__side { position: static; } }
+
+.bk__sidehead { display: flex; align-items: center; justify-content: space-between; margin-bottom: .75rem; }
+.bk__list { display: flex; flex-direction: column; gap: .35rem; max-height: 46vh; overflow: auto; }
+
+.bk-client {
+  display: flex; align-items: center; gap: .6rem; width: 100%; text-align: left;
+  background: none; border: 1px solid transparent; border-radius: var(--xo-r);
+  padding: .5rem; cursor: pointer; transition: background var(--xo-t), border-color var(--xo-t);
+}
+.bk-client:hover { background: var(--xo-surface-alt); }
+.bk-client.is-active { background: var(--xo-amber-100); border-color: var(--xo-amber); }
+.bk-client__logo {
+  width: 38px; height: 38px; flex: 0 0 38px; border-radius: 8px; overflow: hidden;
+  background: var(--xo-surface-alt); border: 1px solid var(--xo-line);
+  display: grid; place-items: center; color: var(--xo-muted);
+}
+.bk-client__logo img { width: 100%; height: 100%; object-fit: contain; }
+.bk-client__body { min-width: 0; display: block; }
+.bk-client__body b {
+  display: block; font-size: .88rem; color: var(--xo-ink);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.bk-client__body span { display: block; font-size: .78rem; color: var(--xo-muted); }
+
+.bk__storage { font-size: .76rem; color: var(--xo-muted); margin-top: .85rem; }
+.bk-meter {
+  height: 4px; border-radius: 3px; background: var(--xo-surface-deep); margin-top: .3rem; overflow: hidden;
+}
+.bk-meter span { display: block; height: 100%; background: var(--xo-amber); }
+
+/* --- cards ---------------------------------------------------------------- */
+.bk__main { display: flex; flex-direction: column; gap: 1.25rem; }
+
+.bk-card {
+  background: var(--xo-surface); border: 1px solid var(--xo-line);
+  border-radius: var(--xo-r-lg); padding: 1.35rem; box-shadow: var(--xo-shadow-sm);
+}
+.bk-card__head { display: flex; gap: .8rem; align-items: flex-start; margin-bottom: 1.1rem; }
+.bk-step {
+  flex: 0 0 28px; width: 28px; height: 28px; border-radius: 50%;
+  background: var(--xo-ink); color: #fff; font-weight: 700; font-size: .85rem;
+  display: grid; place-items: center;
+}
+.bk-hint { font-size: .82rem; color: var(--xo-muted); }
+.bk-opt { font-weight: 400; font-size: .76rem; color: var(--xo-muted); }
+.bk-field { margin-top: 1rem; }
+.bk-note { font-size: .83rem; margin: .6rem 0 0; }
+.bk-good { color: var(--xo-success); font-weight: 600; }
+.bk-warn { color: var(--xo-amber-600); font-weight: 600; }
+.bk-bad  { color: var(--xo-danger);  font-weight: 600; }
+
+.bk-check { display: flex; gap: .6rem; align-items: flex-start; cursor: pointer; font-size: .9rem; }
+.bk-check input { margin-top: .25rem; width: 17px; height: 17px; flex: 0 0 17px; accent-color: var(--xo-ink); }
+
+/* --- logo drop ------------------------------------------------------------ */
+.bk-drop {
+  position: relative; border: 2px dashed var(--xo-line-strong); border-radius: var(--xo-r-lg);
+  min-height: 210px; display: grid; place-items: center; cursor: pointer; overflow: hidden;
+  background-color: var(--xo-surface-alt);
+  background-image:
+    linear-gradient(45deg, #E9ECEF 25%, transparent 25%, transparent 75%, #E9ECEF 75%),
+    linear-gradient(45deg, #E9ECEF 25%, transparent 25%, transparent 75%, #E9ECEF 75%);
+  background-size: 18px 18px; background-position: 0 0, 9px 9px;
+  transition: border-color var(--xo-t), background-color var(--xo-t);
+}
+.bk-drop:hover, .bk-drop.is-over { border-color: var(--xo-amber); }
+.bk-drop__inner {
+  display: flex; flex-direction: column; align-items: center; gap: .3rem;
+  text-align: center; padding: 1rem; color: var(--xo-body);
+}
+.bk-drop__inner i { font-size: 1.9rem; color: var(--xo-muted); margin-bottom: .2rem; }
+.bk-drop img { max-width: 88%; max-height: 190px; object-fit: contain; }
+.bk-spin {
+  position: absolute; inset: 0; display: grid; place-items: center; gap: .5rem;
+  background: rgba(255, 255, 255, .88); font-weight: 600; font-size: .9rem; color: var(--xo-ink);
+}
+
+/* --- item picker ---------------------------------------------------------- */
+.bk-filters { display: flex; flex-wrap: wrap; gap: .5rem 1.1rem; margin-bottom: .9rem; }
+.bk-filter { display: flex; align-items: center; gap: .45rem; font-size: .82rem; color: var(--xo-muted); }
+.bk-filter b { color: var(--xo-ink); font-size: .84rem; }
+.bk-filter .btn-link { font-size: .8rem; color: var(--xo-info); text-decoration: none; }
+
+.bk-picks {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(128px, 1fr)); gap: .6rem;
+  max-height: 330px; overflow: auto; padding: .3rem;
+  border: 1px solid var(--xo-line); border-radius: var(--xo-r); background: var(--xo-surface-alt);
+}
+.bk-pick {
+  position: relative; display: block; cursor: pointer; background: var(--xo-surface);
+  border: 1px solid var(--xo-line); border-radius: var(--xo-r); padding: .45rem;
+  transition: border-color var(--xo-t), box-shadow var(--xo-t);
+}
+.bk-pick.is-on { border-color: var(--xo-ink); box-shadow: 0 0 0 1px var(--xo-ink); }
+.bk-pick input { position: absolute; top: .5rem; left: .5rem; width: 16px; height: 16px; accent-color: var(--xo-ink); }
+.bk-pick__img { display: block; height: 84px; }
+.bk-pick__img img { width: 100%; height: 100%; object-fit: contain; }
+.bk-pick__img i { display: grid; place-items: center; height: 100%; color: var(--xo-line-strong); }
+.bk-pick__t {
+  display: block; font-size: .74rem; line-height: 1.25; color: var(--xo-ink);
+  margin-top: .3rem; max-height: 2.5em; overflow: hidden;
+}
+
+.bk-actions { display: flex; align-items: center; gap: .75rem; flex-wrap: wrap; margin-top: 1rem; }
+.bk-count { font-size: .85rem; color: var(--xo-muted); }
+
+.bk-progress { display: flex; align-items: center; gap: .8rem; margin-top: .9rem; font-size: .85rem; }
+.bk-progress__bar { flex: 1; height: 6px; border-radius: 4px; background: var(--xo-surface-deep); overflow: hidden; }
+.bk-progress__bar span { display: block; height: 100%; width: 0; background: var(--xo-amber); transition: width var(--xo-t); }
+
+/* --- output --------------------------------------------------------------- */
+.bk-outbar {
+  display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+  flex-wrap: wrap; margin-bottom: 1rem;
+}
+.bk-out { display: grid; grid-template-columns: repeat(auto-fill, minmax(168px, 1fr)); gap: .8rem; }
+.bk-out__item {
+  position: relative; display: block; cursor: pointer; background: var(--xo-surface-alt);
+  border: 1px solid var(--xo-line); border-radius: var(--xo-r); padding: .5rem;
+  transition: border-color var(--xo-t), box-shadow var(--xo-t), opacity var(--xo-t);
+  opacity: .55;
+}
+.bk-out__item.is-on { opacity: 1; border-color: var(--xo-ink); box-shadow: 0 0 0 1px var(--xo-ink); }
+.bk-out__item input { position: absolute; top: .55rem; left: .55rem; width: 17px; height: 17px; accent-color: var(--xo-ink); }
+.bk-out__item img { width: 100%; aspect-ratio: 1/1; object-fit: contain; border-radius: 6px; background: #fff; }
+.bk-out__t { display: block; font-size: .78rem; font-weight: 600; color: var(--xo-ink); margin-top: .35rem; }
+.bk-out__s { display: block; font-size: .72rem; color: var(--xo-muted); }
+
+.bk-save { display: flex; align-items: center; gap: .8rem; flex-wrap: wrap; padding-bottom: 1rem; }
