@@ -117,15 +117,19 @@ window.XO_CONFIG = {
        photo. view 0 is the front (or the only view), view 1 the back. rx/ry
        are the centre of the print as a fraction of that view, rw its width
        and rh the height it may fill. The site finds the views in each photo,
-       so these work on every product without hand-tuned coordinates. */
+       so these work on every product without hand-tuned coordinates.
+
+       rows caps how many lines of text belong in that position. A chest badge
+       takes the logo and one line; a sleeve takes the logo alone; the back
+       takes everything. Leave rows out for no limit. */
     spots: {
-      'Left chest':             [{ view: 0, rx: 0.34, ry: 0.30, rw: 0.26, rh: 0.16, label: 'Chest' }],
+      'Left chest':             [{ view: 0, rx: 0.33, ry: 0.29, rw: 0.27, rh: 0.19, rows: 1, label: 'Chest' }],
       'Full back':              [{ view: 1, rx: 0.50, ry: 0.40, rw: 0.58, rh: 0.38, label: 'Back' }],
       'Front centre':           [{ view: 0, rx: 0.50, ry: 0.45, rw: 0.52, rh: 0.34, label: 'Front' }],
-      'Left chest + full back': [{ view: 0, rx: 0.34, ry: 0.30, rw: 0.26, rh: 0.16, label: 'Chest' },
+      'Left chest + full back': [{ view: 0, rx: 0.33, ry: 0.29, rw: 0.27, rh: 0.19, rows: 1, label: 'Chest' },
                                  { view: 1, rx: 0.50, ry: 0.40, rw: 0.58, rh: 0.38, label: 'Back' }],
-      'Both sleeves':           [{ view: 0, rx: 0.12, ry: 0.32, rw: 0.18, rh: 0.14, label: 'Sleeve' },
-                                 { view: 1, rx: 0.88, ry: 0.32, rw: 0.18, rh: 0.14, label: 'Sleeve' }],
+      'Both sleeves':           [{ view: 0, rx: 0.15, ry: 0.36, rw: 0.13, rh: 0.10, rows: 0, label: 'Sleeve' },
+                                 { view: 1, rx: 0.85, ry: 0.36, rw: 0.13, rh: 0.10, rows: 0, label: 'Sleeve' }],
       _default:                 [{ view: 0, rx: 0.50, ry: 0.42, rw: 0.50, rh: 0.32, label: 'Print' }]
     },
 
@@ -162,6 +166,28 @@ window.XO_CONFIG = {
     { min: 50,  discount: 0.15, label: 'Bundle of 50' },
     { min: 100, discount: 0.20, label: '100 or more' }
   ],
+
+  /* ---------------------------------------------------------------------
+     BRAND KIT  (brand-kit.html — internal, for the sales team)
+     ---------------------------------------------------------------------
+     Not linked from the website and marked noindex. Client records live in
+     the salesperson's own browser under clientsKey, and can be exported to
+     a JSON file. When the backend adds real accounts, POST that same JSON
+     to the server and the tool can read from there instead.
+     --------------------------------------------------------------------- */
+  BRAND_KIT: {
+    enabled: true,
+    clientsKey: 'xo_clients_v1',
+
+    /* Applied to every item the tool brands. Sleeves are added on top of
+       this only when the salesperson ticks the box, because sleeve printing
+       needs the client's agreement. */
+    placement: 'Left chest + full back',
+    sleevePlacement: 'Both sleeves',
+
+    /* JPEG quality used for the PDF catalogue. The ZIP always gets PNGs. */
+    pdfQuality: 0.88
+  },
 
   /* ---------------------------------------------------------------------
      COMPANY

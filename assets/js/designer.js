@@ -265,19 +265,39 @@
     }
 
     var floor = Math.max(2, H * 0.06);
-    var runs = [], run = null;
+    var gap = Math.max(4, W * 0.035);
+    var runs = [], run = null, lastOn = -1;
     for (x = 0; x < W; x++) {
       if (colCount[x] > floor) {
         if (!run) { run = { a: x, b: x }; runs.push(run); }
-        else run.b = x;
-      } else if (run && x - run.b > W * 0.035) {
-        run = null;
-      } else if (run) {
         run.b = x;
+        lastOn = x;
+      } else if (run && (x - lastOn) > gap) {
+        /* Far enough past the last column of subject to call this the end of
+           a view. Narrower breaks are just a strap or a gap in the print. */
+        run = null;
       }
     }
     runs = runs.filter(function (r) { return (r.b - r.a) > W * 0.08; });
     if (!runs.length) return { blobs: [{ x: 0, y: 0, w: 1, h: 1 }] };
+
+    /* Front and back views often sit close enough that they read as one
+       shape. If a single run is wide, look for the thin valley between the
+       two garments and split there. */
+    if (runs.length === 1 && (runs[0].b - runs[0].a) > W * 0.5) {
+      var r0 = runs[0];
+      var mid = -1, lowest = Infinity, mean = 0, n = 0;
+      for (x = r0.a; x <= r0.b; x++) { mean += colCount[x]; n++; }
+      mean = mean / Math.max(1, n);
+      var from = Math.round(r0.a + (r0.b - r0.a) * 0.34);
+      var to = Math.round(r0.a + (r0.b - r0.a) * 0.66);
+      for (x = from; x <= to; x++) {
+        if (colCount[x] < lowest) { lowest = colCount[x]; mid = x; }
+      }
+      if (mid > 0 && lowest < mean * 0.45) {
+        runs = [{ a: r0.a, b: mid - 1 }, { a: mid + 1, b: r0.b }];
+      }
+    }
     if (runs.length > 2) {
       runs.sort(function (a, b) { return (b.b - b.a) - (a.b - a.a); });
       runs = runs.slice(0, 2).sort(function (a, b) { return a.a - b.a; });
@@ -380,6 +400,7 @@
         y: b.y + b.h * s.ry,
         w: b.w * s.rw,
         hMax: b.h * (s.rh || 0.40),
+        rows: s.rows,
         label: s.label || 'Print',
         scale: 1
       };
@@ -414,7 +435,15 @@
 
     /* Each row is typed on its own line and sized to fit on its own, so a
        long company name and a short phone number both look deliberate. */
-    linesOf(design).forEach(function (line) {
+    /* A chest badge or a sleeve has room for far less than a full back. The
+       recipe says how many rows belong there, so a long company name never
+       shrinks to something unreadable just to fit. */
+    var rows = linesOf(design);
+    if (typeof spot.rows === 'number') {
+      rows = rows.slice(0, design._logoImg ? spot.rows : Math.max(1, spot.rows));
+    }
+
+    rows.forEach(function (line) {
       var rtl = isArabic(line);
       var font = rtl
         ? "'Noto Sans Arabic', 'Segoe UI', Tahoma, Arial, sans-serif"
