@@ -328,7 +328,28 @@
         }
       }
       if (bottom < top) { top = 0; bottom = H - 1; }
-      return { x: r.a / W, y: top / H, w: (r.b - r.a + 1) / W, h: (bottom - top + 1) / H };
+
+      /* An outline of the garment: where its left and right edges actually
+         are at a series of heights. A vest is far narrower at the shoulder
+         than at the hem, so a sleeve print positioned against the bounding
+         box lands in mid-air. Positioned against this outline, it lands on
+         the garment. */
+      var SLICES = 24, prof = [], k, yy, l, rr;
+      for (k = 0; k < SLICES; k++) {
+        yy = Math.min(H - 1, Math.round(top + (bottom - top) * (k + 0.5) / SLICES));
+        l = -1; rr = -1;
+        for (x = r.a; x <= r.b; x++) {
+          if (isSubject((yy * W + x) * 4)) { if (l < 0) l = x; rr = x; }
+        }
+        if (l < 0) { l = r.a; rr = r.b; }
+        prof.push({ l: l / W, r: (rr + 1) / W });
+      }
+
+      return {
+        x: r.a / W, y: top / H,
+        w: (r.b - r.a + 1) / W, h: (bottom - top + 1) / H,
+        profile: prof
+      };
     });
 
     return { blobs: blobs };
@@ -405,11 +426,27 @@
       ? analysis.blobs : [{ x: 0, y: 0, w: 1, h: 1 }];
 
     return list.map(function (s) {
-      /* A photo with only one view still honours a "back" print — it simply
+      /* A photo with only one view still honours a "back" print - it simply
          lands on the view that is there. */
       var b = blobs[Math.min(s.view, blobs.length - 1)];
+      var cx = b.x + b.w * s.rx;
+
+      /* A sleeve print is described as "just inside the left edge", not as a
+         fraction of the bounding box, so it follows the shape of whatever
+         garment the photo shows. */
+      if (s.edge && b.profile && b.profile.length) {
+        var n = b.profile.length;
+        var e = b.profile[Math.max(0, Math.min(n - 1, Math.round(s.ry * n - 0.5)))];
+        var half = b.w * s.rw * 0.62;
+        cx = s.edge === 'right' ? (e.r - half) : (e.l + half);
+        /* Never let it cross the middle of the garment. */
+        var mid = b.x + b.w * 0.5;
+        if (s.edge === 'right') cx = Math.max(cx, mid + half * 0.5);
+        else cx = Math.min(cx, mid - half * 0.5);
+      }
+
       return {
-        x: b.x + b.w * s.rx,
+        x: cx,
         y: b.y + b.h * s.ry,
         w: b.w * s.rw,
         hMax: b.h * (s.rh || 0.40),

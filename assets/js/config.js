@@ -121,15 +121,19 @@ window.XO_CONFIG = {
 
        rows caps how many lines of text belong in that position. A chest badge
        takes the logo and one line; a sleeve takes the logo alone; the back
-       takes everything. Leave rows out for no limit. */
+       takes everything. Leave rows out for no limit.
+
+       edge: 'left' or 'right' anchors the print just inside the garment's
+       real edge at that height instead of using rx, which is what a sleeve
+       needs - a vest is much narrower at the shoulder than at the hem. */
     spots: {
       'Left chest':             [{ view: 0, rx: 0.33, ry: 0.29, rw: 0.27, rh: 0.19, rows: 1, label: 'Chest' }],
       'Full back':              [{ view: 1, rx: 0.50, ry: 0.40, rw: 0.58, rh: 0.38, label: 'Back' }],
       'Front centre':           [{ view: 0, rx: 0.50, ry: 0.45, rw: 0.52, rh: 0.34, label: 'Front' }],
       'Left chest + full back': [{ view: 0, rx: 0.33, ry: 0.29, rw: 0.27, rh: 0.19, rows: 1, label: 'Chest' },
                                  { view: 1, rx: 0.50, ry: 0.40, rw: 0.58, rh: 0.38, label: 'Back' }],
-      'Both sleeves':           [{ view: 0, rx: 0.15, ry: 0.36, rw: 0.13, rh: 0.10, rows: 0, label: 'Sleeve' },
-                                 { view: 1, rx: 0.85, ry: 0.36, rw: 0.13, rh: 0.10, rows: 0, label: 'Sleeve' }],
+      'Both sleeves':           [{ view: 0, edge: 'left',  ry: 0.30, rw: 0.13, rh: 0.10, rows: 0, label: 'Sleeve' },
+                                 { view: 1, edge: 'right', ry: 0.30, rw: 0.13, rh: 0.10, rows: 0, label: 'Sleeve' }],
       _default:                 [{ view: 0, rx: 0.50, ry: 0.42, rw: 0.50, rh: 0.32, label: 'Print' }]
     },
 
