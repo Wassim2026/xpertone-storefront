@@ -136,6 +136,11 @@ document.addEventListener('DOMContentLoaded', function () {
               ? '<p class="form-text mt-2">Add ' + XO.money(XO_CONFIG.FREE_DELIVERY_THRESHOLD - t.subtotal) +
                 ' more for free delivery in Dubai.</p>' : '') +
 
+            (lines.some(function (l) { return XO.indicative(l); })
+              ? '<p class="price-note mt-3 mb-0"><i class="fa-solid fa-circle-info"></i> ' +
+                'This total is indicative. We price your order properly and send you a ' +
+                'written quotation to approve before anything is printed or shipped.</p>' : '') +
+
             '<a class="btn btn-xo btn-lg-xo w-100 mt-3" href="checkout.html" id="coBtn">' +
               'Checkout as guest <i class="fa-solid fa-arrow-right"></i></a>' +
             '<button class="btn btn-wa w-100 mt-2" id="waOrder" type="button">' +

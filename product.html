@@ -80,11 +80,38 @@ document.addEventListener('DOMContentLoaded', function () {
       }).join('') + '</tbody></table>';
   }
 
+  /* The catalogue carries the manufacturer's own bullet points. Show them
+     under the buy box rather than flattening them into one paragraph. */
+  function featureList(p) {
+    var f = (p.features || []).slice(1);   /* the first one is the description */
+    if (!f.length) return '';
+    return '<div class="mt-4"><h2 class="h6 mb-2">Specification</h2><ul class="feature-list">' +
+      f.map(function (x) { return '<li>' + XO.esc(x) + '</li>'; }).join('') +
+      '</ul></div>';
+  }
+
+  function specRows(p) {
+    var rows = [
+      ['Product code', p.code],
+      ['Material', p.material],
+      ['Colours', p.colour],
+      ['Dimensions', p.dimensions],
+      ['Fabric weight', p.gsm],
+      ['Standard', p.standard],
+      ['Packing', p.packing],
+      ['Country of origin', p.origin]
+    ];
+    return rows.filter(function (r) { return r[1]; }).map(function (r) {
+      return '<li><b>' + r[0] + '</b><span>' + XO.esc(r[1]) + '</span></li>';
+    }).join('');
+  }
+
   function render(p) {
     document.title = p.title + ' — XpertOne Prints';
     var meta = document.querySelector('meta[name=description]');
     if (meta && p.description) meta.setAttribute('content', p.description.slice(0, 160));
 
+    var ind = XO.indicative(p);
     var img = p.images[0];
     var desc = p.description ||
       'Supplied in bulk from our Al Quoz warehouse, with optional front and back logo printing. ' +
@@ -121,6 +148,8 @@ document.addEventListener('DOMContentLoaded', function () {
               XO.money(p.price) + '</span>' +
             '<span class="text-muted-xo">per piece · ex VAT</span>' +
           '</div>' +
+          (ind ? '<p class="price-note mt-2 mb-0"><i class="fa-solid fa-circle-info"></i> ' +
+                 XO.esc(XO_CONFIG.INDICATIVE.long) + '</p>' : '') +
           '<div class="d-flex flex-wrap gap-2 mt-2">' +
             '<span class="badge-xo badge-xo--green"><i class="fa-solid fa-circle-check"></i> In stock</span>' +
             (p.attribute ? '<span class="badge-xo badge-xo--amber">' + XO.esc(p.attribute) + '</span>' : '') +
@@ -142,7 +171,10 @@ document.addEventListener('DOMContentLoaded', function () {
               '<i class="fa-brands fa-whatsapp"></i> Order on WhatsApp</button>' +
           '</div>' +
 
+          featureList(p) +
+
           '<ul class="spec-list mt-4">' +
+            specRows(p) +
             '<li><b>Available sizes</b><span>' + (p.sizes.length ? XO.esc(p.sizes.join(', ')) : 'One size') + '</span></li>' +
             '<li><b>Minimum order</b><span>' + XO_CONFIG.MOQ + ' pieces per product</span></li>' +
             '<li><b>Logo printing</b><span>Upload your artwork above and see it on the product</span></li>' +

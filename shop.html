@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Shop Safety Vests, Uniforms &amp; Helmets in Bulk | XpertOne Prints</title>
-<meta name="description" content="Full catalogue of safety vests, cotton pant &amp; shirt sets, cargo trousers and helmets. Trade prices per piece, ex VAT. Filter by range, sort by price, order online.">
+<title>Shop Safety Vests, Uniforms, PPE &amp; Site Safety in Bulk | XpertOne Prints</title>
+<meta name="description" content="Full catalogue of safety vests, uniforms, safety shoes, gloves, eye and hearing protection, harnesses, rainwear and road safety equipment. Filter by range, sort by price, order online.">
 <meta name="theme-color" content="#0E1116">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,6 +28,7 @@
       </nav>
       <h1 class="mt-2 mb-1" id="pageTitle">All products</h1>
       <p class="mb-0 text-muted-xo" id="pageBlurb">Trade prices per piece, excluding 5% VAT. Logo printing available on every line.</p>
+      <p class="price-note mt-3 mb-0" id="priceNote" hidden></p>
     </div>
   </section>
 
@@ -40,7 +41,7 @@
             <i class="fa-solid fa-magnifying-glass position-absolute text-muted-xo"
                style="left:14px;top:50%;transform:translateY(-50%)"></i>
             <input class="form-control" id="searchBox" type="search" style="padding-left:40px"
-                   placeholder="Search — e.g. reflective vest, 200 GSM, cargo">
+                   placeholder="Search — e.g. reflective vest, S3 shoe, welding glove, cone">
           </div>
         </div>
         <div class="col-6 col-lg-3">
@@ -127,7 +128,8 @@ document.addEventListener('DOMContentLoaded', function () {
     if (state.q) {
       var q = state.q.toLowerCase();
       list = list.filter(function (p) {
-        return (p.title + ' ' + p.categoryName + ' ' + p.description + ' ' + p.subtitle + ' ' + p.attribute)
+        return ([p.title, p.categoryName, p.description, p.subtitle, p.attribute, p.code,
+                 p.material, p.colour, p.standard, (p.features || []).join(' ')].join(' '))
           .toLowerCase().indexOf(q) > -1;
       });
     }
@@ -137,6 +139,15 @@ document.addEventListener('DOMContentLoaded', function () {
     if (state.sort === 'name') list.sort(function (a, b) { return a.title.localeCompare(b.title); });
 
     XO.el('#resultCount').textContent = list.length + (list.length === 1 ? ' product' : ' products');
+
+    /* Say it plainly while the prices are still placeholders. */
+    var note = XO.el('#priceNote');
+    var anyIndicative = list.some(function (p) { return XO.indicative(p); });
+    note.hidden = !anyIndicative;
+    if (anyIndicative) {
+      note.innerHTML = '<i class="fa-solid fa-circle-info"></i> ' + XO.esc(XO_CONFIG.INDICATIVE.long);
+    }
+
     ProductGrid('#grid', list, state.q ? 'No match for “' + state.q + '”' : 'Nothing in this range yet');
     headings();
   }

@@ -44,7 +44,15 @@ document.addEventListener('DOMContentLoaded', function () {
   var body = XO.el('#checkoutBody');
 
   if (!Cart.lines().length) {
-    /* Every design the customer approved on the product pages, in cart order. */
+    body.innerHTML = '<div class="empty-state">' +
+      '<div class="empty-state__icon"><i class="fa-solid fa-receipt"></i></div>' +
+      '<h2>Nothing to check out yet</h2>' +
+      '<p class="text-muted-xo">Your order is empty — add a few products and come back.</p>' +
+      '<a class="btn btn-xo" href="shop.html">Browse the catalogue</a></div>';
+    return;
+  }
+
+  /* Every design the customer approved on the product pages, in cart order. */
   function orderDesigns() {
     return Cart.lines().map(function (l) {
       var d = Designs.get(l.key);
@@ -84,14 +92,6 @@ document.addEventListener('DOMContentLoaded', function () {
           }).join('') +
         '</div>' +
       '</div>';
-  }
-
-  body.innerHTML = '<div class="empty-state">' +
-      '<div class="empty-state__icon"><i class="fa-solid fa-receipt"></i></div>' +
-      '<h2>Nothing to check out yet</h2>' +
-      '<p class="text-muted-xo">Your order is empty — add a few products and come back.</p>' +
-      '<a class="btn btn-xo" href="shop.html">Browse the catalogue</a></div>';
-    return;
   }
 
   var t = Cart.totals();
@@ -172,6 +172,11 @@ document.addEventListener('DOMContentLoaded', function () {
             (t.delivery ? XO.money(t.delivery) : 'Free') + '</b></div>' +
           '<div class="summary-card__row"><span>VAT (5%)</span><b class="num">' + XO.money(t.vat) + '</b></div>' +
           '<div class="summary-card__row summary-card__total"><span>Total</span><b class="num">' + XO.money(t.total) + '</b></div>' +
+
+          (Cart.lines().some(function (l) { return XO.indicative(l); })
+            ? '<p class="price-note mt-3 mb-0"><i class="fa-solid fa-circle-info"></i> ' +
+              'This total is indicative. Sending this asks us for a written quotation — ' +
+              'nothing is charged and nothing is produced until you approve it.</p>' : '') +
 
           '<button class="btn btn-xo btn-lg-xo w-100 mt-3" type="submit" id="placeBtn">' +
             '<i class="fa-solid fa-paper-plane"></i> Place order</button>' +
@@ -280,6 +285,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (mode === 'email') {
       var E = XO_CONFIG.EMAIL;
       var t2 = Cart.totals();
+      var linesAtOrder = Cart.lines();
 
       var fields = {
         _subject: E.orderSubject + ' — ' + (customer.company || customer.name || 'website'),
@@ -301,6 +307,8 @@ document.addEventListener('DOMContentLoaded', function () {
         Delivery: t2.delivery ? XO.money(t2.delivery) : 'Free',
         'VAT 5%': XO.money(t2.vat),
         'Total incl VAT': XO.money(t2.total),
+        'Pricing status': linesAtOrder.some(function (l) { return XO.indicative(l); })
+          ? 'INDICATIVE — quote this order manually before confirming' : 'Catalogue prices',
         'Full order': orderMessage(customer)
       };
 
