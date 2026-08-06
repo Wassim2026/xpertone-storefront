@@ -412,6 +412,19 @@ hr { border: 0; border-top: 1px solid var(--xo-line); opacity: 1; margin: 2rem 0
 .spec-list li { display: flex; gap: 1rem; padding: .6rem 0; border-bottom: 1px solid var(--xo-line); font-size: .92rem; }
 .spec-list li b { flex: 0 0 42%; color: var(--xo-ink); font-weight: 600; }
 
+/* Manufacturer bullet points on the product page. */
+.feature-list { margin: 0; padding-left: 1.15rem; font-size: .92rem; color: var(--xo-ink-600); }
+.feature-list li { margin-bottom: .3rem; }
+
+/* Shown wherever a price is still a placeholder. */
+.price-note {
+  font-size: .86rem; line-height: 1.5; color: var(--xo-ink-600);
+  background: var(--xo-surface-alt); border: 1px solid var(--xo-line);
+  border-left: 3px solid var(--xo-amber-600);
+  border-radius: var(--xo-r-sm); padding: .6rem .8rem; max-width: 62ch;
+}
+.price-note i { color: var(--xo-amber-600); margin-right: .35rem; }
+
 /* =========================================================================
    Cart & checkout
    ========================================================================= */
