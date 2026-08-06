@@ -514,8 +514,16 @@
     paintState();
     renderClients();
     Catalog.load().then(function (list) {
-      products = list;
-      list.forEach(function (p) { S.picks[p.uid] = true; });
+      /* Only ranges you can actually print on. Nobody brands a tape measure,
+         and offering 180 items would bury the ones the client is buying. */
+      var printable = {}, preselect = {};
+      CFG.CATEGORIES.forEach(function (c) {
+        if (c.printable) printable[c.slug] = true;
+        if (c.nav && c.printable) preselect[c.slug] = true;
+      });
+      products = list.filter(function (p) { return printable[p.category]; });
+      /* Vests and uniforms are ticked to start with — the rest are one click. */
+      products.forEach(function (p) { S.picks[p.uid] = !!preselect[p.category]; });
       renderFilters();
       renderPicks();
     }).catch(function () {

@@ -14,7 +14,7 @@ window.XO_CONFIG = {
      'local' -> read the catalogue from data/products.json (bundled snapshot)
      'auto'  -> try live first, fall back to the local snapshot on failure
      --------------------------------------------------------------------- */
-  DATA_SOURCE: 'auto',
+  DATA_SOURCE: 'local',
 
   API_BASE: 'https://api.xpertoneprints.com',
 
@@ -77,6 +77,28 @@ window.XO_CONFIG = {
   CURRENCY: 'AED',
   VAT_RATE: 0.05,              // UAE standard rate, 5%
   PRICES_INCLUDE_VAT: false,   // catalogue prices are ex-VAT
+
+  /* ---------------------------------------------------------------------
+     INDICATIVE PRICING
+     ---------------------------------------------------------------------
+     The Remart range was loaded from the supplier catalogue, which carries
+     no selling prices. Every product currently holds a category-level
+     indicative figure and is marked priceStatus:'indicative' in
+     data/products.json.
+
+     While this is true the site says so on every price, and checkout is
+     worded as a quote request rather than a firm order, so nobody can buy
+     at a wrong price. Put your real numbers in the price field of
+     data/products.json and drop priceStatus, and the wording disappears by
+     itself, product by product.
+     --------------------------------------------------------------------- */
+  INDICATIVE: {
+    label: 'indicative',
+    short: 'Indicative — confirmed on your quote',
+    long: 'Prices shown are indicative only, for guidance on budget. Your ' +
+          'final price depends on quantity, colours, sizes and printing, and ' +
+          'is confirmed in writing on your quotation before anything is made.'
+  },
 
   MOQ: 10,                     // minimum order quantity per product line
   FREE_DELIVERY_THRESHOLD: 1000,   // AED, ex-VAT - Dubai
@@ -210,35 +232,73 @@ window.XO_CONFIG = {
 
   /* ---------------------------------------------------------------------
      CATEGORY MODEL
-     --------------------------------------------------------------------- */
+     ---------------------------------------------------------------------
+     nav: true puts the range in the top navigation. Everything else is still
+     reachable from Shop All and from the category tiles on the home page. */
   CATEGORIES: [
     {
-      slug: 'safety-vests',
-      name: 'Safety Vests',
-      blurb: 'Hi-vis reflective vests - general, supervisor and engineer grade.',
-      apiKeys: ['Safety Vest'],
-      source: 'products'
+      slug: 'safety-vests', printable: true, name: 'Safety Vests', nav: true,
+      blurb: 'Hi-vis reflective vests - general, supervisor, executive and engineer grade.',
+      apiKeys: ['High Visibility Safety Vest', 'Safety Vest'], source: 'remart'
     },
     {
-      slug: 'uniforms',
-      name: 'Pant & Shirt Sets',
-      blurb: 'Cotton and twill workwear sets, plain or reflective, 190-260 GSM.',
-      apiKeys: ['Pant-Shirts-Coveralls'],
-      source: 'products'
+      slug: 'uniforms', printable: true, name: 'Workwear & Uniforms', nav: true,
+      blurb: 'Pant-and-shirt sets, coveralls, lab coats and cargo trousers.',
+      apiKeys: ['Working Wear', 'Uniform with Reflective Strips 2025', 'Cargo Pants'], source: 'remart'
     },
     {
-      slug: 'cargo-trousers',
-      name: 'Cargo Trousers',
-      blurb: 'ProGuard cargo pants in polyester-cotton and 100% cotton canvas.',
-      apiKeys: ['Cargo Trousers'],
-      source: 'products'
+      slug: 'safety-shoes', name: 'Safety Shoes', nav: true,
+      blurb: 'Steel toe cap safety footwear - low ankle, high ankle and executive.',
+      apiKeys: ['Safety Shoes'], source: 'remart'
     },
     {
-      slug: 'helmets',
-      name: 'Safety Helmets',
-      blurb: 'Industrial hard hats with adjustable harness, six colourways.',
-      apiKeys: ['Helmet', 'helmet'],
-      source: 'helmets'
+      slug: 'helmets', printable: true, name: 'Head Protection',
+      blurb: 'Industrial hard hats, helmet straps and disposable head covers.',
+      apiKeys: ['Head Protection', 'Helmet', 'helmet'], source: 'remart'
+    },
+    {
+      slug: 'hand-protection', name: 'Hand Protection', nav: true,
+      blurb: 'Cut-resistant, leather, coated, welding and insulating gloves.',
+      apiKeys: ['Hand Protection'], source: 'remart'
+    },
+    {
+      slug: 'eye-face-protection', name: 'Eye & Face Protection',
+      blurb: 'Safety spectacles, goggles, face shields and welding shields.',
+      apiKeys: ['Eyes Protection', 'Face Protection'], source: 'remart'
+    },
+    {
+      slug: 'hearing-respiratory', name: 'Hearing & Respiratory',
+      blurb: 'Earmuffs, earplugs, dust masks and half-face respirators.',
+      apiKeys: ['Hearing Protection', 'Respiratory Protection'], source: 'remart'
+    },
+    {
+      slug: 'fall-protection', name: 'Fall Protection',
+      blurb: 'Full body harnesses, lanyards, fall arresters and lifelines.',
+      apiKeys: ['Anti Fall Protection'], source: 'remart'
+    },
+    {
+      slug: 'rainwear-marine', printable: true, name: 'Rainwear & Marine',
+      blurb: 'PVC and polyester rain suits, life jackets, buoys and floating rope.',
+      apiKeys: ['Raincoat', 'Life Jackets', 'Marine Safety Products', 'Beach Umbrella'], source: 'remart'
+    },
+    {
+      slug: 'traffic-safety', name: 'Traffic & Road Safety',
+      blurb: 'Cones, posts, barriers, warning signs, beacons and reflective tape.',
+      apiKeys: ['Traffic Cone & Traffic Post', 'Traffic Light', 'Traffic Fence', 'Traffic Barrier',
+                'Traffic Warning Signs', 'Traffic Reflective Tape', 'Traffic Warning Tapes', 'Convex Mirror'],
+      source: 'remart'
+    },
+    {
+      slug: 'parking-site', name: 'Parking & Site Equipment',
+      blurb: 'Parking locks, wheel stoppers, speed humps, ramps and corner guards.',
+      apiKeys: ['Parking Lock', 'Wheel Stopper', 'Speed Hump with Cable Channel', 'Speed Hump',
+                'Corner Guard', 'Ramp'],
+      source: 'remart'
+    },
+    {
+      slug: 'spill-consumables', name: 'Spill Control & Consumables',
+      blurb: 'Drum and IBC spill pallets, adhesive tapes and measuring tapes.',
+      apiKeys: ['Spill Kit, Drum & IBC Pallet', 'Adhesive Tapes', 'Tape Measure'], source: 'remart'
     }
   ],
 

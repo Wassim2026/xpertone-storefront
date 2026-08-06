@@ -20,7 +20,9 @@
       { href: 'index.html', label: 'Home', key: 'home' },
       { href: 'shop.html', label: 'Shop All', key: 'shop' }
     ];
-    CFG.CATEGORIES.forEach(function (c) {
+    /* Only the flagged ranges go in the bar — twelve links would not fit.
+       The rest are one click away under Shop All. */
+    CFG.CATEGORIES.filter(function (c) { return c.nav; }).forEach(function (c) {
       items.push({ href: 'shop.html?category=' + c.slug, label: c.name, key: c.slug });
     });
     items.push({ href: 'about.html', label: 'About', key: 'about' });
@@ -153,6 +155,7 @@
     var badge = p.attribute
       ? '<span class="badge-xo badge-xo--amber product-card__badge">' + XO.esc(p.attribute) + '</span>'
       : '';
+    var ind = XO.indicative(p);
     return '' +
       '<div class="col-6 col-lg-4 col-xl-3">' +
         '<article class="product-card">' +
@@ -168,7 +171,7 @@
             '<div class="product-card__sizes"><i class="fa-solid fa-ruler"></i> ' + XO.esc(sizes) + '</div>' +
             '<div class="product-card__foot">' +
               '<div class="product-card__price"><b class="num">' + XO.money(p.price) + '</b>' +
-                '<span>per piece, ex VAT</span></div>' +
+                '<span>' + (ind ? 'indicative, ex VAT' : 'per piece, ex VAT') + '</span></div>' +
               '<a class="btn btn-xo btn-sm-xo" href="product.html?p=' + encodeURIComponent(p.uid) + '">' +
                 'Order <i class="fa-solid fa-arrow-right"></i></a>' +
             '</div>' +

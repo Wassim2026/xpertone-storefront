@@ -29,6 +29,13 @@
       return isNaN(n) || n < 0 ? 0 : n;
     },
 
+    /* True while a product still carries a placeholder price, so the page can
+       say so instead of quietly presenting a guess as a real number. Clear
+       priceStatus in data/products.json and the wording goes away. */
+    indicative: function (p) {
+      return !!(p && p.priceStatus === 'indicative' && CFG.INDICATIVE);
+    },
+
     slug: function (s) {
       return String(s).toLowerCase()
         .replace(/&amp;/g, 'and').replace(/&/g, 'and')
@@ -343,6 +350,7 @@
           category: product.category,
           categoryName: product.categoryName,
           price: product.price,
+          priceStatus: product.priceStatus || '',
           image: product.images[0] || '',
           qty: clean,
           logo: !!opts.logo,
