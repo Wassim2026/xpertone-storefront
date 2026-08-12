@@ -209,6 +209,51 @@
         });
     },
 
+    /* Live catalogue from Supabase. Prices, photos and details come from
+       whatever is in the admin panel right now. Falls back to the bundled
+       snapshot if Supabase is ever unreachable, so the shop never goes blank. */
+    _fromSupabase: function () {
+      var s = CFG.SUPABASE || {};
+      return fetch(s.url + '/rest/v1/products_public?select=*&order=sort_order', {
+        headers: { apikey: s.key }
+      })
+        .then(function (r) {
+          if (!r.ok) throw new Error('Supabase responded ' + r.status);
+          return r.json();
+        })
+        .then(function (rows) {
+          return rows.map(function (row) {
+            return {
+              id: row.sku,
+              uid: row.category + '-' + String(row.sku).toLowerCase(),
+              source: 'remart',
+              title: row.title,
+              slug: row.slug,
+              category: row.category,
+              categoryName: row.category_name,
+              price: Number(row.price),
+              priceStatus: row.price_is_fixed ? 'fixed' : 'indicative',
+              sizes: row.sizes || [],
+              images: row.images || [],
+              imageSource: 'remart',
+              attribute: row.attribute || '',
+              description: row.description || '',
+              subtitle: row.subtitle || '',
+              code: '',
+              features: row.features || [],
+              material: row.material || '',
+              colour: row.colour || '',
+              origin: row.origin || '',
+              standard: row.standard || '',
+              packing: row.packing || '',
+              gsm: row.gsm || '',
+              dimensions: row.dimensions || '',
+              page: row.catalogue_page || 0
+            };
+          });
+        });
+    },
+
     load: function () {
       var self = this;
       if (this._cache) return Promise.resolve(this._cache);
@@ -216,7 +261,11 @@
 
       var mode = CFG.DATA_SOURCE;
       var p;
-      if (mode === 'local') p = this._fromLocal();
+      if (mode === 'supabase') p = this._fromSupabase().catch(function (err) {
+        console.warn('[XpertOne] Supabase unavailable, using bundled snapshot.', err);
+        return self._fromLocal();
+      });
+      else if (mode === 'local') p = this._fromLocal();
       else if (mode === 'live') p = this._fromLive();
       else p = this._fromLive().catch(function (err) {
         console.warn('[XpertOne] Live catalogue unavailable, using bundled snapshot.', err);
