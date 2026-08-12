@@ -215,7 +215,10 @@
     _fromSupabase: function () {
       var s = CFG.SUPABASE || {};
       return fetch(s.url + '/rest/v1/products_public?select=*&order=sort_order', {
-        headers: { apikey: s.key }
+        headers: { apikey: s.key },
+        /* Never let the browser serve a stale catalogue. A price or photo
+           changed in the admin panel must show on the next page load. */
+        cache: 'no-store'
       })
         .then(function (r) {
           if (!r.ok) throw new Error('Supabase responded ' + r.status);
