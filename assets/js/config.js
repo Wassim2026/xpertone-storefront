@@ -14,7 +14,29 @@ window.XO_CONFIG = {
      'local' -> read the catalogue from data/products.json (bundled snapshot)
      'auto'  -> try live first, fall back to the local snapshot on failure
      --------------------------------------------------------------------- */
-  DATA_SOURCE: 'local',
+  /* ---------------------------------------------------------------------
+     WHERE THE CATALOGUE COMES FROM
+     ---------------------------------------------------------------------
+     'supabase' -> read the live catalogue from the admin panel database.
+                   Prices, photos and product details are whatever is in the
+                   admin panel right now. CURRENT SETTING.
+     'local'    -> read the bundled snapshot in data/products.json
+     'live'     -> read the old PHP API at API_BASE
+     'auto'     -> try the PHP API, fall back to the bundled snapshot
+
+     If Supabase is ever unreachable the shop automatically falls back to
+     data/products.json, so the catalogue never renders empty.
+     --------------------------------------------------------------------- */
+  DATA_SOURCE: 'supabase',
+
+  /* Admin panel database. The key below is a PUBLISHABLE key: it is meant to
+     be readable in the browser. It can only read the public catalogue view —
+     supplier cost, your markup and the team list are all blocked by row level
+     security. Never put the SECRET key in this file. */
+  SUPABASE: {
+    url: 'https://myodfvshmusywmhdozwt.supabase.co',
+    key: 'sb_publishable_yqVW7IVTIgSarj8nKwVTuQ_zrj80eQ-'
+  },
 
   API_BASE: 'https://api.xpertoneprints.com',
 
