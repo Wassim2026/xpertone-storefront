@@ -1,0 +1,9 @@
+{
+  "name": "XpertOne — Log an inquiry",
+  "short_name": "Log inquiry",
+  "start_url": "./capture.html",
+  "display": "standalone",
+  "background_color": "#111111",
+  "theme_color": "#000000",
+  "icons": []
+}
