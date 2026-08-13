@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Log an inquiry — XpertOne</title>
+<link rel="stylesheet" href="crm.css">
+<link rel="manifest" href="capture.webmanifest">
+<meta name="theme-color" content="#000000">
+<script src="/assets/js/config.js"></script>
+<style>
+  body{background:#111}
+  .pad{max-width:460px;margin:0 auto;padding:18px 14px 50px}
+  .sheet{background:#fff;border-radius:14px;padding:18px}
+  .top{color:#fff;text-align:center;padding:22px 0 16px}
+  .top .logo{width:44px;height:44px;border-radius:11px;background:var(--brand);color:#000;
+    display:grid;place-items:center;font-weight:800;margin:0 auto 10px}
+  .top h1{font-size:18px;margin:0 0 3px}
+  .top p{margin:0;opacity:.6;font-size:13.5px}
+  .done{display:none;text-align:center;padding:28px 10px}
+  .done .tick{width:56px;height:56px;border-radius:50%;background:#e6f5ec;color:var(--ok);
+    display:grid;place-items:center;font-size:30px;margin:0 auto 12px}
+  .done h2{margin:0 0 6px;font-size:19px}
+  .stack{display:flex;flex-direction:column;gap:12px}
+</style>
+</head>
+<body>
+<div class="pad">
+  <div class="top">
+    <div class="logo">X1</div>
+    <h1>Log an inquiry</h1>
+    <p>Ten seconds now beats a lost order later</p>
+  </div>
+
+  <div class="sheet" id="sheet">
+    <div class="msg err" id="msg"></div>
+    <form id="f" class="stack">
+      <div class="fld">
+        <label for="phone">WhatsApp number *</label>
+        <input type="tel" id="phone" name="phone" inputmode="tel" placeholder="+9715…" required>
+      </div>
+      <div class="fld">
+        <label for="company">Company</label>
+        <input type="text" id="company" name="company" placeholder="Al Nakheel Contracting">
+      </div>
+      <div class="fld">
+        <label for="contact">Their name</label>
+        <input type="text" id="contact" name="contact" placeholder="Ahmed">
+      </div>
+      <div class="fld">
+        <label for="product">What do they want?</label>
+        <input type="text" id="product" name="product" placeholder="Safety vests with logo">
+      </div>
+      <div class="fld">
+        <label for="qty">Rough quantity</label>
+        <input type="number" id="qty" name="qty" min="1" inputmode="numeric" placeholder="200">
+      </div>
+      <div class="fld">
+        <label for="source">Where did they come from?</label>
+        <select id="source" name="source">
+          <option value="whatsapp">WhatsApp</option>
+          <option value="facebook_ad">Facebook ad</option>
+          <option value="instagram_ad">Instagram ad</option>
+          <option value="phone">Phone call</option>
+          <option value="walk_in">Walk in</option>
+          <option value="referral">Referral</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div class="fld">
+        <label for="notes">Anything they said</label>
+        <textarea id="notes" name="notes" placeholder="Colours, sizes, deadline…"></textarea>
+      </div>
+      <button class="btn" id="go" style="width:100%;padding:13px">Save inquiry</button>
+      <p class="hint" style="text-align:center;margin:0">
+        It lands in the CRM straight away, unassigned.
+      </p>
+    </form>
+  </div>
+
+  <div class="sheet done" id="done">
+    <div class="tick">&check;</div>
+    <h2>Saved as #<span id="refNo"></span></h2>
+    <p class="hint" id="doneSub">It is in the inquiry log now. Someone will pick it up.</p>
+    <button class="btn" id="again" style="width:100%;margin-top:14px">Log another</button>
+  </div>
+</div>
+
+<script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+const CFG = (window.XO_CONFIG && window.XO_CONFIG.SUPABASE) || {};
+const sb = createClient(CFG.url, CFG.key);
+
+const $ = s => document.querySelector(s);
+const f = $('#f');
+
+f.addEventListener('submit', async e => {
+  e.preventDefault();
+  const btn = $('#go');
+  const phone = $('#phone').value.trim();
+  if (!phone) return;
+
+  btn.disabled = true;
+  btn.textContent = 'Saving…';
+  $('#msg').classList.remove('on');
+
+  const { data: ref, error } = await sb.rpc('log_inquiry', {
+    p_company: $('#company').value.trim(),
+    p_contact: $('#contact').value.trim(),
+    p_phone: phone,
+    p_email: '',
+    p_product: $('#product').value.trim(),
+    p_qty: $('#qty').value ? Number($('#qty').value) : null,
+    p_source: $('#source').value,
+    p_notes: $('#notes').value.trim()
+  });
+
+  btn.disabled = false;
+  btn.textContent = 'Save inquiry';
+
+  if (error) {
+    const m = $('#msg');
+    m.textContent = error.message || 'Could not save that. Check your connection and try again.';
+    m.className = 'msg err on';
+    return;
+  }
+
+  $('#refNo').textContent = ref;
+  $('#sheet').style.display = 'none';
+  $('#done').style.display = 'block';
+});
+
+$('#again').addEventListener('click', () => {
+  f.reset();
+  $('#done').style.display = 'none';
+  $('#sheet').style.display = 'block';
+  $('#phone').focus();
+});
+</script>
+</body>
+</html>
