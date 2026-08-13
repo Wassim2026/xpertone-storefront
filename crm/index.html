@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>XpertOne CRM</title>
+<link rel="stylesheet" href="crm.css">
+<!-- Supabase URL + publishable key live in one place for the whole site. -->
+<script src="/assets/js/config.js"></script>
+</head>
+<body>
+
+<!-- ============ sign in ============ -->
+<div class="gate" id="gate" style="display:none">
+  <form class="card" id="loginForm">
+    <div class="logo">X1</div>
+    <h1>XpertOne CRM</h1>
+    <p class="sub">Sign in with your team account</p>
+    <div class="msg err" id="loginMsg"></div>
+    <div class="fld" style="margin-bottom:10px">
+      <label for="email">Email</label>
+      <input type="email" id="email" autocomplete="username" required>
+    </div>
+    <div class="fld" style="margin-bottom:16px">
+      <label for="pw">Password</label>
+      <input type="password" id="pw" autocomplete="current-password" required>
+    </div>
+    <button class="btn" style="width:100%" id="loginBtn">Sign in</button>
+    <p class="hint" style="text-align:center;margin:14px 0 0">
+      No account? Ask an admin to create one for you.
+    </p>
+  </form>
+</div>
+
+<!-- ============ app ============ -->
+<div id="app" style="display:none">
+  <div class="hdr">
+    <div class="logo">X1</div>
+    <h1>XpertOne <span>CRM</span></h1>
+    <div class="spacer"></div>
+    <div class="who"><b id="whoName">—</b><span id="whoRole">—</span></div>
+    <button class="btn sec sm" id="signOut">Sign out</button>
+  </div>
+
+  <nav class="tabs" id="tabs" role="tablist">
+    <button role="tab" data-view="inbox"    aria-selected="true">Inquiries <span class="count" id="cInbox">0</span></button>
+    <button role="tab" data-view="pipeline" aria-selected="false">Pipeline <span class="count" id="cJobs">0</span></button>
+    <button role="tab" data-view="clients"  aria-selected="false">Clients</button>
+    <button role="tab" data-view="team"     aria-selected="false">Team</button>
+  </nav>
+
+  <div class="wrap">
+
+    <!-- ---------- inquiries ---------- -->
+    <section class="view on" id="v-inbox">
+      <div class="stats">
+        <div class="stat"><div class="k">Unassigned</div><div class="v" id="sUnassigned">0</div></div>
+        <div class="stat"><div class="k">Open</div><div class="v" id="sOpen">0</div></div>
+        <div class="stat"><div class="k">Mine</div><div class="v" id="sMine">0</div></div>
+        <div class="stat alert"><div class="k">No reply 24h+</div><div class="v" id="sStale">0</div></div>
+      </div>
+
+      <div class="card" id="addCard">
+        <h2>Log an inquiry</h2>
+        <div class="msg" id="addMsg"></div>
+        <form id="addForm">
+          <div class="grid2" style="margin-bottom:12px">
+            <div class="fld"><label>Company</label><input type="text" name="company" placeholder="Al Nakheel Contracting"></div>
+            <div class="fld"><label>Contact name</label><input type="text" name="contact" placeholder="Ahmed"></div>
+            <div class="fld"><label>WhatsApp / phone</label><input type="tel" name="phone" placeholder="+9715…"></div>
+            <div class="fld"><label>Email</label><input type="email" name="email"></div>
+            <div class="fld"><label>What do they want?</label><input type="text" name="product" placeholder="Safety vests with logo"></div>
+            <div class="fld"><label>Rough quantity</label><input type="number" name="qty" min="1" placeholder="200"></div>
+            <div class="fld"><label>Where from?</label>
+              <select name="source">
+                <option value="whatsapp">WhatsApp</option>
+                <option value="facebook_ad">Facebook ad</option>
+                <option value="instagram_ad">Instagram ad</option>
+                <option value="website">Website</option>
+                <option value="phone">Phone call</option>
+                <option value="walk_in">Walk in</option>
+                <option value="referral">Referral</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="fld"><label>Give it to</label><select name="assigned" id="addAssign"></select></div>
+          </div>
+          <div class="fld" style="margin-bottom:12px">
+            <label>Notes</label>
+            <textarea name="notes" placeholder="Colours, sizes, deadline, anything they said…"></textarea>
+          </div>
+          <button class="btn" id="addBtn">Save inquiry</button>
+          <span class="hint" id="addHint" style="margin-left:10px"></span>
+        </form>
+      </div>
+
+      <div class="row" style="margin-bottom:12px">
+        <div class="fld grow"><input type="text" id="qInbox" placeholder="Search company, contact, phone or product…"></div>
+        <select id="fStatus" style="width:auto">
+          <option value="">All statuses</option>
+          <option value="open">Open only</option>
+          <option value="new">New</option>
+          <option value="assigned">Assigned</option>
+          <option value="contacted">Contacted</option>
+          <option value="qualified">Qualified</option>
+          <option value="quoted">Quoted</option>
+          <option value="won">Won</option>
+          <option value="lost">Lost</option>
+          <option value="dormant">Dormant</option>
+        </select>
+        <select id="fWho" style="width:auto"></select>
+      </div>
+
+      <div class="tablewrap">
+        <table>
+          <thead><tr>
+            <th>#</th><th>Client</th><th>Wants</th><th>From</th>
+            <th>Status</th><th>Salesperson</th><th>Age</th>
+          </tr></thead>
+          <tbody id="inboxRows"></tbody>
+        </table>
+        <div class="empty" id="inboxEmpty" style="display:none">Nothing here yet.</div>
+      </div>
+    </section>
+
+    <!-- ---------- pipeline ---------- -->
+    <section class="view" id="v-pipeline">
+      <div class="row" style="margin-bottom:12px">
+        <div class="fld grow"><input type="text" id="qJobs" placeholder="Search job, client or product…"></div>
+        <label class="row" style="gap:6px;font-size:13.5px">
+          <input type="checkbox" id="onlyMine" style="width:auto"> Only my role's work
+        </label>
+        <button class="btn sec sm" id="refreshJobs">Refresh</button>
+      </div>
+      <div class="board" id="board"></div>
+      <p class="hint" id="boardHint" style="margin-top:6px"></p>
+    </section>
+
+    <!-- ---------- clients ---------- -->
+    <section class="view" id="v-clients">
+      <div class="row" style="margin-bottom:12px">
+        <div class="fld grow"><input type="text" id="qClients" placeholder="Search clients…"></div>
+      </div>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Company</th><th>Contact</th><th>Phone</th><th>Email</th><th>Inquiries</th></tr></thead>
+          <tbody id="clientRows"></tbody>
+        </table>
+        <div class="empty" id="clientsEmpty" style="display:none">No clients yet.</div>
+      </div>
+    </section>
+
+    <!-- ---------- team ---------- -->
+    <section class="view" id="v-team">
+      <div class="card" id="newUserCard">
+        <h2>Add a team member</h2>
+        <div class="msg" id="teamMsg"></div>
+        <form id="newUserForm">
+          <div class="grid2" style="margin-bottom:12px">
+            <div class="fld"><label>Full name</label><input type="text" name="full_name" required></div>
+            <div class="fld"><label>Email</label><input type="email" name="email" autocomplete="off" required></div>
+            <div class="fld"><label>Phone</label><input type="tel" name="phone"></div>
+            <div class="fld"><label>Role</label>
+              <select name="role" required>
+                <option value="sales">Sales</option>
+                <option value="designer">Designer</option>
+                <option value="purchasing">Purchasing</option>
+                <option value="production">Production</option>
+                <option value="pasting">Pasting</option>
+                <option value="delivery">Delivery</option>
+                <option value="accounts">Accounts</option>
+                <option value="admin">Admin</option>
+              </select>
+            </div>
+            <div class="fld">
+              <label>Starting password</label>
+              <input type="password" name="password" autocomplete="new-password" minlength="8" required>
+              <span class="hint">At least 8 characters. Tell them to change it after their first sign in.</span>
+            </div>
+          </div>
+          <button class="btn" id="newUserBtn">Create account</button>
+        </form>
+      </div>
+
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Name</th><th>Role</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="teamRows"></tbody>
+        </table>
+      </div>
+      <p class="hint" style="margin-top:10px">
+        Roles decide what each person can open and which pipeline stage they are allowed to move.
+      </p>
+    </section>
+
+  </div>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-hidden="true">
+  <header><h2 id="drawerTitle">Details</h2><button class="x" id="drawerClose" aria-label="Close">&times;</button></header>
+  <div class="body" id="drawerBody"></div>
+  <div class="foot" id="drawerFoot"></div>
+</aside>
+
+<div class="toast" id="toast"></div>
+<div class="spin" id="boot">Loading…</div>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
