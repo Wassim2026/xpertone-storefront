@@ -214,16 +214,31 @@
        snapshot if Supabase is ever unreachable, so the shop never goes blank. */
     _fromSupabase: function () {
       var s = CFG.SUPABASE || {};
-      return fetch(s.url + '/rest/v1/products_public?select=*&order=sort_order', {
-        headers: { apikey: s.key },
-        /* Never let the browser serve a stale catalogue. A price or photo
-           changed in the admin panel must show on the next page load. */
-        cache: 'no-store'
-      })
-        .then(function (r) {
-          if (!r.ok) throw new Error('Supabase responded ' + r.status);
-          return r.json();
+      /* PostgREST returns at most 1000 rows per request, so page through the
+         catalogue until a short page comes back. Without this the shop
+         silently drops every product past the first 1000. */
+      var PAGE = 1000;
+      function fetchPage(from, acc) {
+        return fetch(s.url + '/rest/v1/products_public?select=*&order=sort_order', {
+          headers: {
+            apikey: s.key,
+            'Range-Unit': 'items',
+            Range: from + '-' + (from + PAGE - 1)
+          },
+          /* Never let the browser serve a stale catalogue. A price or photo
+             changed in the admin panel must show on the next page load. */
+          cache: 'no-store'
         })
+          .then(function (r) {
+            if (!r.ok) throw new Error('Supabase responded ' + r.status);
+            return r.json();
+          })
+          .then(function (batch) {
+            var rows = acc.concat(batch);
+            return batch.length < PAGE ? rows : fetchPage(from + PAGE, rows);
+          });
+      }
+      return fetchPage(0, [])
         .then(function (rows) {
           return rows.map(function (row) {
             return {
