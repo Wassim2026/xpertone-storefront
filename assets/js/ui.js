@@ -15,28 +15,146 @@
   /* =======================================================================
      Header / footer
      ======================================================================= */
-  function navLinks(active) {
-    var items = [
-      { href: 'index.html', label: 'Home', key: 'home' },
-      { href: 'shop.html', label: 'Shop All', key: 'shop' }
-    ];
-    /* Only the flagged ranges go in the bar — twelve links would not fit.
-       The rest are one click away under Shop All. */
-    CFG.CATEGORIES.filter(function (c) { return c.nav; }).forEach(function (c) {
-      items.push({ href: 'shop.html?category=' + c.slug, label: c.name, key: c.slug });
-    });
-    items.push({ href: 'about.html', label: 'About', key: 'about' });
-    items.push({ href: 'contact.html', label: 'Contact', key: 'contact' });
+    /* ---------------------------------------------------------------------
+     Navigation model
+     ---------------------------------------------------------------------
+     Fourteen flat ranges will not fit in a bar, and someone hunting for
+     gloves should not have to guess which link hides them. So the ranges
+     are grouped into four shopping intents; each group opens a panel
+     listing the categories under it with a live product count. A category
+     holding nothing is dropped rather than shown as an empty dead end.
+     --------------------------------------------------------------------- */
+  var NAV_GROUPS = [
+    { key: 'workwear', label: 'Workwear',
+      cats: ['safety-vests', 'uniforms', 'rainwear-marine'] },
+    { key: 'ppe', label: 'Personal Protection',
+      cats: ['safety-shoes', 'hand-protection', 'helmets', 'eye-face-protection', 'hearing-respiratory', 'fall-protection'] },
+    { key: 'site', label: 'Site & Traffic',
+      cats: ['traffic-safety', 'parking-site', 'spill-consumables'] },
+    { key: 'tools', label: 'Tools & Equipment',
+      cats: ['hardware-tools', 'automotive'] }
+  ];
 
-    return items.map(function (i) {
-      return '<a href="' + i.href + '"' + (i.key === active ? ' class="is-active" aria-current="page"' : '') + '>' +
-             XO.esc(i.label) + '</a>';
-    }).join('');
+  var CAT_COUNTS = null;
+
+  function catMeta(slug) {
+    var list = CFG.CATEGORIES || [];
+    for (var i = 0; i < list.length; i++) { if (list[i].slug === slug) return list[i]; }
+    return { slug: slug, name: slug };
+  }
+
+  function catCount(slug) { return CAT_COUNTS ? (CAT_COUNTS[slug] || 0) : null; }
+
+  function totalCount() {
+    if (!CAT_COUNTS) return 0;
+    var n = 0; for (var k in CAT_COUNTS) { n += CAT_COUNTS[k]; } return n;
+  }
+
+  /* Before counts land we show everything, so the first paint is never bare. */
+  function visibleCats(g) {
+    return g.cats.filter(function (s) { var n = catCount(s); return n === null ? true : n > 0; });
+  }
+
+  function headerStyles() {
+    if (document.getElementById('xoNavCss')) return;
+    var css =
+      '.xo-nav{background:#12151b}' +
+      '.xo-nav__inner{display:flex;align-items:stretch;gap:2px;flex-wrap:nowrap;overflow:visible}' +
+      '.xo-nav a,.xo-nav button{color:#e8eaed;text-decoration:none;font-weight:600;font-size:14px;background:none;border:0;padding:13px 14px;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;line-height:1}' +
+      '.xo-nav a:hover,.xo-nav button:hover,.xo-nav a.is-active{color:#f5b301}' +
+      '.xo-nav a.is-active{box-shadow:inset 0 -3px 0 #f5b301}' +
+      '.xo-grp{position:relative;display:inline-flex}' +
+      '.xo-mega{position:absolute;left:0;top:100%;z-index:1050;min-width:560px;background:#fff;border:1px solid #e6e8ec;border-radius:0 0 14px 14px;box-shadow:0 20px 44px rgba(15,17,21,.2);padding:14px;display:none}' +
+      '.xo-grp:hover .xo-mega,.xo-grp:focus-within .xo-mega{display:block}' +
+      '.xo-mega__grid{display:grid;grid-template-columns:1fr 1fr;gap:2px}' +
+      '.xo-mega a{color:#12151b;padding:10px 11px;border-radius:9px;display:flex;justify-content:space-between;align-items:center;gap:10px;font-weight:600;font-size:14px}' +
+      '.xo-mega a:hover{background:#f5f6f8;color:#12151b}' +
+      '.xo-mega__n{color:#98a1ae;font-weight:600;font-size:12px}' +
+      '.xo-mega__all{display:block;margin-top:8px;padding-top:10px;border-top:1px solid #eceef2;font-size:13px}' +
+      '.xo-tag{font-size:10px;text-transform:uppercase;letter-spacing:.4px;background:#fff3cd;color:#8a6100;border-radius:999px;padding:2px 7px;font-weight:700}' +
+      '.xo-search{position:relative;flex:1;max-width:460px}' +
+      '.xo-search input{width:100%;border:1px solid #dfe3e8;border-radius:10px;padding:10px 14px 10px 38px;font-size:14px;background:#fff}' +
+      '.xo-search input:focus{outline:2px solid #f5b301;outline-offset:0;border-color:#f5b301}' +
+      '.xo-search .fa-magnifying-glass{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:#98a1ae;font-size:13px}' +
+      '.xo-mnav details{border-bottom:1px solid #eceef2}' +
+      '.xo-mnav summary{list-style:none;cursor:pointer;padding:13px 2px;font-weight:700;display:flex;justify-content:space-between;align-items:center}' +
+      '.xo-mnav summary::-webkit-details-marker{display:none}' +
+      '.xo-mnav a{display:flex;justify-content:space-between;padding:10px 10px;border-radius:8px;color:#12151b;text-decoration:none;font-size:14px;font-weight:600}' +
+      '.xo-mnav a:hover{background:#f5f6f8}' +
+      '.xo-mnav>a{padding:13px 2px;border-bottom:1px solid #eceef2;border-radius:0}' +
+      '@media(max-width:1199.98px){.xo-nav{display:none}}';
+    var s = document.createElement('style');
+    s.id = 'xoNavCss';
+    s.appendChild(document.createTextNode(css));
+    document.head.appendChild(s);
+  }
+
+  function catLink(slug, withTag) {
+    var m = catMeta(slug), n = catCount(slug);
+    return '<a href="shop.html?category=' + slug + '">' +
+      '<span>' + XO.esc(m.name) + (withTag && m.printable ? ' <span class="xo-tag">logo</span>' : '') + '</span>' +
+      (n === null ? '' : '<span class="xo-mega__n">' + n + '</span>') + '</a>';
+  }
+
+  function megaFor(g) {
+    var cells = visibleCats(g).map(function (s) { return catLink(s, true); }).join('');
+    var tot = totalCount();
+    return '<div class="xo-mega"><div class="xo-mega__grid">' + cells + '</div>' +
+      '<a class="xo-mega__all" href="shop.html">Browse all' + (tot ? ' ' + tot : '') + ' products</a></div>';
+  }
+
+  function navBar(active) {
+    var out = '<a href="index.html"' + (active === 'home' ? ' class="is-active"' : '') + '>Home</a>' +
+              '<a href="shop.html"' + (active === 'shop' ? ' class="is-active"' : '') + '>Shop All</a>';
+    NAV_GROUPS.forEach(function (g) {
+      if (!visibleCats(g).length) return;
+      out += '<span class="xo-grp"><button type="button" aria-haspopup="true">' + XO.esc(g.label) +
+             ' <i class="fa-solid fa-chevron-down" style="font-size:9px;opacity:.7"></i></button>' + megaFor(g) + '</span>';
+    });
+    out += '<a href="about.html"' + (active === 'about' ? ' class="is-active"' : '') + '>About</a>' +
+           '<a href="contact.html"' + (active === 'contact' ? ' class="is-active"' : '') + '>Contact</a>';
+    return out;
+  }
+
+  function mobileNavHtml() {
+    var out = '<a href="index.html">Home</a><a href="shop.html">Shop All</a>';
+    NAV_GROUPS.forEach(function (g) {
+      var cats = visibleCats(g);
+      if (!cats.length) return;
+      out += '<details><summary>' + XO.esc(g.label) + '<i class="fa-solid fa-chevron-down" style="font-size:11px;opacity:.5"></i></summary>' +
+             '<div style="padding-bottom:8px">' + cats.map(function (s) { return catLink(s, false); }).join('') + '</div></details>';
+    });
+    out += '<a href="about.html">About</a><a href="contact.html">Contact</a>';
+    return out;
+  }
+
+  /* Kept because other pages still call it. */
+  function navLinks(active) { return navBar(active); }
+
+  function loadCounts(done) {
+    if (CAT_COUNTS) { done(); return; }
+    try {
+      var cached = sessionStorage.getItem('xo_cat_counts');
+      if (cached) { CAT_COUNTS = JSON.parse(cached); done(); return; }
+    } catch (e) {}
+    var s = CFG.SUPABASE || {};
+    if (!s.url) { done(); return; }
+    fetch(s.url + '/rest/v1/category_counts?select=slug,product_count', { headers: { apikey: s.key } })
+      .then(function (r) { return r.ok ? r.json() : []; })
+      .then(function (rows) {
+        var m = {};
+        rows.forEach(function (r) { m[r.slug] = r.product_count; });
+        CAT_COUNTS = m;
+        try { sessionStorage.setItem('xo_cat_counts', JSON.stringify(m)); } catch (e) {}
+      })
+      ['catch'](function () {})
+      .then(function () { done(); });
   }
 
   function renderHeader(active) {
     var mount = document.getElementById('siteHeader');
     if (!mount) return;
+    headerStyles();
 
     mount.innerHTML =
       '<div class="topbar d-none d-lg-block"><div class="container d-flex justify-content-between align-items-center">' +
@@ -56,9 +174,12 @@
           '<span><span class="brand__name">XpertOne</span><span class="brand__tag">Prints &amp; Safety</span></span>' +
         '</a>' +
 
-        '<nav class="mainnav d-none d-xl-flex" aria-label="Main">' + navLinks(active) + '</nav>' +
+        '<form class="xo-search d-none d-lg-block mx-3" id="xoSearchForm" role="search">' +
+          '<i class="fa-solid fa-magnifying-glass"></i>' +
+          '<input type="search" id="xoSearchInput" placeholder="Search 1,200+ products — vest, S3 shoe, welding glove, cone" aria-label="Search products">' +
+        '</form>' +
 
-        '<div class="header-actions ms-auto ms-xl-0">' +
+        '<div class="header-actions ms-auto ms-lg-0">' +
           '<a class="btn btn-outline-xo btn-sm-xo d-none d-md-inline-flex" href="contact.html#quote">' +
             '<i class="fa-solid fa-file-invoice"></i> Request a quote</a>' +
           '<a class="btn btn-ink btn-sm-xo cart-btn" href="cart.html" aria-label="Cart">' +
@@ -72,6 +193,10 @@
         '</div>' +
       '</div></div></header>' +
 
+      '<div class="xo-nav d-none d-xl-block"><div class="container"><div class="xo-nav__inner" id="xoNavInner">' +
+        navBar(active) +
+      '</div></div></div>' +
+
       '<div class="offcanvas offcanvas-end" tabindex="-1" id="mobileNav" aria-label="Menu">' +
         '<div class="offcanvas-header border-bottom">' +
           '<span class="brand"><span class="brand__mark">X1</span>' +
@@ -79,13 +204,55 @@
           '<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>' +
         '</div>' +
         '<div class="offcanvas-body">' +
-          '<nav class="d-flex flex-column gap-1 mainnav align-items-stretch">' + navLinks(active) + '</nav>' +
-          '<hr>' +
-          '<a class="btn btn-wa w-100" href="' + XO.waLink('Hello XpertOne, I would like a quote.') + '" target="_blank" rel="noopener">' +
-            '<i class="fa-brands fa-whatsapp"></i> Order on WhatsApp</a>' +
+          '<form class="xo-search mb-3" id="xoSearchFormM" role="search">' +
+            '<i class="fa-solid fa-magnifying-glass"></i>' +
+            '<input type="search" id="xoSearchInputM" placeholder="Search products" aria-label="Search products">' +
+          '</form>' +
+          '<nav class="xo-mnav d-flex flex-column" id="xoMobileNav" aria-label="Main">' + mobileNavHtml() + '</nav>' +
+          '<a class="btn btn-gold w-100 mt-3" href="contact.html#quote">Request a quote</a>' +
         '</div>' +
       '</div>';
+
+    /* Search jumps to the shop and pre-fills its filter box. */
+    function wireSearch(formId, inputId) {
+      var f = document.getElementById(formId);
+      if (!f) return;
+      f.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var v = (document.getElementById(inputId).value || '').trim();
+        location.href = 'shop.html' + (v ? '?q=' + encodeURIComponent(v) : '');
+      });
+    }
+    wireSearch('xoSearchForm', 'xoSearchInput');
+    wireSearch('xoSearchFormM', 'xoSearchInputM');
+
+    /* Counts arrive a moment later; redraw so empty ranges disappear. */
+    loadCounts(function () {
+      var d = document.getElementById('xoNavInner');
+      if (d) d.innerHTML = navBar(active);
+      var m = document.getElementById('xoMobileNav');
+      if (m) m.innerHTML = mobileNavHtml();
+    });
   }
+
+  /* Carry a header search term into the shop page's own filter. */
+  function applySearchParam() {
+    var q = null;
+    try { q = new URLSearchParams(location.search).get('q'); } catch (e) { return; }
+    if (!q) return;
+    var tries = 0;
+    var timer = setInterval(function () {
+      var box = document.getElementById('searchBox');
+      if (box) {
+        box.value = q;
+        box.dispatchEvent(new Event('input', { bubbles: true }));
+        clearInterval(timer);
+      } else if (++tries > 40) { clearInterval(timer); }
+    }, 100);
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', applySearchParam);
+  } else { applySearchParam(); }
 
   function renderFooter() {
     var mount = document.getElementById('siteFooter');
