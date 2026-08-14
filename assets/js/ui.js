@@ -36,6 +36,7 @@
   ];
 
   var CAT_COUNTS = null;
+  var SUBS = {};
 
   function catMeta(slug) {
     var list = CFG.CATEGORIES || [];
@@ -82,6 +83,13 @@
       '.xo-mnav a{display:flex;justify-content:space-between;padding:10px 10px;border-radius:8px;color:#12151b;text-decoration:none;font-size:14px;font-weight:600}' +
       '.xo-mnav a:hover{background:#f5f6f8}' +
       '.xo-mnav>a{padding:13px 2px;border-bottom:1px solid #eceef2;border-radius:0}' +
+      '.xo-mega__cols{display:grid;gap:14px}' +
+      '.xo-col__head{display:flex;justify-content:space-between;align-items:center;gap:8px;font-weight:700;font-size:14px;color:#12151b;padding:6px 8px;border-radius:8px;text-decoration:none}' +
+      '.xo-col__head:hover{background:#f5f6f8}' +
+      '.xo-col__sub{display:flex;justify-content:space-between;gap:8px;font-weight:500;font-size:13px;color:#5b6472;padding:5px 8px 5px 16px;border-radius:8px;text-decoration:none}' +
+      '.xo-col__sub:hover{background:#f5f6f8;color:#12151b}' +
+      '.xo-col__more{display:block;font-size:12px;color:#8a93a2;padding:4px 8px 4px 16px;text-decoration:none}' +
+      '.product-card__sku{margin-left:6px;font-size:11px;letter-spacing:.4px;color:#98a1ae;font-weight:700}' +
       '@media(max-width:1199.98px){.xo-nav{display:none}}';
     var s = document.createElement('style');
     s.id = 'xoNavCss';
@@ -97,9 +105,25 @@
   }
 
   function megaFor(g) {
-    var cells = visibleCats(g).map(function (s) { return catLink(s, true); }).join('');
+    var cats = visibleCats(g);
+    var cols = cats.map(function (slug) {
+      var m = catMeta(slug), n = catCount(slug);
+      var subs = (SUBS[slug] || []).slice(0, 5);
+      var head = '<a class="xo-col__head" href="shop.html?category=' + slug + '">' +
+        '<span>' + XO.esc(m.name) + (m.printable ? ' <span class="xo-tag">logo</span>' : '') + '</span>' +
+        (n === null ? '' : '<span class="xo-mega__n">' + n + '</span>') + '</a>';
+      var kids = subs.map(function (s) {
+        return '<a class="xo-col__sub" href="shop.html?category=' + slug + '&q=' + encodeURIComponent(s.name) + '">' +
+          '<span>' + XO.esc(s.name) + '</span><span class="xo-mega__n">' + s.n + '</span></a>';
+      }).join('');
+      var more = (SUBS[slug] || []).length > 5
+        ? '<a class="xo-col__more" href="shop.html?category=' + slug + '">All ' + XO.esc(m.name) + '</a>' : '';
+      return '<div>' + head + kids + more + '</div>';
+    }).join('');
     var tot = totalCount();
-    return '<div class="xo-mega"><div class="xo-mega__grid">' + cells + '</div>' +
+    var wide = cats.length > 3;
+    return '<div class="xo-mega"' + (wide ? ' style="min-width:760px"' : '') + '>' +
+      '<div class="xo-mega__cols" style="grid-template-columns:repeat(' + Math.min(cats.length, 3) + ',minmax(220px,1fr))">' + cols + '</div>' +
       '<a class="xo-mega__all" href="shop.html">Browse all' + (tot ? ' ' + tot : '') + ' products</a></div>';
   }
 
@@ -139,7 +163,19 @@
     } catch (e) {}
     var s = CFG.SUPABASE || {};
     if (!s.url) { done(); return; }
-    fetch(s.url + '/rest/v1/category_counts?select=slug,product_count', { headers: { apikey: s.key } })
+    fetch(s.url + '/rest/v1/nav_tree?select=category,subcategory,subcategory_slug,product_count', { headers: { apikey: s.key } })
+      .then(function (r) { return r.ok ? r.json() : []; })
+      .then(function (rows) {
+        var by = {};
+        rows.forEach(function (r) {
+          (by[r.category] = by[r.category] || []).push({ name: r.subcategory, slug: r.subcategory_slug, n: r.product_count });
+        });
+        Object.keys(by).forEach(function (k) { by[k].sort(function (a, b) { return b.n - a.n; }); });
+        SUBS = by;
+      })
+      ['catch'](function () {})
+      .then(function () {
+    return fetch(s.url + '/rest/v1/category_counts?select=slug,product_count', { headers: { apikey: s.key } })
       .then(function (r) { return r.ok ? r.json() : []; })
       .then(function (rows) {
         var m = {};
@@ -149,6 +185,7 @@
       })
       ['catch'](function () {})
       .then(function () { done(); });
+      });
   }
 
   function renderHeader(active) {
@@ -333,7 +370,8 @@
               : '<i class="fa-solid fa-image fa-2x text-muted-xo"></i>') +
           '</a>' +
           '<div class="product-card__body">' +
-            '<span class="product-card__cat">' + XO.esc(p.categoryName) + '</span>' +
+            '<span class="product-card__cat">' + XO.esc(p.subcategory || p.categoryName) +
+              (p.sku ? '<span class="product-card__sku">' + XO.esc(p.sku) + '</span>' : '') + '</span>' +
             '<h3 class="product-card__title"><a href="product.html?p=' + encodeURIComponent(p.uid) + '">' + XO.esc(p.title) + '</a></h3>' +
             '<div class="product-card__sizes"><i class="fa-solid fa-ruler"></i> ' + XO.esc(sizes) + '</div>' +
             '<div class="product-card__foot">' +
