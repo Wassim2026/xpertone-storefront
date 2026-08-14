@@ -19,8 +19,8 @@
   var XO = window.XO = {
 
     money: function (n, withCurrency) {
-      var v = (Math.round((Number(n) || 0) * 100) / 100)
-        .toLocaleString('en-AE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      var v = Math.round(Number(n) || 0)
+        .toLocaleString('en-AE', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
       return withCurrency === false ? v : CFG.CURRENCY + ' ' + v;
     },
 
