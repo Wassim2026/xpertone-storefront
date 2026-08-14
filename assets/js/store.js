@@ -158,6 +158,8 @@
 
       return {
         id: String(row.id),
+      sku: row.sku || String(row.id),
+      subcategory: row.subcategory || '',
         uid: cat.slug + '-' + row.id,
         source: sourceKey,
         title: title,
@@ -243,6 +245,8 @@
           return rows.map(function (row) {
             return {
               id: row.sku,
+              sku: row.sku,
+              subcategory: row.subcategory || '',
               uid: row.category + '-' + String(row.sku).toLowerCase(),
               source: 'remart',
               title: row.title,
