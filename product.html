@@ -110,6 +110,21 @@ document.addEventListener('DOMContentLoaded', function () {
     document.title = p.title + ' — XpertOne Prints';
     var meta = document.querySelector('meta[name=description]');
     if (meta && p.description) meta.setAttribute('content', p.description.slice(0, 160));
+    var canonical = document.querySelector('link[rel=canonical]') || document.createElement('link');
+    canonical.setAttribute('rel', 'canonical');
+    canonical.setAttribute('href', 'https://www.xpertonecreative.com/product.html?p=' + encodeURIComponent(p.uid));
+    if (!canonical.parentNode) document.head.appendChild(canonical);
+    var schema = document.createElement('script');
+    schema.type = 'application/ld+json';
+    schema.textContent = JSON.stringify({
+      '@context': 'https://schema.org', '@type': 'Product', name: p.title,
+      description: p.description || p.subtitle || p.title, sku: p.code || p.uid,
+      image: p.images || [], brand: { '@type': 'Brand', name: 'XpertOne Prints' },
+      offers: { '@type': 'Offer', priceCurrency: 'AED', price: p.price,
+        availability: 'https://schema.org/InStock',
+        url: canonical.getAttribute('href') }
+    });
+    document.head.appendChild(schema);
 
     var ind = XO.indicative(p);
     var img = p.images[0];

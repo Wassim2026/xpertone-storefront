@@ -1,2 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /admin.html
+Disallow: /brand-kit.html
+Disallow: /crm/
+
+Sitemap: https://www.xpertonecreative.com/sitemap.xml
