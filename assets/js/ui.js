@@ -207,7 +207,7 @@
 
       '<header class="site-header"><div class="container"><div class="site-header__inner">' +
         '<a class="brand" href="index.html">' +
-          '<span class="brand__mark">X1</span>' +
+          '<img class="brand__logo" src="assets/img/brand/xpertone-mark.png" alt="XpertOne">' +
           '<span><span class="brand__name">XpertOne</span><span class="brand__tag">Prints &amp; Safety</span></span>' +
         '</a>' +
 
@@ -236,7 +236,7 @@
 
       '<div class="offcanvas offcanvas-end" tabindex="-1" id="mobileNav" aria-label="Menu">' +
         '<div class="offcanvas-header border-bottom">' +
-          '<span class="brand"><span class="brand__mark">X1</span>' +
+          '<span class="brand"><img class="brand__logo" src="assets/img/brand/xpertone-mark.png" alt="XpertOne">' +
           '<span><span class="brand__name">XpertOne</span><span class="brand__tag">Prints &amp; Safety</span></span></span>' +
           '<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>' +
         '</div>' +
@@ -303,7 +303,7 @@
       '<footer class="site-footer"><div class="container">' +
         '<div class="row g-4 g-lg-5">' +
           '<div class="col-lg-4">' +
-            '<span class="brand mb-3"><span class="brand__mark">X1</span>' +
+            '<span class="brand mb-3"><img class="brand__logo brand__logo--footer" src="assets/img/brand/xpertone-mark.png" alt="XpertOne">' +
             '<span><span class="brand__name text-white">XpertOne</span>' +
             '<span class="brand__tag">Prints &amp; Safety</span></span></span>' +
             '<p style="font-size:.92rem;max-width:34ch">Bulk safety wear and custom uniform printing for UAE ' +
