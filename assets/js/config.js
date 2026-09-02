@@ -294,11 +294,6 @@ window.XO_CONFIG = {
       apiKeys: ['Hearing Protection', 'Respiratory Protection'], source: 'remart'
     },
     {
-      slug: 'fall-protection', name: 'Fall Protection',
-      blurb: 'Full body harnesses, lanyards, fall arresters and lifelines.',
-      apiKeys: ['Anti Fall Protection'], source: 'remart'
-    },
-    {
       slug: 'rainwear-marine', printable: true, name: 'Rainwear & Marine',
       blurb: 'PVC and polyester rain suits, life jackets, buoys and floating rope.',
       apiKeys: ['Raincoat', 'Life Jackets', 'Marine Safety Products', 'Beach Umbrella'], source: 'remart'
@@ -310,18 +305,6 @@ window.XO_CONFIG = {
                 'Traffic Warning Signs', 'Traffic Reflective Tape', 'Traffic Warning Tapes', 'Convex Mirror'],
       source: 'remart'
     },
-    {
-      slug: 'parking-site', name: 'Parking & Site Equipment',
-      blurb: 'Parking locks, wheel stoppers, speed humps, ramps and corner guards.',
-      apiKeys: ['Parking Lock', 'Wheel Stopper', 'Speed Hump with Cable Channel', 'Speed Hump',
-                'Corner Guard', 'Ramp'],
-      source: 'remart'
-    },
-    {
-      slug: 'spill-consumables', name: 'Spill Control & Consumables',
-      blurb: 'Drum and IBC spill pallets, adhesive tapes and measuring tapes.',
-      apiKeys: ['Spill Kit, Drum & IBC Pallet', 'Adhesive Tapes', 'Tape Measure'], source: 'remart'
-    }
   ],
 
   /* Sizes are normalised to this order wherever they appear. */
