@@ -28,9 +28,9 @@
     { key: 'workwear', label: 'Workwear',
       cats: ['safety-vests', 'uniforms', 'rainwear-marine'] },
     { key: 'ppe', label: 'Personal Protection',
-      cats: ['safety-shoes', 'hand-protection', 'helmets', 'eye-face-protection', 'hearing-respiratory', 'fall-protection'] },
+      cats: ['safety-shoes', 'hand-protection', 'helmets', 'eye-face-protection', 'hearing-respiratory'] },
     { key: 'site', label: 'Site & Traffic',
-      cats: ['traffic-safety', 'parking-site', 'spill-consumables'] },
+      cats: ['traffic-safety'] },
     { key: 'tools', label: 'Tools & Equipment',
       cats: ['hardware-tools', 'automotive'] }
   ];
