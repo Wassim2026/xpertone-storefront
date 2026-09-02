@@ -294,7 +294,7 @@ window.XO_CONFIG = {
       apiKeys: ['Hearing Protection', 'Respiratory Protection'], source: 'remart'
     },
     {
-      slug: 'rainwear-marine', printable: true, name: 'Rainwear & Marine',
+      slug: 'rainwear-marine', name: 'Rainwear & Marine',
       blurb: 'PVC and polyester rain suits, life jackets, buoys and floating rope.',
       apiKeys: ['Raincoat', 'Life Jackets', 'Marine Safety Products', 'Beach Umbrella'], source: 'remart'
     },
