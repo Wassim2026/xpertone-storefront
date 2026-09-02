@@ -207,8 +207,7 @@
 
       '<header class="site-header"><div class="container"><div class="site-header__inner">' +
         '<a class="brand" href="index.html">' +
-          '<img class="brand__logo" src="assets/img/brand/xpertone-mark.png" alt="XpertOne">' +
-          '<span><span class="brand__name">XpertOne</span><span class="brand__tag">Prints &amp; Safety</span></span>' +
+          '<img class="brand__logo" src="/assets/img/brand/xpertone-logo.png" alt="XpertOne Safety Gear &amp; Uniforms">' +
         '</a>' +
 
         '<form class="xo-search d-none d-lg-block mx-3" id="xoSearchForm" role="search">' +
@@ -236,8 +235,7 @@
 
       '<div class="offcanvas offcanvas-end" tabindex="-1" id="mobileNav" aria-label="Menu">' +
         '<div class="offcanvas-header border-bottom">' +
-          '<span class="brand"><img class="brand__logo" src="assets/img/brand/xpertone-mark.png" alt="XpertOne">' +
-          '<span><span class="brand__name">XpertOne</span><span class="brand__tag">Prints &amp; Safety</span></span></span>' +
+          '<span class="brand"><img class="brand__logo" src="/assets/img/brand/xpertone-logo.png" alt="XpertOne Safety Gear &amp; Uniforms"></span>' +
           '<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>' +
         '</div>' +
         '<div class="offcanvas-body">' +
@@ -303,9 +301,7 @@
       '<footer class="site-footer"><div class="container">' +
         '<div class="row g-4 g-lg-5">' +
           '<div class="col-lg-4">' +
-            '<span class="brand mb-3"><img class="brand__logo brand__logo--footer" src="assets/img/brand/xpertone-mark.png" alt="XpertOne">' +
-            '<span><span class="brand__name text-white">XpertOne</span>' +
-            '<span class="brand__tag">Prints &amp; Safety</span></span></span>' +
+            '<span class="brand mb-3"><img class="brand__logo brand__logo--footer" src="/assets/img/brand/xpertone-logo.png" alt="XpertOne Safety Gear &amp; Uniforms"></span>' +
             '<p style="font-size:.92rem;max-width:34ch">Bulk safety wear and custom uniform printing for UAE ' +
             'construction, logistics and facilities teams. Supplied from our Al Quoz warehouse.</p>' +
             '<a class="btn btn-wa btn-sm-xo" href="' + XO.waLink('Hello XpertOne, I would like a quote.') + '" target="_blank" rel="noopener">' +
