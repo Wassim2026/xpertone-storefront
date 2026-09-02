@@ -50,6 +50,13 @@
   .row{display:flex;gap:10px;align-items:center}
   .stack{display:flex;flex-direction:column;gap:10px}
   .rules{font-size:12px;color:var(--dim);line-height:1.7}
+  .cat-editor{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:14px}
+  .cat-image-card{display:grid;grid-template-columns:76px 1fr;gap:12px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:10px;background:#12151b}
+  .cat-image-card img{width:76px;height:76px;object-fit:contain;background:#fff;border-radius:8px}
+  .cat-image-card h3{font-size:14px;margin:0 0 7px}
+  .cat-image-card input[type=file]{width:100%;font-size:12px;padding:6px}
+  .cat-image-actions{display:flex;gap:7px;margin-top:7px}
+  .cat-image-actions button{padding:6px 9px;font-size:12px}
   code{background:#22262f;padding:1px 5px;border-radius:4px}
   @media(max-width:800px){ .hide-sm{display:none} .ttl{max-width:200px} }
 </style>
@@ -85,6 +92,16 @@
   </header>
 
   <div class="wrap">
+    <div class="card" style="margin-bottom:14px">
+      <div class="row" style="align-items:flex-start;flex-wrap:wrap">
+        <div class="grow">
+          <strong>Homepage category pictures</strong>
+          <div class="muted">Upload your own display image for each main category. PNG, JPG or WebP up to 5 MB.</div>
+        </div>
+      </div>
+      <div id="categoryImageGrid" class="cat-editor"><span class="muted">Loading categories…</span></div>
+    </div>
+
     <div class="card" style="margin-bottom:14px">
       <div class="rules">
         <strong style="color:var(--txt)">Automatic pricing rules</strong> — applied when <em>My price</em> is blank.<br>
@@ -131,6 +148,7 @@ const TOKEN_KEY = 'xo_admin_token';
 
 let session = null;
 let all = [];
+let categoryRows = [];
 const dirty = new Map();
 
 const $ = id => document.getElementById(id);
@@ -178,6 +196,80 @@ async function loadAll() {
     if (batch.length < step) break;
   }
   return out;
+}
+
+async function loadCategories() {
+  const r = await fetch(SUPABASE_URL + '/rest/v1/categories?select=slug,name,display_image_url,is_active&is_active=eq.true&order=sort_order.asc', {
+    headers: headers(), cache: 'no-store'
+  });
+  if (!r.ok) throw new Error('Category load failed (' + r.status + ')');
+  return r.json();
+}
+
+function fallbackCategoryImage(slug) {
+  const p = all.find(x => x.category_slug === slug && x.images && x.images.length);
+  return p ? p.images[0] : '';
+}
+
+function renderCategoryImages() {
+  const grid = $('categoryImageGrid');
+  grid.innerHTML = categoryRows.map(c => {
+    const image = c.display_image_url || fallbackCategoryImage(c.slug);
+    return '<article class="cat-image-card" data-slug="' + c.slug + '">' +
+      (image ? '<img src="' + image + '" alt="">' : '<div class="noimg" style="width:76px;height:76px">no image</div>') +
+      '<div><h3>' + c.name + '</h3>' +
+      '<input class="cat-file" type="file" accept="image/png,image/jpeg,image/webp">' +
+      '<div class="cat-image-actions"><button class="primary cat-upload">Upload &amp; use</button>' +
+      (c.display_image_url ? '<button class="ghost cat-remove">Use product image</button>' : '') +
+      '</div></div></article>';
+  }).join('');
+
+  grid.querySelectorAll('.cat-upload').forEach(btn => btn.addEventListener('click', () => uploadCategoryImage(btn.closest('[data-slug]'))));
+  grid.querySelectorAll('.cat-remove').forEach(btn => btn.addEventListener('click', () => clearCategoryImage(btn.closest('[data-slug]'))));
+}
+
+async function saveCategoryUrl(slug, url) {
+  const r = await fetch(SUPABASE_URL + '/rest/v1/categories?slug=eq.' + encodeURIComponent(slug), {
+    method: 'PATCH', headers: headers({ Prefer: 'return=minimal' }),
+    body: JSON.stringify({ display_image_url: url })
+  });
+  if (!r.ok) throw new Error((await r.text()).slice(0, 180) || 'Could not save category image');
+  const c = categoryRows.find(x => x.slug === slug);
+  if (c) c.display_image_url = url;
+}
+
+async function uploadCategoryImage(card) {
+  const slug = card.dataset.slug;
+  const file = card.querySelector('.cat-file').files[0];
+  if (!file) return toast('Choose an image first', true);
+  if (file.size > 5 * 1024 * 1024) return toast('Image must be under 5 MB', true);
+  const btn = card.querySelector('.cat-upload');
+  btn.disabled = true; btn.textContent = 'Uploading…';
+  try {
+    const ext = (file.name.split('.').pop() || 'jpg').toLowerCase().replace(/[^a-z0-9]/g, '');
+    const path = 'categories/' + slug + '-' + Date.now() + '.' + ext;
+    const r = await fetch(SUPABASE_URL + '/storage/v1/object/product-photos/' + path, {
+      method: 'POST',
+      headers: { apikey: SUPABASE_KEY, Authorization: 'Bearer ' + session.access_token, 'Content-Type': file.type, 'x-upsert': 'true' },
+      body: file
+    });
+    if (!r.ok) throw new Error((await r.text()).slice(0, 180) || 'Upload failed');
+    const url = SUPABASE_URL + '/storage/v1/object/public/product-photos/' + path;
+    await saveCategoryUrl(slug, url);
+    renderCategoryImages();
+    toast('Category picture updated');
+  } catch (e) {
+    toast(String(e.message || e), true);
+    btn.disabled = false; btn.textContent = 'Upload & use';
+  }
+}
+
+async function clearCategoryImage(card) {
+  try {
+    await saveCategoryUrl(card.dataset.slug, '');
+    renderCategoryImages();
+    toast('Product image restored');
+  } catch (e) { toast(String(e.message || e), true); }
 }
 
 function markDirty(id, field, value) {
@@ -287,7 +379,7 @@ async function save() {
 
 async function boot() {
   try {
-    all = await loadAll();
+    [all, categoryRows] = await Promise.all([loadAll(), loadCategories()]);
   } catch (e) {
     toast(String(e.message || e), true);
     return;
@@ -300,6 +392,7 @@ async function boot() {
     }).join('');
   $('loginView').style.display = 'none';
   $('appView').style.display = '';
+  renderCategoryImages();
   render();
 }
 

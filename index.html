@@ -229,14 +229,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
   /* Category tiles — image is taken from the first product in each range. */
   GridSkeleton('#highlightGrid', 8);
-  Catalog.load().then(function (all) {
+  var categoryImages = fetch(XO_CONFIG.SUPABASE.url + '/rest/v1/categories?select=slug,display_image_url&is_active=eq.true', {
+    headers: { apikey: XO_CONFIG.SUPABASE.key }, cache: 'no-store'
+  }).then(function (r) { return r.ok ? r.json() : []; }).catch(function () { return []; });
+
+  Promise.all([Catalog.load(), categoryImages]).then(function (loaded) {
+    var all = loaded[0];
+    var custom = {};
+    loaded[1].forEach(function (c) { if (c.display_image_url) custom[c.slug] = c.display_image_url; });
     var cats = XO_CONFIG.CATEGORIES.map(function (c) {
       var first = all.filter(function (p) { return p.category === c.slug; })[0];
       var count = all.filter(function (p) { return p.category === c.slug; }).length;
+      var displayImage = custom[c.slug] || (first && first.images[0]);
       return '<div class="col-6 col-lg-3"><a class="cat-tile" href="shop.html?category=' + c.slug + '">' +
         '<div class="cat-tile__media">' +
-          (first && first.images[0]
-            ? '<img src="' + XO.esc(first.images[0]) + '" alt="' + XO.esc(c.name) + '" loading="lazy">'
+          (displayImage
+            ? '<img src="' + XO.esc(displayImage) + '" alt="' + XO.esc(c.name) + '" loading="lazy">'
             : '<i class="fa-solid fa-image fa-2x text-muted-xo"></i>') +
         '</div>' +
         '<div class="cat-tile__body"><h3>' + XO.esc(c.name) + '</h3>' +
