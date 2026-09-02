@@ -9,13 +9,15 @@
 <title>Shop Safety Vests, Uniforms, PPE &amp; Site Safety in Bulk | XpertOne Prints</title>
 <meta name="description" content="Full catalogue of safety vests, uniforms, safety shoes, gloves, eye and hearing protection, harnesses, rainwear and road safety equipment. Filter by range, sort by price, order online.">
 <link rel="canonical" href="https://www.xpertonecreative.com/shop.html">
+<meta name="robots" content="index,follow" id="robotsMeta">
+<script>if(location.search){document.getElementById('robotsMeta').content='noindex,follow';}</script>
 <meta name="theme-color" content="#0E1116">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
-<link href="assets/css/main.css" rel="stylesheet">
+<link href="assets/css/main.css?v=20260902" rel="stylesheet">
 </head>
 <body data-page="shop">
 <a class="skip-link" href="#main">Skip to content</a>
@@ -26,12 +28,12 @@
   <section style="background:var(--xo-surface-alt);border-bottom:1px solid var(--xo-line)">
     <div class="container py-4">
       <nav aria-label="Breadcrumb" style="font-size:.85rem">
-        <a href="index.html" class="text-muted-xo">Home</a>
+        <a href="/" class="text-muted-xo">Home</a>
         <span class="text-muted-xo mx-1">/</span>
         <span id="crumb" style="color:var(--xo-ink);font-weight:600">All products</span>
       </nav>
       <h1 class="mt-2 mb-1" id="pageTitle">All products</h1>
-      <p class="mb-0 text-muted-xo" id="pageBlurb">Trade prices per piece, excluding 5% VAT. Logo printing available on every line.</p>
+      <p class="mb-0 text-muted-xo" id="pageBlurb">Trade prices per piece, excluding 5% VAT. Logo printing is available on vests, uniforms and eligible helmets.</p>
       <p class="price-note mt-3 mb-0" id="priceNote" hidden></p>
     </div>
   </section>
@@ -91,9 +93,9 @@
 <div id="siteFooter"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="assets/js/config.js"></script>
-<script src="assets/js/store.js"></script>
-<script src="assets/js/ui.js"></script>
+<script src="assets/js/config.js?v=20260902"></script>
+<script src="assets/js/store.js?v=20260902"></script>
+<script src="assets/js/ui.js?v=20260902"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -120,7 +122,7 @@ document.addEventListener('DOMContentLoaded', function () {
     XO.el('#pageTitle').textContent = c ? c.name : 'All products';
     XO.el('#crumb').textContent = c ? c.name : 'All products';
     XO.el('#pageBlurb').textContent = c ? c.blurb
-      : 'Trade prices per piece, excluding 5% VAT. Logo printing available on every line.';
+      : 'Trade prices per piece, excluding 5% VAT. Logo printing is available on vests, uniforms and eligible helmets.';
     document.title = (c ? c.name : 'All products') + ' — XpertOne Prints';
   }
 

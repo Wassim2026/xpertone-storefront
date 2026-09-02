@@ -305,6 +305,11 @@ window.XO_CONFIG = {
                 'Traffic Warning Signs', 'Traffic Reflective Tape', 'Traffic Warning Tapes', 'Convex Mirror'],
       source: 'remart'
     },
+    {
+      slug: 'hardware-tools', name: 'Hardware & Tools',
+      blurb: 'Industrial hand tools, spill kits, trolleys, cutting discs and site consumables.',
+      apiKeys: ['Hardware - Tools'], source: 'remart'
+    },
   ],
 
   /* Sizes are normalised to this order wherever they appear. */

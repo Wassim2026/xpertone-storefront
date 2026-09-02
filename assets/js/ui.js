@@ -99,7 +99,7 @@
 
   function catLink(slug, withTag) {
     var m = catMeta(slug), n = catCount(slug);
-    return '<a href="shop.html?category=' + slug + '">' +
+    return '<a href="/category/' + slug + '/">' +
       '<span>' + XO.esc(m.name) + (withTag && m.printable ? ' <span class="xo-tag">logo</span>' : '') + '</span>' +
       (n === null ? '' : '<span class="xo-mega__n">' + n + '</span>') + '</a>';
   }
@@ -109,15 +109,15 @@
     var cols = cats.map(function (slug) {
       var m = catMeta(slug), n = catCount(slug);
       var subs = (SUBS[slug] || []).slice(0, 5);
-      var head = '<a class="xo-col__head" href="shop.html?category=' + slug + '">' +
+      var head = '<a class="xo-col__head" href="/category/' + slug + '/">' +
         '<span>' + XO.esc(m.name) + (m.printable ? ' <span class="xo-tag">logo</span>' : '') + '</span>' +
         (n === null ? '' : '<span class="xo-mega__n">' + n + '</span>') + '</a>';
       var kids = subs.map(function (s) {
-        return '<a class="xo-col__sub" href="shop.html?category=' + slug + '&q=' + encodeURIComponent(s.name) + '">' +
-          '<span>' + XO.esc(s.name) + '</span><span class="xo-mega__n">' + s.n + '</span></a>';
+        return '<span class="xo-col__sub"><span>' + XO.esc(s.name) +
+          '</span><span class="xo-mega__n">' + s.n + '</span></span>';
       }).join('');
       var more = (SUBS[slug] || []).length > 5
-        ? '<a class="xo-col__more" href="shop.html?category=' + slug + '">All ' + XO.esc(m.name) + '</a>' : '';
+        ? '<a class="xo-col__more" href="/category/' + slug + '/">All ' + XO.esc(m.name) + '</a>' : '';
       return '<div>' + head + kids + more + '</div>';
     }).join('');
     var tot = totalCount();
@@ -128,7 +128,7 @@
   }
 
   function navBar(active) {
-    var out = '<a href="index.html"' + (active === 'home' ? ' class="is-active"' : '') + '>Home</a>' +
+    var out = '<a href="/"' + (active === 'home' ? ' class="is-active"' : '') + '>Home</a>' +
               '<a href="shop.html"' + (active === 'shop' ? ' class="is-active"' : '') + '>Shop All</a>';
     NAV_GROUPS.forEach(function (g) {
       if (!visibleCats(g).length) return;
@@ -141,7 +141,7 @@
   }
 
   function mobileNavHtml() {
-    var out = '<a href="index.html">Home</a><a href="shop.html">Shop All</a>';
+    var out = '<a href="/">Home</a><a href="/shop.html">Shop All</a>';
     NAV_GROUPS.forEach(function (g) {
       var cats = visibleCats(g);
       if (!cats.length) return;
@@ -206,7 +206,7 @@
       '</div></div>' +
 
       '<header class="site-header"><div class="container"><div class="site-header__inner">' +
-        '<a class="brand" href="index.html">' +
+        '<a class="brand" href="/">' +
           '<img class="brand__logo" src="/assets/img/brand/xpertone-logo.png" alt="XpertOne Safety Gear &amp; Uniforms">' +
         '</a>' +
 
@@ -294,7 +294,7 @@
     if (!mount) return;
 
     var catLinks = CFG.CATEGORIES.map(function (c) {
-      return '<li><a href="shop.html?category=' + c.slug + '">' + XO.esc(c.name) + '</a></li>';
+      return '<li><a href="/category/' + c.slug + '/">' + XO.esc(c.name) + '</a></li>';
     }).join('');
 
     mount.innerHTML =
@@ -360,20 +360,20 @@
       '<div class="col-6 col-lg-4 col-xl-3">' +
         '<article class="product-card">' +
           badge +
-          '<a class="product-card__media" href="product.html?p=' + encodeURIComponent(p.uid) + '" aria-label="' + XO.esc(p.title) + '">' +
+          '<a class="product-card__media" href="/products/' + encodeURIComponent(p.slug || p.uid) + '/" aria-label="' + XO.esc(p.title) + '">' +
             (p.images[0]
-              ? '<img src="' + XO.esc(p.images[0]) + '" alt="' + XO.esc(p.title) + '" loading="lazy" decoding="async">'
+              ? '<img src="' + XO.esc(p.images[0]) + '" alt="' + XO.esc(p.title) + '" loading="lazy" decoding="async" width="600" height="600">'
               : '<i class="fa-solid fa-image fa-2x text-muted-xo"></i>') +
           '</a>' +
           '<div class="product-card__body">' +
             '<span class="product-card__cat">' + XO.esc(p.subcategory || p.categoryName) +
               (p.sku ? '<span class="product-card__sku">' + XO.esc(p.sku) + '</span>' : '') + '</span>' +
-            '<h3 class="product-card__title"><a href="product.html?p=' + encodeURIComponent(p.uid) + '">' + XO.esc(p.title) + '</a></h3>' +
+            '<h3 class="product-card__title"><a href="/products/' + encodeURIComponent(p.slug || p.uid) + '/">' + XO.esc(p.title) + '</a></h3>' +
             '<div class="product-card__sizes"><i class="fa-solid fa-ruler"></i> ' + XO.esc(sizes) + '</div>' +
             '<div class="product-card__foot">' +
               '<div class="product-card__price"><b class="num">' + XO.money(p.price) + '</b>' +
                 '<span>' + (ind ? 'indicative, ex VAT' : 'per piece, ex VAT') + '</span></div>' +
-              '<a class="btn btn-xo btn-sm-xo" href="product.html?p=' + encodeURIComponent(p.uid) + '">' +
+              '<a class="btn btn-xo btn-sm-xo" href="/products/' + encodeURIComponent(p.slug || p.uid) + '/">' +
                 'Order <i class="fa-solid fa-arrow-right"></i></a>' +
             '</div>' +
           '</div>' +
