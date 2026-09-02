@@ -299,10 +299,10 @@ hr { border: 0; border-top: 1px solid var(--xo-line); opacity: 1; margin: 2rem 0
 }
 .cat-tile:hover { border-color: #C8CDD4; box-shadow: var(--xo-shadow); transform: translateY(-4px); }
 .cat-tile__media {
-  aspect-ratio: 4 / 3; background: var(--xo-surface-alt);
-  display: grid; place-items: center; padding: 1.25rem;
+  aspect-ratio: 1 / 1; background: #fff;
+  display: grid; place-items: center; padding: 0;
 }
-.cat-tile__media img { max-height: 100%; object-fit: contain; mix-blend-mode: multiply; }
+.cat-tile__media img { width: 100%; height: 100%; object-fit: contain; display: block; }
 .cat-tile__body { padding: 1.25rem 1.35rem 1.5rem; }
 .cat-tile__body h3 { font-size: 1.05rem; margin-bottom: .15rem; }
 .cat-tile__body p { font-size: .87rem; color: var(--xo-muted); margin: 0; }
@@ -639,8 +639,8 @@ hr { border: 0; border-top: 1px solid var(--xo-line); opacity: 1; margin: 2rem 0
    a tall product photo used to stretch one tile out of line with the others.
    Fixing the media height and clamping the image keeps every row even. */
 .cat-tile__media {
-  aspect-ratio: auto;
-  height: clamp(170px, 17vw, 240px);
+  aspect-ratio: 1 / 1;
+  height: auto;
   min-height: 0;
 }
 .cat-tile__media img,
@@ -649,6 +649,7 @@ hr { border: 0; border-top: 1px solid var(--xo-line); opacity: 1; margin: 2rem 0
   max-width: 100%;
   object-fit: contain;
 }
+.cat-tile__media img { width: 100%; height: 100%; }
 .product-card__media { min-height: 0; }
 
 /* =========================================================================
