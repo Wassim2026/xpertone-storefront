@@ -110,6 +110,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function render(p) {
+    var isCustomisable = ['safety-vests', 'uniforms', 'helmets'].indexOf(p.category) !== -1;
     document.title = p.title + ' — XpertOne Prints';
     var meta = document.querySelector('meta[name=description]');
     if (meta && p.description) meta.setAttribute('content', p.description.slice(0, 160));
@@ -131,9 +132,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     var ind = XO.indicative(p);
     var img = p.images[0];
-    var desc = p.description ||
-      'Supplied in bulk from our Al Quoz warehouse, with optional front and back logo printing. ' +
-      'Contact us for artwork proofing and production lead times on large orders.';
+    var desc = p.description || (isCustomisable
+      ? 'Supplied in bulk from our Al Quoz warehouse, with optional logo and text printing. ' +
+        'Contact us for artwork proofing and production lead times on large orders.'
+      : 'Supplied from our Al Quoz warehouse. Select the required sizes and quantities, ' +
+        'then add the product directly to your cart.');
 
     mount.innerHTML =
       '<nav aria-label="Breadcrumb" class="mb-3" style="font-size:.85rem">' +
@@ -149,11 +152,11 @@ document.addEventListener('DOMContentLoaded', function () {
             (img ? '<img src="' + XO.esc(img) + '" alt="' + XO.esc(p.title) + '" id="mainImg">'
                  : '<i class="fa-solid fa-image fa-3x text-muted-xo"></i>') +
           '</div>' +
-          '<div class="mt-4 p-4 border rounded-3" style="background:var(--xo-surface-alt)">' +
+          (isCustomisable ? '<div class="mt-4 p-4 border rounded-3" style="background:var(--xo-surface-alt)">' +
             '<h3 class="h6 mb-3"><i class="fa-solid fa-pen-ruler" style="color:var(--xo-amber-600)"></i> Logo printing</h3>' +
             '<p class="mb-0" style="font-size:.92rem">' + XO.esc(XO_CONFIG.LOGO_PRINTING.note) + ' ' +
             'Upload your logo below and we remove the background for you — then you see it on the product before you order.</p>' +
-          '</div>' +
+          '</div>' : '') +
         '</div>' +
 
         '<div class="col-lg-6">' +
@@ -180,7 +183,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
           '<div class="mt-4" id="qtyMount"></div>' +
 
-          '<div class="mt-4" id="designMount"></div>' +
+          (isCustomisable ? '<div class="mt-4" id="designMount"></div>' : '') +
 
           '<div class="d-flex flex-wrap gap-2 mt-3">' +
             '<button class="btn btn-xo btn-lg-xo flex-grow-1" id="addBtn" type="button">' +
@@ -195,7 +198,7 @@ document.addEventListener('DOMContentLoaded', function () {
             specRows(p) +
             '<li><b>Available sizes</b><span>' + (p.sizes.length ? XO.esc(p.sizes.join(', ')) : 'One size') + '</span></li>' +
             '<li><b>Minimum order</b><span>' + XO_CONFIG.MOQ + ' pieces per product</span></li>' +
-            '<li><b>Logo printing</b><span>Upload your artwork above and see it on the product</span></li>' +
+            (isCustomisable ? '<li><b>Logo printing</b><span>Upload your artwork above and see it on the product</span></li>' : '') +
             '<li><b>Delivery</b><span>2–3 working days in Dubai · 3–5 days elsewhere in the UAE</span></li>' +
             '<li><b>VAT</b><span>Prices exclude 5% VAT · TRN tax invoice provided</span></li>' +
             '<li><b>Payment</b><span>Bank transfer, cash on delivery, or card on collection</span></li>' +
@@ -214,7 +217,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
 
-    var designer = ProductDesigner({ mount: '#designMount', product: p });
+    var designer = isCustomisable ? ProductDesigner({ mount: '#designMount', product: p }) : null;
 
     XO.el('#addBtn').addEventListener('click', function () {
       if (designer && designer.isBusy()) {
