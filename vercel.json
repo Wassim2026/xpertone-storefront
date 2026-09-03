@@ -76,7 +76,7 @@
     {
       "source": "/shop.html",
       "has": [{ "type": "query", "key": "category", "value": "safety-vests" }],
-      "destination": "/category/safety-vests/",
+      "destination": "/category/safety-vests/?",
       "permanent": true
     },
     {
