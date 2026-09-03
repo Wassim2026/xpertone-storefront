@@ -2,6 +2,26 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "redirects": [
     {
+      "source": "/contact",
+      "destination": "/contact.html",
+      "permanent": true
+    },
+    {
+      "source": "/about",
+      "destination": "/about.html",
+      "permanent": true
+    },
+    {
+      "source": "/shop",
+      "destination": "/shop.html",
+      "permanent": true
+    },
+    {
+      "source": "/product/:legacyId*",
+      "destination": "/shop.html",
+      "permanent": true
+    },
+    {
       "source": "/category/shoes",
       "destination": "/category/safety-shoes/",
       "permanent": true
