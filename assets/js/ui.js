@@ -12,6 +12,17 @@
   var CFG = window.XO_CONFIG;
   var C = CFG.COMPANY;
 
+  /* Ahrefs Web Analytics. The homepage includes the same tag directly in
+     its head for installation verification; this adds it to every other
+     storefront page while preventing a duplicate on the homepage. */
+  if (!document.querySelector('script[src="https://analytics.ahrefs.com/analytics.js"]')) {
+    var ahrefsAnalytics = document.createElement('script');
+    ahrefsAnalytics.async = true;
+    ahrefsAnalytics.src = 'https://analytics.ahrefs.com/analytics.js';
+    ahrefsAnalytics.setAttribute('data-key', 'vR7uvTEa2vdNP4h6269qIw');
+    document.head.appendChild(ahrefsAnalytics);
+  }
+
   /* =======================================================================
      Header / footer
      ======================================================================= */
