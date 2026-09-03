@@ -158,7 +158,8 @@ function generateProduct(p) {
     .replace(/<meta name="description" content="[^"]*">/, `<meta name="description" content="${esc(description)}">\n<link rel="canonical" href="${canonical}">\n<meta property="og:type" content="product">\n<meta property="og:title" content="${esc(p.title)}">\n<meta property="og:description" content="${esc(description)}">\n<meta property="og:url" content="${canonical}">\n<meta property="og:image" content="${esc(image)}">\n<script type="application/ld+json" data-static-product-schema>${JSON.stringify(productSchema(p))}</script>\n<script type="application/ld+json">${JSON.stringify(breadcrumb)}</script>`)
     .replace('<meta name="robots" content="noindex,follow">', '<meta name="robots" content="index,follow">')
     .replace(/<div class="container py-4" id="pdp">[\s\S]*?<\/div>\n\n  <section class="section section--alt" id="relatedWrap"/, `<div class="container py-4" id="pdp">${staticProductBody(p)}</div>\n\n  <section class="section section--alt" id="relatedWrap"`)
-    .replace('<script src="assets/js/config.js"></script>', `<script>window.XO_STATIC_PRODUCT_UID=${JSON.stringify(p.uid)};</script>\n<script src="assets/js/config.js"></script>`);
+    .replace(/<script src="assets\/js\/config\.js(?:\?v=[^"]+)?"><\/script>/,
+      match => `<script>window.XO_STATIC_PRODUCT_UID=${JSON.stringify(p.uid)};</script>\n${match}`);
   write(path.join(root, 'products', p.slug, 'index.html'), html);
 }
 
