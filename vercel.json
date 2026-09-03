@@ -33,63 +33,124 @@
     },
     {
       "source": "/shop.html",
-      "has": [{ "type": "query", "key": "category", "value": "eye-face-protection" }],
+      "has": [
+        {
+          "type": "query",
+          "key": "category",
+          "value": "eye-face-protection"
+        }
+      ],
       "destination": "/category/eye-face-protection/",
       "permanent": true
     },
     {
       "source": "/shop.html",
-      "has": [{ "type": "query", "key": "category", "value": "hand-protection" }],
+      "has": [
+        {
+          "type": "query",
+          "key": "category",
+          "value": "hand-protection"
+        }
+      ],
       "destination": "/category/hand-protection/",
       "permanent": true
     },
     {
       "source": "/shop.html",
-      "has": [{ "type": "query", "key": "category", "value": "hardware-tools" }],
+      "has": [
+        {
+          "type": "query",
+          "key": "category",
+          "value": "hardware-tools"
+        }
+      ],
       "destination": "/category/hardware-tools/",
       "permanent": true
     },
     {
       "source": "/shop.html",
-      "has": [{ "type": "query", "key": "category", "value": "hearing-respiratory" }],
+      "has": [
+        {
+          "type": "query",
+          "key": "category",
+          "value": "hearing-respiratory"
+        }
+      ],
       "destination": "/category/hearing-respiratory/",
       "permanent": true
     },
     {
       "source": "/shop.html",
-      "has": [{ "type": "query", "key": "category", "value": "helmets" }],
+      "has": [
+        {
+          "type": "query",
+          "key": "category",
+          "value": "helmets"
+        }
+      ],
       "destination": "/category/helmets/",
       "permanent": true
     },
     {
       "source": "/shop.html",
-      "has": [{ "type": "query", "key": "category", "value": "rainwear-marine" }],
+      "has": [
+        {
+          "type": "query",
+          "key": "category",
+          "value": "rainwear-marine"
+        }
+      ],
       "destination": "/category/rainwear-marine/",
       "permanent": true
     },
     {
       "source": "/shop.html",
-      "has": [{ "type": "query", "key": "category", "value": "safety-shoes" }],
+      "has": [
+        {
+          "type": "query",
+          "key": "category",
+          "value": "safety-shoes"
+        }
+      ],
       "destination": "/category/safety-shoes/",
       "permanent": true
     },
     {
       "source": "/shop.html",
-      "has": [{ "type": "query", "key": "category", "value": "safety-vests" }],
-      "destination": "/category/safety-vests/",
-      "permanent": true
-    },
-    {
-      "source": "/shop.html",
-      "has": [{ "type": "query", "key": "category", "value": "traffic-safety" }],
+      "has": [
+        {
+          "type": "query",
+          "key": "category",
+          "value": "traffic-safety"
+        }
+      ],
       "destination": "/category/traffic-safety/",
       "permanent": true
     },
     {
       "source": "/shop.html",
-      "has": [{ "type": "query", "key": "category", "value": "uniforms" }],
+      "has": [
+        {
+          "type": "query",
+          "key": "category",
+          "value": "uniforms"
+        }
+      ],
       "destination": "/category/uniforms/",
       "permanent": true
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/shop.html",
+      "has": [
+        {
+          "type": "query",
+          "key": "category",
+          "value": "safety-vests"
+        }
+      ],
+      "destination": "/api/legacy-category"
     }
   ]
 }
