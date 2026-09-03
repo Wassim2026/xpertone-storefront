@@ -138,9 +138,7 @@
       ],
       "destination": "/category/uniforms/",
       "permanent": true
-    }
-  ],
-  "rewrites": [
+    },
     {
       "source": "/shop.html",
       "has": [
@@ -150,7 +148,8 @@
           "value": "safety-vests"
         }
       ],
-      "destination": "/api/legacy-category"
+      "destination": "/api/legacy-category",
+      "permanent": true
     }
   ]
 }
