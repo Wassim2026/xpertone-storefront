@@ -15,7 +15,7 @@
 <meta property="og:description" content="The KTP by Vaultex is a Nitrile Foam Coated Gloves. It is crafted with 15 Gauge Knitted Nylon/Spandex Liner, including Nitrile coating with a tactile...">
 <meta property="og:url" content="https://www.xpertonecreative.com/products/vaultex-nitrile-flat-coated-gloves-crotch-thumb/">
 <meta property="og:image" content="https://sbmmarketplace.com/backend/public/uploads/2025/06/ktp-5.jpg">
-<script type="application/ld+json" data-static-product-schema>{"@context":"https://schema.org","@type":"Product","name":"Vaultex, Nitrile Flat Coated Gloves & Crotch Thumb","description":"The KTP by Vaultex is a Nitrile Foam Coated Gloves. It is crafted with 15 Gauge Knitted Nylon/Spandex Liner, including Nitrile coating with a tactile...","sku":"KTP","image":["https://sbmmarketplace.com/backend/public/uploads/2025/06/ktp-5.jpg","https://sbmmarketplace.com/backend/public/uploads/2025/06/KTP-1.jpg","https://sbmmarketplace.com/backend/public/uploads/2025/06/KTP-1a.jpg","https://sbmmarketplace.com/backend/public/uploads/2025/06/KTP-2.jpg","https://sbmmarketplace.com/backend/public/uploads/2025/06/KTP-3.jpg","https://sbmmarketplace.com/backend/public/uploads/2025/06/KTP-4.jpg","https://sbmmarketplace.com/backend/public/uploads/2025/06/KTP-6.jpg","https://sbmmarketplace.com/backend/public/uploads/2025/06/KTP-7.jpg","https://sbmmarketplace.com/backend/public/uploads/2025/06/KTP-8.jpg"],"brand":{"@type":"Brand","name":"XpertOne Creative - Prints & Safety"},"url":"https://www.xpertonecreative.com/products/vaultex-nitrile-flat-coated-gloves-crotch-thumb/"}</script>
+<script type="application/ld+json" data-static-product-schema>{"@context":"https://schema.org","@type":"Product","name":"Vaultex, Nitrile Flat Coated Gloves & Crotch Thumb","description":"The KTP by Vaultex is a Nitrile Foam Coated Gloves. It is crafted with 15 Gauge Knitted Nylon/Spandex Liner, including Nitrile coating with a tactile...","sku":"KTP","image":["https://sbmmarketplace.com/backend/public/uploads/2025/06/ktp-5.jpg","https://sbmmarketplace.com/backend/public/uploads/2025/06/KTP-1.jpg","https://sbmmarketplace.com/backend/public/uploads/2025/06/KTP-1a.jpg","https://sbmmarketplace.com/backend/public/uploads/2025/06/KTP-2.jpg","https://sbmmarketplace.com/backend/public/uploads/2025/06/KTP-3.jpg","https://sbmmarketplace.com/backend/public/uploads/2025/06/KTP-4.jpg","https://sbmmarketplace.com/backend/public/uploads/2025/06/KTP-6.jpg","https://sbmmarketplace.com/backend/public/uploads/2025/06/KTP-7.jpg","https://sbmmarketplace.com/backend/public/uploads/2025/06/KTP-8.jpg"],"brand":{"@type":"Brand","name":"Xpertone Creative LLC-FZ"},"url":"https://www.xpertonecreative.com/products/vaultex-nitrile-flat-coated-gloves-crotch-thumb/"}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.xpertonecreative.com/"},{"@type":"ListItem","position":2,"name":"Hand Protection","item":"https://www.xpertonecreative.com/category/hand-protection/"},{"@type":"ListItem","position":3,"name":"Vaultex, Nitrile Flat Coated Gloves & Crotch Thumb","item":"https://www.xpertonecreative.com/products/vaultex-nitrile-flat-coated-gloves-crotch-thumb/"}]}</script>
 <meta name="robots" content="index,follow">
 <meta name="theme-color" content="#0E1116">
@@ -123,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function render(p) {
     var isCustomisable = ['safety-vests', 'uniforms', 'helmets'].indexOf(p.category) !== -1;
-    document.title = p.title + ' — XpertOne Prints';
+    document.title = p.title + ' — Xpertone Creative LLC-FZ';
     var meta = document.querySelector('meta[name=description]');
     if (meta && p.description) meta.setAttribute('content', p.description.slice(0, 160));
     var canonical = document.querySelector('link[rel=canonical]') || document.createElement('link');
@@ -136,7 +136,7 @@ document.addEventListener('DOMContentLoaded', function () {
       schema.textContent = JSON.stringify({
         '@context': 'https://schema.org', '@type': 'Product', name: p.title,
         description: p.description || p.subtitle || p.title, sku: p.code || p.uid,
-        image: p.images || [], brand: { '@type': 'Brand', name: 'XpertOne Creative - Prints & Safety' },
+        image: p.images || [], brand: { '@type': 'Brand', name: 'Xpertone Creative LLC-FZ' },
         offers: p.priceStatus === 'fixed' ? { '@type': 'Offer', priceCurrency: 'AED', price: p.price,
           availability: 'https://schema.org/InStock', itemCondition: 'https://schema.org/NewCondition',
           seller: { '@id': 'https://www.xpertonecreative.com/#business' },
@@ -254,7 +254,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     XO.el('#waBtn').addEventListener('click', function () {
       var q = matrix.qty(), units = matrix.units();
-      var lines = ['Hello XpertOne, I would like to order:', '', p.title];
+      var lines = ['Hello, I would like to order:', '', p.title];
       if (units > 0) {
         lines.push('Sizes: ' + Object.keys(q).filter(function (s) { return q[s] > 0; })
           .map(function (s) { return s + ' x' + q[s]; }).join(', '));

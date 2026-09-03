@@ -15,7 +15,7 @@
 <meta property="og:description" content="Honeywell Safety Shoes MTS ALR is water-resistant and comes with full supple leather and elastic bands. It&#39;s manufactured with professional finishing and...">
 <meta property="og:url" content="https://www.xpertonecreative.com/products/mts-by-honeywell-src-ci-high-ankle-safety-shoes-dingo-part-no-07159-g/">
 <meta property="og:image" content="https://sbmmarketplace.com/backend/public/uploads/2022/04/alr.jpg">
-<script type="application/ld+json" data-static-product-schema>{"@context":"https://schema.org","@type":"Product","name":"MTS by Honeywell, SRC CI High Ankle Safety Shoes, Dingo, Part No: 07159 G","description":"Honeywell Safety Shoes MTS ALR is water-resistant and comes with full supple leather and elastic bands. It's manufactured with professional finishing and...","sku":"ALR","image":["https://sbmmarketplace.com/backend/public/uploads/2022/04/alr.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/02/mts-alr-dingo-anit-slip-anywhere-quick-preset-1500x1500.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/02/mts-alr-dingo-anti-smashing-quick-preset-1500x1500.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/02/mts-alr-dingo-breathable-upper-quick-preset-1500x1500.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/02/mts-alr-dingo-waterproof-quick-preset-1500x1500.jpg"],"brand":{"@type":"Brand","name":"XpertOne Creative - Prints & Safety"},"url":"https://www.xpertonecreative.com/products/mts-by-honeywell-src-ci-high-ankle-safety-shoes-dingo-part-no-07159-g/"}</script>
+<script type="application/ld+json" data-static-product-schema>{"@context":"https://schema.org","@type":"Product","name":"MTS by Honeywell, SRC CI High Ankle Safety Shoes, Dingo, Part No: 07159 G","description":"Honeywell Safety Shoes MTS ALR is water-resistant and comes with full supple leather and elastic bands. It's manufactured with professional finishing and...","sku":"ALR","image":["https://sbmmarketplace.com/backend/public/uploads/2022/04/alr.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/02/mts-alr-dingo-anit-slip-anywhere-quick-preset-1500x1500.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/02/mts-alr-dingo-anti-smashing-quick-preset-1500x1500.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/02/mts-alr-dingo-breathable-upper-quick-preset-1500x1500.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/02/mts-alr-dingo-waterproof-quick-preset-1500x1500.jpg"],"brand":{"@type":"Brand","name":"Xpertone Creative LLC-FZ"},"url":"https://www.xpertonecreative.com/products/mts-by-honeywell-src-ci-high-ankle-safety-shoes-dingo-part-no-07159-g/"}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.xpertonecreative.com/"},{"@type":"ListItem","position":2,"name":"Safety Shoes","item":"https://www.xpertonecreative.com/category/safety-shoes/"},{"@type":"ListItem","position":3,"name":"MTS by Honeywell, SRC CI High Ankle Safety Shoes, Dingo, Part No: 07159 G","item":"https://www.xpertonecreative.com/products/mts-by-honeywell-src-ci-high-ankle-safety-shoes-dingo-part-no-07159-g/"}]}</script>
 <meta name="robots" content="index,follow">
 <meta name="theme-color" content="#0E1116">
@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function render(p) {
     var isCustomisable = ['safety-vests', 'uniforms', 'helmets'].indexOf(p.category) !== -1;
-    document.title = p.title + ' — XpertOne Prints';
+    document.title = p.title + ' — Xpertone Creative LLC-FZ';
     var meta = document.querySelector('meta[name=description]');
     if (meta && p.description) meta.setAttribute('content', p.description.slice(0, 160));
     var canonical = document.querySelector('link[rel=canonical]') || document.createElement('link');
@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', function () {
       schema.textContent = JSON.stringify({
         '@context': 'https://schema.org', '@type': 'Product', name: p.title,
         description: p.description || p.subtitle || p.title, sku: p.code || p.uid,
-        image: p.images || [], brand: { '@type': 'Brand', name: 'XpertOne Creative - Prints & Safety' },
+        image: p.images || [], brand: { '@type': 'Brand', name: 'Xpertone Creative LLC-FZ' },
         offers: p.priceStatus === 'fixed' ? { '@type': 'Offer', priceCurrency: 'AED', price: p.price,
           availability: 'https://schema.org/InStock', itemCondition: 'https://schema.org/NewCondition',
           seller: { '@id': 'https://www.xpertonecreative.com/#business' },
@@ -256,7 +256,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     XO.el('#waBtn').addEventListener('click', function () {
       var q = matrix.qty(), units = matrix.units();
-      var lines = ['Hello XpertOne, I would like to order:', '', p.title];
+      var lines = ['Hello, I would like to order:', '', p.title];
       if (units > 0) {
         lines.push('Sizes: ' + Object.keys(q).filter(function (s) { return q[s] > 0; })
           .map(function (s) { return s + ' x' + q[s]; }).join(', '));

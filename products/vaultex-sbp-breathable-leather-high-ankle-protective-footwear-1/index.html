@@ -15,7 +15,7 @@
 <meta property="og:description" content="The VBL from Vaultex manufactured with the SBP standard is High Ankle Protective Footwear. These shoes are designed with Breathable Leather to support...">
 <meta property="og:url" content="https://www.xpertonecreative.com/products/vaultex-sbp-breathable-leather-high-ankle-protective-footwear-1/">
 <meta property="og:image" content="https://sbmmarketplace.com/backend/public/uploads/2022/04/vbl.jpg">
-<script type="application/ld+json" data-static-product-schema>{"@context":"https://schema.org","@type":"Product","name":"Vaultex, SBP Breathable Leather High Ankle Protective Footwear","description":"The VBL from Vaultex manufactured with the SBP standard is High Ankle Protective Footwear. These shoes are designed with Breathable Leather to support...","sku":"VBL","image":["https://sbmmarketplace.com/backend/public/uploads/2022/04/vbl.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/02/p1011400.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/02/p1011401.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/02/p1011403.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/02/p1011404.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/02/p1011405.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/02/p1011406.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/02/p1021975.JPG"],"brand":{"@type":"Brand","name":"XpertOne Creative - Prints & Safety"},"url":"https://www.xpertonecreative.com/products/vaultex-sbp-breathable-leather-high-ankle-protective-footwear-1/"}</script>
+<script type="application/ld+json" data-static-product-schema>{"@context":"https://schema.org","@type":"Product","name":"Vaultex, SBP Breathable Leather High Ankle Protective Footwear","description":"The VBL from Vaultex manufactured with the SBP standard is High Ankle Protective Footwear. These shoes are designed with Breathable Leather to support...","sku":"VBL","image":["https://sbmmarketplace.com/backend/public/uploads/2022/04/vbl.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/02/p1011400.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/02/p1011401.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/02/p1011403.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/02/p1011404.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/02/p1011405.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/02/p1011406.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/02/p1021975.JPG"],"brand":{"@type":"Brand","name":"Xpertone Creative LLC-FZ"},"url":"https://www.xpertonecreative.com/products/vaultex-sbp-breathable-leather-high-ankle-protective-footwear-1/"}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.xpertonecreative.com/"},{"@type":"ListItem","position":2,"name":"Safety Shoes","item":"https://www.xpertonecreative.com/category/safety-shoes/"},{"@type":"ListItem","position":3,"name":"Vaultex, SBP Breathable Leather High Ankle Protective Footwear","item":"https://www.xpertonecreative.com/products/vaultex-sbp-breathable-leather-high-ankle-protective-footwear-1/"}]}</script>
 <meta name="robots" content="index,follow">
 <meta name="theme-color" content="#0E1116">
@@ -133,7 +133,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function render(p) {
     var isCustomisable = ['safety-vests', 'uniforms', 'helmets'].indexOf(p.category) !== -1;
-    document.title = p.title + ' — XpertOne Prints';
+    document.title = p.title + ' — Xpertone Creative LLC-FZ';
     var meta = document.querySelector('meta[name=description]');
     if (meta && p.description) meta.setAttribute('content', p.description.slice(0, 160));
     var canonical = document.querySelector('link[rel=canonical]') || document.createElement('link');
@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded', function () {
       schema.textContent = JSON.stringify({
         '@context': 'https://schema.org', '@type': 'Product', name: p.title,
         description: p.description || p.subtitle || p.title, sku: p.code || p.uid,
-        image: p.images || [], brand: { '@type': 'Brand', name: 'XpertOne Creative - Prints & Safety' },
+        image: p.images || [], brand: { '@type': 'Brand', name: 'Xpertone Creative LLC-FZ' },
         offers: p.priceStatus === 'fixed' ? { '@type': 'Offer', priceCurrency: 'AED', price: p.price,
           availability: 'https://schema.org/InStock', itemCondition: 'https://schema.org/NewCondition',
           seller: { '@id': 'https://www.xpertonecreative.com/#business' },
@@ -264,7 +264,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     XO.el('#waBtn').addEventListener('click', function () {
       var q = matrix.qty(), units = matrix.units();
-      var lines = ['Hello XpertOne, I would like to order:', '', p.title];
+      var lines = ['Hello, I would like to order:', '', p.title];
       if (units > 0) {
         lines.push('Sizes: ' + Object.keys(q).filter(function (s) { return q[s] > 0; })
           .map(function (s) { return s + ' x' + q[s]; }).join(', '));

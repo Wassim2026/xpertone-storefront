@@ -1,5 +1,5 @@
 /* =========================================================================
-   XpertOne Prints - Runtime configuration
+   Xpertone Creative LLC-FZ - Runtime configuration
    -------------------------------------------------------------------------
    This is the ONLY file the backend developer needs to touch to point the
    storefront at a different server. Everything else reads from here.
@@ -241,7 +241,7 @@ window.XO_CONFIG = {
      COMPANY
      --------------------------------------------------------------------- */
   COMPANY: {
-    name: 'XpertOne Prints',
+    name: 'Xpertone Creative LLC-FZ',
     legalName: 'Xpertone Creative LLC-FZ',
     phone: '+971 54 583 2318',
     phoneRaw: '971545832318',

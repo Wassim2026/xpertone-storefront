@@ -15,7 +15,7 @@
 <meta property="og:description" content="Vaultex V181 is a safety spectacle manufactured by following ANSI Z87.1 standards for Eye protection. V181 is made of a high-quality polycarbonate lens to...">
 <meta property="og:url" content="https://www.xpertonecreative.com/products/vaultex-safety-spectacle-with-anti-fog-coating-part-no-v181/">
 <meta property="og:image" content="https://sbmmarketplace.com/backend/public/uploads/2022/04/181.jpg">
-<script type="application/ld+json" data-static-product-schema>{"@context":"https://schema.org","@type":"Product","name":"Vaultex, Safety Spectacle with Anti Fog Coating, Part No: V181","description":"Vaultex V181 is a safety spectacle manufactured by following ANSI Z87.1 standards for Eye protection. V181 is made of a high-quality polycarbonate lens to...","sku":"V181","image":["https://sbmmarketplace.com/backend/public/uploads/2022/04/181.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/01/v181-20-285-29.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/01/v181-20-284-29.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/01/v181-20-283-29.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/01/v181-20-282-29.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/01/v181-20-281-29.jpg"],"brand":{"@type":"Brand","name":"XpertOne Creative - Prints & Safety"},"url":"https://www.xpertonecreative.com/products/vaultex-safety-spectacle-with-anti-fog-coating-part-no-v181/"}</script>
+<script type="application/ld+json" data-static-product-schema>{"@context":"https://schema.org","@type":"Product","name":"Vaultex, Safety Spectacle with Anti Fog Coating, Part No: V181","description":"Vaultex V181 is a safety spectacle manufactured by following ANSI Z87.1 standards for Eye protection. V181 is made of a high-quality polycarbonate lens to...","sku":"V181","image":["https://sbmmarketplace.com/backend/public/uploads/2022/04/181.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/01/v181-20-285-29.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/01/v181-20-284-29.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/01/v181-20-283-29.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/01/v181-20-282-29.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/01/v181-20-281-29.jpg"],"brand":{"@type":"Brand","name":"Xpertone Creative LLC-FZ"},"url":"https://www.xpertonecreative.com/products/vaultex-safety-spectacle-with-anti-fog-coating-part-no-v181/"}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.xpertonecreative.com/"},{"@type":"ListItem","position":2,"name":"Eye & Face Protection","item":"https://www.xpertonecreative.com/category/eye-face-protection/"},{"@type":"ListItem","position":3,"name":"Vaultex, Safety Spectacle with Anti Fog Coating, Part No: V181","item":"https://www.xpertonecreative.com/products/vaultex-safety-spectacle-with-anti-fog-coating-part-no-v181/"}]}</script>
 <meta name="robots" content="index,follow">
 <meta name="theme-color" content="#0E1116">
@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function render(p) {
     var isCustomisable = ['safety-vests', 'uniforms', 'helmets'].indexOf(p.category) !== -1;
-    document.title = p.title + ' — XpertOne Prints';
+    document.title = p.title + ' — Xpertone Creative LLC-FZ';
     var meta = document.querySelector('meta[name=description]');
     if (meta && p.description) meta.setAttribute('content', p.description.slice(0, 160));
     var canonical = document.querySelector('link[rel=canonical]') || document.createElement('link');
@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', function () {
       schema.textContent = JSON.stringify({
         '@context': 'https://schema.org', '@type': 'Product', name: p.title,
         description: p.description || p.subtitle || p.title, sku: p.code || p.uid,
-        image: p.images || [], brand: { '@type': 'Brand', name: 'XpertOne Creative - Prints & Safety' },
+        image: p.images || [], brand: { '@type': 'Brand', name: 'Xpertone Creative LLC-FZ' },
         offers: p.priceStatus === 'fixed' ? { '@type': 'Offer', priceCurrency: 'AED', price: p.price,
           availability: 'https://schema.org/InStock', itemCondition: 'https://schema.org/NewCondition',
           seller: { '@id': 'https://www.xpertonecreative.com/#business' },
@@ -256,7 +256,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     XO.el('#waBtn').addEventListener('click', function () {
       var q = matrix.qty(), units = matrix.units();
-      var lines = ['Hello XpertOne, I would like to order:', '', p.title];
+      var lines = ['Hello, I would like to order:', '', p.title];
       if (units > 0) {
         lines.push('Sizes: ' + Object.keys(q).filter(function (s) { return q[s] > 0; })
           .map(function (s) { return s + ' x' + q[s]; }).join(', '));

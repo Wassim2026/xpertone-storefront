@@ -15,7 +15,7 @@
 <meta property="og:description" content="The TPF 100% Cotton Pant &amp; Shirt with Reflective (European Style) set from China is designed for durability and safety. The shirt features two chest...">
 <meta property="og:url" content="https://www.xpertonecreative.com/products/vaultex-100-cotton-pant-shirt-with-reflective-european-style-260-gsm-navy-blue-color-1/">
 <meta property="og:image" content="https://sbmmarketplace.com/backend/public/uploads/2025/12/tpf-1.jpg">
-<script type="application/ld+json" data-static-product-schema>{"@context":"https://schema.org","@type":"Product","name":"Vaultex,100% Cotton Pant Shirt with Reflective European Style,260 gsm,Navy Blue Color, Part No: FPT","description":"The TPF 100% Cotton Pant & Shirt with Reflective (European Style) set from China is designed for durability and safety. The shirt features two chest...","sku":"TPF","image":["https://sbmmarketplace.com/backend/public/uploads/2025/12/tpf-1.jpg","https://sbmmarketplace.com/backend/public/uploads/2025/12/tpf-2.jpg","https://sbmmarketplace.com/backend/public/uploads/2025/12/tpf-3.jpg","https://sbmmarketplace.com/backend/public/uploads/2025/12/tpf-4.jpg","https://sbmmarketplace.com/backend/public/uploads/2025/12/tpf-5.jpg","https://sbmmarketplace.com/backend/public/uploads/2025/12/tpf.jpg"],"brand":{"@type":"Brand","name":"XpertOne Creative - Prints & Safety"},"url":"https://www.xpertonecreative.com/products/vaultex-100-cotton-pant-shirt-with-reflective-european-style-260-gsm-navy-blue-color-1/"}</script>
+<script type="application/ld+json" data-static-product-schema>{"@context":"https://schema.org","@type":"Product","name":"Vaultex,100% Cotton Pant Shirt with Reflective European Style,260 gsm,Navy Blue Color, Part No: FPT","description":"The TPF 100% Cotton Pant & Shirt with Reflective (European Style) set from China is designed for durability and safety. The shirt features two chest...","sku":"TPF","image":["https://sbmmarketplace.com/backend/public/uploads/2025/12/tpf-1.jpg","https://sbmmarketplace.com/backend/public/uploads/2025/12/tpf-2.jpg","https://sbmmarketplace.com/backend/public/uploads/2025/12/tpf-3.jpg","https://sbmmarketplace.com/backend/public/uploads/2025/12/tpf-4.jpg","https://sbmmarketplace.com/backend/public/uploads/2025/12/tpf-5.jpg","https://sbmmarketplace.com/backend/public/uploads/2025/12/tpf.jpg"],"brand":{"@type":"Brand","name":"Xpertone Creative LLC-FZ"},"url":"https://www.xpertonecreative.com/products/vaultex-100-cotton-pant-shirt-with-reflective-european-style-260-gsm-navy-blue-color-1/"}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.xpertonecreative.com/"},{"@type":"ListItem","position":2,"name":"Workwear & Uniforms","item":"https://www.xpertonecreative.com/category/uniforms/"},{"@type":"ListItem","position":3,"name":"Vaultex,100% Cotton Pant Shirt with Reflective European Style,260 gsm,Navy Blue Color, Part No: FPT","item":"https://www.xpertonecreative.com/products/vaultex-100-cotton-pant-shirt-with-reflective-european-style-260-gsm-navy-blue-color-1/"}]}</script>
 <meta name="robots" content="index,follow">
 <meta name="theme-color" content="#0E1116">
@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function render(p) {
     var isCustomisable = ['safety-vests', 'uniforms', 'helmets'].indexOf(p.category) !== -1;
-    document.title = p.title + ' — XpertOne Prints';
+    document.title = p.title + ' — Xpertone Creative LLC-FZ';
     var meta = document.querySelector('meta[name=description]');
     if (meta && p.description) meta.setAttribute('content', p.description.slice(0, 160));
     var canonical = document.querySelector('link[rel=canonical]') || document.createElement('link');
@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', function () {
       schema.textContent = JSON.stringify({
         '@context': 'https://schema.org', '@type': 'Product', name: p.title,
         description: p.description || p.subtitle || p.title, sku: p.code || p.uid,
-        image: p.images || [], brand: { '@type': 'Brand', name: 'XpertOne Creative - Prints & Safety' },
+        image: p.images || [], brand: { '@type': 'Brand', name: 'Xpertone Creative LLC-FZ' },
         offers: p.priceStatus === 'fixed' ? { '@type': 'Offer', priceCurrency: 'AED', price: p.price,
           availability: 'https://schema.org/InStock', itemCondition: 'https://schema.org/NewCondition',
           seller: { '@id': 'https://www.xpertonecreative.com/#business' },
@@ -256,7 +256,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     XO.el('#waBtn').addEventListener('click', function () {
       var q = matrix.qty(), units = matrix.units();
-      var lines = ['Hello XpertOne, I would like to order:', '', p.title];
+      var lines = ['Hello, I would like to order:', '', p.title];
       if (units > 0) {
         lines.push('Sizes: ' + Object.keys(q).filter(function (s) { return q[s] > 0; })
           .map(function (s) { return s + ' x' + q[s]; }).join(', '));

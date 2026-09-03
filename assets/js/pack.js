@@ -1,5 +1,5 @@
 /* =========================================================================
-   XpertOne Prints — pack.js
+   Xpertone Creative LLC-FZ — pack.js
    -------------------------------------------------------------------------
    Builds a ZIP file and a PDF catalogue in the browser, with no external
    library. Everything here is plain ES5 and runs offline.
@@ -266,7 +266,7 @@
     }
     putStr('trailer\n<< /Size ' + (total + 1) + ' /Root 1 0 R /Info << ' +
       '/Title ' + pdfStr(meta.title || 'Branded workwear') +
-      ' /Producer ' + pdfStr('XpertOne Prints brand kit') + ' >> >>\n');
+      ' /Producer ' + pdfStr('Xpertone Creative LLC-FZ brand kit') + ' >> >>\n');
     putStr('startxref\n' + xrefAt + '\n%%EOF\n');
 
     return new Blob([concat(chunks)], { type: 'application/pdf' });

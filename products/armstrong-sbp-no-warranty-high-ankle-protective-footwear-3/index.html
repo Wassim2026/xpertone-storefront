@@ -15,7 +15,7 @@
 <meta property="og:description" content="The High Ankle Protective footwear is composed of Barton Print Leather and double density PU on the outsole and steel toe and steel mid-plate. The shoe is...">
 <meta property="og:url" content="https://www.xpertonecreative.com/products/armstrong-sbp-no-warranty-high-ankle-protective-footwear-3/">
 <meta property="og:image" content="https://sbmmarketplace.com/backend/public/uploads/2022/04/shp-ak-03.jpg">
-<script type="application/ld+json" data-static-product-schema>{"@context":"https://schema.org","@type":"Product","name":"Workland, SBP No Warranty High Ankle Protective Footwear","description":"The High Ankle Protective footwear is composed of Barton Print Leather and double density PU on the outsole and steel toe and steel mid-plate. The shoe is...","sku":"SHP","image":["https://sbmmarketplace.com/backend/public/uploads/2022/04/shp-ak-03.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/02/shp-ak-01-quick-preset-1500x1500.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/02/shp-ak-02-quick-preset-1500x1500.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/02/shp-ak-04-quick-preset-1500x1500.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/02/shp-ak-05-quick-preset-1500x1500.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/02/shp-ak-06-quick-preset-1500x1500.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/02/shp-ak-07-quick-preset-1500x1500.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/02/shp-ak-08-quick-preset-1500x1500.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/02/shp-ak-09-quick-preset-1500x1500.jpg"],"brand":{"@type":"Brand","name":"XpertOne Creative - Prints & Safety"},"url":"https://www.xpertonecreative.com/products/armstrong-sbp-no-warranty-high-ankle-protective-footwear-3/"}</script>
+<script type="application/ld+json" data-static-product-schema>{"@context":"https://schema.org","@type":"Product","name":"Workland, SBP No Warranty High Ankle Protective Footwear","description":"The High Ankle Protective footwear is composed of Barton Print Leather and double density PU on the outsole and steel toe and steel mid-plate. The shoe is...","sku":"SHP","image":["https://sbmmarketplace.com/backend/public/uploads/2022/04/shp-ak-03.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/02/shp-ak-01-quick-preset-1500x1500.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/02/shp-ak-02-quick-preset-1500x1500.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/02/shp-ak-04-quick-preset-1500x1500.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/02/shp-ak-05-quick-preset-1500x1500.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/02/shp-ak-06-quick-preset-1500x1500.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/02/shp-ak-07-quick-preset-1500x1500.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/02/shp-ak-08-quick-preset-1500x1500.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/02/shp-ak-09-quick-preset-1500x1500.jpg"],"brand":{"@type":"Brand","name":"Xpertone Creative LLC-FZ"},"url":"https://www.xpertonecreative.com/products/armstrong-sbp-no-warranty-high-ankle-protective-footwear-3/"}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.xpertonecreative.com/"},{"@type":"ListItem","position":2,"name":"Safety Shoes","item":"https://www.xpertonecreative.com/category/safety-shoes/"},{"@type":"ListItem","position":3,"name":"Workland, SBP No Warranty High Ankle Protective Footwear","item":"https://www.xpertonecreative.com/products/armstrong-sbp-no-warranty-high-ankle-protective-footwear-3/"}]}</script>
 <meta name="robots" content="index,follow">
 <meta name="theme-color" content="#0E1116">
@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function render(p) {
     var isCustomisable = ['safety-vests', 'uniforms', 'helmets'].indexOf(p.category) !== -1;
-    document.title = p.title + ' — XpertOne Prints';
+    document.title = p.title + ' — Xpertone Creative LLC-FZ';
     var meta = document.querySelector('meta[name=description]');
     if (meta && p.description) meta.setAttribute('content', p.description.slice(0, 160));
     var canonical = document.querySelector('link[rel=canonical]') || document.createElement('link');
@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', function () {
       schema.textContent = JSON.stringify({
         '@context': 'https://schema.org', '@type': 'Product', name: p.title,
         description: p.description || p.subtitle || p.title, sku: p.code || p.uid,
-        image: p.images || [], brand: { '@type': 'Brand', name: 'XpertOne Creative - Prints & Safety' },
+        image: p.images || [], brand: { '@type': 'Brand', name: 'Xpertone Creative LLC-FZ' },
         offers: p.priceStatus === 'fixed' ? { '@type': 'Offer', priceCurrency: 'AED', price: p.price,
           availability: 'https://schema.org/InStock', itemCondition: 'https://schema.org/NewCondition',
           seller: { '@id': 'https://www.xpertonecreative.com/#business' },
@@ -255,7 +255,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     XO.el('#waBtn').addEventListener('click', function () {
       var q = matrix.qty(), units = matrix.units();
-      var lines = ['Hello XpertOne, I would like to order:', '', p.title];
+      var lines = ['Hello, I would like to order:', '', p.title];
       if (units > 0) {
         lines.push('Sizes: ' + Object.keys(q).filter(function (s) { return q[s] > 0; })
           .map(function (s) { return s + ' x' + q[s]; }).join(', '));

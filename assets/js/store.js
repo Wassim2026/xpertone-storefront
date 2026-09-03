@@ -1,5 +1,5 @@
 /* =========================================================================
-   XpertOne Prints — Data layer + cart
+   Xpertone Creative LLC-FZ — Data layer + cart
    -------------------------------------------------------------------------
    Exposes three globals:
      XO       — small helpers (money, slug, dom, escape…)
@@ -293,13 +293,13 @@
       var mode = CFG.DATA_SOURCE;
       var p;
       if (mode === 'supabase') p = this._fromSupabase().catch(function (err) {
-        console.warn('[XpertOne] Supabase unavailable, using bundled snapshot.', err);
+        console.warn('[Xpertone Creative LLC-FZ] Supabase unavailable, using bundled snapshot.', err);
         return self._fromLocal();
       });
       else if (mode === 'local') p = this._fromLocal();
       else if (mode === 'live') p = this._fromLive();
       else p = this._fromLive().catch(function (err) {
-        console.warn('[XpertOne] Live catalogue unavailable, using bundled snapshot.', err);
+        console.warn('[Xpertone Creative LLC-FZ] Live catalogue unavailable, using bundled snapshot.', err);
         return self._fromLocal();
       });
 
@@ -498,7 +498,7 @@
        the confirmation screen. */
     asMessage: function (customer) {
       var t = this.totals();
-      var out = ['*NEW ORDER — XpertOne Prints*', ''];
+      var out = ['*NEW ORDER — Xpertone Creative LLC-FZ*', ''];
 
       this._read().forEach(function (l, i) {
         var q = Cart.lineQty(l);

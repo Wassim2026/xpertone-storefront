@@ -1,6 +1,6 @@
-# XpertOne Prints — storefront
+# Xpertone Creative LLC-FZ — storefront
 
-A rebuild of the XpertOne ordering experience: static front-end, no build step, ready
+A rebuild of the Xpertone Creative LLC-FZ ordering experience: static front-end, no build step, ready
 for a backend developer to wire up.
 
 **Live preview:** https://wassim2026.github.io/xpertone-storefront/

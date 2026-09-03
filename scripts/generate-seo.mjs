@@ -38,8 +38,8 @@ const write = (file, content) => {
 const categoryCopy = {
   'safety-vests': {
     title: 'Safety Vests with Logo Printing in Dubai',
-    description: 'Shop reflective safety vests in Dubai for construction, logistics and site teams. Bulk sizes, logo printing, UAE delivery and trade quantities from XpertOne Creative.',
-    intro: 'Choose reflective safety vests for visitors, supervisors, engineers and general site crews. XpertOne Creative supplies bulk orders from Al Quoz, Dubai, with size planning and optional company logo or text printing.',
+    description: 'Shop reflective safety vests in Dubai for construction, logistics and site teams. Bulk sizes, logo printing, UAE delivery and trade quantities from Xpertone Creative LLC-FZ.',
+    intro: 'Choose reflective safety vests for visitors, supervisors, engineers and general site crews. Xpertone Creative LLC-FZ supplies bulk orders from Al Quoz, Dubai, with size planning and optional company logo or text printing.',
     guide: 'Select a vest by the work environment, visibility requirement, closure and pocket layout. Economy styles suit visitors and short-term projects, while zip-front, multi-pocket and two-tone styles are practical for supervisors and engineers. Confirm the required colour and reflective-tape arrangement with your site safety policy before ordering. For branded orders, provide a clear vector or high-resolution logo and specify front, back or both positions. We send an artwork proof before production. Most catalogue lines start from 10 pieces, with tiered pricing for larger quantities. Dubai delivery is normally faster for stocked items, while other Emirates are served through our UAE delivery network.',
     faq: [['Can safety vests carry our company logo?', 'Yes. Safety vests can be printed with an approved logo or text on the front, back or both.'], ['Which vest is suitable for supervisors?', 'Zip-front and pocketed styles are commonly selected for supervisors; always match the final choice to your site rules.'], ['Do you supply mixed sizes?', 'Yes. Enter the quantity required for each available size on the product page.']]
   },
@@ -47,7 +47,7 @@ const categoryCopy = {
     title: 'Workwear & Industrial Uniform Supplier Dubai',
     description: 'Bulk workwear and industrial uniforms in Dubai: pant-and-shirt sets, coveralls and cargo trousers with company branding, size planning and UAE delivery.',
     intro: 'Order coordinated workwear for construction, maintenance, logistics and facilities teams. Browse pant-and-shirt sets, coveralls, cargo trousers and related industrial uniforms with bulk sizing and optional branding.',
-    guide: 'The right uniform depends on the job, fabric weight, climate, movement and visibility requirements. Lighter fabrics can improve comfort for routine indoor work, while heavier twill and cotton options provide more structure for demanding site use. Reflective configurations support visibility but should be selected against the employer’s risk assessment. Plan sizes from an actual staff list instead of estimating one average size. For branded uniforms, XpertOne can review DTF, heat-transfer or embroidery requirements according to the garment and artwork. Confirm logo position, colour and finished dimensions before production. Product pages show available sizes and current guide prices; final specifications, artwork and delivery timing are confirmed with the order.',
+    guide: 'The right uniform depends on the job, fabric weight, climate, movement and visibility requirements. Lighter fabrics can improve comfort for routine indoor work, while heavier twill and cotton options provide more structure for demanding site use. Reflective configurations support visibility but should be selected against the employer’s risk assessment. Plan sizes from an actual staff list instead of estimating one average size. For branded uniforms, Xpertone Creative LLC-FZ can review DTF, heat-transfer or embroidery requirements according to the garment and artwork. Confirm logo position, colour and finished dimensions before production. Product pages show available sizes and current guide prices; final specifications, artwork and delivery timing are confirmed with the order.',
     faq: [['Can uniforms be branded?', 'Yes. Workwear and uniforms support company logo and text customization on eligible positions.'], ['Can we order a mixed size split?', 'Yes. Add quantities against each listed size before placing the item in the cart.'], ['Do you supply across the UAE?', 'Yes. We supply Dubai and deliver to customers throughout the Emirates.']]
   },
   'safety-shoes': {
@@ -68,16 +68,16 @@ const categoryCopy = {
     title: 'Safety Gloves & Work Gloves Supplier UAE',
     description: 'Shop work gloves in the UAE for handling, cutting, welding and coated-grip applications. Compare materials, sizes and verified specifications.',
     intro: 'Browse hand protection for construction, workshops, warehouses and industrial handling. The range includes coated, leather, welding and cut-focused glove styles.',
-    guide: 'Select gloves for the actual hazard rather than by colour or general appearance. Grip, dexterity, coating, cuff, liner and resistance level affect where a glove is appropriate. Welding gloves, coated handling gloves and cut-focused gloves are designed for different tasks and should not be treated as interchangeable. Use the product specification and any verified standard shown on the page, then confirm suitability through your workplace risk assessment. Hand protection follows the normal ecommerce flow without logo customization: choose the available size or unit, enter the required quantity and add the item to the cart. Contact XpertOne when you need a mixed glove order or help locating a specific verified rating.',
+    guide: 'Select gloves for the actual hazard rather than by colour or general appearance. Grip, dexterity, coating, cuff, liner and resistance level affect where a glove is appropriate. Welding gloves, coated handling gloves and cut-focused gloves are designed for different tasks and should not be treated as interchangeable. Use the product specification and any verified standard shown on the page, then confirm suitability through your workplace risk assessment. Hand protection follows the normal ecommerce flow without logo customization: choose the available size or unit, enter the required quantity and add the item to the cart. Contact Xpertone Creative LLC-FZ when you need a mixed glove order or help locating a specific verified rating.',
     faq: [['Which glove should I choose?', 'Choose according to the hazard, required dexterity, grip and verified resistance information for the product.'], ['Are gloves customizable?', 'No. Hand-protection products use the standard ecommerce ordering flow.'], ['Can you source a particular glove type?', 'Yes. Send the required material, standard, size range and quantity to the sales team.']]
   }
 };
 
 const defaultCategoryCopy = (name, count) => ({
   title: `${name} Supplier Dubai & UAE`,
-  description: `Shop ${name.toLowerCase()} from XpertOne Creative in Dubai. Compare ${count} stocked products, sizes, specifications and bulk pricing for UAE delivery.`,
+  description: `Shop ${name.toLowerCase()} from Xpertone Creative LLC-FZ in Dubai. Compare ${count} stocked products, sizes, specifications and bulk pricing for UAE delivery.`,
   intro: `Browse ${name.toLowerCase()} for construction, industrial, logistics and facilities requirements. Product pages show current stock details, available units and verified specifications.`,
-  guide: `Choose products by the intended task and the verified specification shown on each item page. Do not rely only on colour, appearance or a general category label when a standard or protective rating is required. XpertOne Creative supplies customers from Al Quoz, Dubai, and delivers throughout the UAE. These items follow a normal ecommerce ordering flow: select the required unit or size, enter the quantity and add the product to the cart. For project quantities or an item not listed, send the technical requirement and required delivery date to the sales team for review.`,
+  guide: `Choose products by the intended task and the verified specification shown on each item page. Do not rely only on colour, appearance or a general category label when a standard or protective rating is required. Xpertone Creative LLC-FZ supplies customers from Al Quoz, Dubai, and delivers throughout the UAE. These items follow a normal ecommerce ordering flow: select the required unit or size, enter the quantity and add the product to the cart. For project quantities or an item not listed, send the technical requirement and required delivery date to the sales team for review.`,
   faq: [['Can I order online?', 'Yes. Select the quantity on the product page and add the item directly to the cart.'], ['Is logo customization available?', 'Logo and text customization is limited to safety vests, workwear uniforms and eligible helmets.'], ['Do you deliver across the UAE?', 'Yes. Delivery is available across the Emirates, subject to stock and order confirmation.']]
 });
 
@@ -101,7 +101,7 @@ for (const p of list) {
 
 function metaDescription(p) {
   const facts = [p.description, p.material, p.colour, p.standard].map(clean).filter(Boolean);
-  const base = facts.join('. ') || `${p.title} available for bulk supply from XpertOne Creative in Dubai.`;
+  const base = facts.join('. ') || `${p.title} available for bulk supply from Xpertone Creative LLC-FZ in Dubai.`;
   const text = clean(`${base} Compare available sizes and order for UAE delivery.`);
   return text.length > 158 ? `${text.slice(0, 155).replace(/\s+\S*$/, '')}...` : text;
 }
@@ -130,7 +130,7 @@ function productSchema(p) {
   const schema = {
     '@context': 'https://schema.org', '@type': 'Product', name: p.title,
     description: metaDescription(p), sku: p.sku, image: p.images,
-    brand: { '@type': 'Brand', name: 'XpertOne Creative - Prints & Safety' },
+    brand: { '@type': 'Brand', name: 'Xpertone Creative LLC-FZ' },
     url: productUrl(p)
   };
   if (p.priceStatus === 'fixed') schema.offers = {
@@ -154,7 +154,7 @@ function generateProduct(p) {
   };
   let html = productTemplate
     .replace('<head>', '<head>\n<base href="/">')
-    .replace('<title>Product — XpertOne Prints</title>', `<title>${esc(p.title)} | ${esc(p.categoryName)} Dubai</title>`)
+    .replace('<title>Product — Xpertone Creative LLC-FZ</title>', `<title>${esc(p.title)} | ${esc(p.categoryName)} Dubai</title>`)
     .replace(/<meta name="description" content="[^"]*">/, `<meta name="description" content="${esc(description)}">\n<link rel="canonical" href="${canonical}">\n<meta property="og:type" content="product">\n<meta property="og:title" content="${esc(p.title)}">\n<meta property="og:description" content="${esc(description)}">\n<meta property="og:url" content="${canonical}">\n<meta property="og:image" content="${esc(image)}">\n<script type="application/ld+json" data-static-product-schema>${JSON.stringify(productSchema(p))}</script>\n<script type="application/ld+json">${JSON.stringify(breadcrumb)}</script>`)
     .replace('<meta name="robots" content="noindex,follow">', '<meta name="robots" content="index,follow">')
     .replace(/<div class="container py-4" id="pdp">[\s\S]*?<\/div>\n\n  <section class="section section--alt" id="relatedWrap"/, `<div class="container py-4" id="pdp">${staticProductBody(p)}</div>\n\n  <section class="section section--alt" id="relatedWrap"`)
@@ -174,7 +174,7 @@ function categoryPage(slug, items, page) {
   const pages = Math.ceil(items.length / PAGE_SIZE);
   const shown = items.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
   const canonical = page === 1 ? categoryUrl(slug) : `${categoryUrl(slug)}page/${page}/`;
-  const title = `${copy.title}${page > 1 ? ` - Page ${page}` : ''} | XpertOne Creative`;
+  const title = `${copy.title}${page > 1 ? ` - Page ${page}` : ''} | Xpertone Creative LLC-FZ`;
   const itemList = {
     '@context': 'https://schema.org', '@type': 'ItemList', name,
     itemListElement: shown.map((p, i) => ({ '@type': 'ListItem', position: (page - 1) * PAGE_SIZE + i + 1, url: productUrl(p), name: p.title }))

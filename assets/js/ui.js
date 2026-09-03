@@ -1,5 +1,5 @@
 /* =========================================================================
-   XpertOne Prints — Shared UI
+   Xpertone Creative LLC-FZ — Shared UI
    -------------------------------------------------------------------------
    Injects the header and footer into every page (so there is one copy to
    maintain), keeps the cart badge live, and provides the two reusable
@@ -207,7 +207,7 @@
 
       '<header class="site-header"><div class="container"><div class="site-header__inner">' +
         '<a class="brand" href="/">' +
-          '<img class="brand__logo" src="/assets/img/brand/xpertone-logo.png" alt="XpertOne Safety Gear &amp; Uniforms">' +
+          '<img class="brand__logo" src="/assets/img/brand/xpertone-logo.png" alt="Xpertone Creative LLC-FZ">' +
         '</a>' +
 
         '<form class="xo-search d-none d-lg-block mx-3" id="xoSearchForm" role="search">' +
@@ -235,7 +235,7 @@
 
       '<div class="offcanvas offcanvas-end" tabindex="-1" id="mobileNav" aria-label="Menu">' +
         '<div class="offcanvas-header border-bottom">' +
-          '<span class="brand"><img class="brand__logo" src="/assets/img/brand/xpertone-logo.png" alt="XpertOne Safety Gear &amp; Uniforms"></span>' +
+          '<span class="brand"><img class="brand__logo" src="/assets/img/brand/xpertone-logo.png" alt="Xpertone Creative LLC-FZ"></span>' +
           '<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>' +
         '</div>' +
         '<div class="offcanvas-body">' +
@@ -301,10 +301,10 @@
       '<footer class="site-footer"><div class="container">' +
         '<div class="row g-4 g-lg-5">' +
           '<div class="col-lg-4">' +
-            '<span class="brand mb-3"><img class="brand__logo brand__logo--footer" src="/assets/img/brand/xpertone-logo.png" alt="XpertOne Safety Gear &amp; Uniforms"></span>' +
+            '<span class="brand mb-3"><img class="brand__logo brand__logo--footer" src="/assets/img/brand/xpertone-logo.png" alt="Xpertone Creative LLC-FZ"></span>' +
             '<p style="font-size:.92rem;max-width:34ch">Bulk safety wear and custom uniform printing for UAE ' +
             'construction, logistics and facilities teams. Supplied from our Al Quoz warehouse.</p>' +
-            '<a class="btn btn-wa btn-sm-xo" href="' + XO.waLink('Hello XpertOne, I would like a quote.') + '" target="_blank" rel="noopener">' +
+            '<a class="btn btn-wa btn-sm-xo" href="' + XO.waLink('Hello, I would like a quote.') + '" target="_blank" rel="noopener">' +
             '<i class="fa-brands fa-whatsapp"></i> Chat with sales</a>' +
           '</div>' +
           '<div class="col-6 col-lg-2"><h4>Shop</h4><ul>' + catLinks +
@@ -332,7 +332,7 @@
     if (document.querySelector('.wa-float')) return;
     var a = document.createElement('a');
     a.className = 'wa-float';
-    a.href = XO.waLink('Hello XpertOne, I have a question about your products.');
+    a.href = XO.waLink('Hello, I have a question about your products.');
     a.target = '_blank';
     a.rel = 'noopener';
     a.innerHTML = '<i class="fa-brands fa-whatsapp"></i><span>Chat with sales</span>';
@@ -389,7 +389,7 @@
         '<div class="empty-state__icon"><i class="fa-solid fa-box-open"></i></div>' +
         '<h3>' + XO.esc(emptyMsg || 'Nothing here yet') + '</h3>' +
         '<p class="text-muted-xo">Try another category, or ask us directly — we carry more than we list.</p>' +
-        '<a class="btn btn-wa" href="' + XO.waLink('Hello XpertOne, do you stock ') + '" target="_blank" rel="noopener">' +
+        '<a class="btn btn-wa" href="' + XO.waLink('Hello, do you stock ') + '" target="_blank" rel="noopener">' +
         '<i class="fa-brands fa-whatsapp"></i> Ask on WhatsApp</a></div></div>';
       return;
     }

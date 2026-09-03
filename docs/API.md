@@ -1,4 +1,4 @@
-# Backend contract — XpertOne Prints storefront
+# Backend contract — Xpertone Creative LLC-FZ storefront
 
 This document is the handover spec. The front-end in this repository is finished and
 works today; it reads the catalogue from the existing PHP API and hands orders off to

@@ -1,5 +1,5 @@
 /* =========================================================================
-   XpertOne Prints — brandkit.js
+   Xpertone Creative LLC-FZ — brandkit.js
    -------------------------------------------------------------------------
    An internal tool for the sales team, not for customers.
 
@@ -1782,7 +1782,7 @@
 
   function detailsText() {
     var l = [];
-    l.push('XpertOne Prints — branded workwear');
+    l.push('Xpertone Creative LLC-FZ — branded workwear');
     l.push('');
     l.push('Client:        ' + (S.company || '-'));
     if (S.companyAr) l.push('Arabic name:   ' + S.companyAr);

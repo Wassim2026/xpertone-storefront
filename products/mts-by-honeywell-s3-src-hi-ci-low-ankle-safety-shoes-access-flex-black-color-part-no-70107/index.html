@@ -15,7 +15,7 @@
 <meta property="og:description" content="Honeywell Safety Shoes MTS RGP comes with a full nubuck leather upper and is water-resistant. The anti-magnetic and thermal insulated composite midsole...">
 <meta property="og:url" content="https://www.xpertonecreative.com/products/mts-by-honeywell-s3-src-hi-ci-low-ankle-safety-shoes-access-flex-black-color-part-no-70107/">
 <meta property="og:image" content="https://sbmmarketplace.com/backend/public/uploads/2022/04/rgp.jpg">
-<script type="application/ld+json" data-static-product-schema>{"@context":"https://schema.org","@type":"Product","name":"MTS by Honeywell, S3 SRC HI CI Low Ankle Safety Shoes, Access Flex, Black Color, Part No: 70107","description":"Honeywell Safety Shoes MTS RGP comes with a full nubuck leather upper and is water-resistant. The anti-magnetic and thermal insulated composite midsole...","sku":"RGP","image":["https://sbmmarketplace.com/backend/public/uploads/2022/04/rgp.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/02/group-1-4.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/02/group-3-2.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/02/group-5-4.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/02/group-6-3.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/02/group-7-3.jpg"],"brand":{"@type":"Brand","name":"XpertOne Creative - Prints & Safety"},"url":"https://www.xpertonecreative.com/products/mts-by-honeywell-s3-src-hi-ci-low-ankle-safety-shoes-access-flex-black-color-part-no-70107/"}</script>
+<script type="application/ld+json" data-static-product-schema>{"@context":"https://schema.org","@type":"Product","name":"MTS by Honeywell, S3 SRC HI CI Low Ankle Safety Shoes, Access Flex, Black Color, Part No: 70107","description":"Honeywell Safety Shoes MTS RGP comes with a full nubuck leather upper and is water-resistant. The anti-magnetic and thermal insulated composite midsole...","sku":"RGP","image":["https://sbmmarketplace.com/backend/public/uploads/2022/04/rgp.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/02/group-1-4.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/02/group-3-2.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/02/group-5-4.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/02/group-6-3.jpg","https://sbmmarketplace.com/backend/public/uploads/2022/02/group-7-3.jpg"],"brand":{"@type":"Brand","name":"Xpertone Creative LLC-FZ"},"url":"https://www.xpertonecreative.com/products/mts-by-honeywell-s3-src-hi-ci-low-ankle-safety-shoes-access-flex-black-color-part-no-70107/"}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.xpertonecreative.com/"},{"@type":"ListItem","position":2,"name":"Safety Shoes","item":"https://www.xpertonecreative.com/category/safety-shoes/"},{"@type":"ListItem","position":3,"name":"MTS by Honeywell, S3 SRC HI CI Low Ankle Safety Shoes, Access Flex, Black Color, Part No: 70107","item":"https://www.xpertonecreative.com/products/mts-by-honeywell-s3-src-hi-ci-low-ankle-safety-shoes-access-flex-black-color-part-no-70107/"}]}</script>
 <meta name="robots" content="index,follow">
 <meta name="theme-color" content="#0E1116">
@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function render(p) {
     var isCustomisable = ['safety-vests', 'uniforms', 'helmets'].indexOf(p.category) !== -1;
-    document.title = p.title + ' — XpertOne Prints';
+    document.title = p.title + ' — Xpertone Creative LLC-FZ';
     var meta = document.querySelector('meta[name=description]');
     if (meta && p.description) meta.setAttribute('content', p.description.slice(0, 160));
     var canonical = document.querySelector('link[rel=canonical]') || document.createElement('link');
@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', function () {
       schema.textContent = JSON.stringify({
         '@context': 'https://schema.org', '@type': 'Product', name: p.title,
         description: p.description || p.subtitle || p.title, sku: p.code || p.uid,
-        image: p.images || [], brand: { '@type': 'Brand', name: 'XpertOne Creative - Prints & Safety' },
+        image: p.images || [], brand: { '@type': 'Brand', name: 'Xpertone Creative LLC-FZ' },
         offers: p.priceStatus === 'fixed' ? { '@type': 'Offer', priceCurrency: 'AED', price: p.price,
           availability: 'https://schema.org/InStock', itemCondition: 'https://schema.org/NewCondition',
           seller: { '@id': 'https://www.xpertonecreative.com/#business' },
@@ -255,7 +255,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     XO.el('#waBtn').addEventListener('click', function () {
       var q = matrix.qty(), units = matrix.units();
-      var lines = ['Hello XpertOne, I would like to order:', '', p.title];
+      var lines = ['Hello, I would like to order:', '', p.title];
       if (units > 0) {
         lines.push('Sizes: ' + Object.keys(q).filter(function (s) { return q[s] > 0; })
           .map(function (s) { return s + ' x' + q[s]; }).join(', '));

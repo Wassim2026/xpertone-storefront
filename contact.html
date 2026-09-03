@@ -6,7 +6,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="assets/img/brand/favicon-32.png">
 <link rel="apple-touch-icon" href="assets/img/brand/apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
-<title>Contact &amp; Bulk Quotes — XpertOne Prints, Dubai</title>
+<title>Contact &amp; Bulk Quotes — Xpertone Creative LLC-FZ, Dubai</title>
 <meta name="description" content="Request a bulk quote for safety vests, uniforms, safety shoes, gloves, helmets or site safety equipment. Upload your logo, call, email or WhatsApp our Al Quoz team in Dubai.">
 <link rel="canonical" href="https://www.xpertonecreative.com/contact.html">
 <meta name="theme-color" content="#0E1116">
@@ -149,7 +149,7 @@ document.addEventListener('DOMContentLoaded', function () {
     '<li><b>Hours</b><span>' + XO.esc(C.hours) + '</span></li>' +
     '<li><b>Minimum order</b><span>' + XO_CONFIG.MOQ + ' pieces</span></li>';
 
-  XO.el('#waMain').href = XO.waLink('Hello XpertOne, I would like a quote for:');
+  XO.el('#waMain').href = XO.waLink('Hello, I would like a quote for:');
   XO.el('#callMain').href = 'tel:+' + C.phoneRaw;
 
   var sel = XO.el('#q_product');
@@ -207,7 +207,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function asText(v) {
-    return ['Hello XpertOne, I would like a quote.', '',
+    return ['Hello, I would like a quote.', '',
       'Company: ' + (v.company || '-'), 'Contact: ' + (v.name || '-'),
       'Phone: ' + (v.phone || '-'), 'Email: ' + (v.email || '-'),
       'Product: ' + (v.product || '-'), 'Quantity: ' + (v.quantity || '-'),
@@ -246,7 +246,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function failed(err) {
-      console.error('[XpertOne] Enquiry failed', err);
+      console.error('[Xpertone Creative LLC-FZ] Enquiry failed', err);
       btn.disabled = false;
       btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Send request';
       XO.toast('Could not send it — use the WhatsApp button instead', 'fa-triangle-exclamation');

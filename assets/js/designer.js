@@ -1,5 +1,5 @@
 /* =========================================================================
-   XpertOne Prints — Product designer
+   Xpertone Creative LLC-FZ — Product designer
    -------------------------------------------------------------------------
    Lets the customer put their own logo and text onto a product before it
    goes in the cart, and see exactly how it will look.
