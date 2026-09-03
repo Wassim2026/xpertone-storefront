@@ -212,7 +212,7 @@
 
         '<form class="xo-search d-none d-lg-block mx-3" id="xoSearchForm" role="search">' +
           '<i class="fa-solid fa-magnifying-glass"></i>' +
-          '<input type="search" id="xoSearchInput" placeholder="Search 1,200+ products — vest, S3 shoe, welding glove, cone" aria-label="Search products">' +
+          '<input type="search" id="xoSearchInput" placeholder="Search products — vest, S3 shoe, welding glove, cone" aria-label="Search products">' +
         '</form>' +
 
         '<div class="header-actions ms-auto ms-lg-0">' +

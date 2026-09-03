@@ -242,7 +242,7 @@ window.XO_CONFIG = {
      --------------------------------------------------------------------- */
   COMPANY: {
     name: 'XpertOne Prints',
-    legalName: 'XpertOne Creative',
+    legalName: 'Xpertone Creative LLC-FZ',
     phone: '+971 54 583 2318',
     phoneRaw: '971545832318',
     whatsapp: '971545832318',

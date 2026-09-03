@@ -427,6 +427,7 @@
         lines.push({
           key: key,
           uid: product.uid,
+          slug: product.slug || '',
           id: product.id,
           source: product.source,
           title: product.title,

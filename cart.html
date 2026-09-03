@@ -69,7 +69,9 @@ document.addEventListener('DOMContentLoaded', function () {
         (l.image ? '<img src="' + XO.esc(l.image) + '" alt="">' : '<i class="fa-solid fa-image text-muted-xo"></i>') +
       '</div>' +
       '<div>' +
-        '<a class="cart-line__title" href="product.html?p=' + encodeURIComponent(l.uid) + '">' + XO.esc(l.title) + '</a>' +
+        '<a class="cart-line__title" href="' + (l.slug
+          ? '/products/' + encodeURIComponent(l.slug) + '/'
+          : 'product.html?p=' + encodeURIComponent(l.uid)) + '">' + XO.esc(l.title) + '</a>' +
         '<div class="text-muted-xo" style="font-size:.86rem">' + XO.esc(l.categoryName) +
           ' · ' + XO.money(unit) + ' per piece' +
           (unit < l.price ? ' <span style="color:var(--xo-success);font-weight:600">(volume price)</span>' : '') +
