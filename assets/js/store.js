@@ -57,7 +57,16 @@
     },
 
     qs: function (name) {
-      return new URLSearchParams(window.location.search).get(name);
+      var value = new URLSearchParams(window.location.search).get(name);
+      if (value) return value;
+      /* Static SEO product pages use /products/<slug>/ instead of ?p=<uid>.
+         Return a tagged slug so the shared product page can resolve the live
+         Supabase record without embedding a database identifier in each file. */
+      if (name === 'p') {
+        var match = window.location.pathname.match(/^\/products\/([^/]+)\/?$/);
+        if (match) return 'slug:' + decodeURIComponent(match[1]);
+      }
+      return null;
     },
 
     el: function (sel, root) { return (root || document).querySelector(sel); },
@@ -320,7 +329,10 @@
 
     byUid: function (uid) {
       return this.load().then(function (list) {
-        for (var i = 0; i < list.length; i++) if (list[i].uid === uid) return list[i];
+        var slug = String(uid || '').indexOf('slug:') === 0 ? String(uid).slice(5) : '';
+        for (var i = 0; i < list.length; i++) {
+          if (list[i].uid === uid || (slug && list[i].slug === slug)) return list[i];
+        }
         return null;
       });
     },
