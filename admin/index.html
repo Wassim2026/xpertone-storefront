@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" type="image/png" sizes="32x32" href="https://www.xpertonecreative.com/assets/img/brand/favicon-32.png">
+<link rel="apple-touch-icon" href="https://www.xpertonecreative.com/assets/img/brand/apple-touch-icon.png">
+<title>Admin — XpertOne Prints</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--y:#ffc400;--ink:#161616;--mut:#69707d;--line:#e5e7eb;--bg:#f3f4f6;--panel:#fff;--ok:#087443;--bad:#b42318;--shadow:0 10px 30px rgba(17,24,39,.07)}
+body{font:14px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;color:var(--ink);background:var(--bg)}
+button,input,select,textarea{font:inherit;color:inherit} button{cursor:pointer;border:0;border-radius:9px;padding:10px 15px;background:var(--ink);color:#fff;font-weight:700;transition:.16s ease} button:hover{transform:translateY(-1px)}
+button.y{background:var(--y);color:#111} button.g{background:#fff;border:1px solid var(--line);color:#222;font-weight:650} button.d{background:#fff;border:1px solid #f5b7b1;color:var(--bad)} button:disabled{opacity:.5;cursor:not-allowed;transform:none}
+input,select,textarea{width:100%;padding:10px 12px;border:1px solid #d9dde4;border-radius:9px;background:#fff;outline:none} input:focus,select:focus,textarea:focus{border-color:#d5a400;box-shadow:0 0 0 3px rgba(255,196,0,.18)} textarea{min-height:82px;resize:vertical}
+label{display:block;font-size:11px;font-weight:750;color:var(--mut);margin:0 0 6px;text-transform:uppercase;letter-spacing:.055em}.field{margin-bottom:15px}.row{display:grid;gap:13px}
+@media(min-width:700px){.row.c2{grid-template-columns:1fr 1fr}.row.c3{grid-template-columns:1fr 1fr 1fr}}
+#login{display:none;min-height:100vh;place-items:center;padding:20px;background:radial-gradient(circle at 70% 10%,#fff4bd 0,transparent 34%),#f5f5f2}#login .card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:30px;width:100%;max-width:390px;box-shadow:var(--shadow)}
+.logo{display:flex;align-items:center;gap:10px;font-weight:850;letter-spacing:-.02em}.logo img{width:34px;height:40px;object-fit:contain;display:block}
+#app{display:none} header{height:66px;background:#161616;color:#fff;padding:0 24px;display:flex;align-items:center;gap:13px;position:sticky;top:0;z-index:20;box-shadow:0 2px 14px rgba(0,0,0,.15)}header .logo{color:#fff}header .sp,.savebar .sp{flex:1}header small{color:#b6bac2}
+main{padding:26px;max-width:1540px;margin:0 auto}.pagehead{display:flex;align-items:flex-end;gap:16px;margin-bottom:18px}.pagehead h1{font-size:27px;letter-spacing:-.035em}.pagehead p{color:var(--mut);margin-top:2px}.pagehead .sp{flex:1}
+.stats{display:grid;grid-template-columns:repeat(5,minmax(135px,1fr));gap:12px;margin-bottom:16px}.stat{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:13px 15px;color:var(--mut);box-shadow:0 2px 9px rgba(17,24,39,.025)}.stat b{display:block;font-size:23px;line-height:1.2;color:var(--ink);margin-top:3px}.stat.live b{color:var(--ok)}
+.rules{background:#fff9db;border:1px solid #f4df75;border-radius:12px;padding:12px 15px;font-size:12.5px;line-height:1.7;margin-bottom:16px}.rules summary{cursor:pointer;font-weight:800}.rules code{background:#fff;border:1px solid #f1d86a;border-radius:5px;padding:1px 5px}
+.filters{display:grid;grid-template-columns:minmax(260px,2fr) repeat(3,minmax(150px,1fr)) auto;gap:10px;align-items:center;background:#fff;border:1px solid var(--line);padding:13px;border-radius:13px 13px 0 0}.filters input,.filters select{min-width:0}.showing{padding:9px 13px;background:#f4f4f5;border-radius:8px;font-weight:700;color:#4b5563;white-space:nowrap}
+.tablewrap{overflow:auto;background:#fff;border:1px solid var(--line);border-top:0;border-radius:0 0 13px 13px;box-shadow:var(--shadow)}table{width:100%;min-width:1050px;border-collapse:collapse}th{position:sticky;top:0;background:#f8f8f7;text-align:left;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--mut);padding:11px;border-bottom:1px solid var(--line)}td{padding:10px 11px;border-bottom:1px solid #eff0f2;vertical-align:middle}tbody tr:hover{background:#fafafa}tr:last-child td{border-bottom:0}td img{width:48px;height:48px;object-fit:cover;border-radius:8px;background:#eee;display:block}.noimg{width:48px;height:48px;border-radius:8px;background:#fee4e2;color:#b42318;display:grid;place-items:center;font-size:9px;font-weight:800;text-align:center;line-height:1.1}
+.pill{display:inline-block;font-size:10px;font-weight:800;padding:3px 7px;border-radius:99px;background:#e7f6ed;color:var(--ok);vertical-align:1px}.pill.f{background:#fff1c2;color:#8a5900}.muted{color:var(--mut);font-size:12px}.right{text-align:right}.stk{font-weight:800}.stk.no{color:var(--bad)}.mp{width:90px;text-align:right;padding:7px 8px;font-weight:750}.mp:focus{outline:none}tr.dirty{background:#fffbea}.savebar{position:sticky;bottom:14px;z-index:15;background:#171717;color:#fff;border-radius:12px;padding:12px 14px;display:none;align-items:center;gap:12px;margin-top:14px;box-shadow:0 12px 34px rgba(0,0,0,.25)}.savebar.on{display:flex}
+.catbox{background:#fff;border:1px solid var(--line);border-radius:13px;margin:0 0 16px;box-shadow:0 2px 9px rgba(17,24,39,.025)}.catbox summary{cursor:pointer;padding:14px 16px;font-size:14px;font-weight:800}.catbox-body{padding:0 16px 16px}.catbox-head{display:flex;gap:12px;align-items:flex-start;justify-content:space-between;margin-bottom:12px}.catbox h2{font-size:17px;margin-bottom:3px}.catgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}.catcard{display:grid;grid-template-columns:68px 1fr;gap:11px;align-items:center;border:1px solid var(--line);border-radius:10px;padding:10px;background:#fafafa}.catcard img,.catnone{width:68px;height:68px;border-radius:8px;background:#fff;border:1px solid var(--line);object-fit:contain;display:block}.catnone{display:grid;place-items:center;color:var(--mut);font-size:9px;text-align:center}.catcard h3{font-size:13px;margin-bottom:6px}.catcard input[type=file]{font-size:11px;padding:5px}.catactions{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}.catactions button{padding:5px 8px;font-size:11px}
+#drawer{position:fixed;inset:0;background:rgba(17,24,39,.58);display:none;z-index:40;backdrop-filter:blur(3px)}#drawer .panel{position:absolute;right:0;top:0;bottom:0;width:min(650px,100%);background:#fff;overflow:auto;padding:24px;box-shadow:-14px 0 44px rgba(0,0,0,.18)}#drawer h2{font-size:22px;margin-bottom:3px}.dhead{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:18px}.thumbs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}.thumb{position:relative;width:78px;height:78px}.thumb img{width:78px;height:78px;object-fit:cover;border-radius:9px;border:1px solid var(--line)}.thumb button{position:absolute;top:-6px;right:-6px;width:22px;height:22px;padding:0;border-radius:99px;background:#b91c1c;color:#fff;font-size:13px;line-height:1}.calc{background:#fff9db;border:1px solid #f4df75;border-radius:10px;padding:12px;margin-bottom:16px;font-size:13px}.calc b{font-size:20px}.msg{padding:10px 12px;border-radius:8px;font-size:13px;margin-bottom:12px;display:none}.msg.e{display:block;background:#fee2e2;color:#991b1b}.msg.s{display:block;background:#dcfce7;color:#14532d}.sticky{position:sticky;bottom:0;background:#fff;padding-top:14px;border-top:1px solid var(--line);display:flex;gap:10px;margin-top:18px}
+@media(max-width:900px){main{padding:16px}.stats{grid-template-columns:repeat(2,1fr)}.filters{grid-template-columns:1fr 1fr}.filters #q{grid-column:1/-1}.pagehead{align-items:center}.pagehead p{display:none}}
+@media(max-width:600px){header{height:auto;padding:11px 14px;flex-wrap:wrap}header small{order:4;width:100%}.stats{grid-template-columns:1fr 1fr}.filters{grid-template-columns:1fr}.filters #q{grid-column:auto}.pagehead h1{font-size:23px}.pagehead{margin-bottom:13px}.pagehead .y{padding:9px 11px}.stat{padding:11px}.stat b{font-size:20px}}
+</style>
+</head>
+<body>
+
+<div id="login">
+  <form class="card" id="loginForm">
+    <div class="logo" style="margin-bottom:18px"><img src="https://www.xpertonecreative.com/assets/img/brand/xpertone-mark.png" alt="XpertOne"><span>XpertOne <span style="color:#6b7280;font-weight:500">Admin</span></span></div>
+    <div class="msg" id="lmsg"></div>
+    <div class="field"><label>Email</label><input type="email" id="email" autocomplete="username" required></div>
+    <div class="field"><label>Password</label><input type="password" id="pw" autocomplete="current-password" required></div>
+    <button class="y" style="width:100%" id="lbtn">Sign in</button>
+  </form>
+</div>
+
+<div id="app">
+  <header>
+    <div class="logo"><img src="https://www.xpertonecreative.com/assets/img/brand/xpertone-mark.png" alt="XpertOne"><span>XpertOne <span style="color:#9ca3af;font-weight:500">Admin</span></span></div>
+    <div class="sp"></div>
+    <small id="who"></small>
+    <button class="g" id="newBtn">+ New product</button>
+    <button class="g" id="outBtn">Sign out</button>
+  </header>
+  <main>
+    <div class="pagehead"><div><h1>Products</h1><p>Find, price and publish catalogue items.</p></div><span class="sp"></span><button class="y" id="newTopBtn">+ Add product</button></div>
+    <div class="stats">
+      <div class="stat">All products <b id="sCount">—</b></div>
+      <div class="stat live">Visible on site <b id="sVisible">—</b></div>
+      <div class="stat">Hidden <b id="sHidden">—</b></div>
+      <div class="stat">Missing photo <b id="sNoPhoto">—</b></div>
+      <div class="stat">Out of stock <b id="sNoStock">—</b></div>
+    </div>
+    <details class="catbox">
+      <summary>Manage homepage category pictures</summary><div class="catbox-body">
+      <div class="catbox-head">
+        <div><h2>Homepage category pictures</h2><div class="muted">Upload a square PNG, JPG or WebP. It changes only the category card, not any product photo.</div></div>
+      </div>
+      <div class="msg" id="catmsg"></div>
+      <div class="catgrid" id="catgrid"><span class="muted">Loading categories…</span></div>
+      </div>
+    </details>
+    <details class="rules">
+        <summary>Automatic price rules</summary><div style="padding-top:7px">Used whenever “My price” is empty.<br>
+        <b>Safety vests:</b> cost ≤5 → <code>12</code> · 5–9 → <code>20</code> · 9–15 → <code>25</code> · over 15 → <code>cost + 10</code><br>
+        <b>Workwear &amp; uniforms:</b> <code>cost × 2</code> &nbsp;·&nbsp; <b>Safety shoes:</b> <code>cost + 15</code> &nbsp;·&nbsp; <b>Everything else:</b> <code>cost × 2</code><br>
+        <span class="muted">Enter “My price” to override the rule. Clear it to return to automatic pricing.</span></div>
+    </details>
+    <div class="filters">
+      <input id="q" placeholder="Search name, SKU or code…">
+      <select id="cat"><option value="">All categories</option></select>
+      <select id="vis"><option value="visible">Visible products</option><option value="hidden">Hidden products</option><option value="all">All products</option></select>
+      <select id="sort">
+        <option value="sort_order">Catalogue order</option>
+        <option value="price">Selling price</option>
+        <option value="cost">Supplier cost</option>
+        <option value="title">Name A–Z</option>
+        <option value="stock">Stock</option>
+      </select>
+      <select id="flt">
+        <option value="">Any condition</option>
+        <option value="nophoto">Missing a photo</option>
+        <option value="fixed">My own price only</option>
+        <option value="nostock">Out of stock</option>
+      </select>
+      <span class="showing" id="showing"></span>
+    </div>
+    <div class="msg" id="amsg"></div>
+    <div class="tablewrap"><table>
+      <thead><tr>
+        <th style="width:56px"></th><th>Product</th><th>Range</th>
+        <th class="right">SBM price</th><th class="right">My price</th><th class="right">Live on site</th><th>Price from</th>
+        <th class="right">Stock</th><th></th>
+      </tr></thead>
+      <tbody id="rows"></tbody>
+    </table></div>
+    <div class="savebar" id="savebar">
+      <span id="dirtyCount">0 changed</span>
+      <span class="sp"></span>
+      <button class="g" id="discardBtn">Discard</button>
+      <button class="y" id="saveAllBtn">Save prices</button>
+    </div>
+  </main>
+</div>
+
+<div id="drawer"><div class="panel">
+  <div class="dhead">
+    <div><h2 id="dTitle">Edit product</h2><div class="muted" id="dSku"></div></div>
+    <button class="g" id="dClose">Close</button>
+  </div>
+  <div class="msg" id="dmsg"></div>
+
+  <div class="calc" id="calc"></div>
+
+  <div class="field"><label>Photos — first one is the main image</label>
+    <div class="thumbs" id="thumbs"></div>
+    <input type="file" id="upl" accept="image/*" multiple>
+    <div class="muted" style="margin-top:5px">Uploads go to your own storage. Paste a link instead:</div>
+    <div style="display:flex;gap:8px;margin-top:6px"><input id="imgUrl" placeholder="https://…"><button class="g" id="addUrl">Add</button></div>
+  </div>
+
+  <div class="row c2">
+    <div class="field"><label>SBM price (AED)</label><input type="number" step="0.01" id="f_cost"></div>
+    <div class="field"><label>My price — what customers pay</label><input type="number" step="1" id="f_override" placeholder="automatic"></div>
+  </div>
+
+  <div class="field"><label>Product name</label><input id="f_title"></div>
+  <div class="row c2">
+    <div class="field"><label>Range</label><select id="f_cat"></select></div>
+    <div class="field"><label>Supplier code</label><input id="f_code"></div>
+  </div>
+  <div class="field"><label>Short line under the name</label><input id="f_subtitle"></div>
+  <div class="field"><label>Description</label><textarea id="f_desc"></textarea></div>
+  <div class="field"><label>Features — one per line</label><textarea id="f_feat"></textarea></div>
+  <div class="field"><label>Sizes — comma separated</label><input id="f_sizes" placeholder="S, M, L, XL"></div>
+  <div class="row c2">
+    <div class="field"><label>Material</label><input id="f_material"></div>
+    <div class="field"><label>Colour</label><input id="f_colour"></div>
+  </div>
+  <div class="row c3">
+    <div class="field"><label>Origin</label><input id="f_origin"></div>
+    <div class="field"><label>Standard</label><input id="f_standard"></div>
+    <div class="field"><label>Packing</label><input id="f_packing"></div>
+  </div>
+  <div class="row c3">
+    <div class="field"><label>GSM</label><input id="f_gsm"></div>
+    <div class="field"><label>Dimensions</label><input id="f_dim"></div>
+    <div class="field"><label>Badge</label><input id="f_attr"></div>
+  </div>
+  <div class="field"><label>Stock from SBM — read only</label><div id="f_stock" class="muted"></div></div>
+  <div class="field"><label><input type="checkbox" id="f_active" style="width:auto;margin-right:7px">Show on the website</label></div>
+
+  <div class="sticky">
+    <button class="y" id="dSave">Save changes</button>
+    <button class="g" id="dCancel">Cancel</button>
+    <span style="flex:1"></span>
+    <button class="d" id="dDel">Delete</button>
+  </div>
+</div></div>
+
+<script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+const SUPABASE_URL = 'https://myodfvshmusywmhdozwt.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_yqVW7IVTIgSarj8nKwVTuQ_zrj80eQ-';
+const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s==null?'':s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let PRODUCTS = [], CATS = [], SETTINGS = null, CUR = null, IMGS = [];
+
+function note(el, text, kind){ const n=$(el); n.textContent=text; n.className='msg '+(kind||''); if(kind==='s') setTimeout(()=>{n.className='msg';},2500); }
+
+/* ------------------------------------------------------------------
+   Pricing — this MUST mirror the products_public view in the database.
+   "My price" (price_override) always wins; the rules only fill the gap
+   so nothing ever shows without a price.
+   ------------------------------------------------------------------ */
+function rulePrice(p){
+  const c = Number(p.cost_price) || 0;
+  let v;
+  if (p.category_slug === 'safety-vests') {
+    v = c <= 5 ? 12 : c <= 9 ? 20 : c <= 15 ? 25 : c + 10;
+  } else if (p.category_slug === 'uniforms') {
+    v = c * 2;
+  } else if (p.category_slug === 'safety-shoes') {
+    v = c + 15;
+  } else {
+    v = c * 2;
+  }
+  return Math.max(Math.round(v), 1);
+}
+function ruleLabel(p){
+  const c = Number(p.cost_price) || 0;
+  if (p.category_slug === 'safety-vests')
+    return c <= 5 ? 'vest band ≤5' : c <= 9 ? 'vest band 5–9' : c <= 15 ? 'vest band 9–15' : 'vest, cost + 10';
+  if (p.category_slug === 'uniforms')     return 'uniforms, cost × 2';
+  if (p.category_slug === 'safety-shoes') return 'shoes, cost + 15';
+  return 'cost × 2';
+}
+function sellPrice(p){
+  if (p.price_override != null) return Math.max(Math.round(Number(p.price_override)), 1);
+  return rulePrice(p);
+}
+function priceSource(p){
+  if (p.price_override != null) return '<span class="pill f">My price</span>';
+  return '<span class="muted">' + esc(ruleLabel(p)) + '</span>';
+}
+/* One switch, two flags: the website needs is_active true AND is_hidden false. */
+const isLive = p => p.is_active !== false && p.is_hidden !== true;
+
+$('loginForm').addEventListener('submit', async e => {
+  e.preventDefault(); $('lbtn').disabled = true; note('lmsg','','');
+  const { error } = await sb.auth.signInWithPassword({ email: $('email').value.trim(), password: $('pw').value });
+  $('lbtn').disabled = false;
+  if (error) return note('lmsg', error.message, 'e');
+  boot();
+});
+$('outBtn').onclick = async () => { await sb.auth.signOut(); location.reload(); };
+
+async function boot(){
+  const { data:{ user } } = await sb.auth.getUser();
+  if (!user){ $('login').style.display='grid'; $('app').style.display='none'; return; }
+  const { data: prof } = await sb.from('profiles').select('role,full_name').eq('id', user.id).single();
+  if (!prof || prof.role !== 'admin'){
+    await sb.auth.signOut();
+    $('login').style.display='grid';
+    return note('lmsg','That account is not an admin.','e');
+  }
+  $('login').style.display='none'; $('app').style.display='block';
+  $('who').textContent = user.email;
+  await load();
+}
+
+/* PostgREST returns at most 1000 rows per request, so page through it —
+   the catalogue is larger than that. */
+async function fetchAllProducts(){
+  const out = [], step = 1000;
+  for (let from = 0; ; from += step){
+    const { data, error } = await sb.from('products').select('*').order('sort_order').range(from, from + step - 1);
+    if (error) throw error;
+    out.push(...data);
+    if (data.length < step) break;
+  }
+  return out;
+}
+
+async function load(){
+  try {
+    const [s,c] = await Promise.all([
+      sb.from('settings').select('*').eq('id',1).single(),
+      sb.from('categories').select('*').order('sort_order')
+    ]);
+    SETTINGS = s.data || { vat_rate: 0.05 };
+    CATS = c.data || [];
+    PRODUCTS = await fetchAllProducts();
+  } catch (err) {
+    return note('amsg', err.message || String(err), 'e');
+  }
+  const opts = CATS.map(x => '<option value="'+x.slug+'">'+esc(x.name)+'</option>').join('');
+  $('cat').innerHTML = '<option value="">All categories</option>' + opts;
+  $('f_cat').innerHTML = opts;
+  renderCategoryImages();
+  render();
+}
+
+function fallbackCategoryImage(slug){
+  const p = PRODUCTS.find(x => x.category_slug === slug && (x.images||[]).length);
+  return p ? p.images[0] : '';
+}
+
+function renderCategoryImages(){
+  $('catgrid').innerHTML = CATS.filter(c => c.is_active !== false).map(c => {
+    const image = c.display_image_url || fallbackCategoryImage(c.slug);
+    return '<article class="catcard" data-catslug="'+esc(c.slug)+'">'+
+      (image ? '<img src="'+esc(image)+'" alt="" onerror="this.style.opacity=.25">' : '<div class="catnone">NO<br>IMAGE</div>')+
+      '<div><h3>'+esc(c.name)+'</h3><input class="catfile" type="file" accept="image/png,image/jpeg,image/webp">'+
+      '<div class="catactions"><button class="y catupload">Upload & use</button>'+
+      (c.display_image_url ? '<button class="g catreset">Use product image</button>' : '')+
+      '</div></div></article>';
+  }).join('') || '<span class="muted">No active categories.</span>';
+
+  document.querySelectorAll('.catupload').forEach(b => b.onclick = () => uploadCategoryImage(b.closest('[data-catslug]')));
+  document.querySelectorAll('.catreset').forEach(b => b.onclick = () => resetCategoryImage(b.closest('[data-catslug]')));
+}
+
+async function uploadCategoryImage(card){
+  const slug = card.dataset.catslug, file = card.querySelector('.catfile').files[0];
+  if (!file) return note('catmsg','Choose an image first.','e');
+  if (file.size > 5*1024*1024) return note('catmsg','Image must be smaller than 5 MB.','e');
+  const btn = card.querySelector('.catupload'); btn.disabled=true; btn.textContent='Uploading…';
+  const ext = (file.name.split('.').pop()||'jpg').toLowerCase().replace(/[^a-z0-9]/g,'');
+  const path = 'categories/'+slug+'-'+Date.now()+'.'+ext;
+  const { error:upErr } = await sb.storage.from('product-photos').upload(path,file,{upsert:true,contentType:file.type});
+  if (upErr){ btn.disabled=false; btn.textContent='Upload & use'; return note('catmsg','Upload failed: '+upErr.message,'e'); }
+  const url = sb.storage.from('product-photos').getPublicUrl(path).data.publicUrl;
+  const { error } = await sb.from('categories').update({display_image_url:url}).eq('slug',slug);
+  if (error){ btn.disabled=false; btn.textContent='Upload & use'; return note('catmsg','Could not save: '+error.message,'e'); }
+  const c=CATS.find(x=>x.slug===slug); if(c)c.display_image_url=url;
+  renderCategoryImages(); note('catmsg','Category picture updated. Refresh the website to see it.','s');
+}
+
+async function resetCategoryImage(card){
+  const slug=card.dataset.catslug;
+  const { error }=await sb.from('categories').update({display_image_url:''}).eq('slug',slug);
+  if(error)return note('catmsg','Could not reset: '+error.message,'e');
+  const c=CATS.find(x=>x.slug===slug); if(c)c.display_image_url='';
+  renderCategoryImages(); note('catmsg','Product image restored.','s');
+}
+
+function render(){
+  const q = $('q').value.trim().toLowerCase(), cat = $('cat').value.trim(),
+        vis = $('vis').value, sort = $('sort').value, flt = $('flt').value;
+  let list = PRODUCTS.filter(p => {
+    const productCategory = String(p.category_slug || '').trim();
+    if (cat && productCategory !== cat) return false;
+    if (vis === 'visible' && !isLive(p)) return false;
+    if (vis === 'hidden' && isLive(p)) return false;
+    if (q && !((p.title+' '+p.sku+' '+(p.supplier_code||'')+' '+(p.subcategory||'')).toLowerCase().includes(q))) return false;
+    if (flt==='nophoto' && (p.images||[]).length) return false;
+    if (flt==='fixed'   && p.price_override == null) return false;
+    if (flt==='nostock' && (p.stock_total||0) > 0) return false;
+    return true;
+  });
+  list.sort((a,b) =>
+    sort==='price' ? sellPrice(a)-sellPrice(b) :
+    sort==='cost'  ? a.cost_price-b.cost_price :
+    sort==='stock' ? (a.stock_total||0)-(b.stock_total||0) :
+    sort==='title' ? a.title.localeCompare(b.title) : a.sort_order-b.sort_order);
+
+  $('sCount').textContent   = PRODUCTS.length;
+  $('sVisible').textContent = PRODUCTS.filter(isLive).length;
+  $('sHidden').textContent  = PRODUCTS.filter(p => !isLive(p)).length;
+  $('sNoPhoto').textContent = PRODUCTS.filter(p => !(p.images||[]).length).length;
+  $('sNoStock').textContent = PRODUCTS.filter(p => !(p.stock_total||0)).length;
+  $('showing').textContent  = list.length + ' shown';
+
+  $('rows').innerHTML = list.map(p => {
+    const img = (p.images||[])[0];
+    const cn = CATS.find(c => c.slug === p.category_slug)?.name || p.category_slug;
+    const stock = p.stock_total || 0;
+    const isDirty = DIRTY.has(p.id);
+    const pend = isDirty ? DIRTY.get(p.id) : null;
+    const draft = { category_slug: p.category_slug, cost_price: p.cost_price,
+                    price_override: isDirty ? DIRTY.get(p.id) : p.price_override };
+    const unpriced = draft.price_override == null && !(Number(p.cost_price) > 0);
+    return '<tr'+(isDirty ? ' class="dirty"' : '')+'>'+
+      '<td>'+(img ? '<img src="'+esc(img)+'" loading="lazy" onerror="this.style.opacity=.25">' : '<div class="noimg">NO<br>PIC</div>')+'</td>'+
+      '<td><b>'+esc(p.title)+'</b>'+(isLive(p)?'':' <span class="pill f">hidden</span>')+
+        (unpriced ? ' <span class="pill f">no price</span>' : '')+
+        '<div class="muted">'+esc(p.sku)+(p.subcategory ? ' · '+esc(p.subcategory) : '')+'</div></td>'+
+      '<td class="muted">'+esc(cn)+'</td>'+
+      '<td class="right muted">'+Number(p.cost_price).toFixed(2)+'</td>'+
+      '<td class="right"><input class="mp" type="number" step="1" min="0" data-mp="'+p.id+'" '+
+        'placeholder="auto" value="'+(pend != null ? pend : (p.price_override ?? ''))+'"></td>'+
+      '<td class="right"><b data-live="'+p.id+'">'+sellPrice(draft)+'</b></td>'+
+      '<td data-src="'+p.id+'">'+priceSource(draft)+'</td>'+
+      '<td class="right"><span class="stk'+(stock?'':' no')+'">'+stock+'</span></td>'+
+      '<td class="right"><button class="g" data-edit="'+p.id+'">Edit</button></td>'+
+    '</tr>';
+  }).join('') || '<tr><td colspan="9" class="muted" style="padding:26px;text-align:center">Nothing matches.</td></tr>';
+
+  document.querySelectorAll('[data-edit]').forEach(b =>
+    b.onclick = () => openDrawer(PRODUCTS.find(x => x.id === b.dataset.edit)));
+
+  /* Type a price straight into the table — no percentages, just the number
+     you want customers to pay. Blank falls back to the automatic rule. */
+  document.querySelectorAll('[data-mp]').forEach(inp => {
+    inp.addEventListener('input', () => {
+      const id = inp.dataset.mp;
+      const p  = PRODUCTS.find(x => x.id === id);
+      const raw = inp.value.trim();
+      if (raw === '' && p.price_override == null) DIRTY.delete(id);
+      else if (raw !== '' && Number(raw) === Number(p.price_override)) DIRTY.delete(id);
+      else DIRTY.set(id, raw === '' ? null : Math.round(Number(raw)));
+
+      const draft = { category_slug: p.category_slug, cost_price: p.cost_price,
+                      price_override: DIRTY.has(id) ? DIRTY.get(id) : p.price_override };
+      const live = document.querySelector('[data-live="'+id+'"]');
+      const src  = document.querySelector('[data-src="'+id+'"]');
+      if (live) live.textContent = sellPrice(draft);
+      if (src)  src.innerHTML = priceSource(draft);
+      inp.closest('tr').classList.toggle('dirty', DIRTY.has(id));
+      updateSaveBar();
+    });
+  });
+}
+['q','cat','vis','sort','flt'].forEach(id => {
+  $(id).addEventListener('input', render);
+  $(id).addEventListener('change', render);
+});
+
+/* ---------------- inline price editing ---------------- */
+const DIRTY = new Map();
+
+function updateSaveBar(){
+  const n = DIRTY.size;
+  $('dirtyCount').textContent = n === 1 ? '1 price changed' : n + ' prices changed';
+  $('savebar').classList.toggle('on', n > 0);
+}
+
+$('discardBtn').onclick = () => { DIRTY.clear(); updateSaveBar(); render(); };
+
+$('saveAllBtn').onclick = async () => {
+  $('saveAllBtn').disabled = true;
+  let ok = 0, fail = 0, firstErr = '';
+  for (const [id, val] of DIRTY.entries()){
+    const { error } = await sb.from('products').update({ price_override: val }).eq('id', id);
+    if (error){ fail++; if (!firstErr) firstErr = error.message; }
+    else { ok++; const p = PRODUCTS.find(x => x.id === id); if (p) p.price_override = val; }
+  }
+  DIRTY.clear(); updateSaveBar(); render();
+  $('saveAllBtn').disabled = false;
+  if (fail) note('amsg', ok+' saved, '+fail+' failed — '+firstErr, 'e');
+  else note('amsg', ok+' price'+(ok===1?'':'s')+' saved. The website shows them immediately.', 's');
+};
+
+function openDrawer(p){
+  CUR = p || { id:null, sku:'', title:'', cost_price:0, images:[], sizes:[], features:[],
+               category_slug: CATS[0]?.slug, is_active:true, is_hidden:false };
+  IMGS = [...(CUR.images||[])];
+  $('dTitle').textContent = p ? 'Edit product' : 'New product';
+  $('dSku').textContent   = p ? (p.sku + (p.subcategory ? ' · ' + p.subcategory : '')) : 'A code will be generated';
+  $('f_title').value = CUR.title||''; $('f_code').value = CUR.supplier_code||'';
+  $('f_cat').value = CUR.category_slug; $('f_cost').value = CUR.cost_price ?? 0;
+  $('f_override').value = CUR.price_override ?? '';
+  $('f_subtitle').value = CUR.subtitle||''; $('f_desc').value = CUR.description||'';
+  $('f_feat').value = (CUR.features||[]).join('\n'); $('f_sizes').value = (CUR.sizes||[]).join(', ');
+  $('f_material').value = CUR.material||''; $('f_colour').value = CUR.colour||'';
+  $('f_origin').value = CUR.origin||''; $('f_standard').value = CUR.standard||'';
+  $('f_packing').value = CUR.packing||''; $('f_gsm').value = CUR.gsm||'';
+  $('f_dim').value = CUR.dimensions||''; $('f_attr').value = CUR.attribute||'';
+  $('f_active').checked = isLive(CUR);
+
+  const sbs = CUR.stock_by_size || {};
+  const keys = Object.keys(sbs);
+  $('f_stock').innerHTML = keys.length
+    ? 'Total <b>' + (CUR.stock_total||0) + '</b> — ' + keys.map(k => esc(k)+': '+sbs[k]).join(' · ')
+    : 'Total <b>' + (CUR.stock_total||0) + '</b>';
+
+  $('dDel').style.display = p ? 'block' : 'none';
+  note('dmsg','','' ); drawThumbs(); recalc();
+  $('drawer').style.display = 'block';
+}
+function closeDrawer(){ $('drawer').style.display='none'; CUR=null; }
+$('dClose').onclick = closeDrawer; $('dCancel').onclick = closeDrawer;
+$('drawer').onclick = e => { if (e.target.id === 'drawer') closeDrawer(); };
+
+function drawThumbs(){
+  $('thumbs').innerHTML = IMGS.map((u,i) =>
+    '<div class="thumb"><img src="'+esc(u)+'" onerror="this.style.opacity=.25"><button data-rm="'+i+'">&times;</button></div>').join('')
+    || '<div class="muted">No photo yet.</div>';
+  document.querySelectorAll('[data-rm]').forEach(b =>
+    b.onclick = () => { IMGS.splice(Number(b.dataset.rm),1); drawThumbs(); });
+}
+$('addUrl').onclick = () => { const v=$('imgUrl').value.trim(); if(v){ IMGS.push(v); $('imgUrl').value=''; drawThumbs(); } };
+
+$('upl').onchange = async e => {
+  const files = [...e.target.files]; if (!files.length) return;
+  note('dmsg','Uploading '+files.length+' photo(s)…','s');
+  for (const f of files){
+    const path = (CUR.sku || 'new') + '/' + Date.now() + '-' + f.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+    const { error } = await sb.storage.from('product-photos').upload(path, f, { upsert:true });
+    if (error){ note('dmsg','Upload failed: '+error.message,'e'); return; }
+    IMGS.push(sb.storage.from('product-photos').getPublicUrl(path).data.publicUrl);
+  }
+  e.target.value=''; drawThumbs(); note('dmsg','Photos added — press Save to keep them.','s');
+};
+
+function recalc(){
+  const draft = {
+    category_slug: $('f_cat').value,
+    cost_price: Number($('f_cost').value) || 0,
+    price_override: $('f_override').value === '' ? null : Number($('f_override').value)
+  };
+  const cost  = draft.cost_price;
+  const price = sellPrice(draft);
+  const profit = price - cost;
+  const vat = SETTINGS && SETTINGS.vat_rate ? Math.round(SETTINGS.vat_rate*100) : 5;
+  $('calc').innerHTML = 'Sells for <b>AED ' + price + '</b> &nbsp;·&nbsp; ' +
+    (draft.price_override != null ? 'your own price' : esc(ruleLabel(draft))) +
+    ' &nbsp;·&nbsp; margin AED ' + profit.toFixed(2) +
+    (cost ? ' (' + Math.round(profit/cost*100) + '%)' : '') +
+    '<div class="muted" style="margin-top:5px">Excludes printing and ' + vat + '% VAT. Clear "My price" to go back to the automatic rule.</div>';
+}
+['f_cost','f_override','f_cat'].forEach(id => $(id).addEventListener('input', recalc));
+
+const slugify = s => s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,60);
+
+$('dSave').onclick = async () => {
+  const title = $('f_title').value.trim();
+  if (!title) return note('dmsg','Give the product a name.','e');
+  $('dSave').disabled = true;
+  const show = $('f_active').checked;
+  const body = {
+    title, supplier_code: $('f_code').value.trim(), category_slug: $('f_cat').value,
+    cost_price: Number($('f_cost').value)||0,
+    price_override: $('f_override').value === '' ? null : Math.round(Number($('f_override').value)),
+    images: IMGS,
+    sizes: $('f_sizes').value.split(',').map(s=>s.trim()).filter(Boolean),
+    features: $('f_feat').value.split('\n').map(s=>s.trim()).filter(Boolean),
+    subtitle: $('f_subtitle').value, description: $('f_desc').value,
+    material: $('f_material').value, colour: $('f_colour').value,
+    origin: $('f_origin').value, standard: $('f_standard').value,
+    packing: $('f_packing').value, gsm: $('f_gsm').value,
+    dimensions: $('f_dim').value, attribute: $('f_attr').value,
+    is_active: show, is_hidden: !show
+  };
+  let error;
+  if (CUR.id){
+    ({ error } = await sb.from('products').update(body).eq('id', CUR.id));
+  } else {
+    body.sku = 'XO' + Date.now().toString().slice(-7);
+    body.slug = slugify(title) + '-' + body.sku.toLowerCase();
+    body.sort_order = PRODUCTS.length;
+    body.supplier = 'XpertOne';
+    ({ error } = await sb.from('products').insert(body));
+  }
+  $('dSave').disabled = false;
+  if (error) return note('dmsg', error.message, 'e');
+  closeDrawer(); await load(); note('amsg','Saved. The website picks this up immediately.','s');
+};
+
+$('dDel').onclick = async () => {
+  if (!CUR?.id) return;
+  if (!confirm('Delete "' + CUR.title + '" permanently?\n\nTo hide it from the website instead, untick "Show on the website" and Save.')) return;
+  const { error } = await sb.from('products').delete().eq('id', CUR.id);
+  if (error) return note('dmsg', error.message, 'e');
+  closeDrawer(); await load(); note('amsg','Product deleted.','s');
+};
+
+$('newBtn').onclick = () => openDrawer(null);
+$('newTopBtn').onclick = () => openDrawer(null);
+
+boot();
+</script>
+</body>
+</html>
