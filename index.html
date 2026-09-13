@@ -260,7 +260,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var cats = XO_CONFIG.CATEGORIES.map(function (c) {
       var first = all.filter(function (p) { return p.category === c.slug; })[0];
       var count = all.filter(function (p) { return p.category === c.slug; }).length;
-      var displayImage = custom[c.slug] || (first && first.images[0]);
+      var displayImage = XO.productImage(custom[c.slug] || (first && first.images[0]));
       return '<div class="col-6 col-lg-3"><a class="cat-tile" href="/category/' + c.slug + '/">' +
         '<div class="cat-tile__media">' +
           (displayImage
