@@ -91,8 +91,38 @@
 
     waLink: function (message) {
       return 'https://wa.me/' + CFG.COMPANY.whatsapp + '?text=' + encodeURIComponent(message);
+    },
+
+    productImage: function (url) {
+      var value = String(url || '');
+      return value.replace(
+        /^(https:\/\/www\.xpertonecreative\.com)?(\/assets\/img\/products\/eye-face-protection\/.+)\.png$/i,
+        function (_, origin, path) { return (origin || '') + path + '.webp'; }
+      );
     }
   };
+
+  function optimiseProductImages(root) {
+    var scope = root || document;
+    if (scope.nodeType === 1 && scope.tagName === 'IMG') {
+      var one = scope.getAttribute('src');
+      var optimised = XO.productImage(one);
+      if (optimised !== one) scope.setAttribute('src', optimised);
+    }
+    if (!scope.querySelectorAll) return;
+    scope.querySelectorAll('img[src]').forEach(function (image) {
+      var source = image.getAttribute('src');
+      var optimised = XO.productImage(source);
+      if (optimised !== source) image.setAttribute('src', optimised);
+    });
+  }
+
+  optimiseProductImages(document);
+  new MutationObserver(function (changes) {
+    changes.forEach(function (change) {
+      Array.prototype.forEach.call(change.addedNodes, optimiseProductImages);
+    });
+  }).observe(document.documentElement, { childList: true, subtree: true });
 
   /* =======================================================================
      Catalog
