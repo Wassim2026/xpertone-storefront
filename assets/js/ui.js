@@ -373,7 +373,7 @@
           badge +
           '<a class="product-card__media" href="/products/' + encodeURIComponent(p.slug || p.uid) + '/" aria-label="' + XO.esc(p.title) + '">' +
             (p.images[0]
-              ? '<img src="' + XO.esc(p.images[0]) + '" alt="' + XO.esc(p.title) + '" loading="lazy" decoding="async" width="600" height="600">'
+              ? '<img src="' + XO.esc(XO.productImage(p.images[0])) + '" alt="' + XO.esc(p.title) + '" loading="lazy" decoding="async" width="600" height="600">'
               : '<i class="fa-solid fa-image fa-2x text-muted-xo"></i>') +
           '</a>' +
           '<div class="product-card__body">' +
