@@ -30,6 +30,7 @@ const money = value => `AED ${Number(value || 0).toFixed(2).replace(/\.00$/, '')
 const uid = p => `${p.category}-${String(p.sku).toLowerCase()}`;
 const productUrl = p => `${origin}/products/${encodeURIComponent(p.slug)}/`;
 const categoryUrl = slug => `${origin}/category/${encodeURIComponent(slug)}/`;
+const workwearUrl = slug => `${origin}/category/uniforms/${encodeURIComponent(slug)}/`;
 const write = (file, content) => {
   fs.mkdirSync(path.dirname(file), { recursive: true });
   fs.writeFileSync(file, content);
@@ -73,6 +74,35 @@ const categoryCopy = {
   }
 };
 
+const workwearFamilies = [
+  ['35-65-coverall-without-reflector', '35/65 Coverall Without Reflector', '35/65 poly-cotton', 'coverall', false],
+  ['35-65-coverall-with-reflector', '35/65 Coverall With Reflector', '35/65 poly-cotton', 'coverall', true],
+  ['35-65-pant-shirt-without-reflector', '35/65 Pant & Shirt Without Reflector', '35/65 poly-cotton', 'pant-and-shirt', false],
+  ['35-65-pant-shirt-with-reflector', '35/65 Pant & Shirt With Reflector', '35/65 poly-cotton', 'pant-and-shirt', true],
+  ['100-twill-coverall-without-reflector', '100% Twill Coverall Without Reflector', '100% twill', 'coverall', false],
+  ['100-twill-coverall-with-reflector', '100% Twill Coverall With Reflector', '100% twill', 'coverall', true],
+  ['100-twill-pant-shirt-without-reflector', '100% Twill Pant & Shirt Without Reflector', '100% twill', 'pant-and-shirt', false],
+  ['100-twill-pant-shirt-with-reflector', '100% Twill Pant & Shirt With Reflector', '100% twill', 'pant-and-shirt', true],
+  ['100-cotton-coverall-without-reflector', '100% Cotton Coverall Without Reflector', '100% cotton', 'coverall', false],
+  ['100-cotton-coverall-with-reflector', '100% Cotton Coverall With Reflector', '100% cotton', 'coverall', true],
+  ['100-cotton-pant-shirt-without-reflector', '100% Cotton Pant & Shirt Without Reflector', '100% cotton', 'pant-and-shirt', false],
+  ['100-cotton-pant-shirt-with-reflector', '100% Cotton Pant & Shirt With Reflector', '100% cotton', 'pant-and-shirt', true]
+].map(([slug, name, material, garment, reflective]) => ({ slug, name, material, garment, reflective }));
+
+function workwearFamily(p) {
+  const text = clean(`${p.title} ${p.subtitle} ${p.description} ${p.material}`).toLowerCase();
+  const material = /(?:35\s*\/\s*65|65\s*\/\s*35|35%\s*polyester[^.]{0,40}65%\s*cotton|65%\s*polyester[^.]{0,40}35%\s*cotton)/i.test(text)
+    ? '35/65 poly-cotton'
+    : /100\s*%\s*(?:polyester\s*)?twill/i.test(text) ? '100% twill'
+    : /100\s*%\s*cotton/i.test(text) ? '100% cotton' : null;
+  const garment = /pant\s*(?:&|and)?\s*shirt|pant\s+shirt|shirt\s*(?:&|and)\s*pant/i.test(text)
+    ? 'pant-and-shirt' : /coverall/i.test(text) ? 'coverall' : null;
+  const reflective = /reflect(?:ive|or|orized)|hi[- ]?vis/i.test(text);
+  return workwearFamilies.find(x => x.material === material && x.garment === garment && x.reflective === reflective) || null;
+}
+
+const colourOf = p => clean(p.colour || (p.title.match(/(?:,|-)\s*([^,]+?)\s+colou?r\b/i)?.[1] || '') || 'See product');
+
 const defaultCategoryCopy = (name, count) => ({
   title: `${name} Supplier Dubai & UAE`,
   description: `Shop ${name.toLowerCase()} from Xpertone Creative LLC-FZ in Dubai. Compare ${count} stocked products, sizes, specifications and bulk pricing for UAE delivery.`,
@@ -82,7 +112,7 @@ const defaultCategoryCopy = (name, count) => ({
 });
 
 function normalise(p) {
-  return {
+  const item = {
     ...p,
     uid: uid(p),
     categoryName: p.category_name,
@@ -90,6 +120,11 @@ function normalise(p) {
     images: Array.isArray(p.images) ? p.images : [],
     sizes: Array.isArray(p.sizes) ? p.sizes : []
   };
+  if (workwearFamily(item)) {
+    item.category = 'uniforms';
+    item.categoryName = 'Workwear & Uniforms';
+  }
+  return item;
 }
 
 const list = products.map(normalise).filter(p => p.slug && p.category && p.title && p.in_stock !== false);
@@ -168,6 +203,37 @@ function productCard(p) {
   return `<div class="col-6 col-lg-4 col-xl-3"><article class="product-card"><a class="product-card__media" href="/products/${encodeURIComponent(p.slug)}/">${image ? `<img src="${esc(image)}" alt="${esc(p.title)}" loading="lazy" decoding="async" width="600" height="600">` : ''}</a><div class="product-card__body"><span class="product-card__cat">${esc(p.subcategory || p.categoryName)}</span><h3 class="product-card__title"><a href="/products/${encodeURIComponent(p.slug)}/">${esc(p.title)}</a></h3><div class="product-card__foot"><div class="product-card__price"><b>${money(p.price)}</b><span>${p.priceStatus === 'fixed' ? 'per piece, ex VAT' : 'indicative, ex VAT'}</span></div><a class="btn btn-xo btn-sm-xo" href="/products/${encodeURIComponent(p.slug)}/">View</a></div></div></article></div>`;
 }
 
+function workwearFamilyPage(family, items) {
+  const canonical = workwearUrl(family.slug);
+  const colours = [...new Set(items.map(colourOf).filter(Boolean))];
+  const description = `Shop ${family.name.toLowerCase()} in Dubai and across the UAE. Compare ${colours.length} colour variation${colours.length === 1 ? '' : 's'}, sizes, prices and stock for bulk workwear orders.`;
+  const itemList = {
+    '@context': 'https://schema.org', '@type': 'ItemList', name: family.name,
+    itemListElement: items.map((p, i) => ({ '@type': 'ListItem', position: i + 1, url: productUrl(p), name: p.title }))
+  };
+  const breadcrumb = { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: `${origin}/` },
+    { '@type': 'ListItem', position: 2, name: 'Workwear & Uniforms', item: categoryUrl('uniforms') },
+    { '@type': 'ListItem', position: 3, name: family.name, item: canonical }
+  ]};
+  const chips = colours.map(c => `<span class="workwear-colour">${esc(c)}</span>`).join('');
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><base href="/"><title>${esc(family.name)} Dubai & UAE | Xpertone Creative LLC-FZ</title><meta name="description" content="${esc(description)}"><link rel="canonical" href="${canonical}">${items.length ? '' : '<meta name="robots" content="noindex,follow">'}<meta property="og:type" content="website"><meta property="og:title" content="${esc(family.name)} Dubai & UAE"><meta property="og:description" content="${esc(description)}"><meta property="og:url" content="${canonical}"><meta property="og:image" content="${origin}/assets/img/brand/og-xpertone.png"><link rel="icon" type="image/png" sizes="32x32" href="assets/img/brand/favicon-32.png"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"><link rel="stylesheet" href="assets/css/main.css?v=20260903b"><script type="application/ld+json">${JSON.stringify(itemList)}</script><script type="application/ld+json">${JSON.stringify(breadcrumb)}</script></head><body data-page="shop"><a class="skip-link" href="#main">Skip to content</a><div id="siteHeader"></div><main id="main"><section class="section section--alt"><div class="container"><nav aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/category/uniforms/">Workwear &amp; Uniforms</a> / <span>${esc(family.name)}</span></nav><h1 class="mt-3">${esc(family.name)} in Dubai</h1><p class="lead">Browse every currently published ${esc(family.name.toLowerCase())} product. Each colour remains available as its own selectable product with live size and stock information.</p><div class="workwear-colours" aria-label="Available colours"><strong>Available colours:</strong> ${chips || '<span>Contact us for current availability</span>'}</div><p class="mt-3">${items.length ? `${items.length} colour variation${items.length === 1 ? '' : 's'} currently available.` : 'No colour variations are published at present; contact the team for sourcing and availability.'}</p></div></section>${items.length ? `<section class="section"><div class="container"><div class="row g-4">${items.map(productCard).join('')}</div></div></section>` : ''}<section class="section section--alt"><div class="container"><h2>Bulk ${esc(family.name)} for UAE teams</h2><p>Order mixed sizes for construction, maintenance, logistics and facilities teams. Product pages show the available size split, current stock and guide price. Company logo printing can be reviewed for suitable garments before production.</p><div class="faq-grid"><article><h3>Can I order mixed sizes?</h3><p>Yes. Choose quantities against the available sizes on each colour product page.</p></article><article><h3>Can this workwear be branded?</h3><p>Eligible garments can be supplied with an approved company logo or text placement.</p></article><article><h3>Do you deliver across the UAE?</h3><p>Yes. Xpertone Creative supplies Dubai and delivers throughout the Emirates.</p></article></div></div></section></main><div id="siteFooter"></div><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script><script src="assets/js/config.js?v=20260903b"></script><script src="assets/js/store.js?v=20260903b"></script><script src="assets/js/ui.js?v=20260903b"></script></body></html>`;
+}
+
+function workwearHub(familyGroups, otherItems) {
+  const available = workwearFamilies.filter(f => (familyGroups.get(f.slug) || []).length);
+  const count = available.reduce((n, f) => n + familyGroups.get(f.slug).length, 0) + otherItems.length;
+  const cards = workwearFamilies.map(f => {
+    const items = familyGroups.get(f.slug) || [];
+    const image = items[0]?.images?.[0];
+    return `<div class="col-md-6 col-xl-4"><article class="workwear-family-card${items.length ? '' : ' is-empty'}">${image ? `<img src="${esc(image)}" alt="${esc(f.name)}" loading="lazy" width="600" height="420">` : ''}<div><p class="workwear-family-card__eyebrow">${esc(f.material)}</p><h2>${items.length ? `<a href="/category/uniforms/${f.slug}/">${esc(f.name)}</a>` : esc(f.name)}</h2><p>${items.length ? `${items.length} colour variation${items.length === 1 ? '' : 's'} available` : 'No published colour variations at present'}</p>${items.length ? `<a class="btn btn-xo btn-sm-xo" href="/category/uniforms/${f.slug}/">View colours</a>` : ''}</div></article></div>`;
+  }).join('');
+  const other = otherItems.length ? `<section class="section"><div class="container"><h2>Other workwear and uniforms</h2><p class="text-muted-xo">Specialist, disposable and related workwear remain available below.</p><div class="row g-4">${otherItems.map(productCard).join('')}</div></div></section>` : '';
+  const canonical = categoryUrl('uniforms');
+  const description = 'Shop workwear in Dubai by fabric, garment type and reflective option. Browse 35/65, 100% twill and 100% cotton coveralls and pant-and-shirt sets with colour variations.';
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><base href="/"><title>Workwear by Fabric & Reflective Type Dubai | Xpertone Creative</title><meta name="description" content="${description}"><link rel="canonical" href="${canonical}"><meta property="og:type" content="website"><meta property="og:title" content="Workwear by Fabric & Reflective Type Dubai"><meta property="og:description" content="${description}"><meta property="og:url" content="${canonical}"><meta property="og:image" content="${origin}/assets/img/brand/og-xpertone.png"><link rel="icon" type="image/png" sizes="32x32" href="assets/img/brand/favicon-32.png"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"><link rel="stylesheet" href="assets/css/main.css?v=20260903b"></head><body data-page="shop"><a class="skip-link" href="#main">Skip to content</a><div id="siteHeader"></div><main id="main"><section class="section section--alt"><div class="container"><nav aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/shop.html">Shop</a> / <span>Workwear &amp; Uniforms</span></nav><h1 class="mt-3">Workwear &amp; Uniforms</h1><p class="lead">Choose by fabric, garment format and reflective requirement. Colour variations stay together inside each dedicated range.</p><p>${count} published products are available across these ranges and specialist workwear.</p></div></section><section class="section"><div class="container"><div class="row g-4">${cards}</div></div></section>${other}<section class="section section--alt"><div class="container"><h2>Workwear supplier in Dubai and the UAE</h2><p>Compare 35/65 poly-cotton, 100% twill and 100% cotton options for coveralls or coordinated pant-and-shirt sets. Select reflective or non-reflective construction according to the workplace requirement, then choose the preferred colour and size mix.</p></div></section></main><div id="siteFooter"></div><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script><script src="assets/js/config.js?v=20260903b"></script><script src="assets/js/store.js?v=20260903b"></script><script src="assets/js/ui.js?v=20260903b"></script></body></html>`;
+}
+
 function categoryPage(slug, items, page) {
   const name = items[0].categoryName;
   const copy = categoryCopy[slug] || defaultCategoryCopy(name, items.length);
@@ -192,11 +258,25 @@ fs.rmSync(path.join(root, 'products'), { recursive: true, force: true });
 fs.rmSync(path.join(root, 'category'), { recursive: true, force: true });
 for (const p of list) generateProduct(p);
 for (const [slug, items] of groups) {
+  if (slug === 'uniforms') continue;
   const pages = Math.ceil(items.length / PAGE_SIZE);
   for (let page = 1; page <= pages; page++) {
     const target = page === 1 ? path.join(root, 'category', slug, 'index.html') : path.join(root, 'category', slug, 'page', String(page), 'index.html');
     write(target, categoryPage(slug, items, page));
   }
+}
+
+const uniformItems = groups.get('uniforms') || [];
+const workwearGroups = new Map(workwearFamilies.map(f => [f.slug, []]));
+const otherWorkwear = [];
+for (const p of uniformItems) {
+  const family = workwearFamily(p);
+  (family ? workwearGroups.get(family.slug) : otherWorkwear).push(p);
+}
+write(path.join(root, 'category', 'uniforms', 'index.html'), workwearHub(workwearGroups, otherWorkwear));
+for (const family of workwearFamilies) {
+  const items = workwearGroups.get(family.slug);
+  write(path.join(root, 'category', 'uniforms', family.slug, 'index.html'), workwearFamilyPage(family, items));
 }
 
 const staticUrls = [
@@ -205,7 +285,9 @@ const staticUrls = [
 ];
 const xml = rows => `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${rows.map(([url, freq, priority]) => `  <url><loc>${esc(url)}</loc><lastmod>${today}</lastmod><changefreq>${freq}</changefreq><priority>${priority}</priority></url>`).join('\n')}\n</urlset>\n`;
 write(path.join(root, 'sitemap-pages.xml'), xml(staticUrls));
-write(path.join(root, 'sitemap-categories.xml'), xml([...groups.keys()].map(slug => [categoryUrl(slug), 'weekly', '0.8'])));
+const categoryRows = [...groups.keys()].map(slug => [categoryUrl(slug), 'weekly', '0.8']);
+for (const family of workwearFamilies) if (workwearGroups.get(family.slug).length) categoryRows.push([workwearUrl(family.slug), 'weekly', '0.8']);
+write(path.join(root, 'sitemap-categories.xml'), xml(categoryRows));
 write(path.join(root, 'sitemap-products.xml'), xml(list.map(p => [productUrl(p), 'weekly', '0.6'])));
 write(path.join(root, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <sitemap><loc>${origin}/sitemap-pages.xml</loc><lastmod>${today}</lastmod></sitemap>\n  <sitemap><loc>${origin}/sitemap-categories.xml</loc><lastmod>${today}</lastmod></sitemap>\n  <sitemap><loc>${origin}/sitemap-products.xml</loc><lastmod>${today}</lastmod></sitemap>\n</sitemapindex>\n`);
 

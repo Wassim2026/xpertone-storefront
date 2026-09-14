@@ -48,6 +48,20 @@
 
   var CAT_COUNTS = null;
   var SUBS = {};
+  var WORKWEAR_SUBS = [
+    ['35/65 Coverall Without Reflector', '35-65-coverall-without-reflector'],
+    ['35/65 Coverall With Reflector', '35-65-coverall-with-reflector'],
+    ['35/65 Pant & Shirt Without Reflector', '35-65-pant-shirt-without-reflector'],
+    ['35/65 Pant & Shirt With Reflector', '35-65-pant-shirt-with-reflector'],
+    ['100% Twill Coverall Without Reflector', '100-twill-coverall-without-reflector'],
+    ['100% Twill Coverall With Reflector', '100-twill-coverall-with-reflector'],
+    ['100% Twill Pant & Shirt Without Reflector', '100-twill-pant-shirt-without-reflector'],
+    ['100% Twill Pant & Shirt With Reflector', '100-twill-pant-shirt-with-reflector'],
+    ['100% Cotton Coverall Without Reflector', '100-cotton-coverall-without-reflector'],
+    ['100% Cotton Coverall With Reflector', '100-cotton-coverall-with-reflector'],
+    ['100% Cotton Pant & Shirt Without Reflector', '100-cotton-pant-shirt-without-reflector'],
+    ['100% Cotton Pant & Shirt With Reflector', '100-cotton-pant-shirt-with-reflector']
+  ].map(function (x) { return { name: x[0], slug: x[1] }; });
 
   function catMeta(slug) {
     var list = CFG.CATEGORIES || [];
@@ -119,15 +133,17 @@
     var cats = visibleCats(g);
     var cols = cats.map(function (slug) {
       var m = catMeta(slug), n = catCount(slug);
-      var subs = (SUBS[slug] || []).slice(0, 5);
+      var allSubs = slug === 'uniforms' ? WORKWEAR_SUBS : (SUBS[slug] || []);
+      var subs = allSubs.slice(0, 5);
       var head = '<a class="xo-col__head" href="/category/' + slug + '/">' +
         '<span>' + XO.esc(m.name) + (m.printable ? ' <span class="xo-tag">logo</span>' : '') + '</span>' +
         (n === null ? '' : '<span class="xo-mega__n">' + n + '</span>') + '</a>';
       var kids = subs.map(function (s) {
-        return '<span class="xo-col__sub"><span>' + XO.esc(s.name) +
-          '</span><span class="xo-mega__n">' + s.n + '</span></span>';
+        var href = slug === 'uniforms' ? '/category/uniforms/' + s.slug + '/' : '/category/' + slug + '/';
+        return '<a class="xo-col__sub" href="' + href + '"><span>' + XO.esc(s.name) +
+          '</span>' + (s.n == null ? '' : '<span class="xo-mega__n">' + s.n + '</span>') + '</a>';
       }).join('');
-      var more = (SUBS[slug] || []).length > 5
+      var more = allSubs.length > 5
         ? '<a class="xo-col__more" href="/category/' + slug + '/">All ' + XO.esc(m.name) + '</a>' : '';
       return '<div>' + head + kids + more + '</div>';
     }).join('');
