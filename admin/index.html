@@ -52,7 +52,7 @@ main{padding:26px;max-width:1540px;margin:0 auto}.pagehead{display:flex;align-it
     <button class="g" id="outBtn">Sign out</button>
   </header>
   <main>
-    <div class="pagehead"><div><h1>Products</h1><p>Find, price and publish catalogue items.</p></div><span class="sp"></span><button class="g" id="applyPricePolicyBtn">Apply current price policy</button><button class="y" id="newTopBtn">+ Add product</button></div>
+    <div class="pagehead"><div><h1>Products</h1><p>Find, price and publish catalogue items.</p></div><span class="sp"></span><button class="d" id="deleteHiddenBtn">Delete all hidden products</button><button class="g" id="applyPricePolicyBtn">Apply current price policy</button><button class="y" id="newTopBtn">+ Add product</button></div>
     <div class="stats">
       <div class="stat">All products <b id="sCount">—</b></div>
       <div class="stat live">Visible on site <b id="sVisible">—</b></div>
@@ -464,6 +464,51 @@ $('applyPricePolicyBtn').onclick = async () => {
   note('amsg', failed
     ? updated + ' prices updated; ' + failed + ' failed — ' + firstErr
     : updated + ' prices updated. Safety vests were left unchanged.', failed ? 'e' : 's');
+};
+
+function productPhotoPath(url){
+  const marker = '/storage/v1/object/public/product-photos/';
+  const value = String(url || '');
+  const at = value.indexOf(marker);
+  if (at < 0) return '';
+  try { return decodeURIComponent(value.slice(at + marker.length).split('?')[0]); }
+  catch { return value.slice(at + marker.length).split('?')[0]; }
+}
+
+$('deleteHiddenBtn').onclick = async () => {
+  const hidden = PRODUCTS.filter(p => !isLive(p));
+  if (!hidden.length) return note('amsg','There are no hidden products to delete.','s');
+  const visiblePaths = new Set(PRODUCTS.filter(isLive).flatMap(p => (p.images || []).map(productPhotoPath).filter(Boolean)));
+  const hiddenPaths = [...new Set(hidden.flatMap(p => (p.images || []).map(productPhotoPath).filter(Boolean)))]
+    .filter(path => !visiblePaths.has(path));
+  const message = 'Permanently delete ' + hidden.length + ' hidden product records and ' + hiddenPaths.length +
+    ' unshared stored product photos?\n\nVisible products and images used by visible products will be preserved. This cannot be undone.';
+  if (!confirm(message)) return;
+
+  const btn = $('deleteHiddenBtn');
+  btn.disabled = true;
+  let removedPhotos = 0, failedPhotos = 0, removedProducts = 0, failedProducts = 0, firstErr = '';
+  for (let i = 0; i < hiddenPaths.length; i += 100){
+    const batch = hiddenPaths.slice(i, i + 100);
+    const { data, error } = await sb.storage.from('product-photos').remove(batch);
+    if (error){ failedPhotos += batch.length; if (!firstErr) firstErr = error.message; }
+    else removedPhotos += (data || []).length;
+    btn.textContent = 'Deleting photos… ' + Math.min(i + 100, hiddenPaths.length) + '/' + hiddenPaths.length;
+  }
+  for (let i = 0; i < hidden.length; i += 100){
+    const batch = hidden.slice(i, i + 100);
+    const ids = batch.map(p => p.id);
+    const { data, error } = await sb.from('products').delete().in('id', ids).select('id');
+    if (error){ failedProducts += batch.length; if (!firstErr) firstErr = error.message; }
+    else removedProducts += (data || []).length;
+    btn.textContent = 'Deleting products… ' + Math.min(i + 100, hidden.length) + '/' + hidden.length;
+  }
+  btn.disabled = false;
+  btn.textContent = 'Delete all hidden products';
+  await load();
+  const failed = failedProducts || failedPhotos;
+  note('amsg', removedProducts + ' hidden products and ' + removedPhotos + ' stored photos deleted.' +
+    (failed ? ' Failures: ' + failedProducts + ' products, ' + failedPhotos + ' photos — ' + firstErr : ''), failed ? 'e' : 's');
 };
 
 function openDrawer(p){
