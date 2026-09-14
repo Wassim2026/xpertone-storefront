@@ -481,6 +481,10 @@ $('deleteHiddenBtn').onclick = async () => {
   const visiblePaths = new Set(PRODUCTS.filter(isLive).flatMap(p => (p.images || []).map(productPhotoPath).filter(Boolean)));
   const hiddenPaths = [...new Set(hidden.flatMap(p => (p.images || []).map(productPhotoPath).filter(Boolean)))]
     .filter(path => !visiblePaths.has(path));
+  const message = 'Permanently delete ' + hidden.length + ' hidden product records and ' + hiddenPaths.length +
+    ' unshared stored product photos?\n\nVisible products and images used by visible products will be preserved. This cannot be undone.';
+  if (!confirm(message)) return;
+
   const btn = $('deleteHiddenBtn');
   btn.disabled = true;
   let removedPhotos = 0, failedPhotos = 0, removedProducts = 0, failedProducts = 0, firstErr = '';
