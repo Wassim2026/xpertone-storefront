@@ -9,7 +9,7 @@
     "subcategory": "Eyewear",
     "subcategory_slug": "eyewear",
     "price": 1,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Pcs"
     ],
@@ -53,7 +53,7 @@
     "subcategory": "Impact Resistant Eyewear",
     "subcategory_slug": "impact-resistant-eyewear",
     "price": 11,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Pcs"
     ],
@@ -110,8 +110,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Impact Resistant Eyewear",
     "subcategory_slug": "impact-resistant-eyewear",
-    "price": 12,
-    "price_is_fixed": false,
+    "price": 8,
+    "price_is_fixed": true,
     "sizes": [
       "Pcs"
     ],
@@ -165,7 +165,7 @@
     "subcategory": "Impact Resistant Eyewear",
     "subcategory_slug": "impact-resistant-eyewear",
     "price": 2,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Pcs"
     ],
@@ -218,7 +218,7 @@
     "subcategory": "Impact Resistant Eyewear",
     "subcategory_slug": "impact-resistant-eyewear",
     "price": 4,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Clear",
       "Dark"
@@ -273,8 +273,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Impact Resistant Eyewear",
     "subcategory_slug": "impact-resistant-eyewear",
-    "price": 12,
-    "price_is_fixed": false,
+    "price": 3,
+    "price_is_fixed": true,
     "sizes": [
       "Pcs"
     ],
@@ -327,7 +327,7 @@
     "subcategory": "Impact Resistant Eyewear",
     "subcategory_slug": "impact-resistant-eyewear",
     "price": 2,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Pcs"
     ],
@@ -379,7 +379,7 @@
     "subcategory": null,
     "subcategory_slug": null,
     "price": 3,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Clear",
       "Dark"
@@ -431,7 +431,7 @@
     "subcategory": null,
     "subcategory_slug": null,
     "price": 3,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Clear",
       "Dark"
@@ -482,8 +482,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Impact Resistant Eyewear",
     "subcategory_slug": "impact-resistant-eyewear",
-    "price": 12,
-    "price_is_fixed": false,
+    "price": 8,
+    "price_is_fixed": true,
     "sizes": [
       "Clear",
       "Dark"
@@ -537,8 +537,8 @@
     "category_name": "Safety Vests",
     "subcategory": "UV protected",
     "subcategory_slug": "uv-protected",
-    "price": 12,
-    "price_is_fixed": false,
+    "price": 3,
+    "price_is_fixed": true,
     "sizes": [
       "Clear",
       "Dark"
@@ -589,7 +589,7 @@
     "subcategory": "Anti-Fog Eyewear",
     "subcategory_slug": "anti-fog-eyewear",
     "price": 14,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Clear",
       "Dark"
@@ -631,8 +631,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Anti-Fog Eyewear",
     "subcategory_slug": "anti-fog-eyewear",
-    "price": 20,
-    "price_is_fixed": false,
+    "price": 14,
+    "price_is_fixed": true,
     "sizes": [
       "Clear",
       "Dark"
@@ -679,7 +679,7 @@
     "subcategory": "Anti-Fog Eyewear",
     "subcategory_slug": "anti-fog-eyewear",
     "price": 18,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Clear",
       "Dark"
@@ -727,7 +727,7 @@
     "subcategory": "Anti-Fog Eyewear",
     "subcategory_slug": "anti-fog-eyewear",
     "price": 19,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Clear",
       "Dark"
@@ -775,8 +775,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Anti-Fog Eyewear",
     "subcategory_slug": "anti-fog-eyewear",
-    "price": 12,
-    "price_is_fixed": false,
+    "price": 8,
+    "price_is_fixed": true,
     "sizes": [
       "Clear",
       "Dark"
@@ -823,8 +823,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Anti-Fog Eyewear",
     "subcategory_slug": "anti-fog-eyewear",
-    "price": 25,
-    "price_is_fixed": false,
+    "price": 23,
+    "price_is_fixed": true,
     "sizes": [
       "Clear",
       "Dark"
@@ -871,7 +871,7 @@
     "subcategory": "Anti-Fog Eyewear",
     "subcategory_slug": "anti-fog-eyewear",
     "price": 10,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Clear",
       "Dark"
@@ -917,8 +917,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Anti-Fog Eyewear",
     "subcategory_slug": "anti-fog-eyewear",
-    "price": 20,
-    "price_is_fixed": false,
+    "price": 16,
+    "price_is_fixed": true,
     "sizes": [
       "Clear",
       "Dark"
@@ -964,8 +964,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Impact Resistant Eyewear",
     "subcategory_slug": "impact-resistant-eyewear",
-    "price": 20,
-    "price_is_fixed": false,
+    "price": 10,
+    "price_is_fixed": true,
     "sizes": [
       "Clear",
       "Dark"
@@ -1028,8 +1028,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Impact Resistant Eyewear",
     "subcategory_slug": "impact-resistant-eyewear",
-    "price": 12,
-    "price_is_fixed": false,
+    "price": 7,
+    "price_is_fixed": true,
     "sizes": [
       "Clear",
       "Dark"
@@ -1090,7 +1090,7 @@
     "subcategory": "Impact Resistant Eyewear",
     "subcategory_slug": "impact-resistant-eyewear",
     "price": 10,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Clear",
       "Dark"
@@ -1150,8 +1150,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Impact Resistant Eyewear",
     "subcategory_slug": "impact-resistant-eyewear",
-    "price": 20,
-    "price_is_fixed": false,
+    "price": 14,
+    "price_is_fixed": true,
     "sizes": [
       "Clear",
       "Dark"
@@ -1213,7 +1213,7 @@
     "subcategory": "Impact Resistant Eyewear",
     "subcategory_slug": "impact-resistant-eyewear",
     "price": 3,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Clear",
       "Dark"
@@ -1266,8 +1266,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Impact Resistant Eyewear",
     "subcategory_slug": "impact-resistant-eyewear",
-    "price": 12,
-    "price_is_fixed": false,
+    "price": 5,
+    "price_is_fixed": true,
     "sizes": [
       "Clear",
       "Dark"
@@ -1327,8 +1327,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Impact Resistant Eyewear",
     "subcategory_slug": "impact-resistant-eyewear",
-    "price": 12,
-    "price_is_fixed": false,
+    "price": 5,
+    "price_is_fixed": true,
     "sizes": [
       "Clear",
       "Dark"
@@ -1383,7 +1383,7 @@
     "subcategory": "UV protected",
     "subcategory_slug": "uv-protected",
     "price": 4,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Clear",
       "Dark"
@@ -1444,7 +1444,7 @@
     "subcategory": "Impact Resistant Eyewear",
     "subcategory_slug": "impact-resistant-eyewear",
     "price": 25,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Black",
       "Brown"
@@ -1515,7 +1515,7 @@
     "subcategory": "Impact Resistant Eyewear",
     "subcategory_slug": "impact-resistant-eyewear",
     "price": 20,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Brown"
     ],
@@ -1566,8 +1566,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Impact Resistant Eyewear",
     "subcategory_slug": "impact-resistant-eyewear",
-    "price": 12,
-    "price_is_fixed": false,
+    "price": 10,
+    "price_is_fixed": true,
     "sizes": [
       "Clear",
       "Dark"
@@ -1620,8 +1620,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Impact Resistant Eyewear",
     "subcategory_slug": "impact-resistant-eyewear",
-    "price": 20,
-    "price_is_fixed": false,
+    "price": 10,
+    "price_is_fixed": true,
     "sizes": [
       "Clear",
       "Dark"
@@ -1682,8 +1682,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Impact Resistant Eyewear",
     "subcategory_slug": "impact-resistant-eyewear",
-    "price": 12,
-    "price_is_fixed": false,
+    "price": 9,
+    "price_is_fixed": true,
     "sizes": [
       "Clear",
       "Dark"
@@ -1745,7 +1745,7 @@
     "subcategory": "Impact Resistant Eyewear",
     "subcategory_slug": "impact-resistant-eyewear",
     "price": 5,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Clear",
       "Dark"
@@ -1803,8 +1803,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Impact Resistant Eyewear",
     "subcategory_slug": "impact-resistant-eyewear",
-    "price": 12,
-    "price_is_fixed": false,
+    "price": 3,
+    "price_is_fixed": true,
     "sizes": [
       "Clear",
       "Dark"
@@ -1864,8 +1864,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Impact Resistant Eyewear",
     "subcategory_slug": "impact-resistant-eyewear",
-    "price": 12,
-    "price_is_fixed": false,
+    "price": 4,
+    "price_is_fixed": true,
     "sizes": [
       "Clear",
       "Dark"
@@ -1925,8 +1925,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Impact Resistant Eyewear",
     "subcategory_slug": "impact-resistant-eyewear",
-    "price": 12,
-    "price_is_fixed": false,
+    "price": 9,
+    "price_is_fixed": true,
     "sizes": [
       "Clear",
       "Dark"
@@ -1987,8 +1987,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Impact Resistant Eyewear",
     "subcategory_slug": "impact-resistant-eyewear",
-    "price": 12,
-    "price_is_fixed": false,
+    "price": 9,
+    "price_is_fixed": true,
     "sizes": [
       "Clear",
       "Dark"
@@ -2050,7 +2050,7 @@
     "subcategory": "Impact Resistant Eyewear",
     "subcategory_slug": "impact-resistant-eyewear",
     "price": 3,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Amber",
       "Clear",
@@ -2107,8 +2107,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Impact Resistant Eyewear",
     "subcategory_slug": "impact-resistant-eyewear",
-    "price": 12,
-    "price_is_fixed": false,
+    "price": 3,
+    "price_is_fixed": true,
     "sizes": [
       "Clear",
       "Dark",
@@ -2169,8 +2169,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Impact Resistant Eyewear",
     "subcategory_slug": "impact-resistant-eyewear",
-    "price": 12,
-    "price_is_fixed": false,
+    "price": 5,
+    "price_is_fixed": true,
     "sizes": [
       "Clear",
       "Dark"
@@ -2225,7 +2225,7 @@
     "subcategory": "Impact Resistant Eyewear",
     "subcategory_slug": "impact-resistant-eyewear",
     "price": 10,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Clear",
       "Dark"
@@ -2287,7 +2287,7 @@
     "subcategory": "Impact Resistant Eyewear",
     "subcategory_slug": "impact-resistant-eyewear",
     "price": 3,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Amber",
       "Clear",
@@ -2343,7 +2343,7 @@
     "subcategory": "Impact Resistant Eyewear",
     "subcategory_slug": "impact-resistant-eyewear",
     "price": 5,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Clear",
       "Dark"
@@ -2396,8 +2396,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Eyewear",
     "subcategory_slug": "eyewear",
-    "price": 12,
-    "price_is_fixed": false,
+    "price": 8,
+    "price_is_fixed": true,
     "sizes": [
       "Clear",
       "Dark"
@@ -2448,7 +2448,7 @@
     "subcategory": "Nitrile Coated",
     "subcategory_slug": "nitrile-coated",
     "price": 17,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "10/XL",
       "8/M",
@@ -2497,7 +2497,7 @@
     "subcategory": "Nitrile Coated",
     "subcategory_slug": "nitrile-coated",
     "price": 55,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "10/XL",
       "9/L"
@@ -2544,7 +2544,7 @@
     "subcategory": "Double Side",
     "subcategory_slug": "double-side",
     "price": 21,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Doz"
     ],
@@ -2591,7 +2591,7 @@
     "subcategory": "Nitrile Coated",
     "subcategory_slug": "nitrile-coated",
     "price": 9,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Doz"
     ],
@@ -2646,7 +2646,7 @@
     "subcategory": "Breathable Gloves",
     "subcategory_slug": "breathable-gloves-1",
     "price": 11,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Doz"
     ],
@@ -2691,8 +2691,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Knitted Gloves",
     "subcategory_slug": "knitted-gloves",
-    "price": 20,
-    "price_is_fixed": false,
+    "price": 18,
+    "price_is_fixed": true,
     "sizes": [
       "Doz"
     ],
@@ -2744,7 +2744,7 @@
     "subcategory": "Knitted Gloves",
     "subcategory_slug": "knitted-gloves",
     "price": 17,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Doz"
     ],
@@ -2795,8 +2795,8 @@
     "category_name": "Safety Vests",
     "subcategory": "PU Coated",
     "subcategory_slug": "pu-coated",
-    "price": 40,
-    "price_is_fixed": false,
+    "price": 60,
+    "price_is_fixed": true,
     "sizes": [
       "Doz"
     ],
@@ -2845,7 +2845,7 @@
     "subcategory": "Impact Gloves",
     "subcategory_slug": "impact-gloves",
     "price": 25,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "L",
@@ -2897,7 +2897,7 @@
     "subcategory": null,
     "subcategory_slug": null,
     "price": 25,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Doz"
     ],
@@ -2940,7 +2940,7 @@
     "subcategory": "Latex Coated",
     "subcategory_slug": "latex-coated",
     "price": 26,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Doz"
     ],
@@ -2984,8 +2984,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Disposable Gloves",
     "subcategory_slug": "disposable-gloves",
-    "price": 20,
-    "price_is_fixed": false,
+    "price": 16,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "L",
@@ -3040,7 +3040,7 @@
     "subcategory": null,
     "subcategory_slug": null,
     "price": 10,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Pairs"
     ],
@@ -3087,7 +3087,7 @@
     "subcategory": null,
     "subcategory_slug": null,
     "price": 37,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "10/XL",
       "8/M",
@@ -3136,8 +3136,8 @@
     "category_name": "Safety Vests",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 20,
-    "price_is_fixed": false,
+    "price": 14,
+    "price_is_fixed": true,
     "sizes": [
       "Pairs"
     ],
@@ -3182,8 +3182,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Latex Coated",
     "subcategory_slug": "latex-coated",
-    "price": 39,
-    "price_is_fixed": false,
+    "price": 57,
+    "price_is_fixed": true,
     "sizes": [
       "10/XL",
       "8/M",
@@ -3238,7 +3238,7 @@
     "subcategory": "Nitrile Coated",
     "subcategory_slug": "nitrile-coated",
     "price": 26,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "L",
@@ -3309,8 +3309,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Nitrile Coated",
     "subcategory_slug": "nitrile-coated",
-    "price": 25,
-    "price_is_fixed": false,
+    "price": 30,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "L",
@@ -3372,7 +3372,7 @@
     "subcategory": "Nitrile Foam",
     "subcategory_slug": "nitrile-foam",
     "price": 19,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "10/XL",
       "11/2XL",
@@ -3424,7 +3424,7 @@
     "subcategory": "Patch Palm",
     "subcategory_slug": "patch-palm",
     "price": 18,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "L",
@@ -3484,7 +3484,7 @@
     "subcategory": null,
     "subcategory_slug": null,
     "price": 14,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "10/XL",
       "11/2XL",
@@ -3537,8 +3537,8 @@
     "category_name": "Safety Vests",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 20,
-    "price_is_fixed": false,
+    "price": 14,
+    "price_is_fixed": true,
     "sizes": [
       "10/XL",
       "11/2XL",
@@ -3588,8 +3588,8 @@
     "category_name": "Safety Vests",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 31,
-    "price_is_fixed": false,
+    "price": 43,
+    "price_is_fixed": true,
     "sizes": [
       "10/XL",
       "11/2XL",
@@ -3641,7 +3641,7 @@
     "subcategory": "Cut Resistant Gloves",
     "subcategory_slug": "cut-resistant-gloves-1",
     "price": 104,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "10/XL",
       "8/M",
@@ -3691,7 +3691,7 @@
     "subcategory": "Double Palm",
     "subcategory_slug": "double-palm",
     "price": 76,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Doz"
     ],
@@ -3745,7 +3745,7 @@
     "subcategory": "Red",
     "subcategory_slug": "red",
     "price": 231,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Doz"
     ],
@@ -3799,7 +3799,7 @@
     "subcategory": null,
     "subcategory_slug": null,
     "price": 40,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "10/XL",
       "8/M",
@@ -3849,7 +3849,7 @@
     "subcategory": "Latex Coated",
     "subcategory_slug": "latex-coated",
     "price": 42,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "10/XL",
       "11/1XL",
@@ -3915,7 +3915,7 @@
     "subcategory": "Chemical Gloves",
     "subcategory_slug": "chemical-gloves",
     "price": 4,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "L",
       "M",
@@ -3971,7 +3971,7 @@
     "subcategory": null,
     "subcategory_slug": null,
     "price": 5,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "L",
@@ -4031,7 +4031,7 @@
     "subcategory": "Latex Coated",
     "subcategory_slug": "latex-coated",
     "price": 45,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "10/XL",
       "8/M",
@@ -4080,7 +4080,7 @@
     "subcategory": "Leather Working Gloves",
     "subcategory_slug": "leather-working-gloves",
     "price": 76,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Doz"
     ],
@@ -4128,8 +4128,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Nitrile Foam",
     "subcategory_slug": "nitrile-foam",
-    "price": 20,
-    "price_is_fixed": false,
+    "price": 12,
+    "price_is_fixed": true,
     "sizes": [
       "Pairs"
     ],
@@ -4183,8 +4183,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Nitrile Coated",
     "subcategory_slug": "nitrile-coated",
-    "price": 20,
-    "price_is_fixed": false,
+    "price": 10,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "6 / XS",
@@ -4256,7 +4256,7 @@
     "subcategory": "Nitrile Coated",
     "subcategory_slug": "nitrile-coated",
     "price": 8,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "L",
@@ -4322,7 +4322,7 @@
     "subcategory": "Nitrile Foam",
     "subcategory_slug": "nitrile-foam",
     "price": 9,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "L",
@@ -4392,8 +4392,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Nitrile Coated",
     "subcategory_slug": "nitrile-coated",
-    "price": 12,
-    "price_is_fixed": false,
+    "price": 7,
+    "price_is_fixed": true,
     "sizes": [
       "10/XL",
       "11/2XL",
@@ -4444,8 +4444,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Chemical Gloves",
     "subcategory_slug": "chemical-gloves",
-    "price": 40,
-    "price_is_fixed": false,
+    "price": 59,
+    "price_is_fixed": true,
     "sizes": [
       "Doz"
     ],
@@ -4506,7 +4506,7 @@
     "subcategory": "Nitrile Coated",
     "subcategory_slug": "nitrile-coated",
     "price": 5,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "L",
@@ -4567,8 +4567,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Nitrile",
     "subcategory_slug": "nitrile",
-    "price": 12,
-    "price_is_fixed": false,
+    "price": 5,
+    "price_is_fixed": true,
     "sizes": [
       "10",
       "11",
@@ -4629,8 +4629,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Cut Resistant Gloves",
     "subcategory_slug": "cut-resistant-gloves-1",
-    "price": 20,
-    "price_is_fixed": false,
+    "price": 11,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "L",
@@ -4694,7 +4694,7 @@
     "subcategory": "Anti-Vibration Gloves",
     "subcategory_slug": "anti-vibration-gloves",
     "price": 41,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "10/XL",
       "8/M",
@@ -4750,7 +4750,7 @@
     "subcategory": "PVC",
     "subcategory_slug": "pvc-1",
     "price": 119,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "10/XL",
       "11/2XL",
@@ -4804,7 +4804,7 @@
     "subcategory": "Grey",
     "subcategory_slug": "grey",
     "price": 11,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Pairs"
     ],
@@ -4856,7 +4856,7 @@
     "subcategory": "Welding Gloves",
     "subcategory_slug": "welding-gloves",
     "price": 172,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Doz"
     ],
@@ -4902,7 +4902,7 @@
     "subcategory": "With Piping",
     "subcategory_slug": "with-piping",
     "price": 155,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Doz"
     ],
@@ -4947,7 +4947,7 @@
     "subcategory": "Impact Gloves",
     "subcategory_slug": "impact-gloves",
     "price": 25,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "L",
@@ -4999,7 +4999,7 @@
     "subcategory": null,
     "subcategory_slug": null,
     "price": 13,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Pcs"
     ],
@@ -5039,8 +5039,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Machinist Hammer",
     "subcategory_slug": "machinist-hammer",
-    "price": 20,
-    "price_is_fixed": false,
+    "price": 16,
+    "price_is_fixed": true,
     "sizes": [
       "Pcs"
     ],
@@ -5088,7 +5088,7 @@
     "subcategory": "Sledge Hammer",
     "subcategory_slug": "sledge-hammer",
     "price": 54,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Pcs"
     ],
@@ -5134,7 +5134,7 @@
     "subcategory": "Claw Hammer",
     "subcategory_slug": "claw-hammer",
     "price": 9,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Pcs"
     ],
@@ -5177,8 +5177,8 @@
     "category_name": "Safety Vests",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 12,
-    "price_is_fixed": false,
+    "price": 6,
+    "price_is_fixed": true,
     "sizes": [
       "Pcs"
     ],
@@ -5221,7 +5221,7 @@
     "subcategory": "TATA AGRICO",
     "subcategory_slug": "tata-agrico",
     "price": 1,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Pcs"
     ],
@@ -5262,7 +5262,7 @@
     "subcategory": "Fire blanket",
     "subcategory_slug": "fire-blanket-roll",
     "price": 23,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Pcs"
     ],
@@ -5314,7 +5314,7 @@
     "subcategory": "Fire blanket",
     "subcategory_slug": "fire-blanket-roll",
     "price": 35,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Pcs"
     ],
@@ -5363,8 +5363,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Fire blanket",
     "subcategory_slug": "fire-blanket-roll",
-    "price": 33,
-    "price_is_fixed": false,
+    "price": 46,
+    "price_is_fixed": true,
     "sizes": [
       "Pcs"
     ],
@@ -5413,8 +5413,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Water bottles",
     "subcategory_slug": "water-bottles",
-    "price": 26,
-    "price_is_fixed": false,
+    "price": 32,
+    "price_is_fixed": true,
     "sizes": [
       "Green",
       "Red"
@@ -5468,7 +5468,7 @@
     "subcategory": null,
     "subcategory_slug": null,
     "price": 47,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Roll"
     ],
@@ -5511,7 +5511,7 @@
     "subcategory": null,
     "subcategory_slug": null,
     "price": 66,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Roll"
     ],
@@ -5554,7 +5554,7 @@
     "subcategory": "Safety Tag",
     "subcategory_slug": "safety-tag",
     "price": 33,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Mono"
     ],
@@ -5598,7 +5598,7 @@
     "subcategory": "Safety Tag",
     "subcategory_slug": "safety-tag",
     "price": 29,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Mono"
     ],
@@ -5642,7 +5642,7 @@
     "subcategory": "2 INCH X 3 TONS X 10 METERS",
     "subcategory_slug": "2-inch-x-3-tons-x-10-meters",
     "price": 30,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Pcs"
     ],
@@ -5709,7 +5709,7 @@
     "subcategory": "TATA AGRICO",
     "subcategory_slug": "tata-agrico",
     "price": 2,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Pcs"
     ],
@@ -5749,7 +5749,7 @@
     "subcategory": "TATA AGRICO",
     "subcategory_slug": "tata-agrico",
     "price": 2,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Pcs"
     ],
@@ -5789,7 +5789,7 @@
     "subcategory": "2 PLY 7:1",
     "subcategory_slug": "2-ply-7-1",
     "price": 46,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Pcs"
     ],
@@ -5843,7 +5843,7 @@
     "subcategory": "2 Inch",
     "subcategory_slug": "2-inch",
     "price": 78,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Pcs"
     ],
@@ -5886,7 +5886,7 @@
     "subcategory": "2 Inch",
     "subcategory_slug": "2-inch",
     "price": 45,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Roll"
     ],
@@ -5932,7 +5932,7 @@
     "subcategory": "2 Inch",
     "subcategory_slug": "2-inch",
     "price": 45,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Roll"
     ],
@@ -5980,7 +5980,7 @@
     "subcategory": "Warning tape",
     "subcategory_slug": "warning-tape",
     "price": 15,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Pcs"
     ],
@@ -6030,7 +6030,7 @@
     "subcategory": null,
     "subcategory_slug": null,
     "price": 16,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Pcs"
     ],
@@ -6074,7 +6074,7 @@
     "subcategory": "Warning tape",
     "subcategory_slug": "warning-tape",
     "price": 25,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Pcs"
     ],
@@ -6124,8 +6124,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Warning tape",
     "subcategory_slug": "warning-tape",
-    "price": 20,
-    "price_is_fixed": false,
+    "price": 15,
+    "price_is_fixed": true,
     "sizes": [
       "Pcs"
     ],
@@ -6176,7 +6176,7 @@
     "subcategory": null,
     "subcategory_slug": null,
     "price": 21,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Pcs"
     ],
@@ -6221,7 +6221,7 @@
     "subcategory": null,
     "subcategory_slug": null,
     "price": 32,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Pcs"
     ],
@@ -6266,8 +6266,8 @@
     "category_name": "Safety Vests",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 25,
-    "price_is_fixed": false,
+    "price": 19,
+    "price_is_fixed": true,
     "sizes": [
       "Pcs"
     ],
@@ -6311,7 +6311,7 @@
     "subcategory": null,
     "subcategory_slug": null,
     "price": 80,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Pcs"
     ],
@@ -6355,7 +6355,7 @@
     "subcategory": "Ear plug",
     "subcategory_slug": "ear-plug",
     "price": 213,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Mono"
     ],
@@ -6399,7 +6399,7 @@
     "subcategory": "Corded",
     "subcategory_slug": "corded",
     "price": 114,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Mono"
     ],
@@ -6456,7 +6456,7 @@
     "subcategory": "Uncorded",
     "subcategory_slug": "uncorded",
     "price": 111,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Mono"
     ],
@@ -6508,7 +6508,7 @@
     "subcategory": "Industrial Face Mask",
     "subcategory_slug": "industrial-half-face-mask",
     "price": 82,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Pcs"
     ],
@@ -6561,7 +6561,7 @@
     "subcategory": "Cartridge",
     "subcategory_slug": "cartridge",
     "price": 39,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Set"
     ],
@@ -6608,7 +6608,7 @@
     "subcategory": "Multi-Purpose",
     "subcategory_slug": "multi-purpose",
     "price": 71,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Set"
     ],
@@ -6653,7 +6653,7 @@
     "subcategory": null,
     "subcategory_slug": null,
     "price": 20,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Mono"
     ],
@@ -6704,7 +6704,7 @@
     "subcategory": "Cartridge With Filter",
     "subcategory_slug": "cartridge-with-filter",
     "price": 29,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Set"
     ],
@@ -6750,7 +6750,7 @@
     "subcategory": "Cartridge With Filter",
     "subcategory_slug": "cartridge-with-filter",
     "price": 50,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Set"
     ],
@@ -6796,7 +6796,7 @@
     "subcategory": "Corded",
     "subcategory_slug": "corded",
     "price": 86,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Mono"
     ],
@@ -6853,7 +6853,7 @@
     "subcategory": "Multi Position Ear Muff",
     "subcategory_slug": "multi-position-ear-muff",
     "price": 30,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Pcs"
     ],
@@ -6911,7 +6911,7 @@
     "subcategory": "FFP2",
     "subcategory_slug": "ffp2",
     "price": 46,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Mono"
     ],
@@ -6967,7 +6967,7 @@
     "subcategory": "Disposable Mask",
     "subcategory_slug": "disposable-mask",
     "price": 25,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Mono"
     ],
@@ -7026,7 +7026,7 @@
     "subcategory": "Disposable Mask",
     "subcategory_slug": "disposable-mask",
     "price": 25,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Mono"
     ],
@@ -7073,7 +7073,7 @@
     "subcategory": "Disposable Mask",
     "subcategory_slug": "disposable-mask",
     "price": 32,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Mono"
     ],
@@ -7121,7 +7121,7 @@
     "subcategory": "Disposable Mask",
     "subcategory_slug": "disposable-mask",
     "price": 34,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Mono"
     ],
@@ -7169,7 +7169,7 @@
     "subcategory": "Disposable Mask",
     "subcategory_slug": "disposable-mask",
     "price": 24,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Mono"
     ],
@@ -7232,7 +7232,7 @@
     "subcategory": "Uncorded",
     "subcategory_slug": "uncorded",
     "price": 90,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Mono"
     ],
@@ -7288,7 +7288,7 @@
     "subcategory": "Cup Shape",
     "subcategory_slug": "cup-shape",
     "price": 36,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Mono"
     ],
@@ -7329,8 +7329,8 @@
     "category_name": "Head Protection",
     "subcategory": "Safety Helmet",
     "subcategory_slug": "safety-helmet",
-    "price": 1,
-    "price_is_fixed": false,
+    "price": 21,
+    "price_is_fixed": true,
     "sizes": [
       "Pcs"
     ],
@@ -7375,8 +7375,8 @@
     "category_name": "Head Protection",
     "subcategory": "Cap",
     "subcategory_slug": "cap",
-    "price": 29,
-    "price_is_fixed": false,
+    "price": 35,
+    "price_is_fixed": true,
     "sizes": [
       "Pcs"
     ],
@@ -7423,8 +7423,8 @@
     "category_name": "Head Protection",
     "subcategory": "Cap",
     "subcategory_slug": "cap",
-    "price": 28,
-    "price_is_fixed": false,
+    "price": 34,
+    "price_is_fixed": true,
     "sizes": [
       "Pcs"
     ],
@@ -7471,8 +7471,8 @@
     "category_name": "Head Protection",
     "subcategory": "Cap",
     "subcategory_slug": "cap",
-    "price": 28,
-    "price_is_fixed": false,
+    "price": 34,
+    "price_is_fixed": true,
     "sizes": [
       "Pcs"
     ],
@@ -7519,8 +7519,8 @@
     "category_name": "Head Protection",
     "subcategory": "Cap",
     "subcategory_slug": "cap",
-    "price": 28,
-    "price_is_fixed": false,
+    "price": 34,
+    "price_is_fixed": true,
     "sizes": [
       "Pcs"
     ],
@@ -7567,8 +7567,8 @@
     "category_name": "Head Protection",
     "subcategory": "Face Shield",
     "subcategory_slug": "face-shield",
-    "price": 1,
-    "price_is_fixed": false,
+    "price": 20,
+    "price_is_fixed": true,
     "sizes": [
       "Pcs"
     ],
@@ -7616,8 +7616,8 @@
     "category_name": "Head Protection",
     "subcategory": "Impact Resistant Helmet",
     "subcategory_slug": "impact-resistant-helmet",
-    "price": 30,
-    "price_is_fixed": false,
+    "price": 35,
+    "price_is_fixed": true,
     "sizes": [
       "Pcs"
     ],
@@ -7661,8 +7661,8 @@
     "category_name": "Head Protection",
     "subcategory": "Face Shield",
     "subcategory_slug": "face-shield",
-    "price": 174,
-    "price_is_fixed": false,
+    "price": 107,
+    "price_is_fixed": true,
     "sizes": [
       "Pcs"
     ],
@@ -7724,8 +7724,8 @@
     "category_name": "Head Protection",
     "subcategory": "Face Shield",
     "subcategory_slug": "face-shield",
-    "price": 1,
-    "price_is_fixed": false,
+    "price": 21,
+    "price_is_fixed": true,
     "sizes": [
       "Pcs"
     ],
@@ -7773,8 +7773,8 @@
     "category_name": "Head Protection",
     "subcategory": "Safety Helmet",
     "subcategory_slug": "safety-helmet",
-    "price": 11,
-    "price_is_fixed": false,
+    "price": 25,
+    "price_is_fixed": true,
     "sizes": [
       "Blue",
       "Green",
@@ -7880,8 +7880,8 @@
     "category_name": "Head Protection",
     "subcategory": "Ventilated Helmet",
     "subcategory_slug": "ventilated-helmet",
-    "price": 12,
-    "price_is_fixed": false,
+    "price": 26,
+    "price_is_fixed": true,
     "sizes": [
       "Blue",
       "Green",
@@ -7948,8 +7948,8 @@
     "category_name": "Head Protection",
     "subcategory": "Cap",
     "subcategory_slug": "cap",
-    "price": 22,
-    "price_is_fixed": false,
+    "price": 31,
+    "price_is_fixed": true,
     "sizes": [
       "Black",
       "Green",
@@ -8061,8 +8061,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Safety Helmet",
     "subcategory_slug": "safety-helmet",
-    "price": 20,
-    "price_is_fixed": false,
+    "price": 27,
+    "price_is_fixed": true,
     "sizes": [
       "Blue",
       "Green",
@@ -8158,8 +8158,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Safety Helmet",
     "subcategory_slug": "safety-helmet",
-    "price": 20,
-    "price_is_fixed": false,
+    "price": 27,
+    "price_is_fixed": true,
     "sizes": [
       "Blue",
       "Green",
@@ -8254,8 +8254,8 @@
     "category_name": "Head Protection",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 23,
-    "price_is_fixed": false,
+    "price": 32,
+    "price_is_fixed": true,
     "sizes": [
       "Blue",
       "Orange",
@@ -8317,8 +8317,8 @@
     "category_name": "Head Protection",
     "subcategory": "Safety Helmet",
     "subcategory_slug": "safety-helmet",
-    "price": 12,
-    "price_is_fixed": false,
+    "price": 26,
+    "price_is_fixed": true,
     "sizes": [
       "Blue",
       "Green",
@@ -8419,8 +8419,8 @@
     "category_name": "Head Protection",
     "subcategory": "Safety Helmet",
     "subcategory_slug": "safety-helmet",
-    "price": 14,
-    "price_is_fixed": false,
+    "price": 27,
+    "price_is_fixed": true,
     "sizes": [
       "Black",
       "Blue",
@@ -8532,8 +8532,8 @@
     "category_name": "Head Protection",
     "subcategory": "Safety Helmet",
     "subcategory_slug": "safety-helmet",
-    "price": 13,
-    "price_is_fixed": false,
+    "price": 27,
+    "price_is_fixed": true,
     "sizes": [
       "Blue",
       "Green",
@@ -8629,8 +8629,8 @@
     "category_name": "Head Protection",
     "subcategory": "Full brim",
     "subcategory_slug": "full-brim",
-    "price": 14,
-    "price_is_fixed": false,
+    "price": 27,
+    "price_is_fixed": true,
     "sizes": [
       "Pcs"
     ],
@@ -8673,8 +8673,8 @@
     "category_name": "Rainwear & Marine",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 25,
-    "price_is_fixed": false,
+    "price": 32,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -8736,8 +8736,8 @@
     "category_name": "Rainwear & Marine",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 25,
-    "price_is_fixed": false,
+    "price": 32,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -8798,8 +8798,8 @@
     "category_name": "Rainwear & Marine",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 21,
-    "price_is_fixed": false,
+    "price": 31,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -8863,8 +8863,8 @@
     "category_name": "Rainwear & Marine",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 21,
-    "price_is_fixed": false,
+    "price": 31,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -8928,8 +8928,8 @@
     "category_name": "Safety Shoes",
     "subcategory": "High Ankle",
     "subcategory_slug": "high-ankle",
-    "price": 40,
-    "price_is_fixed": false,
+    "price": 51,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -8992,8 +8992,8 @@
     "category_name": "Safety Shoes",
     "subcategory": "High Ankle",
     "subcategory_slug": "high-ankle",
-    "price": 48,
-    "price_is_fixed": false,
+    "price": 65,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -9057,8 +9057,8 @@
     "category_name": "Safety Shoes",
     "subcategory": "Steel Mid Plate",
     "subcategory_slug": "steel-mid-plate-safety-shoe",
-    "price": 38,
-    "price_is_fixed": false,
+    "price": 47,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -9123,8 +9123,8 @@
     "category_name": "Safety Vests",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 45,
-    "price_is_fixed": false,
+    "price": 70,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -9189,8 +9189,8 @@
     "category_name": "Safety Vests",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 33,
-    "price_is_fixed": false,
+    "price": 47,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -9251,8 +9251,8 @@
     "category_name": "Safety Vests",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 34,
-    "price_is_fixed": false,
+    "price": 49,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -9315,8 +9315,8 @@
     "category_name": "Safety Vests",
     "subcategory": "High Ankle",
     "subcategory_slug": "high-ankle",
-    "price": 33,
-    "price_is_fixed": false,
+    "price": 47,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -9389,8 +9389,8 @@
     "category_name": "Safety Shoes",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 38,
-    "price_is_fixed": false,
+    "price": 47,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -9453,8 +9453,8 @@
     "category_name": "Safety Shoes",
     "subcategory": "Low Ankle",
     "subcategory_slug": "low-ankle",
-    "price": 37,
-    "price_is_fixed": false,
+    "price": 44,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -9527,8 +9527,8 @@
     "category_name": "Safety Shoes",
     "subcategory": "Low Ankle",
     "subcategory_slug": "low-ankle",
-    "price": 65,
-    "price_is_fixed": false,
+    "price": 101,
+    "price_is_fixed": true,
     "sizes": [
       "37",
       "38",
@@ -9600,8 +9600,8 @@
     "category_name": "Safety Shoes",
     "subcategory": "High Ankle",
     "subcategory_slug": "high-ankle",
-    "price": 75,
-    "price_is_fixed": false,
+    "price": 120,
+    "price_is_fixed": true,
     "sizes": [
       "36",
       "37",
@@ -9677,8 +9677,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Low Ankle",
     "subcategory_slug": "low-ankle",
-    "price": 70,
-    "price_is_fixed": false,
+    "price": 120,
+    "price_is_fixed": true,
     "sizes": [
       "37",
       "38",
@@ -9750,8 +9750,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Low Ankle",
     "subcategory_slug": "low-ankle",
-    "price": 42,
-    "price_is_fixed": false,
+    "price": 63,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -9822,8 +9822,8 @@
     "category_name": "Safety Vests",
     "subcategory": "High Ankle",
     "subcategory_slug": "high-ankle",
-    "price": 163,
-    "price_is_fixed": false,
+    "price": 307,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -9892,8 +9892,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Low Ankle",
     "subcategory_slug": "low-ankle",
-    "price": 167,
-    "price_is_fixed": false,
+    "price": 313,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -9964,8 +9964,8 @@
     "category_name": "Safety Shoes",
     "subcategory": "High Ankle",
     "subcategory_slug": "high-ankle",
-    "price": 179,
-    "price_is_fixed": false,
+    "price": 327,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -10032,8 +10032,8 @@
     "category_name": "Safety Shoes",
     "subcategory": "Low Ankle",
     "subcategory_slug": "low-ankle",
-    "price": 80,
-    "price_is_fixed": false,
+    "price": 131,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -10096,8 +10096,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Low Ankle",
     "subcategory_slug": "low-ankle",
-    "price": 75,
-    "price_is_fixed": false,
+    "price": 131,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -10160,8 +10160,8 @@
     "category_name": "Safety Shoes",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 99,
-    "price_is_fixed": false,
+    "price": 168,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -10224,8 +10224,8 @@
     "category_name": "Safety Shoes",
     "subcategory": "Low Ankle",
     "subcategory_slug": "low-ankle",
-    "price": 63,
-    "price_is_fixed": false,
+    "price": 96,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -10290,8 +10290,8 @@
     "category_name": "Safety Shoes",
     "subcategory": "Protective Gumboot",
     "subcategory_slug": "protective-gumboot",
-    "price": 34,
-    "price_is_fixed": false,
+    "price": 39,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -10359,8 +10359,8 @@
     "category_name": "Safety Shoes",
     "subcategory": "Protective Gumboot",
     "subcategory_slug": "protective-gumboot",
-    "price": 33,
-    "price_is_fixed": false,
+    "price": 35,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -10431,8 +10431,8 @@
     "category_name": "Safety Shoes",
     "subcategory": "Protective Gumboot",
     "subcategory_slug": "protective-gumboot",
-    "price": 34,
-    "price_is_fixed": false,
+    "price": 38,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -10498,8 +10498,8 @@
     "category_name": "Safety Shoes",
     "subcategory": "Protective Gumboot",
     "subcategory_slug": "protective-gumboot",
-    "price": 27,
-    "price_is_fixed": false,
+    "price": 25,
+    "price_is_fixed": true,
     "sizes": [
       "37",
       "38",
@@ -10572,8 +10572,8 @@
     "category_name": "Safety Shoes",
     "subcategory": "High Ankle",
     "subcategory_slug": "high-ankle",
-    "price": 55,
-    "price_is_fixed": false,
+    "price": 80,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -10642,8 +10642,8 @@
     "category_name": "Safety Shoes",
     "subcategory": "High Ankle",
     "subcategory_slug": "high-ankle",
-    "price": 49,
-    "price_is_fixed": false,
+    "price": 69,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -10711,8 +10711,8 @@
     "category_name": "Safety Shoes",
     "subcategory": "Safety Welding Boot",
     "subcategory_slug": "safety-welding-boot",
-    "price": 81,
-    "price_is_fixed": false,
+    "price": 133,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -10775,8 +10775,8 @@
     "category_name": "Safety Shoes",
     "subcategory": "Low Ankle",
     "subcategory_slug": "low-ankle",
-    "price": 53,
-    "price_is_fixed": false,
+    "price": 75,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -10847,8 +10847,8 @@
     "category_name": "Safety Shoes",
     "subcategory": "High Ankle",
     "subcategory_slug": "high-ankle",
-    "price": 61,
-    "price_is_fixed": false,
+    "price": 93,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -10912,8 +10912,8 @@
     "category_name": "Safety Shoes",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 45,
-    "price_is_fixed": false,
+    "price": 60,
+    "price_is_fixed": true,
     "sizes": [
       "35",
       "36",
@@ -10980,8 +10980,8 @@
     "category_name": "Safety Shoes",
     "subcategory": "Low Ankle",
     "subcategory_slug": "low-ankle",
-    "price": 52,
-    "price_is_fixed": false,
+    "price": 74,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -11044,8 +11044,8 @@
     "category_name": "Safety Shoes",
     "subcategory": "Low Ankle",
     "subcategory_slug": "low-ankle",
-    "price": 52,
-    "price_is_fixed": false,
+    "price": 74,
+    "price_is_fixed": true,
     "sizes": [
       "37",
       "38",
@@ -11118,8 +11118,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Low Ankle",
     "subcategory_slug": "low-ankle",
-    "price": 47,
-    "price_is_fixed": false,
+    "price": 74,
+    "price_is_fixed": true,
     "sizes": [
       "34",
       "35",
@@ -11200,8 +11200,8 @@
     "category_name": "Safety Shoes",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 68,
-    "price_is_fixed": false,
+    "price": 106,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -11264,8 +11264,8 @@
     "category_name": "Safety Shoes",
     "subcategory": "Low Ankle",
     "subcategory_slug": "low-ankle",
-    "price": 52,
-    "price_is_fixed": false,
+    "price": 74,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -11328,8 +11328,8 @@
     "category_name": "Safety Vests",
     "subcategory": "High Ankle",
     "subcategory_slug": "high-ankle",
-    "price": 55,
-    "price_is_fixed": false,
+    "price": 90,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -11401,8 +11401,8 @@
     "category_name": "Safety Vests",
     "subcategory": "High Ankle",
     "subcategory_slug": "high-ankle",
-    "price": 55,
-    "price_is_fixed": false,
+    "price": 90,
+    "price_is_fixed": true,
     "sizes": [
       "35",
       "36",
@@ -11484,8 +11484,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Low Ankle",
     "subcategory_slug": "low-ankle",
-    "price": 52,
-    "price_is_fixed": false,
+    "price": 84,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -11559,8 +11559,8 @@
     "category_name": "Safety Shoes",
     "subcategory": "High Ankle",
     "subcategory_slug": "high-ankle",
-    "price": 70,
-    "price_is_fixed": false,
+    "price": 110,
+    "price_is_fixed": true,
     "sizes": [
       "35",
       "36",
@@ -11637,8 +11637,8 @@
     "category_name": "Safety Shoes",
     "subcategory": "High Ankle",
     "subcategory_slug": "high-ankle",
-    "price": 47,
-    "price_is_fixed": false,
+    "price": 63,
+    "price_is_fixed": true,
     "sizes": [
       "36",
       "37",
@@ -11714,8 +11714,8 @@
     "category_name": "Safety Shoes",
     "subcategory": "High Ankle",
     "subcategory_slug": "high-ankle",
-    "price": 46,
-    "price_is_fixed": false,
+    "price": 62,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -11783,8 +11783,8 @@
     "category_name": "Safety Vests",
     "subcategory": "High Ankle",
     "subcategory_slug": "high-ankle",
-    "price": 40,
-    "price_is_fixed": false,
+    "price": 60,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -11853,8 +11853,8 @@
     "category_name": "Safety Vests",
     "subcategory": "High Ankle",
     "subcategory_slug": "high-ankle",
-    "price": 41,
-    "price_is_fixed": false,
+    "price": 61,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -11925,8 +11925,8 @@
     "category_name": "Safety Vests",
     "subcategory": "High Ankle",
     "subcategory_slug": "high-ankle",
-    "price": 41,
-    "price_is_fixed": false,
+    "price": 62,
+    "price_is_fixed": true,
     "sizes": [
       "37",
       "38",
@@ -11998,8 +11998,8 @@
     "category_name": "Safety Shoes",
     "subcategory": "Low Ankle",
     "subcategory_slug": "low-ankle",
-    "price": 46,
-    "price_is_fixed": false,
+    "price": 62,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -12066,8 +12066,8 @@
     "category_name": "Safety Shoes",
     "subcategory": "Low Ankle",
     "subcategory_slug": "low-ankle",
-    "price": 46,
-    "price_is_fixed": false,
+    "price": 61,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -12133,8 +12133,8 @@
     "category_name": "Safety Shoes",
     "subcategory": "Steel Mid Plate",
     "subcategory_slug": "steel-mid-plate-safety-shoe",
-    "price": 63,
-    "price_is_fixed": false,
+    "price": 96,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -12203,8 +12203,8 @@
     "category_name": "Safety Shoes",
     "subcategory": "Steel Mid Plate",
     "subcategory_slug": "steel-mid-plate-safety-shoe",
-    "price": 65,
-    "price_is_fixed": false,
+    "price": 100,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -12274,8 +12274,8 @@
     "category_name": "Safety Shoes",
     "subcategory": "Low Ankle",
     "subcategory_slug": "low-ankle",
-    "price": 51,
-    "price_is_fixed": false,
+    "price": 73,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -12342,8 +12342,8 @@
     "category_name": "Safety Shoes",
     "subcategory": "Low Ankle",
     "subcategory_slug": "low-ankle",
-    "price": 64,
-    "price_is_fixed": false,
+    "price": 97,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -12412,8 +12412,8 @@
     "category_name": "Safety Shoes",
     "subcategory": "Low Ankle",
     "subcategory_slug": "low-ankle",
-    "price": 58,
-    "price_is_fixed": false,
+    "price": 86,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -12482,8 +12482,8 @@
     "category_name": "Safety Vests",
     "subcategory": "High Ankle",
     "subcategory_slug": "high-ankle",
-    "price": 52,
-    "price_is_fixed": false,
+    "price": 84,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -12546,8 +12546,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Low Ankle",
     "subcategory_slug": "low-ankle",
-    "price": 46,
-    "price_is_fixed": false,
+    "price": 72,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -12617,8 +12617,8 @@
     "category_name": "Safety Shoes",
     "subcategory": "Low Ankle",
     "subcategory_slug": "low-ankle",
-    "price": 55,
-    "price_is_fixed": false,
+    "price": 80,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -12681,8 +12681,8 @@
     "category_name": "Safety Shoes",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 63,
-    "price_is_fixed": false,
+    "price": 96,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -12746,8 +12746,8 @@
     "category_name": "Safety Shoes",
     "subcategory": "High Ankle",
     "subcategory_slug": "high-ankle",
-    "price": 52,
-    "price_is_fixed": false,
+    "price": 74,
+    "price_is_fixed": true,
     "sizes": [
       "36",
       "37",
@@ -12818,8 +12818,8 @@
     "category_name": "Safety Vests",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 46,
-    "price_is_fixed": false,
+    "price": 71,
+    "price_is_fixed": true,
     "sizes": [
       "36",
       "37",
@@ -12890,8 +12890,8 @@
     "category_name": "Safety Shoes",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 59,
-    "price_is_fixed": false,
+    "price": 87,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -12954,8 +12954,8 @@
     "category_name": "Safety Shoes",
     "subcategory": "Low Ankle",
     "subcategory_slug": "low-ankle",
-    "price": 49,
-    "price_is_fixed": false,
+    "price": 68,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -13024,8 +13024,8 @@
     "category_name": "Safety Shoes",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 59,
-    "price_is_fixed": false,
+    "price": 87,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -13088,8 +13088,8 @@
     "category_name": "Safety Shoes",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 85,
-    "price_is_fixed": false,
+    "price": 139,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -13152,8 +13152,8 @@
     "category_name": "Safety Vests",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 77,
-    "price_is_fixed": false,
+    "price": 133,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -13216,8 +13216,8 @@
     "category_name": "Safety Shoes",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 80,
-    "price_is_fixed": false,
+    "price": 129,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -13280,8 +13280,8 @@
     "category_name": "Safety Shoes",
     "subcategory": "Low Ankle",
     "subcategory_slug": "low-ankle",
-    "price": 68,
-    "price_is_fixed": false,
+    "price": 105,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -13344,8 +13344,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Low Ankle",
     "subcategory_slug": "low-ankle",
-    "price": 62,
-    "price_is_fixed": false,
+    "price": 104,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -13408,8 +13408,8 @@
     "category_name": "Safety Shoes",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 63,
-    "price_is_fixed": false,
+    "price": 96,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -13480,8 +13480,8 @@
     "category_name": "Safety Shoes",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 70,
-    "price_is_fixed": false,
+    "price": 110,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -13544,8 +13544,8 @@
     "category_name": "Safety Shoes",
     "subcategory": "Low Ankle",
     "subcategory_slug": "low-ankle",
-    "price": 67,
-    "price_is_fixed": false,
+    "price": 104,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -13619,8 +13619,8 @@
     "category_name": "Safety Shoes",
     "subcategory": "High Ankle",
     "subcategory_slug": "high-ankle",
-    "price": 34,
-    "price_is_fixed": false,
+    "price": 38,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -13691,8 +13691,8 @@
     "category_name": "Safety Shoes",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 61,
-    "price_is_fixed": false,
+    "price": 93,
+    "price_is_fixed": true,
     "sizes": [
       "35",
       "36",
@@ -13770,8 +13770,8 @@
     "category_name": "Safety Shoes",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 61,
-    "price_is_fixed": false,
+    "price": 92,
+    "price_is_fixed": true,
     "sizes": [
       "39",
       "40",
@@ -13842,8 +13842,8 @@
     "category_name": "Safety Shoes",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 95,
-    "price_is_fixed": false,
+    "price": 160,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -13906,8 +13906,8 @@
     "category_name": "Safety Vests",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 62,
-    "price_is_fixed": false,
+    "price": 104,
+    "price_is_fixed": true,
     "sizes": [
       "37",
       "38",
@@ -13972,8 +13972,8 @@
     "category_name": "Safety Shoes",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 65,
-    "price_is_fixed": false,
+    "price": 99,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -14036,8 +14036,8 @@
     "category_name": "Safety Shoes",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 82,
-    "price_is_fixed": false,
+    "price": 135,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -14100,8 +14100,8 @@
     "category_name": "Safety Shoes",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 60,
-    "price_is_fixed": false,
+    "price": 89,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -14174,8 +14174,8 @@
     "category_name": "Safety Shoes",
     "subcategory": "Low Ankle",
     "subcategory_slug": "low-ankle",
-    "price": 70,
-    "price_is_fixed": false,
+    "price": 110,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -14238,8 +14238,8 @@
     "category_name": "Safety Shoes",
     "subcategory": "Low Ankle",
     "subcategory_slug": "low-ankle",
-    "price": 64,
-    "price_is_fixed": false,
+    "price": 97,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -14303,8 +14303,8 @@
     "category_name": "Safety Shoes",
     "subcategory": "Low Ankle",
     "subcategory_slug": "low-ankle",
-    "price": 67,
-    "price_is_fixed": false,
+    "price": 104,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -14367,8 +14367,8 @@
     "category_name": "Safety Vests",
     "subcategory": "SBP Safety Shoe",
     "subcategory_slug": "sbp-safety-shoe",
-    "price": 65,
-    "price_is_fixed": false,
+    "price": 110,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -14431,8 +14431,8 @@
     "category_name": "Safety Shoes",
     "subcategory": "SBP Safety Shoe",
     "subcategory_slug": "sbp-safety-shoe",
-    "price": 70,
-    "price_is_fixed": false,
+    "price": 110,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -14495,8 +14495,8 @@
     "category_name": "Safety Shoes",
     "subcategory": "Composite Mid plate",
     "subcategory_slug": "composite-mid-plate",
-    "price": 70,
-    "price_is_fixed": false,
+    "price": 110,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -14560,8 +14560,8 @@
     "category_name": "Safety Shoes",
     "subcategory": "SBP High Ankle",
     "subcategory_slug": "sbp",
-    "price": 67,
-    "price_is_fixed": false,
+    "price": 104,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -14625,8 +14625,8 @@
     "category_name": "Safety Vests",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 65,
-    "price_is_fixed": false,
+    "price": 110,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -14689,8 +14689,8 @@
     "category_name": "Safety Shoes",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 71,
-    "price_is_fixed": false,
+    "price": 112,
+    "price_is_fixed": true,
     "sizes": [
       "39",
       "40",
@@ -14751,8 +14751,8 @@
     "category_name": "Safety Shoes",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 113,
-    "price_is_fixed": false,
+    "price": 196,
+    "price_is_fixed": true,
     "sizes": [
       "39",
       "40",
@@ -14813,8 +14813,8 @@
     "category_name": "Safety Shoes",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 65,
-    "price_is_fixed": false,
+    "price": 100,
+    "price_is_fixed": true,
     "sizes": [
       "39",
       "40",
@@ -14875,8 +14875,8 @@
     "category_name": "Safety Shoes",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 67,
-    "price_is_fixed": false,
+    "price": 104,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -14948,8 +14948,8 @@
     "category_name": "Safety Shoes",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 65,
-    "price_is_fixed": false,
+    "price": 100,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -15013,8 +15013,8 @@
     "category_name": "Safety Shoes",
     "subcategory": "Composite Mid plate",
     "subcategory_slug": "composite-mid-plate",
-    "price": 65,
-    "price_is_fixed": false,
+    "price": 100,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -15079,8 +15079,8 @@
     "category_name": "Safety Shoes",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 54,
-    "price_is_fixed": false,
+    "price": 79,
+    "price_is_fixed": true,
     "sizes": [
       "37",
       "38",
@@ -15155,8 +15155,8 @@
     "category_name": "Safety Vests",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 64,
-    "price_is_fixed": false,
+    "price": 108,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -15228,8 +15228,8 @@
     "category_name": "Safety Shoes",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 69,
-    "price_is_fixed": false,
+    "price": 108,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -15299,8 +15299,8 @@
     "category_name": "Safety Shoes",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 67,
-    "price_is_fixed": false,
+    "price": 104,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -15365,8 +15365,8 @@
     "category_name": "Safety Shoes",
     "subcategory": "SBP Low Ankle",
     "subcategory_slug": "sbp-low-ankle",
-    "price": 69,
-    "price_is_fixed": false,
+    "price": 108,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -15429,8 +15429,8 @@
     "category_name": "Safety Shoes",
     "subcategory": "SBP Low Ankle",
     "subcategory_slug": "sbp-low-ankle",
-    "price": 74,
-    "price_is_fixed": false,
+    "price": 117,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -15494,8 +15494,8 @@
     "category_name": "Safety Shoes",
     "subcategory": "Low Ankle",
     "subcategory_slug": "low-ankle",
-    "price": 65,
-    "price_is_fixed": false,
+    "price": 100,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -15559,8 +15559,8 @@
     "category_name": "Safety Shoes",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 57,
-    "price_is_fixed": false,
+    "price": 83,
+    "price_is_fixed": true,
     "sizes": [
       "35-36",
       "37-38",
@@ -15627,8 +15627,8 @@
     "category_name": "Safety Shoes",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 67,
-    "price_is_fixed": false,
+    "price": 105,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -15699,8 +15699,8 @@
     "category_name": "Safety Shoes",
     "subcategory": "Low Ankle",
     "subcategory_slug": "low-ankle",
-    "price": 73,
-    "price_is_fixed": false,
+    "price": 116,
+    "price_is_fixed": true,
     "sizes": [
       "38",
       "39",
@@ -15765,8 +15765,8 @@
     "category_name": "Safety Shoes",
     "subcategory": "S3 SRC High Ankle",
     "subcategory_slug": "s3-src",
-    "price": 77,
-    "price_is_fixed": false,
+    "price": 124,
+    "price_is_fixed": true,
     "sizes": [
       "37",
       "38",
@@ -15832,8 +15832,8 @@
     "category_name": "Safety Shoes",
     "subcategory": "S3 High Ankle",
     "subcategory_slug": "s3",
-    "price": 134,
-    "price_is_fixed": false,
+    "price": 238,
+    "price_is_fixed": true,
     "sizes": [
       "37",
       "38",
@@ -15899,8 +15899,8 @@
     "category_name": "Safety Shoes",
     "subcategory": "S3 Low Ankle",
     "subcategory_slug": "s3-low-ankle",
-    "price": 134,
-    "price_is_fixed": false,
+    "price": 238,
+    "price_is_fixed": true,
     "sizes": [
       "37",
       "38",
@@ -16006,7 +16006,7 @@
     "category_name": "Safety Vests",
     "subcategory": "Safety Jacket",
     "subcategory_slug": "safety-jacket",
-    "price": 12,
+    "price": 5,
     "price_is_fixed": true,
     "sizes": [
       "2XL",
@@ -16712,7 +16712,7 @@
     "category_name": "Safety Vests",
     "subcategory": "Reflective Tape",
     "subcategory_slug": "reflective-tape",
-    "price": 12,
+    "price": 7,
     "price_is_fixed": true,
     "sizes": [
       "2XL/3XL",
@@ -16763,7 +16763,7 @@
     "category_name": "Safety Vests",
     "subcategory": "Safety Jacket",
     "subcategory_slug": "safety-jacket",
-    "price": 12,
+    "price": 7,
     "price_is_fixed": true,
     "sizes": [
       "2XL",
@@ -16832,7 +16832,7 @@
     "category_name": "Safety Vests",
     "subcategory": "Reflective Tape",
     "subcategory_slug": "reflective-tape",
-    "price": 15,
+    "price": 7,
     "price_is_fixed": true,
     "sizes": [
       "2XL/3XL",
@@ -16950,7 +16950,7 @@
     "category_name": "Safety Vests",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 40,
+    "price": 48,
     "price_is_fixed": true,
     "sizes": [
       "2XL",
@@ -17742,7 +17742,7 @@
     "category_name": "Safety Vests",
     "subcategory": "Safety Jacket",
     "subcategory_slug": "safety-jacket",
-    "price": 12,
+    "price": 7,
     "price_is_fixed": true,
     "sizes": [
       "2XL",
@@ -18042,7 +18042,7 @@
     "category_name": "Safety Vests",
     "subcategory": "Safety Jacket",
     "subcategory_slug": "safety-jacket",
-    "price": 12,
+    "price": 4,
     "price_is_fixed": true,
     "sizes": [
       "2XL",
@@ -18225,7 +18225,7 @@
     "category_name": "Safety Vests",
     "subcategory": "Reflective Tape",
     "subcategory_slug": "reflective-tape",
-    "price": 20,
+    "price": 10,
     "price_is_fixed": true,
     "sizes": [
       "2XL",
@@ -18286,7 +18286,7 @@
     "subcategory": "Safety Mesh",
     "subcategory_slug": "safety-mesh",
     "price": 94,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Pcs"
     ],
@@ -18336,7 +18336,7 @@
     "subcategory": "Warning Post",
     "subcategory_slug": "warning-post",
     "price": 60,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Pcs"
     ],
@@ -18386,7 +18386,7 @@
     "subcategory": "Traffic Cone",
     "subcategory_slug": "traffic-cone",
     "price": 96,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Pcs"
     ],
@@ -18433,7 +18433,7 @@
     "subcategory": "Safety Mesh",
     "subcategory_slug": "safety-mesh",
     "price": 73,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Pcs"
     ],
@@ -18482,7 +18482,7 @@
     "subcategory": "For Cone",
     "subcategory_slug": "for-cone",
     "price": 35,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Amber/Yellow",
       "Red"
@@ -18536,7 +18536,7 @@
     "subcategory": "Solar Light",
     "subcategory_slug": "solar-light",
     "price": 38,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Amber/Yellow",
       "Red"
@@ -18588,8 +18588,8 @@
     "category_name": "Safety Vests",
     "subcategory": "With Metal Handle and Bracket",
     "subcategory_slug": "with-metal-handle-and-bracket",
-    "price": 32,
-    "price_is_fixed": false,
+    "price": 44,
+    "price_is_fixed": true,
     "sizes": [
       "Amber",
       "Pcs"
@@ -18640,8 +18640,8 @@
     "category_name": "Safety Vests",
     "subcategory": "With Metal Handle and Bracket",
     "subcategory_slug": "with-metal-handle-and-bracket",
-    "price": 30,
-    "price_is_fixed": false,
+    "price": 39,
+    "price_is_fixed": true,
     "sizes": [
       "Pcs"
     ],
@@ -18689,8 +18689,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Single Color",
     "subcategory_slug": "single-color",
-    "price": 20,
-    "price_is_fixed": false,
+    "price": 17,
+    "price_is_fixed": true,
     "sizes": [
       "Pcs"
     ],
@@ -18739,7 +18739,7 @@
     "subcategory": "Single Color",
     "subcategory_slug": "single-color",
     "price": 17,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Pcs"
     ],
@@ -18787,7 +18787,7 @@
     "subcategory": "Double Color",
     "subcategory_slug": "double-color",
     "price": 21,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Pcs"
     ],
@@ -18836,7 +18836,7 @@
     "subcategory": "Warning Post",
     "subcategory_slug": "warning-post",
     "price": 38,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "Pcs"
     ],
@@ -19029,7 +19029,7 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 35,
+    "price": 34,
     "price_is_fixed": true,
     "sizes": [
       "2XL",
@@ -19176,8 +19176,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 20,
-    "price_is_fixed": false,
+    "price": 30,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -19246,7 +19246,7 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 25,
+    "price": 29,
     "price_is_fixed": true,
     "sizes": [
       "2XL",
@@ -19304,7 +19304,7 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 25,
+    "price": 29,
     "price_is_fixed": true,
     "sizes": [
       "2XL",
@@ -19362,7 +19362,7 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 25,
+    "price": 29,
     "price_is_fixed": true,
     "sizes": [
       "2XL",
@@ -19420,7 +19420,7 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Pant & Shirt 190 GSM",
     "subcategory_slug": "pant-shirt-190-gsm",
-    "price": 40,
+    "price": 44,
     "price_is_fixed": true,
     "sizes": [
       "2XL",
@@ -19478,7 +19478,7 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 40,
+    "price": 44,
     "price_is_fixed": true,
     "sizes": [
       "2XL",
@@ -19554,7 +19554,7 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 40,
+    "price": 44,
     "price_is_fixed": true,
     "sizes": [
       "2XL",
@@ -19629,7 +19629,7 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Pant & Shirt",
     "subcategory_slug": "pant-shirt",
-    "price": 40,
+    "price": 44,
     "price_is_fixed": true,
     "sizes": [
       "2XL",
@@ -19692,7 +19692,7 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Twil Pant & Shirtl",
     "subcategory_slug": "twil-pant-shirtl",
-    "price": 40,
+    "price": 44,
     "price_is_fixed": true,
     "sizes": [
       "2XL",
@@ -19755,7 +19755,7 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Disposable Coverall",
     "subcategory_slug": "disposable-coverall",
-    "price": 25,
+    "price": 35,
     "price_is_fixed": true,
     "sizes": [
       "2XL",
@@ -19837,8 +19837,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 82,
-    "price_is_fixed": false,
+    "price": 61,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -19901,8 +19901,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 2014,
-    "price_is_fixed": false,
+    "price": 1027,
+    "price_is_fixed": true,
     "sizes": [
       "Pcs"
     ],
@@ -19955,8 +19955,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "With Pocket",
     "subcategory_slug": "with-pocket",
-    "price": 60,
-    "price_is_fixed": false,
+    "price": 50,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -20027,7 +20027,7 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Coverall 240 GSM",
     "subcategory_slug": "coverall-240-gsm",
-    "price": 55,
+    "price": 57,
     "price_is_fixed": true,
     "sizes": [
       "2XL",
@@ -20086,7 +20086,7 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Coverall 240 GSM",
     "subcategory_slug": "coverall-240-gsm",
-    "price": 55,
+    "price": 57,
     "price_is_fixed": true,
     "sizes": [
       "2XL",
@@ -20147,8 +20147,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Coverall 240 GSM",
     "subcategory_slug": "coverall-240-gsm",
-    "price": 74,
-    "price_is_fixed": false,
+    "price": 57,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -20205,7 +20205,7 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 55,
+    "price": 57,
     "price_is_fixed": true,
     "sizes": [
       "2XL",
@@ -20266,7 +20266,7 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Coverall 240 GSM",
     "subcategory_slug": "coverall-240-gsm",
-    "price": 55,
+    "price": 57,
     "price_is_fixed": true,
     "sizes": [
       "2XL",
@@ -20325,8 +20325,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Coverall 240 GSM",
     "subcategory_slug": "coverall-240-gsm",
-    "price": 74,
-    "price_is_fixed": false,
+    "price": 57,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -20385,8 +20385,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 71,
-    "price_is_fixed": false,
+    "price": 55,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -20744,8 +20744,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 71,
-    "price_is_fixed": false,
+    "price": 55,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -20878,8 +20878,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 47,
-    "price_is_fixed": false,
+    "price": 43,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -21024,8 +21024,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 71,
-    "price_is_fixed": false,
+    "price": 55,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -21081,7 +21081,7 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Coverall",
     "subcategory_slug": "coverall",
-    "price": 55,
+    "price": 57,
     "price_is_fixed": true,
     "sizes": [
       "2XL",
@@ -21141,8 +21141,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 74,
-    "price_is_fixed": false,
+    "price": 57,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -21198,8 +21198,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 74,
-    "price_is_fixed": false,
+    "price": 57,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -21255,8 +21255,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 74,
-    "price_is_fixed": false,
+    "price": 57,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -21312,7 +21312,7 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 55,
+    "price": 57,
     "price_is_fixed": true,
     "sizes": [
       "2XL",
@@ -21372,7 +21372,7 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 55,
+    "price": 57,
     "price_is_fixed": true,
     "sizes": [
       "2XL",
@@ -21431,8 +21431,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Coverall without Reflective",
     "subcategory_slug": "coverall-without-reflective-1",
-    "price": 74,
-    "price_is_fixed": false,
+    "price": 57,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -21488,8 +21488,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 78,
-    "price_is_fixed": false,
+    "price": 59,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -21553,7 +21553,7 @@
     "category_name": "Safety Vests",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 55,
+    "price": 59,
     "price_is_fixed": true,
     "sizes": [
       "2XL",
@@ -21622,8 +21622,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 78,
-    "price_is_fixed": false,
+    "price": 59,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -21689,8 +21689,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 56,
-    "price_is_fixed": false,
+    "price": 48,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -21761,7 +21761,7 @@
     "category_name": "Safety Vests",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 55,
+    "price": 48,
     "price_is_fixed": true,
     "sizes": [
       "2XL",
@@ -21838,8 +21838,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 73,
-    "price_is_fixed": false,
+    "price": 56,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -21913,8 +21913,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 73,
-    "price_is_fixed": false,
+    "price": 56,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -21985,8 +21985,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 56,
-    "price_is_fixed": false,
+    "price": 48,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -22061,7 +22061,7 @@
     "category_name": "Safety Vests",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 55,
+    "price": 48,
     "price_is_fixed": true,
     "sizes": [
       "2XL",
@@ -22135,7 +22135,7 @@
     "category_name": "Safety Vests",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 55,
+    "price": 50,
     "price_is_fixed": true,
     "sizes": [
       "2XL",
@@ -22209,7 +22209,7 @@
     "category_name": "Safety Vests",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 55,
+    "price": 45,
     "price_is_fixed": true,
     "sizes": [
       "2XL",
@@ -22283,7 +22283,7 @@
     "category_name": "Safety Vests",
     "subcategory": "With Pocket",
     "subcategory_slug": "with-pocket",
-    "price": 55,
+    "price": 50,
     "price_is_fixed": true,
     "sizes": [
       "2XL",
@@ -22349,7 +22349,7 @@
     "category_name": "Safety Vests",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 55,
+    "price": 50,
     "price_is_fixed": true,
     "sizes": [
       "2XL",
@@ -22491,7 +22491,7 @@
     "category_name": "Safety Vests",
     "subcategory": "With Zipper",
     "subcategory_slug": "with-zipper",
-    "price": 55,
+    "price": 53,
     "price_is_fixed": true,
     "sizes": [
       "2XL",
@@ -22551,7 +22551,7 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Coverall 240 GSM",
     "subcategory_slug": "coverall-240-gsm-1",
-    "price": 65,
+    "price": 67,
     "price_is_fixed": true,
     "sizes": [
       "2XL",
@@ -22614,8 +22614,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Coverall",
     "subcategory_slug": "coverall",
-    "price": 93,
-    "price_is_fixed": false,
+    "price": 67,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -22672,7 +22672,7 @@
     "category_name": "Safety Vests",
     "subcategory": "Coverall",
     "subcategory_slug": "coverall",
-    "price": 65,
+    "price": 67,
     "price_is_fixed": true,
     "sizes": [
       "2XL",
@@ -22732,8 +22732,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Coverall 240 GSM",
     "subcategory_slug": "coverall-240-gsm",
-    "price": 93,
-    "price_is_fixed": false,
+    "price": 67,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -22790,7 +22790,7 @@
     "category_name": "Safety Vests",
     "subcategory": "Coverall 240 GSM",
     "subcategory_slug": "coverall-240-gsm",
-    "price": 65,
+    "price": 67,
     "price_is_fixed": true,
     "sizes": [
       "2XL",
@@ -22850,7 +22850,7 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Coverall 240 GSM",
     "subcategory_slug": "coverall-240-gsm",
-    "price": 65,
+    "price": 67,
     "price_is_fixed": true,
     "sizes": [
       "2XL",
@@ -22910,8 +22910,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "With Pocket",
     "subcategory_slug": "with-pocket",
-    "price": 71,
-    "price_is_fixed": false,
+    "price": 55,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -22967,8 +22967,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "With Pocket",
     "subcategory_slug": "with-pocket",
-    "price": 71,
-    "price_is_fixed": false,
+    "price": 55,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -23027,8 +23027,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "With Pocket",
     "subcategory_slug": "with-pocket",
-    "price": 71,
-    "price_is_fixed": false,
+    "price": 55,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -23089,8 +23089,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "With Pocket",
     "subcategory_slug": "with-pocket",
-    "price": 71,
-    "price_is_fixed": false,
+    "price": 55,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -23151,8 +23151,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 64,
-    "price_is_fixed": false,
+    "price": 52,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -23219,8 +23219,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 91,
-    "price_is_fixed": false,
+    "price": 66,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -23296,8 +23296,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Pant & Shirt",
     "subcategory_slug": "pant-shirt",
-    "price": 96,
-    "price_is_fixed": false,
+    "price": 68,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -23353,8 +23353,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Pant & Shirt",
     "subcategory_slug": "pant-shirt",
-    "price": 96,
-    "price_is_fixed": false,
+    "price": 68,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -23410,7 +23410,7 @@
     "category_name": "Safety Vests",
     "subcategory": "Pant & Shirt",
     "subcategory_slug": "pant-shirt",
-    "price": 70,
+    "price": 68,
     "price_is_fixed": true,
     "sizes": [
       "2XL",
@@ -23469,8 +23469,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "With Pocket",
     "subcategory_slug": "with-pocket",
-    "price": 96,
-    "price_is_fixed": false,
+    "price": 68,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -23526,8 +23526,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Cotton Pant & Shirt",
     "subcategory_slug": "cotton-pant-shirt",
-    "price": 96,
-    "price_is_fixed": false,
+    "price": 68,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -23585,7 +23585,7 @@
     "category_name": "Safety Vests",
     "subcategory": "Pant & Shirt with Reflective",
     "subcategory_slug": "pant-shirt-with-reflective",
-    "price": 65,
+    "price": 66,
     "price_is_fixed": true,
     "sizes": [
       "2XL",
@@ -23644,8 +23644,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "With Pocket",
     "subcategory_slug": "with-pocket",
-    "price": 108,
-    "price_is_fixed": false,
+    "price": 74,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -23706,8 +23706,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "With Pocket",
     "subcategory_slug": "with-pocket",
-    "price": 108,
-    "price_is_fixed": false,
+    "price": 74,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -23768,8 +23768,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "With Pocket",
     "subcategory_slug": "with-pocket",
-    "price": 108,
-    "price_is_fixed": false,
+    "price": 74,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -23830,8 +23830,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 42,
-    "price_is_fixed": false,
+    "price": 41,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -23897,8 +23897,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 45,
-    "price_is_fixed": false,
+    "price": 42,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -23968,8 +23968,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 45,
-    "price_is_fixed": false,
+    "price": 42,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -24050,7 +24050,7 @@
     "subcategory": "Coverall 190 GSM",
     "subcategory_slug": "coverall-190gsm",
     "price": 40,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -24110,7 +24110,7 @@
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
     "price": 40,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -24181,7 +24181,7 @@
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
     "price": 40,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -24253,7 +24253,7 @@
     "category_name": "Safety Vests",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 50,
+    "price": 40,
     "price_is_fixed": true,
     "sizes": [
       "2XL",
@@ -24329,7 +24329,7 @@
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
     "price": 40,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -24401,8 +24401,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 30,
-    "price_is_fixed": false,
+    "price": 40,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -24478,8 +24478,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 27,
-    "price_is_fixed": false,
+    "price": 37,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -24555,7 +24555,7 @@
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
     "price": 40,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -24628,8 +24628,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 38,
-    "price_is_fixed": false,
+    "price": 39,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -24701,8 +24701,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Twill Pant & Shirt",
     "subcategory_slug": "twill-cotton-pant-shirt-with-reflective",
-    "price": 36,
-    "price_is_fixed": false,
+    "price": 46,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -24760,8 +24760,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Twil Pant & Shirtl",
     "subcategory_slug": "twil-pant-shirtl",
-    "price": 52,
-    "price_is_fixed": false,
+    "price": 46,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -24817,8 +24817,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Twill Pant & Shirt",
     "subcategory_slug": "twill-cotton-pant-shirt-with-reflective",
-    "price": 36,
-    "price_is_fixed": false,
+    "price": 46,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -24876,8 +24876,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Pant & Shirt",
     "subcategory_slug": "pant-shirt",
-    "price": 32,
-    "price_is_fixed": false,
+    "price": 42,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -24954,8 +24954,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 33,
-    "price_is_fixed": false,
+    "price": 43,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -25032,8 +25032,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Pant & Shirt",
     "subcategory_slug": "pant-shirt",
-    "price": 47,
-    "price_is_fixed": false,
+    "price": 43,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -25102,8 +25102,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 33,
-    "price_is_fixed": false,
+    "price": 43,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -25176,8 +25176,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 48,
-    "price_is_fixed": false,
+    "price": 44,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -25246,8 +25246,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 48,
-    "price_is_fixed": false,
+    "price": 44,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -25319,8 +25319,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 34,
-    "price_is_fixed": false,
+    "price": 44,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -25393,8 +25393,8 @@
     "category_name": "Safety Vests",
     "subcategory": "With Pocket",
     "subcategory_slug": "with-pocket",
-    "price": 30,
-    "price_is_fixed": false,
+    "price": 40,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -25452,8 +25452,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 33,
-    "price_is_fixed": false,
+    "price": 43,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -25529,7 +25529,7 @@
     "subcategory": "With Pocket",
     "subcategory_slug": "with-pocket",
     "price": 40,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -25585,8 +25585,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 32,
-    "price_is_fixed": false,
+    "price": 42,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -25664,7 +25664,7 @@
     "subcategory": "With Pocket",
     "subcategory_slug": "with-pocket",
     "price": 40,
-    "price_is_fixed": false,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -25720,8 +25720,8 @@
     "category_name": "Safety Vests",
     "subcategory": "With Pocket",
     "subcategory_slug": "with-pocket",
-    "price": 30,
-    "price_is_fixed": false,
+    "price": 40,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -25779,8 +25779,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 45,
-    "price_is_fixed": false,
+    "price": 42,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -25849,8 +25849,8 @@
     "category_name": "Safety Vests",
     "subcategory": "With Pocket",
     "subcategory_slug": "with-pocket",
-    "price": 83,
-    "price_is_fixed": false,
+    "price": 93,
+    "price_is_fixed": true,
     "sizes": [
       "2XL/3XL",
       "4XL/5XL",
@@ -25906,8 +25906,8 @@
     "category_name": "Safety Vests",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 39,
-    "price_is_fixed": false,
+    "price": 49,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -25965,8 +25965,8 @@
     "category_name": "Safety Vests",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 40,
-    "price_is_fixed": false,
+    "price": 50,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -26024,8 +26024,8 @@
     "category_name": "Safety Vests",
     "subcategory": "With Pocket",
     "subcategory_slug": "with-pocket",
-    "price": 33,
-    "price_is_fixed": false,
+    "price": 43,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -26083,8 +26083,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 93,
-    "price_is_fixed": false,
+    "price": 103,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -26153,8 +26153,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 158,
-    "price_is_fixed": false,
+    "price": 99,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -26214,8 +26214,8 @@
     "category_name": "Safety Vests",
     "subcategory": "With Pocket",
     "subcategory_slug": "with-pocket",
-    "price": 113,
-    "price_is_fixed": false,
+    "price": 123,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -26274,8 +26274,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "With Pocket",
     "subcategory_slug": "with-pocket",
-    "price": 224,
-    "price_is_fixed": false,
+    "price": 132,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -26335,8 +26335,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Disposable Coverall",
     "subcategory_slug": "disposable-coverall",
-    "price": 5,
-    "price_is_fixed": false,
+    "price": 23,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -26404,8 +26404,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Disposable Coverall",
     "subcategory_slug": "disposable-coverall",
-    "price": 12,
-    "price_is_fixed": false,
+    "price": 23,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -26474,8 +26474,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Disposable Coverall",
     "subcategory_slug": "disposable-coverall",
-    "price": 6,
-    "price_is_fixed": false,
+    "price": 23,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -26546,8 +26546,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Disposable Coverall",
     "subcategory_slug": "disposable-coverall",
-    "price": 8,
-    "price_is_fixed": false,
+    "price": 24,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -26616,8 +26616,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "With Zipper",
     "subcategory_slug": "with-zipper",
-    "price": 15,
-    "price_is_fixed": false,
+    "price": 28,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -26674,8 +26674,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Disposable Coverall",
     "subcategory_slug": "disposable-coverall",
-    "price": 10,
-    "price_is_fixed": false,
+    "price": 25,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -26745,8 +26745,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "With Pocket",
     "subcategory_slug": "with-pocket",
-    "price": 108,
-    "price_is_fixed": false,
+    "price": 74,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -26803,8 +26803,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 80,
-    "price_is_fixed": false,
+    "price": 60,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -26880,8 +26880,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "With Pocket",
     "subcategory_slug": "with-pocket",
-    "price": 108,
-    "price_is_fixed": false,
+    "price": 74,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -26948,8 +26948,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 49,
-    "price_is_fixed": false,
+    "price": 59,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -27026,8 +27026,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 49,
-    "price_is_fixed": false,
+    "price": 59,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -27105,8 +27105,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 49,
-    "price_is_fixed": false,
+    "price": 59,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -27182,8 +27182,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 49,
-    "price_is_fixed": false,
+    "price": 59,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -27261,8 +27261,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Coverall 240 GSM",
     "subcategory_slug": "coverall-240-gsm",
-    "price": 50,
-    "price_is_fixed": false,
+    "price": 60,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -27324,8 +27324,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Coverall 240 GSM",
     "subcategory_slug": "coverall-240-gsm",
-    "price": 51,
-    "price_is_fixed": false,
+    "price": 61,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -27388,8 +27388,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Pant & Shirt 240 GSM",
     "subcategory_slug": "pant-shirt-240-gsm",
-    "price": 55,
-    "price_is_fixed": false,
+    "price": 65,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -27452,8 +27452,8 @@
     "category_name": "Safety Vests",
     "subcategory": "With Pocket",
     "subcategory_slug": "with-pocket",
-    "price": 54,
-    "price_is_fixed": false,
+    "price": 64,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -27512,8 +27512,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Pant & Shirt 240 GSM",
     "subcategory_slug": "pant-shirt-240-gsm",
-    "price": 86,
-    "price_is_fixed": false,
+    "price": 63,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -27573,8 +27573,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 115,
-    "price_is_fixed": false,
+    "price": 78,
+    "price_is_fixed": true,
     "sizes": [
       "Pcs"
     ],
@@ -27615,8 +27615,8 @@
     "category_name": "Safety Vests",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 74,
-    "price_is_fixed": false,
+    "price": 128,
+    "price_is_fixed": true,
     "sizes": [
       "Pcs"
     ],
@@ -27660,8 +27660,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 1700,
-    "price_is_fixed": false,
+    "price": 870,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "L",
@@ -27712,8 +27712,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Fire Retardant Coverall 320 GSM",
     "subcategory_slug": "fire-retardant-coverall-320-gsm",
-    "price": 112,
-    "price_is_fixed": false,
+    "price": 76,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -27774,8 +27774,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Fire Retardant Coverall 320 GSM",
     "subcategory_slug": "fire-retardant-coverall-320-gsm",
-    "price": 123,
-    "price_is_fixed": false,
+    "price": 81,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -27833,8 +27833,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Fire Retardant Coverall",
     "subcategory_slug": "fire-retardant-coverall",
-    "price": 59,
-    "price_is_fixed": false,
+    "price": 69,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -27917,8 +27917,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Fire Retardant Coverall",
     "subcategory_slug": "fire-retardant-coverall",
-    "price": 57,
-    "price_is_fixed": false,
+    "price": 67,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -27997,8 +27997,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Fire Retardant Coverall",
     "subcategory_slug": "fire-retardant-coverall",
-    "price": 59,
-    "price_is_fixed": false,
+    "price": 69,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -28078,8 +28078,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Fire Retardant Coverall 320 GSM",
     "subcategory_slug": "fire-retardant-coverall-320-gsm",
-    "price": 80,
-    "price_is_fixed": false,
+    "price": 90,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -28139,8 +28139,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 120,
-    "price_is_fixed": false,
+    "price": 80,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -28208,8 +28208,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Fire Retardant Coverall",
     "subcategory_slug": "fire-retardant-coverall",
-    "price": 143,
-    "price_is_fixed": false,
+    "price": 92,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -28289,8 +28289,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Fire Retardant Coverall",
     "subcategory_slug": "fire-retardant-coverall",
-    "price": 143,
-    "price_is_fixed": false,
+    "price": 92,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -28359,8 +28359,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Fire Retardant Coverall",
     "subcategory_slug": "fire-retardant-coverall",
-    "price": 80,
-    "price_is_fixed": false,
+    "price": 90,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -28437,8 +28437,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 168,
-    "price_is_fixed": false,
+    "price": 104,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -28504,8 +28504,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Fire Retardant Coverall",
     "subcategory_slug": "fire-retardant-coverall",
-    "price": 141,
-    "price_is_fixed": false,
+    "price": 91,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -28571,8 +28571,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Fire Retardant Coverall",
     "subcategory_slug": "fire-retardant-coverall",
-    "price": 139,
-    "price_is_fixed": false,
+    "price": 90,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -28643,8 +28643,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Fire Retardant Coverall",
     "subcategory_slug": "fire-retardant-coverall",
-    "price": 100,
-    "price_is_fixed": false,
+    "price": 70,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -28722,8 +28722,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "With Pocket",
     "subcategory_slug": "with-pocket",
-    "price": 143,
-    "price_is_fixed": false,
+    "price": 92,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -28791,8 +28791,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 55,
-    "price_is_fixed": false,
+    "price": 48,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -28869,8 +28869,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 66,
-    "price_is_fixed": false,
+    "price": 53,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -28945,8 +28945,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 150,
-    "price_is_fixed": false,
+    "price": 95,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -29006,8 +29006,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Fire Retardant Coverall",
     "subcategory_slug": "fire-retardant-coverall",
-    "price": 329,
-    "price_is_fixed": false,
+    "price": 184,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -29067,8 +29067,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 331,
-    "price_is_fixed": false,
+    "price": 185,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -29121,8 +29121,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 331,
-    "price_is_fixed": false,
+    "price": 185,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -29175,8 +29175,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 353,
-    "price_is_fixed": false,
+    "price": 197,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -29230,8 +29230,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 353,
-    "price_is_fixed": false,
+    "price": 197,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -29284,8 +29284,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Fire Retardant Coverall",
     "subcategory_slug": "fire-retardant-coverall",
-    "price": 122,
-    "price_is_fixed": false,
+    "price": 132,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -29346,8 +29346,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 122,
-    "price_is_fixed": false,
+    "price": 132,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -29407,8 +29407,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 131,
-    "price_is_fixed": false,
+    "price": 141,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -29478,8 +29478,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Fire Retardant Coverall",
     "subcategory_slug": "fire-retardant-coverall",
-    "price": 144,
-    "price_is_fixed": false,
+    "price": 154,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -29539,8 +29539,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Fire Retardant Coverall",
     "subcategory_slug": "fire-retardant-coverall",
-    "price": 157,
-    "price_is_fixed": false,
+    "price": 167,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -29600,8 +29600,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 47,
-    "price_is_fixed": false,
+    "price": 43,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -29660,8 +29660,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 25,
-    "price_is_fixed": false,
+    "price": 32,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -29719,8 +29719,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Pant & Shirt",
     "subcategory_slug": "pant-shirt",
-    "price": 110,
-    "price_is_fixed": false,
+    "price": 75,
+    "price_is_fixed": true,
     "sizes": [
       "30",
       "32",
@@ -29790,8 +29790,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Pant & Shirt",
     "subcategory_slug": "pant-shirt",
-    "price": 65,
-    "price_is_fixed": false,
+    "price": 75,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -29857,8 +29857,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 54,
-    "price_is_fixed": false,
+    "price": 64,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -29923,8 +29923,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Winter Jackets",
     "subcategory_slug": "winter-jackets",
-    "price": 53,
-    "price_is_fixed": false,
+    "price": 63,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -29992,8 +29992,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 53,
-    "price_is_fixed": false,
+    "price": 63,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -30057,8 +30057,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 53,
-    "price_is_fixed": false,
+    "price": 63,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -30125,8 +30125,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "With Pocket",
     "subcategory_slug": "with-pocket",
-    "price": 66,
-    "price_is_fixed": false,
+    "price": 53,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -30185,8 +30185,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "With Pocket",
     "subcategory_slug": "with-pocket",
-    "price": 66,
-    "price_is_fixed": false,
+    "price": 53,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -30245,8 +30245,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "With Pocket",
     "subcategory_slug": "with-pocket",
-    "price": 66,
-    "price_is_fixed": false,
+    "price": 53,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -30305,8 +30305,8 @@
     "category_name": "Safety Vests",
     "subcategory": "With Pocket",
     "subcategory_slug": "with-pocket",
-    "price": 48,
-    "price_is_fixed": false,
+    "price": 75,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -30371,8 +30371,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "With Pocket",
     "subcategory_slug": "with-pocket",
-    "price": 75,
-    "price_is_fixed": false,
+    "price": 58,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -30435,8 +30435,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Safety Jacket",
     "subcategory_slug": "safety-jacket",
-    "price": 48,
-    "price_is_fixed": false,
+    "price": 75,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -30499,8 +30499,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Coverall 190 GSM",
     "subcategory_slug": "coverall-190gsm",
-    "price": 38,
-    "price_is_fixed": false,
+    "price": 39,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -30558,8 +30558,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 38,
-    "price_is_fixed": false,
+    "price": 39,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -30617,8 +30617,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "With Pocket",
     "subcategory_slug": "with-pocket",
-    "price": 38,
-    "price_is_fixed": false,
+    "price": 39,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -30676,8 +30676,8 @@
     "category_name": "Safety Vests",
     "subcategory": "With Pocket",
     "subcategory_slug": "with-pocket",
-    "price": 60,
-    "price_is_fixed": false,
+    "price": 70,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -30746,8 +30746,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 46,
-    "price_is_fixed": false,
+    "price": 43,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -30817,8 +30817,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Fire Retardant Coverall",
     "subcategory_slug": "fire-retardant-coverall",
-    "price": 118,
-    "price_is_fixed": false,
+    "price": 79,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -30887,8 +30887,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "With Pocket",
     "subcategory_slug": "with-pocket",
-    "price": 73,
-    "price_is_fixed": false,
+    "price": 56,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -30944,8 +30944,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 52,
-    "price_is_fixed": false,
+    "price": 46,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -31012,8 +31012,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 53,
-    "price_is_fixed": false,
+    "price": 47,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -31081,8 +31081,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Pant & Shirt",
     "subcategory_slug": "pant-shirt",
-    "price": 35,
-    "price_is_fixed": false,
+    "price": 45,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -31146,8 +31146,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 37,
-    "price_is_fixed": false,
+    "price": 38,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -31216,8 +31216,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 25,
-    "price_is_fixed": false,
+    "price": 31,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -31271,8 +31271,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 29,
-    "price_is_fixed": false,
+    "price": 39,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -31345,8 +31345,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 37,
-    "price_is_fixed": false,
+    "price": 38,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -31419,8 +31419,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 33,
-    "price_is_fixed": false,
+    "price": 37,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -31485,8 +31485,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 27,
-    "price_is_fixed": false,
+    "price": 37,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -31553,8 +31553,8 @@
     "category_name": "Safety Vests",
     "subcategory": "Protective Coverall",
     "subcategory_slug": "protective-coverall",
-    "price": 28,
-    "price_is_fixed": false,
+    "price": 38,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -31624,8 +31624,8 @@
     "category_name": "Safety Vests",
     "subcategory": "With Pocket",
     "subcategory_slug": "with-pocket",
-    "price": 26,
-    "price_is_fixed": false,
+    "price": 36,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -31683,8 +31683,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": null,
     "subcategory_slug": null,
-    "price": 148,
-    "price_is_fixed": false,
+    "price": 94,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -31742,8 +31742,8 @@
     "category_name": "Safety Vests",
     "subcategory": "With Pocket",
     "subcategory_slug": "with-pocket",
-    "price": 26,
-    "price_is_fixed": false,
+    "price": 36,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -31805,8 +31805,8 @@
     "category_name": "Safety Vests",
     "subcategory": "With Pocket",
     "subcategory_slug": "with-pocket",
-    "price": 28,
-    "price_is_fixed": false,
+    "price": 38,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
@@ -31865,8 +31865,8 @@
     "category_name": "Workwear & Uniforms",
     "subcategory": "Cotton Pant & Shirt",
     "subcategory_slug": "cotton-pant-shirt",
-    "price": 73,
-    "price_is_fixed": false,
+    "price": 56,
+    "price_is_fixed": true,
     "sizes": [
       "2XL",
       "3XL",
