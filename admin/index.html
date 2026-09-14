@@ -209,13 +209,21 @@ function sellPrice(p){
   if (p.price_override != null) return Math.max(Math.round(Number(p.price_override)), 1);
   return rulePrice(p);
 }
+function isActualSafetyVest(p){
+  return /\b(?:safety|reflective|hi[ -]?vis(?:ibility)?|mesh|executive|supervisor|engineer)\s+vest\b|\bvest\s+(?:with|without|for)\b/i.test(p.title || '');
+}
+function isPrintableProduct(p){
+  if (p.category_slug === 'uniforms' || p.category_slug === 'helmets') return true;
+  return /\b(?:coverall|pant(?:s)?(?:\s*&\s*shirt|\s+shirt)?|shirt|uniform|lab\s*coat|work\s*jacket|winter\s*jacket|hard\s*hat|helmet)\b/i
+    .test(((p.title || '') + ' ' + (p.subcategory || '')));
+}
 /* Selling-price policy approved 14 September 2026. Safety vests remain
    unchanged. Printable uniforms and helmets use SBM + AED 20; all other
    products use twice the SBM base price. */
 function policyPrice(p){
   const c = Number(p.cost_price) || 0;
-  if (!(c > 0) || p.category_slug === 'safety-vests') return null;
-  if (p.category_slug === 'uniforms' || p.category_slug === 'helmets')
+  if (!(c > 0) || isActualSafetyVest(p)) return null;
+  if (isPrintableProduct(p))
     return Math.max(Math.round(c + 20), 1);
   return Math.max(Math.round(c * 2), 1);
 }
@@ -434,7 +442,7 @@ $('saveAllBtn').onclick = async () => {
 
 $('applyPricePolicyBtn').onclick = async () => {
   const btn = $('applyPricePolicyBtn');
-  const targets = PRODUCTS.filter(p => p.category_slug !== 'safety-vests' && Number(p.cost_price) > 0);
+  const targets = PRODUCTS.filter(p => !isActualSafetyVest(p) && Number(p.cost_price) > 0);
   btn.disabled = true;
   let updated = 0, failed = 0, firstErr = '';
   for (let i = 0; i < targets.length; i += 25) {
