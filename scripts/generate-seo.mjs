@@ -98,12 +98,16 @@ const extraWorkwearFamilies = [
   ['work-jackets-trouser-sets', 'Work Jackets & Trouser Sets', /winter\s*jacket|jacket\s*(?:&|and)\s*trouser|trouser\s*set/i],
   ['specialist-coveralls', 'Specialist Protective Coveralls', /coverall|bib\s*overall|chemical\s*suit|fire\s*fighting\s*suit/i],
   ['other-pant-shirt-sets', 'Other Pant & Shirt Sets', /pant\s*(?:&|and)?\s*shirt|pant\s+shirt|shirt\s*(?:&|and)\s*pant/i],
-  ['workwear-accessories', 'Workwear Accessories', /workwear|uniform|reflective\s*tape|fire\s*fighter\s*hood/i]
+  ['workwear-accessories', 'Workwear Accessories', /^(?:[^,]+,\s*)?reflective\s*tape|fire\s*fighter\s*hood/i]
 ].map(([slug, name, matcher]) => ({ slug, name, matcher, material: 'Additional workwear range', core: false }));
 workwearFamilies.push(...extraWorkwearFamilies);
 
 function workwearFamily(p) {
+  const title = clean(p.title);
+  if (/\bvest\b/i.test(title)) return null;
   const text = clean(`${p.title} ${p.material}`).toLowerCase();
+  const specialist = extraWorkwearFamilies.slice(0, 6).find(x => x.matcher.test(title));
+  if (specialist) return specialist;
   const material = /(?:35\s*\/\s*65|65\s*\/\s*35|35%\s*polyester[^.]{0,40}65%\s*cotton|65%\s*polyester[^.]{0,40}35%\s*cotton)/i.test(text)
     ? '35/65 poly-cotton'
     : /100\s*%\s*(?:polyester\s*)?twill/i.test(text) ? '100% twill'
@@ -113,11 +117,30 @@ function workwearFamily(p) {
   const reflective = /reflect(?:ive|or|orized)|hi[- ]?vis/i.test(text);
   const core = workwearFamilies.find(x => x.core && x.material === material && x.garment === garment && x.reflective === reflective);
   if (core) return core;
-  const title = clean(p.title);
-  return extraWorkwearFamilies.find(x => x.matcher.test(title)) || null;
+  return extraWorkwearFamilies.slice(6).find(x => x.matcher.test(title)) || null;
 }
 
 const colourOf = p => clean(p.colour || (p.title.match(/(?:,|-)\s*([^,]+?)\s+colou?r\b/i)?.[1] || '') || 'See product');
+
+const categoryNames = {
+  'eye-face-protection': 'Eye & Face Protection',
+  'hand-protection': 'Hand Protection',
+  'safety-shoes': 'Safety Shoes',
+  helmets: 'Head Protection',
+  'traffic-safety': 'Traffic & Road Safety',
+  'hardware-tools': 'Hardware - Tools'
+};
+
+function correctMisfiledSafetyVest(p) {
+  if (p.category !== 'safety-vests' || /\bvest\b/i.test(p.title)) return null;
+  const text = clean(`${p.title} ${p.subcategory || ''}`);
+  if (/spectacle|goggle|eyewear|face\s*shield/i.test(text)) return 'eye-face-protection';
+  if (/glove/i.test(text)) return 'hand-protection';
+  if (/safety\s*shoe|protective\s*footwear|\bfootwear\b/i.test(text)) return 'safety-shoes';
+  if (/helmet|hard\s*hat/i.test(text)) return 'helmets';
+  if (/traffic|warning\s*(?:light|tape)|solar\s*warning|baton\s*light/i.test(text)) return 'traffic-safety';
+  return 'hardware-tools';
+}
 
 const defaultCategoryCopy = (name, count) => ({
   title: `${name} Supplier Dubai & UAE`,
@@ -139,6 +162,12 @@ function normalise(p) {
   if (workwearFamily(item)) {
     item.category = 'uniforms';
     item.categoryName = 'Workwear & Uniforms';
+  } else {
+    const correctedCategory = correctMisfiledSafetyVest(item);
+    if (correctedCategory) {
+      item.category = correctedCategory;
+      item.categoryName = categoryNames[correctedCategory];
+    }
   }
   return item;
 }
