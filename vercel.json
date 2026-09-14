@@ -1,5 +1,11 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "rewrites": [
+    {
+      "source": "/assets/catalog/:slug/:name",
+      "destination": "/api/catalog-image?slug=:slug&name=:name"
+    }
+  ],
   "redirects": [
     {
       "source": "/contact",

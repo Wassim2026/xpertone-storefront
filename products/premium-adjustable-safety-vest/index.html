@@ -14,8 +14,8 @@
 <meta property="og:title" content="Premium, Adjustable Safety Vest">
 <meta property="og:description" content="Premium, Adjustable Safety Vest available for bulk supply from Xpertone Creative LLC-FZ in Dubai. Compare available sizes and order for UAE delivery.">
 <meta property="og:url" content="https://www.xpertonecreative.com/products/premium-adjustable-safety-vest/">
-<meta property="og:image" content="https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/7X7/1787161180957-7X7.png">
-<script type="application/ld+json" data-static-product-schema>{"@context":"https://schema.org","@type":"Product","name":"Premium, Adjustable Safety Vest","description":"Premium, Adjustable Safety Vest available for bulk supply from Xpertone Creative LLC-FZ in Dubai. Compare available sizes and order for UAE delivery.","sku":"7X7","image":["https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/7X7/1787161180957-7X7.png"],"brand":{"@type":"Brand","name":"Xpertone Creative LLC-FZ"},"url":"https://www.xpertonecreative.com/products/premium-adjustable-safety-vest/"}</script>
+<meta property="og:image" content="https://www.xpertonecreative.com/assets/catalog/premium-adjustable-safety-vest/premium-adjustable-safety-vest.png">
+<script type="application/ld+json" data-static-product-schema>{"@context":"https://schema.org","@type":"Product","name":"Premium, Adjustable Safety Vest","description":"Premium, Adjustable Safety Vest available for bulk supply from Xpertone Creative LLC-FZ in Dubai. Compare available sizes and order for UAE delivery.","sku":"7X7","image":["https://www.xpertonecreative.com/assets/catalog/premium-adjustable-safety-vest/premium-adjustable-safety-vest.png","https://www.xpertonecreative.com/assets/catalog/premium-adjustable-safety-vest/premium-adjustable-safety-vest--2.png"],"brand":{"@type":"Brand","name":"Xpertone Creative LLC-FZ"},"url":"https://www.xpertonecreative.com/products/premium-adjustable-safety-vest/","offers":{"@type":"Offer","priceCurrency":"AED","price":12,"availability":"https://schema.org/InStock","itemCondition":"https://schema.org/NewCondition","seller":{"@id":"https://www.xpertonecreative.com/#business"},"url":"https://www.xpertonecreative.com/products/premium-adjustable-safety-vest/"}}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.xpertonecreative.com/"},{"@type":"ListItem","position":2,"name":"Safety Vests","item":"https://www.xpertonecreative.com/category/safety-vests/"},{"@type":"ListItem","position":3,"name":"Premium, Adjustable Safety Vest","item":"https://www.xpertonecreative.com/products/premium-adjustable-safety-vest/"}]}</script>
 <meta name="robots" content="index,follow">
 <meta name="theme-color" content="#0E1116">
@@ -33,15 +33,16 @@
 <main id="main">
   <div class="container py-4" id="pdp"><nav aria-label="Breadcrumb" class="mb-3" style="font-size:.85rem"><a href="/">Home</a> / <a href="/category/safety-vests/">Safety Vests</a> / <span>Premium, Adjustable Safety Vest</span></nav>
   <div class="row g-4 g-lg-5">
-    <div class="col-lg-6"><div class="gallery__main"><img src="https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/7X7/1787161180957-7X7.png" alt="Premium, Adjustable Safety Vest" width="800" height="800" decoding="async"></div></div>
+    <div class="col-lg-6"><div class="gallery__main"><img src="https://www.xpertonecreative.com/assets/catalog/premium-adjustable-safety-vest/premium-adjustable-safety-vest.png" alt="Premium, Adjustable Safety Vest" title="Premium, Adjustable Safety Vest" width="800" height="800" decoding="async"></div></div>
     <div class="col-lg-6"><span class="product-card__cat">Safety Vests</span><h1 class="mt-1">Premium, Adjustable Safety Vest</h1>
       
-      <p><strong>AED 12</strong> per piece, excluding VAT - indicative and confirmed on quotation.</p>
+      <p><strong>AED 12</strong> per piece, excluding VAT.</p>
       <p>Premium, Adjustable Safety Vest supplied for trade and project orders in Dubai and across the UAE.</p>
       <p><a class="btn btn-xo" href="/product.html?p=safety-vests-7x7">Choose sizes and order</a></p>
       <ul class="spec-list"><li><b>SKU</b><span>7X7</span></li><li><b>Available sizes</b><span>Yellow</span></li></ul>
     </div>
   </div></div>
+
 
   <section class="section section--alt" id="relatedWrap" hidden>
     <div class="container">
@@ -57,6 +58,7 @@
 <div id="siteFooter"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>window.XO_STATIC_PRODUCT_UID="safety-vests-7x7";</script>
 <script src="assets/js/config.js?v=20260903b"></script>
 <script src="assets/js/store.js?v=20260903b"></script>
 <script src="assets/js/ui.js?v=20260903b"></script>
@@ -145,6 +147,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     var ind = XO.indicative(p);
     var img = p.images[0];
+    var imageLabel = p.title + (p.colour && p.title.toLowerCase().indexOf(String(p.colour).toLowerCase()) < 0 ? ' - ' + p.colour : '');
     var desc = p.description || (isCustomisable
       ? 'Supplied in bulk from our Al Quoz warehouse, with optional logo and text printing. ' +
         'Contact us for artwork proofing and production lead times on large orders.'
@@ -162,7 +165,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         '<div class="col-lg-6">' +
           '<div class="gallery__main">' +
-            (img ? '<img src="' + XO.esc(img) + '" alt="' + XO.esc(p.title) + '" id="mainImg">'
+            (img ? '<img src="' + XO.esc(img) + '" alt="' + XO.esc(imageLabel) + '" title="' + XO.esc(imageLabel) + '" id="mainImg">'
                  : '<i class="fa-solid fa-image fa-3x text-muted-xo"></i>') +
           '</div>' +
           (isCustomisable ? '<div class="mt-4 p-4 border rounded-3" style="background:var(--xo-surface-alt)">' +

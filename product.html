@@ -136,6 +136,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     var ind = XO.indicative(p);
     var img = p.images[0];
+    var imageLabel = p.title + (p.colour && p.title.toLowerCase().indexOf(String(p.colour).toLowerCase()) < 0 ? ' - ' + p.colour : '');
     var desc = p.description || (isCustomisable
       ? 'Supplied in bulk from our Al Quoz warehouse, with optional logo and text printing. ' +
         'Contact us for artwork proofing and production lead times on large orders.'
@@ -153,7 +154,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         '<div class="col-lg-6">' +
           '<div class="gallery__main">' +
-            (img ? '<img src="' + XO.esc(img) + '" alt="' + XO.esc(p.title) + '" id="mainImg">'
+            (img ? '<img src="' + XO.esc(img) + '" alt="' + XO.esc(imageLabel) + '" title="' + XO.esc(imageLabel) + '" id="mainImg">'
                  : '<i class="fa-solid fa-image fa-3x text-muted-xo"></i>') +
           '</div>' +
           (isCustomisable ? '<div class="mt-4 p-4 border rounded-3" style="background:var(--xo-surface-alt)">' +

@@ -6,7 +6,7 @@ const publicProductsUrl = 'https://myodfvshmusywmhdozwt.supabase.co/rest/v1/prod
 const publishableKey = 'sb_publishable_yqVW7IVTIgSarj8nKwVTuQ_zrj80eQ-';
 let products;
 try {
-  const response = await fetch(publicProductsUrl, { headers: { apikey: publishableKey } });
+  const response = await fetch(publicProductsUrl, { headers: { apikey: publishableKey }, signal: AbortSignal.timeout(20000) });
   if (!response.ok) throw new Error(`Supabase responded ${response.status}`);
   products = await response.json();
   fs.writeFileSync(path.join(root, 'data/products-live.json'), `${JSON.stringify(products, null, 2)}\n`);
@@ -21,6 +21,21 @@ const productTemplate = fs.readFileSync(path.join(root, 'product.html'), 'utf8')
 const origin = 'https://www.xpertonecreative.com';
 const today = new Date().toISOString().slice(0, 10);
 const PAGE_SIZE = 24;
+
+const slugify = value => clean(value).toLowerCase().normalize('NFKD')
+  .replace(/[\u0300-\u036f]/g, '').replace(/&/g, ' and ')
+  .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+const imageExt = url => (String(url).match(/\.(avif|webp|png|jpe?g)(?:[?#]|$)/i)?.[1] || 'webp').toLowerCase().replace('jpeg', 'jpg');
+const seoImageName = (p, i) => {
+  const skuPattern = clean(p.sku).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  let label = clean(p.title).replace(/\bpart\s*(?:no|number)\s*[:#-]?\s*[a-z0-9./-]+/ig, '');
+  if (skuPattern) label = label.replace(new RegExp(`\\b${skuPattern}\\b`, 'ig'), '');
+  const colour = clean(p.colour);
+  if (colour && !label.toLowerCase().includes(colour.toLowerCase())) label += ` ${colour}`;
+  const base = slugify(label) || 'product-image';
+  return `${base}${i ? `--${i + 1}` : ''}.${imageExt(p.images[i])}`;
+};
+const seoImages = p => (Array.isArray(p.images) ? p.images : []).map((_, i) => `${origin}/assets/catalog/${encodeURIComponent(p.slug)}/${seoImageName(p, i)}`);
 
 const esc = (value = '') => String(value).replace(/[&<>"']/g, c => ({
   '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
@@ -87,7 +102,8 @@ function normalise(p) {
     uid: uid(p),
     categoryName: p.category_name,
     priceStatus: p.price_is_fixed ? 'fixed' : 'indicative',
-    images: Array.isArray(p.images) ? p.images : [],
+    sourceImages: Array.isArray(p.images) ? p.images : [],
+    images: seoImages(p),
     sizes: Array.isArray(p.sizes) ? p.sizes : []
   };
 }
@@ -108,6 +124,7 @@ function metaDescription(p) {
 
 function staticProductBody(p) {
   const image = p.images[0];
+  const imageLabel = clean(`${p.title}${p.colour && !p.title.toLowerCase().includes(String(p.colour).toLowerCase()) ? ` - ${p.colour}` : ''}`);
   const description = clean(p.description || p.features?.[0] || `${p.title} supplied for trade and project orders in Dubai and across the UAE.`);
   const specs = [
     ['SKU', p.sku], ['Material', p.material], ['Colour', p.colour], ['Standard', p.standard],
@@ -115,7 +132,7 @@ function staticProductBody(p) {
   ].filter(([, v]) => clean(v));
   return `<nav aria-label="Breadcrumb" class="mb-3" style="font-size:.85rem"><a href="/">Home</a> / <a href="/category/${esc(p.category)}/">${esc(p.categoryName)}</a> / <span>${esc(p.title)}</span></nav>
   <div class="row g-4 g-lg-5">
-    <div class="col-lg-6"><div class="gallery__main">${image ? `<img src="${esc(image)}" alt="${esc(p.title)}" width="800" height="800" decoding="async">` : ''}</div></div>
+    <div class="col-lg-6"><div class="gallery__main">${image ? `<img src="${esc(image)}" alt="${esc(imageLabel)}" title="${esc(imageLabel)}" width="800" height="800" decoding="async">` : ''}</div></div>
     <div class="col-lg-6"><span class="product-card__cat">${esc(p.categoryName)}</span><h1 class="mt-1">${esc(p.title)}</h1>
       ${p.subtitle ? `<p class="text-muted-xo">${esc(p.subtitle)}</p>` : ''}
       <p><strong>${money(p.price)}</strong> per piece, excluding VAT${p.priceStatus === 'indicative' ? ' - indicative and confirmed on quotation' : ''}.</p>
@@ -157,7 +174,7 @@ function generateProduct(p) {
     .replace('<title>Product — Xpertone Creative LLC-FZ</title>', `<title>${esc(p.title)} | ${esc(p.categoryName)} Dubai</title>`)
     .replace(/<meta name="description" content="[^"]*">/, `<meta name="description" content="${esc(description)}">\n<link rel="canonical" href="${canonical}">\n<meta property="og:type" content="product">\n<meta property="og:title" content="${esc(p.title)}">\n<meta property="og:description" content="${esc(description)}">\n<meta property="og:url" content="${canonical}">\n<meta property="og:image" content="${esc(image)}">\n<script type="application/ld+json" data-static-product-schema>${JSON.stringify(productSchema(p))}</script>\n<script type="application/ld+json">${JSON.stringify(breadcrumb)}</script>`)
     .replace('<meta name="robots" content="noindex,follow">', '<meta name="robots" content="index,follow">')
-    .replace(/<div class="container py-4" id="pdp">[\s\S]*?<\/div>\n\n  <section class="section section--alt" id="relatedWrap"/, `<div class="container py-4" id="pdp">${staticProductBody(p)}</div>\n\n  <section class="section section--alt" id="relatedWrap"`)
+    .replace(/<div class="container py-4" id="pdp">[\s\S]*?(?=\n\s*<section class="section section--alt" id="relatedWrap")/, `<div class="container py-4" id="pdp">${staticProductBody(p)}</div>\n`)
     .replace(/<script src="assets\/js\/config\.js(?:\?v=[^"]+)?"><\/script>/,
       match => `<script>window.XO_STATIC_PRODUCT_UID=${JSON.stringify(p.uid)};</script>\n${match}`);
   write(path.join(root, 'products', p.slug, 'index.html'), html);
@@ -165,7 +182,8 @@ function generateProduct(p) {
 
 function productCard(p) {
   const image = p.images[0];
-  return `<div class="col-6 col-lg-4 col-xl-3"><article class="product-card"><a class="product-card__media" href="/products/${encodeURIComponent(p.slug)}/">${image ? `<img src="${esc(image)}" alt="${esc(p.title)}" loading="lazy" decoding="async" width="600" height="600">` : ''}</a><div class="product-card__body"><span class="product-card__cat">${esc(p.subcategory || p.categoryName)}</span><h3 class="product-card__title"><a href="/products/${encodeURIComponent(p.slug)}/">${esc(p.title)}</a></h3><div class="product-card__foot"><div class="product-card__price"><b>${money(p.price)}</b><span>${p.priceStatus === 'fixed' ? 'per piece, ex VAT' : 'indicative, ex VAT'}</span></div><a class="btn btn-xo btn-sm-xo" href="/products/${encodeURIComponent(p.slug)}/">View</a></div></div></article></div>`;
+  const imageLabel = clean(`${p.title}${p.colour && !p.title.toLowerCase().includes(String(p.colour).toLowerCase()) ? ` - ${p.colour}` : ''}`);
+  return `<div class="col-6 col-lg-4 col-xl-3"><article class="product-card"><a class="product-card__media" href="/products/${encodeURIComponent(p.slug)}/">${image ? `<img src="${esc(image)}" alt="${esc(imageLabel)}" title="${esc(imageLabel)}" loading="lazy" decoding="async" width="600" height="600">` : ''}</a><div class="product-card__body"><span class="product-card__cat">${esc(p.subcategory || p.categoryName)}</span><h3 class="product-card__title"><a href="/products/${encodeURIComponent(p.slug)}/">${esc(p.title)}</a></h3><div class="product-card__foot"><div class="product-card__price"><b>${money(p.price)}</b><span>${p.priceStatus === 'fixed' ? 'per piece, ex VAT' : 'indicative, ex VAT'}</span></div><a class="btn btn-xo btn-sm-xo" href="/products/${encodeURIComponent(p.slug)}/">View</a></div></div></article></div>`;
 }
 
 function categoryPage(slug, items, page) {
@@ -188,6 +206,35 @@ function categoryPage(slug, items, page) {
   return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><base href="/"><title>${esc(title)}</title><meta name="description" content="${esc(copy.description)}"><link rel="canonical" href="${canonical}">${page > 1 ? '<meta name="robots" content="noindex,follow">' : ''}<meta property="og:type" content="website"><meta property="og:title" content="${esc(copy.title)}"><meta property="og:description" content="${esc(copy.description)}"><meta property="og:url" content="${canonical}"><meta property="og:image" content="${origin}/assets/img/brand/og-xpertone.png"><link rel="icon" type="image/png" sizes="32x32" href="assets/img/brand/favicon-32.png"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"><link rel="stylesheet" href="assets/css/main.css?v=20260903b"><script type="application/ld+json">${JSON.stringify(itemList)}</script><script type="application/ld+json">${JSON.stringify(breadcrumb)}</script></head><body data-page="shop"><a class="skip-link" href="#main">Skip to content</a><div id="siteHeader"></div><main id="main"><section class="section section--alt"><div class="container"><nav aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/shop.html">Shop</a> / <span>${esc(name)}</span></nav><h1 class="mt-3">${esc(copy.title)}</h1><p class="lead">${esc(copy.intro)}</p><p>${items.length} products available in this range.</p></div></section><section class="section"><div class="container"><div class="row g-4">${shown.map(productCard).join('')}</div>${pagination}</div></section>${faq}</main><div id="siteFooter"></div><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script><script src="assets/js/config.js?v=20260903b"></script><script src="assets/js/store.js?v=20260903b"></script><script src="assets/js/ui.js?v=20260903b"></script></body></html>`;
 }
 
+const servicePages = [
+  { slug: 'custom-safety-vest-printing-dubai', title: 'Custom Safety Vest Printing Dubai', description: 'Custom safety vest printing in Dubai for construction, logistics and events. Add company logos to reflective vests with bulk pricing and UAE delivery.', terms: ['vest'], intent: 'printed reflective vests', benefits: ['Logo printing on front, back or both', 'Mixed sizes for site teams', 'Artwork proof before production'] },
+  { slug: 'safety-vest-supplier-dubai', title: 'Safety Vest Supplier Dubai', description: 'Buy reflective safety vests from a Dubai supplier. Compare colours, closures and pocket styles with trade quantities and optional logo printing.', terms: ['vest'], intent: 'safety vest supply', benefits: ['Stocked Dubai range', 'Trade quantity pricing', 'Delivery throughout the UAE'] },
+  { slug: 'construction-uniforms-dubai', title: 'Construction Uniforms Dubai', description: 'Construction uniforms in Dubai with company branding, mixed staff sizes and bulk supply for contractors, maintenance and engineering teams.', terms: ['coverall','pant shirt','pant & shirt','uniform'], intent: 'construction uniforms', benefits: ['Coveralls and two-piece sets', 'Logo printing or embroidery', 'Size planning for complete teams'] },
+  { slug: 'coverall-supplier-dubai', title: 'Coverall Supplier Dubai', description: 'Shop work coveralls in Dubai, including reflective and fire-retardant options where verified. Bulk sizes, branding and UAE delivery.', category: 'uniforms', intent: 'work coveralls', match: 'coverall', benefits: ['Multiple fabrics and colours', 'Eligible logo customization', 'Clear product specifications'] },
+  { slug: 'work-uniform-supplier-uae', title: 'Work Uniform Supplier UAE', description: 'Work uniform supplier for companies across the UAE. Order coordinated workwear, coveralls and pant-shirt sets with branding and bulk sizing.', terms: ['coverall','pant shirt','pant & shirt','uniform'], intent: 'work uniforms', benefits: ['UAE-wide delivery', 'Company branding options', 'Mixed-size team orders'] },
+  { slug: 'safety-helmet-printing-dubai', title: 'Safety Helmet Printing Dubai', description: 'Safety helmet logo printing in Dubai for eligible industrial helmets. Order mixed colours and approve artwork before bulk production.', terms: ['helmet','hard hat'], intent: 'printed safety helmets', benefits: ['Company logo printing', 'Mixed helmet colours', 'Artwork approval before production'] },
+  { slug: 'ppe-supplier-dubai', title: 'PPE Supplier Dubai', description: 'PPE supplier in Dubai for helmets, safety shoes, gloves, eye protection and site safety products with bulk ordering and UAE delivery.', terms: ['helmet','safety shoe','glove','goggle','spectacle','respirator'], intent: 'PPE supply', benefits: ['Broad PPE catalogue', 'Verified details shown per product', 'Trade orders from Al Quoz'] },
+  { slug: 'custom-polo-shirts-dubai', title: 'Custom Polo Shirts Dubai', description: 'Custom polo shirts in Dubai with logo printing or embroidery for company uniforms, events and promotional teams. Request a bulk quotation.', category: 'uniforms', intent: 'custom polo shirts', match: 'polo', benefits: ['Printing and embroidery options', 'Brand colour matching', 'Bulk company orders'] },
+  { slug: 'dtf-printing-dubai', title: 'DTF Printing Dubai', description: 'DTF garment printing in Dubai for company logos, uniforms, T-shirts and promotional clothing with artwork review and bulk quotations.', category: 'uniforms', intent: 'DTF printing', benefits: ['Detailed multicolour logos', 'Suitable garment review', 'Artwork proof before production'] },
+  { slug: 'embroidery-dubai', title: 'Embroidery Dubai for Uniforms & Polo Shirts', description: 'Company logo embroidery in Dubai for polo shirts, uniforms and workwear. Get advice on stitch size, placement and bulk garment orders.', category: 'uniforms', intent: 'logo embroidery', benefits: ['Durable professional finish', 'Logo placement guidance', 'Bulk uniform quotations'] }
+];
+
+function servicePage(page) {
+  let items = page.terms ? list.filter(p => page.terms.some(term => `${p.title} ${p.subcategory || ''}`.toLowerCase().includes(term))) : (page.categories ? list.filter(p => page.categories.includes(p.category)) : list.filter(p => p.category === page.category));
+  if (page.match) items = items.filter(p => `${p.title} ${p.subcategory || ''}`.toLowerCase().includes(page.match));
+  items = items.slice(0, 8);
+  const canonical = `${origin}/${page.slug}/`;
+  const faq = [
+    [`Can I request a bulk quote for ${page.intent}?`, 'Yes. Send the products, quantities, size split, branding requirement and delivery location for an itemised quotation.'],
+    ['Do you deliver outside Dubai?', 'Yes. Xpertone Creative LLC-FZ supplies customers throughout the United Arab Emirates.'],
+    ['How do I send my logo?', 'Start the quotation on WhatsApp or the contact form. The team will request suitable artwork and confirm placement before production.']
+  ];
+  const schema = { '@context':'https://schema.org', '@type':'Service', name:page.title, description:page.description, areaServed:{'@type':'Country',name:'United Arab Emirates'}, provider:{'@id':`${origin}/#business`}, url:canonical };
+  const breadcrumb = { '@context':'https://schema.org', '@type':'BreadcrumbList', itemListElement:[{'@type':'ListItem',position:1,name:'Home',item:`${origin}/`},{'@type':'ListItem',position:2,name:page.title,item:canonical}] };
+  const faqSchema = { '@context':'https://schema.org', '@type':'FAQPage', mainEntity:faq.map(([q,a])=>({'@type':'Question',name:q,acceptedAnswer:{'@type':'Answer',text:a}})) };
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><base href="/"><title>${esc(page.title)} | Xpertone Creative LLC-FZ</title><meta name="description" content="${esc(page.description)}"><meta name="robots" content="index,follow"><link rel="canonical" href="${canonical}"><meta property="og:type" content="website"><meta property="og:title" content="${esc(page.title)}"><meta property="og:description" content="${esc(page.description)}"><meta property="og:url" content="${canonical}"><meta property="og:image" content="${origin}/assets/img/brand/og-xpertone.png"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"><link rel="stylesheet" href="assets/css/main.css?v=20260914"><script type="application/ld+json">${JSON.stringify(schema)}</script><script type="application/ld+json">${JSON.stringify(breadcrumb)}</script><script type="application/ld+json">${JSON.stringify(faqSchema)}</script></head><body data-page="shop"><a class="skip-link" href="#main">Skip to content</a><div id="siteHeader"></div><main id="main"><section class="section section--alt"><div class="container"><nav aria-label="Breadcrumb"><a href="/">Home</a> / <span>${esc(page.title)}</span></nav><div class="row align-items-center g-4 mt-1"><div class="col-lg-8"><h1>${esc(page.title)}</h1><p class="lead">${esc(page.description)}</p><div class="d-flex gap-2 flex-wrap"><a class="btn btn-wa" href="https://wa.me/971545832318?text=${encodeURIComponent(`Hello, I need a quote for ${page.intent}.`)}" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> Get a WhatsApp quote</a><a class="btn btn-outline-xo" href="/contact.html#quote">Send requirements</a></div></div><div class="col-lg-4"><div class="faq-grid">${page.benefits.map(x=>`<article><p class="mb-0"><i class="fa-solid fa-circle-check"></i> ${esc(x)}</p></article>`).join('')}</div></div></div></div></section><section class="section"><div class="container"><h2>Products for ${esc(page.intent)}</h2><p>Compare relevant catalogue items, current guide prices and available sizes. Final branding, lead time and delivery are confirmed with your quotation.</p><div class="row g-4 mt-2">${items.length ? items.map(productCard).join('') : `<div class="col-12"><p>Ask the team for the current ${esc(page.intent)} range and a quotation based on your quantity.</p></div>`}</div></div></section><section class="section section--alt"><div class="container"><h2>Ordering in Dubai and the UAE</h2><p>Xpertone Creative LLC-FZ supplies businesses from Al Quoz, Dubai. Tell us the item, colour, size split, quantity, logo positions and required date. We review availability and artwork before confirming production.</p><div class="faq-grid mt-4">${faq.map(([q,a])=>`<article><h3>${esc(q)}</h3><p>${esc(a)}</p></article>`).join('')}</div></div></section></main><div id="siteFooter"></div><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script><script src="assets/js/config.js?v=20260914"></script><script src="assets/js/store.js?v=20260914"></script><script src="assets/js/ui.js?v=20260914"></script></body></html>`;
+}
+
 fs.rmSync(path.join(root, 'products'), { recursive: true, force: true });
 fs.rmSync(path.join(root, 'category'), { recursive: true, force: true });
 for (const p of list) generateProduct(p);
@@ -198,18 +245,20 @@ for (const [slug, items] of groups) {
     write(target, categoryPage(slug, items, page));
   }
 }
+for (const page of servicePages) write(path.join(root, page.slug, 'index.html'), servicePage(page));
 
 const staticUrls = [
   [`${origin}/`, 'weekly', '1.0'], [`${origin}/shop.html`, 'daily', '0.8'],
-  [`${origin}/about.html`, 'monthly', '0.6'], [`${origin}/contact.html`, 'monthly', '0.7']
+  [`${origin}/about.html`, 'monthly', '0.6'], [`${origin}/contact.html`, 'monthly', '0.7'],
+  ...servicePages.map(page => [`${origin}/${page.slug}/`, 'weekly', '0.9'])
 ];
 const xml = rows => `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${rows.map(([url, freq, priority]) => `  <url><loc>${esc(url)}</loc><lastmod>${today}</lastmod><changefreq>${freq}</changefreq><priority>${priority}</priority></url>`).join('\n')}\n</urlset>\n`;
 write(path.join(root, 'sitemap-pages.xml'), xml(staticUrls));
 write(path.join(root, 'sitemap-categories.xml'), xml([...groups.keys()].map(slug => [categoryUrl(slug), 'weekly', '0.8'])));
 write(path.join(root, 'sitemap-products.xml'), xml(list.map(p => [productUrl(p), 'weekly', '0.6'])));
-write(path.join(root, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <sitemap><loc>${origin}/sitemap-pages.xml</loc><lastmod>${today}</lastmod></sitemap>\n  <sitemap><loc>${origin}/sitemap-categories.xml</loc><lastmod>${today}</lastmod></sitemap>\n  <sitemap><loc>${origin}/sitemap-products.xml</loc><lastmod>${today}</lastmod></sitemap>\n</sitemapindex>\n`);
+write(path.join(root, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <sitemap><loc>${origin}/sitemap-pages.xml</loc><lastmod>${today}</lastmod></sitemap>\n  <sitemap><loc>${origin}/sitemap-categories.xml</loc><lastmod>${today}</lastmod></sitemap>\n  <sitemap><loc>${origin}/sitemap-products.xml</loc><lastmod>${today}</lastmod></sitemap>\n  <sitemap><loc>${origin}/sitemap-blog.xml</loc><lastmod>${today}</lastmod></sitemap>\n</sitemapindex>\n`);
 
 const redirect = (to, title) => `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex,follow"><link rel="canonical" href="${to}"><meta http-equiv="refresh" content="0;url=${to}"><title>${esc(title)}</title></head><body><p>This page moved to <a href="${to}">${esc(title)}</a>.</p></body></html>`;
 write(path.join(root, 'category', 'shoes', 'index.html'), redirect(`${origin}/category/safety-shoes/`, 'Safety Shoes'));
 
-console.log(JSON.stringify({ products: list.length, categories: groups.size, categoryPages: [...groups.values()].reduce((n, x) => n + Math.ceil(x.length / PAGE_SIZE), 0) }));
+console.log(JSON.stringify({ products: list.length, categories: groups.size, servicePages: servicePages.length, categoryPages: [...groups.values()].reduce((n, x) => n + Math.ceil(x.length / PAGE_SIZE), 0) }));

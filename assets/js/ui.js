@@ -311,7 +311,7 @@
     mount.innerHTML =
       '<footer class="site-footer"><div class="container">' +
         '<div class="row g-4 g-lg-5">' +
-          '<div class="col-lg-4">' +
+          '<div class="col-lg-3">' +
             '<span class="brand mb-3"><img class="brand__logo brand__logo--footer" src="/assets/img/brand/xpertone-logo.png" alt="Xpertone Creative LLC-FZ"></span>' +
             '<p style="font-size:.92rem;max-width:34ch">Bulk safety wear and custom uniform printing for UAE ' +
             'construction, logistics and facilities teams. Supplied from our Al Quoz warehouse.</p>' +
@@ -320,12 +320,19 @@
           '</div>' +
           '<div class="col-6 col-lg-2"><h4>Shop</h4><ul>' + catLinks +
             '<li><a href="shop.html">All products</a></li></ul></div>' +
+          '<div class="col-6 col-lg-2"><h4>Services</h4><ul>' +
+            '<li><a href="/custom-safety-vest-printing-dubai/">Vest printing</a></li>' +
+            '<li><a href="/construction-uniforms-dubai/">Construction uniforms</a></li>' +
+            '<li><a href="/safety-helmet-printing-dubai/">Helmet printing</a></li>' +
+            '<li><a href="/ppe-supplier-dubai/">PPE supply</a></li>' +
+            '<li><a href="/dtf-printing-dubai/">DTF printing</a></li>' +
+            '<li><a href="/embroidery-dubai/">Embroidery</a></li></ul></div>' +
           '<div class="col-6 col-lg-2"><h4>Company</h4><ul>' +
             '<li><a href="about.html">About us</a></li>' +
             '<li><a href="contact.html">Contact</a></li>' +
             '<li><a href="contact.html#quote">Request a quote</a></li>' +
             '<li><a href="shop.html">Bulk pricing</a></li></ul></div>' +
-          '<div class="col-lg-4"><h4>Get in touch</h4><ul class="footer-contact">' +
+          '<div class="col-lg-3"><h4>Get in touch</h4><ul class="footer-contact">' +
             '<li><i class="fa-solid fa-location-dot"></i><span>' + XO.esc(C.address) + '</span></li>' +
             '<li><i class="fa-solid fa-phone"></i><a href="tel:+' + C.phoneRaw + '">' + XO.esc(C.phone) + '</a></li>' +
             '<li><i class="fa-solid fa-envelope"></i><a href="mailto:' + C.email + '">' + XO.esc(C.email) + '</a></li>' +
@@ -373,7 +380,7 @@
           badge +
           '<a class="product-card__media" href="/products/' + encodeURIComponent(p.slug || p.uid) + '/" aria-label="' + XO.esc(p.title) + '">' +
             (p.images[0]
-              ? '<img src="' + XO.esc(XO.productImage(p.images[0])) + '" alt="' + XO.esc(p.title) + '" loading="lazy" decoding="async" width="600" height="600">'
+              ? '<img src="' + XO.esc(XO.productImage(p.images[0])) + '" alt="' + XO.esc(p.title + (p.colour && p.title.toLowerCase().indexOf(String(p.colour).toLowerCase()) < 0 ? ' - ' + p.colour : '')) + '" title="' + XO.esc(p.title + (p.colour && p.title.toLowerCase().indexOf(String(p.colour).toLowerCase()) < 0 ? ' - ' + p.colour : '')) + '" loading="lazy" decoding="async" width="600" height="600">'
               : '<i class="fa-solid fa-image fa-2x text-muted-xo"></i>') +
           '</a>' +
           '<div class="product-card__body">' +

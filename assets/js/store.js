@@ -102,6 +102,16 @@
     }
   };
 
+  function seoProductImages(product, images) {
+    return (images || []).map(function (url, index) {
+      var ext = (String(url).match(/\.(avif|webp|png|jpe?g)(?:[?#]|$)/i) || [,'webp'])[1].toLowerCase().replace('jpeg', 'jpg');
+      var label = String(product.title || '').replace(/\bpart\s*(?:no|number)\s*[:#-]?\s*[a-z0-9./-]+/ig, '');
+      if (product.sku) label = label.replace(new RegExp('\\b' + String(product.sku).replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'ig'), '');
+      if (product.colour && label.toLowerCase().indexOf(String(product.colour).toLowerCase()) < 0) label += ' ' + product.colour;
+      return '/assets/catalog/' + product.slug + '/' + XO.slug(label) + (index ? '--' + (index + 1) : '') + '.' + ext;
+    });
+  }
+
   function optimiseProductImages(root) {
     var scope = root || document;
     if (scope.nodeType === 1 && scope.tagName === 'IMG') {
@@ -282,7 +292,7 @@
       return fetchPage(0, [])
         .then(function (rows) {
           return rows.map(function (row) {
-            return {
+            var product = {
               id: row.sku,
               sku: row.sku,
               subcategory: row.subcategory || '',
@@ -295,7 +305,7 @@
               price: Number(row.price),
               priceStatus: row.price_is_fixed ? 'fixed' : 'indicative',
               sizes: row.sizes || [],
-              images: row.images || [],
+              images: [],
               imageSource: 'remart',
               attribute: row.attribute || '',
               description: row.description || '',
@@ -311,6 +321,8 @@
               dimensions: row.dimensions || '',
               page: row.catalogue_page || 0
             };
+            product.images = seoProductImages(product, row.images || []);
+            return product;
           });
         });
     },
