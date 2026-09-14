@@ -87,10 +87,23 @@ const workwearFamilies = [
   ['100-cotton-coverall-with-reflector', '100% Cotton Coverall With Reflector', '100% cotton', 'coverall', true],
   ['100-cotton-pant-shirt-without-reflector', '100% Cotton Pant & Shirt Without Reflector', '100% cotton', 'pant-and-shirt', false],
   ['100-cotton-pant-shirt-with-reflector', '100% Cotton Pant & Shirt With Reflector', '100% cotton', 'pant-and-shirt', true]
-].map(([slug, name, material, garment, reflective]) => ({ slug, name, material, garment, reflective }));
+].map(([slug, name, material, garment, reflective]) => ({ slug, name, material, garment, reflective, core: true }));
+
+const extraWorkwearFamilies = [
+  ['fire-retardant-coveralls', 'Fire Retardant Coveralls', /(?:fire\s*retardant|\bfr\b|\bifr\b|aramid|proban|arc flash|welding).*coverall|coverall.*(?:fire\s*retardant|\bfr\b|\bifr\b|aramid|proban|arc flash|welding)/i],
+  ['fire-retardant-pant-shirt', 'Fire Retardant Pant & Shirt', /(?:fire\s*retardant|\bfr\b|\bifr\b|aramid|proban|arc flash|welding).*(?:pant|shirt)|(?:pant|shirt).*(?:fire\s*retardant|\bfr\b|\bifr\b|aramid|proban|arc flash|welding)/i],
+  ['disposable-coveralls', 'Disposable Coveralls', /disposable.*coverall|coverall.*disposable|microporous.*coverall/i],
+  ['lab-coats', 'Lab Coats', /lab\s*coat/i],
+  ['cargo-pants', 'Cargo Pants', /cargo\s*(?:pant|trouser)/i],
+  ['work-jackets-trouser-sets', 'Work Jackets & Trouser Sets', /winter\s*jacket|jacket\s*(?:&|and)\s*trouser|trouser\s*set/i],
+  ['specialist-coveralls', 'Specialist Protective Coveralls', /coverall|bib\s*overall|chemical\s*suit|fire\s*fighting\s*suit/i],
+  ['other-pant-shirt-sets', 'Other Pant & Shirt Sets', /pant\s*(?:&|and)?\s*shirt|pant\s+shirt|shirt\s*(?:&|and)\s*pant/i],
+  ['workwear-accessories', 'Workwear Accessories', /workwear|uniform|reflective\s*tape|fire\s*fighter\s*hood/i]
+].map(([slug, name, matcher]) => ({ slug, name, matcher, material: 'Additional workwear range', core: false }));
+workwearFamilies.push(...extraWorkwearFamilies);
 
 function workwearFamily(p) {
-  const text = clean(`${p.title} ${p.subtitle} ${p.description} ${p.material}`).toLowerCase();
+  const text = clean(`${p.title} ${p.material}`).toLowerCase();
   const material = /(?:35\s*\/\s*65|65\s*\/\s*35|35%\s*polyester[^.]{0,40}65%\s*cotton|65%\s*polyester[^.]{0,40}35%\s*cotton)/i.test(text)
     ? '35/65 poly-cotton'
     : /100\s*%\s*(?:polyester\s*)?twill/i.test(text) ? '100% twill'
@@ -98,7 +111,10 @@ function workwearFamily(p) {
   const garment = /pant\s*(?:&|and)?\s*shirt|pant\s+shirt|shirt\s*(?:&|and)\s*pant/i.test(text)
     ? 'pant-and-shirt' : /coverall/i.test(text) ? 'coverall' : null;
   const reflective = /reflect(?:ive|or|orized)|hi[- ]?vis/i.test(text);
-  return workwearFamilies.find(x => x.material === material && x.garment === garment && x.reflective === reflective) || null;
+  const core = workwearFamilies.find(x => x.core && x.material === material && x.garment === garment && x.reflective === reflective);
+  if (core) return core;
+  const title = clean(p.title);
+  return extraWorkwearFamilies.find(x => x.matcher.test(title)) || null;
 }
 
 const colourOf = p => clean(p.colour || (p.title.match(/(?:,|-)\s*([^,]+?)\s+colou?r\b/i)?.[1] || '') || 'See product');
@@ -223,15 +239,18 @@ function workwearFamilyPage(family, items) {
 function workwearHub(familyGroups, otherItems) {
   const available = workwearFamilies.filter(f => (familyGroups.get(f.slug) || []).length);
   const count = available.reduce((n, f) => n + familyGroups.get(f.slug).length, 0) + otherItems.length;
-  const cards = workwearFamilies.map(f => {
+  const familyCard = f => {
     const items = familyGroups.get(f.slug) || [];
     const image = items[0]?.images?.[0];
     return `<div class="col-md-6 col-xl-4"><article class="workwear-family-card${items.length ? '' : ' is-empty'}">${image ? `<img src="${esc(image)}" alt="${esc(f.name)}" loading="lazy" width="600" height="420">` : ''}<div><p class="workwear-family-card__eyebrow">${esc(f.material)}</p><h2>${items.length ? `<a href="/category/uniforms/${f.slug}/">${esc(f.name)}</a>` : esc(f.name)}</h2><p>${items.length ? `${items.length} colour variation${items.length === 1 ? '' : 's'} available` : 'No published colour variations at present'}</p>${items.length ? `<a class="btn btn-xo btn-sm-xo" href="/category/uniforms/${f.slug}/">View colours</a>` : ''}</div></article></div>`;
-  }).join('');
-  const other = otherItems.length ? `<section class="section"><div class="container"><h2>Other workwear and uniforms</h2><p class="text-muted-xo">Specialist, disposable and related workwear remain available below.</p><div class="row g-4">${otherItems.map(productCard).join('')}</div></div></section>` : '';
+  };
+  const coreCards = workwearFamilies.filter(f => f.core).map(familyCard).join('');
+  const additionalCards = workwearFamilies.filter(f => !f.core && (familyGroups.get(f.slug) || []).length).map(familyCard).join('');
+  const additional = additionalCards ? `<section class="section section--alt"><div class="container"><h2>Additional Workwear Categories</h2><p class="text-muted-xo">Specialist garments and supporting workwear are grouped by product type, with their colour options kept inside each range.</p><div class="row g-4">${additionalCards}</div></div></section>` : '';
+  const other = otherItems.length ? `<section class="section"><div class="container"><h2>Unclassified workwear</h2><p class="text-muted-xo">These products need a clearer product name or material specification before they can be placed in a dedicated range.</p><div class="row g-4">${otherItems.map(productCard).join('')}</div></div></section>` : '';
   const canonical = categoryUrl('uniforms');
   const description = 'Shop workwear in Dubai by fabric, garment type and reflective option. Browse 35/65, 100% twill and 100% cotton coveralls and pant-and-shirt sets with colour variations.';
-  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><base href="/"><title>Workwear by Fabric & Reflective Type Dubai | Xpertone Creative</title><meta name="description" content="${description}"><link rel="canonical" href="${canonical}"><meta property="og:type" content="website"><meta property="og:title" content="Workwear by Fabric & Reflective Type Dubai"><meta property="og:description" content="${description}"><meta property="og:url" content="${canonical}"><meta property="og:image" content="${origin}/assets/img/brand/og-xpertone.png"><link rel="icon" type="image/png" sizes="32x32" href="assets/img/brand/favicon-32.png"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"><link rel="stylesheet" href="assets/css/main.css?v=20260903b"></head><body data-page="shop"><a class="skip-link" href="#main">Skip to content</a><div id="siteHeader"></div><main id="main"><section class="section section--alt"><div class="container"><nav aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/shop.html">Shop</a> / <span>Workwear &amp; Uniforms</span></nav><h1 class="mt-3">Workwear &amp; Uniforms</h1><p class="lead">Choose by fabric, garment format and reflective requirement. Colour variations stay together inside each dedicated range.</p><p>${count} published products are available across these ranges and specialist workwear.</p></div></section><section class="section"><div class="container"><div class="row g-4">${cards}</div></div></section>${other}<section class="section section--alt"><div class="container"><h2>Workwear supplier in Dubai and the UAE</h2><p>Compare 35/65 poly-cotton, 100% twill and 100% cotton options for coveralls or coordinated pant-and-shirt sets. Select reflective or non-reflective construction according to the workplace requirement, then choose the preferred colour and size mix.</p></div></section></main><div id="siteFooter"></div><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script><script src="assets/js/config.js?v=20260903b"></script><script src="assets/js/store.js?v=20260903b"></script><script src="assets/js/ui.js?v=20260903b"></script></body></html>`;
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><base href="/"><title>Workwear by Fabric & Reflective Type Dubai | Xpertone Creative</title><meta name="description" content="${description}"><link rel="canonical" href="${canonical}"><meta property="og:type" content="website"><meta property="og:title" content="Workwear by Fabric & Reflective Type Dubai"><meta property="og:description" content="${description}"><meta property="og:url" content="${canonical}"><meta property="og:image" content="${origin}/assets/img/brand/og-xpertone.png"><link rel="icon" type="image/png" sizes="32x32" href="assets/img/brand/favicon-32.png"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"><link rel="stylesheet" href="assets/css/main.css?v=20260903b"></head><body data-page="shop"><a class="skip-link" href="#main">Skip to content</a><div id="siteHeader"></div><main id="main"><section class="section section--alt"><div class="container"><nav aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/shop.html">Shop</a> / <span>Workwear &amp; Uniforms</span></nav><h1 class="mt-3">Workwear &amp; Uniforms</h1><p class="lead">Choose by fabric, garment format and reflective requirement. Colour variations stay together inside each dedicated range.</p><p>${count} published products are available across these ranges and specialist workwear.</p></div></section><section class="section"><div class="container"><h2>Core Workwear Categories</h2><div class="row g-4">${coreCards}</div></div></section>${additional}${other}<section class="section section--alt"><div class="container"><h2>Workwear supplier in Dubai and the UAE</h2><p>Compare 35/65 poly-cotton, 100% twill and 100% cotton options for coveralls or coordinated pant-and-shirt sets. Select reflective or non-reflective construction according to the workplace requirement, then choose the preferred colour and size mix.</p></div></section></main><div id="siteFooter"></div><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script><script src="assets/js/config.js?v=20260903b"></script><script src="assets/js/store.js?v=20260903b"></script><script src="assets/js/ui.js?v=20260903b"></script></body></html>`;
 }
 
 function categoryPage(slug, items, page) {
