@@ -340,6 +340,8 @@ hr { border: 0; border-top: 1px solid var(--xo-line); opacity: 1; margin: 2rem 0
 
 .product-card__body { padding: 1.15rem 1.2rem 1.25rem; display: flex; flex-direction: column; flex: 1 1 auto; }
 .product-card__cat { font-size: .7rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--xo-muted); }
+.product-card__sku { margin-top: .25rem; font-size: .72rem; font-weight: 800; letter-spacing: .04em; color: #667085; }
+.product-sku { display: inline-block; margin: .15rem 0 .5rem; padding: .35rem .65rem; border: 1px solid var(--xo-line); border-radius: .35rem; background: #f8fafc; color: var(--xo-muted); font-size: .84rem; letter-spacing: .03em; }
 .product-card__title {
   font-size: .97rem; font-weight: 700; color: var(--xo-ink);
   margin: .3rem 0 .5rem; line-height: 1.35;

@@ -114,7 +114,7 @@
       '.xo-col__sub{display:flex;justify-content:space-between;gap:8px;font-weight:500;font-size:13px;color:#5b6472;padding:5px 8px 5px 16px;border-radius:8px;text-decoration:none}' +
       '.xo-col__sub:hover{background:#f5f6f8;color:#12151b}' +
       '.xo-col__more{display:block;font-size:12px;color:#8a93a2;padding:4px 8px 4px 16px;text-decoration:none}' +
-      '.product-card__sku{margin-left:6px;font-size:11px;letter-spacing:.4px;color:#98a1ae;font-weight:700}' +
+      '.product-card__sku{margin-top:4px;font-size:11px;letter-spacing:.4px;color:#667085;font-weight:800}' +
       '@media(max-width:1199.98px){.xo-nav{display:none}}';
     var s = document.createElement('style');
     s.id = 'xoNavCss';
@@ -393,8 +393,8 @@
               : '<i class="fa-solid fa-image fa-2x text-muted-xo"></i>') +
           '</a>' +
           '<div class="product-card__body">' +
-            '<span class="product-card__cat">' + XO.esc(p.subcategory || p.categoryName) +
-              (p.sku ? '<span class="product-card__sku">' + XO.esc(p.sku) + '</span>' : '') + '</span>' +
+            '<span class="product-card__cat">' + XO.esc(p.subcategory || p.categoryName) + '</span>' +
+            (p.sku ? '<div class="product-card__sku">SKU: ' + XO.esc(p.sku) + '</div>' : '') +
             '<h3 class="product-card__title"><a href="/products/' + encodeURIComponent(p.slug || p.uid) + '/">' + XO.esc(p.title) + '</a></h3>' +
             '<div class="product-card__sizes"><i class="fa-solid fa-ruler"></i> ' + XO.esc(sizes) + '</div>' +
             '<div class="product-card__foot">' +
