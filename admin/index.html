@@ -52,7 +52,7 @@ main{padding:26px;max-width:1540px;margin:0 auto}.pagehead{display:flex;align-it
     <button class="g" id="outBtn">Sign out</button>
   </header>
   <main>
-    <div class="pagehead"><div><h1>Products</h1><p>Find, price and publish catalogue items.</p></div><span class="sp"></span><button class="y" id="newTopBtn">+ Add product</button></div>
+    <div class="pagehead"><div><h1>Products</h1><p>Find, price and publish catalogue items.</p></div><span class="sp"></span><button class="g" id="applyPricePolicyBtn">Apply current price policy</button><button class="y" id="newTopBtn">+ Add product</button></div>
     <div class="stats">
       <div class="stat">All products <b id="sCount">—</b></div>
       <div class="stat live">Visible on site <b id="sVisible">—</b></div>
@@ -72,7 +72,7 @@ main{padding:26px;max-width:1540px;margin:0 auto}.pagehead{display:flex;align-it
     <details class="rules">
         <summary>Automatic price rules</summary><div style="padding-top:7px">Used whenever “My price” is empty.<br>
         <b>Safety vests:</b> cost ≤5 → <code>12</code> · 5–9 → <code>20</code> · 9–15 → <code>25</code> · over 15 → <code>cost + 10</code><br>
-        <b>Workwear &amp; uniforms:</b> <code>cost × 2</code> &nbsp;·&nbsp; <b>Safety shoes:</b> <code>cost + 15</code> &nbsp;·&nbsp; <b>Everything else:</b> <code>cost × 2</code><br>
+        <b>Workwear &amp; uniforms:</b> <code>SBM + AED 20</code> &nbsp;·&nbsp; <b>Head protection:</b> <code>SBM + AED 20</code> &nbsp;·&nbsp; <b>Everything else except safety vests:</b> <code>SBM × 2</code><br>
         <span class="muted">Enter “My price” to override the rule. Clear it to return to automatic pricing.</span></div>
     </details>
     <div class="filters">
@@ -190,10 +190,8 @@ function rulePrice(p){
   let v;
   if (p.category_slug === 'safety-vests') {
     v = c <= 5 ? 12 : c <= 9 ? 20 : c <= 15 ? 25 : c + 10;
-  } else if (p.category_slug === 'uniforms') {
-    v = c * 2;
-  } else if (p.category_slug === 'safety-shoes') {
-    v = c + 15;
+  } else if (p.category_slug === 'uniforms' || p.category_slug === 'helmets') {
+    v = c + 20;
   } else {
     v = c * 2;
   }
@@ -203,13 +201,23 @@ function ruleLabel(p){
   const c = Number(p.cost_price) || 0;
   if (p.category_slug === 'safety-vests')
     return c <= 5 ? 'vest band ≤5' : c <= 9 ? 'vest band 5–9' : c <= 15 ? 'vest band 9–15' : 'vest, cost + 10';
-  if (p.category_slug === 'uniforms')     return 'uniforms, cost × 2';
-  if (p.category_slug === 'safety-shoes') return 'shoes, cost + 15';
-  return 'cost × 2';
+  if (p.category_slug === 'uniforms') return 'printable uniform, SBM + AED 20';
+  if (p.category_slug === 'helmets')  return 'printable helmet, SBM + AED 20';
+  return 'SBM × 2';
 }
 function sellPrice(p){
   if (p.price_override != null) return Math.max(Math.round(Number(p.price_override)), 1);
   return rulePrice(p);
+}
+/* Selling-price policy approved 14 September 2026. Safety vests remain
+   unchanged. Printable uniforms and helmets use SBM + AED 20; all other
+   products use twice the SBM base price. */
+function policyPrice(p){
+  const c = Number(p.cost_price) || 0;
+  if (!(c > 0) || p.category_slug === 'safety-vests') return null;
+  if (p.category_slug === 'uniforms' || p.category_slug === 'helmets')
+    return Math.max(Math.round(c + 20), 1);
+  return Math.max(Math.round(c * 2), 1);
 }
 function priceSource(p){
   if (p.price_override != null) return '<span class="pill f">My price</span>';
@@ -422,6 +430,32 @@ $('saveAllBtn').onclick = async () => {
   $('saveAllBtn').disabled = false;
   if (fail) note('amsg', ok+' saved, '+fail+' failed — '+firstErr, 'e');
   else note('amsg', ok+' price'+(ok===1?'':'s')+' saved. The website shows them immediately.', 's');
+};
+
+$('applyPricePolicyBtn').onclick = async () => {
+  const btn = $('applyPricePolicyBtn');
+  const targets = PRODUCTS.filter(p => p.category_slug !== 'safety-vests' && Number(p.cost_price) > 0);
+  btn.disabled = true;
+  let updated = 0, failed = 0, firstErr = '';
+  for (let i = 0; i < targets.length; i += 25) {
+    const batch = targets.slice(i, i + 25);
+    const results = await Promise.all(batch.map(async p => {
+      const value = policyPrice(p);
+      const { error } = await sb.from('products').update({ price_override: value }).eq('id', p.id);
+      if (error) { if (!firstErr) firstErr = error.message; return false; }
+      p.price_override = value;
+      return true;
+    }));
+    updated += results.filter(Boolean).length;
+    failed += results.filter(ok => !ok).length;
+    btn.textContent = 'Applying… ' + (updated + failed) + '/' + targets.length;
+  }
+  DIRTY.clear(); updateSaveBar(); render();
+  btn.disabled = false;
+  btn.textContent = 'Apply current price policy';
+  note('amsg', failed
+    ? updated + ' prices updated; ' + failed + ' failed — ' + firstErr
+    : updated + ' prices updated. Safety vests were left unchanged.', failed ? 'e' : 's');
 };
 
 function openDrawer(p){
