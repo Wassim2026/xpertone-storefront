@@ -379,6 +379,7 @@
      ======================================================================= */
   window.ProductCard = function (p) {
     var sizes = p.sizes.length ? p.sizes.join(' · ') : 'One size';
+    var unit = ({ pairs: 'pair', pair: 'pair', doz: 'dozen', dozen: 'dozen', mono: 'mono', pcs: 'piece', piece: 'piece' }[String(p.unit || '').toLowerCase()] || String(p.unit || 'piece').toLowerCase());
     var badge = p.attribute
       ? '<span class="badge-xo badge-xo--amber product-card__badge">' + XO.esc(p.attribute) + '</span>'
       : '';
@@ -399,7 +400,7 @@
             '<div class="product-card__sizes"><i class="fa-solid fa-ruler"></i> ' + XO.esc(sizes) + '</div>' +
             '<div class="product-card__foot">' +
               '<div class="product-card__price"><b class="num">' + XO.money(p.price) + '</b>' +
-                '<span>' + (ind ? 'indicative, ex VAT' : 'per piece, ex VAT') + '</span></div>' +
+                '<span>' + (ind ? 'indicative per ' + XO.esc(unit) + ', ex VAT' : 'per ' + XO.esc(unit) + ', ex VAT') + '</span></div>' +
               '<a class="btn btn-xo btn-sm-xo" href="/products/' + encodeURIComponent(p.slug || p.uid) + '/">' +
                 'Order <i class="fa-solid fa-arrow-right"></i></a>' +
             '</div>' +

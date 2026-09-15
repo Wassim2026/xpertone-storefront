@@ -487,6 +487,7 @@ $('applyHandTypesBtn').onclick = async () => {
     'Disposable & Examination Gloves': ['JWM']
   };
   const typeBySku = new Map(Object.entries(groups).flatMap(([type, skus]) => skus.map(sku => [sku, type])));
+  const pairSkus = new Set(['SAF','SEG','LHE','JNU','RUB72','ACM','LOL','LBG','ANZ','SAO','UFO','DRC','NEP','HJO','KTP','ORD','CAB','NBR','PLR','LLR','USA','AFH','GKR','QUV']);
   const targets = PRODUCTS.filter(p => p.category_slug === 'hand-protection');
   if (targets.length !== 46 || targets.some(p => !typeBySku.has(String(p.sku).toUpperCase()))) {
     return note('amsg','Safety stop: expected 46 mapped Hand Protection products. Nothing was changed.','e');
@@ -495,10 +496,12 @@ $('applyHandTypesBtn').onclick = async () => {
   btn.disabled = true;
   let updated = 0, failed = 0, firstErr = '';
   for (const product of targets) {
-    const subcategory = typeBySku.get(String(product.sku).toUpperCase());
-    const { data, error } = await sb.from('products').update({ subcategory }).eq('id', product.id).select('id');
+    const sku = String(product.sku).toUpperCase();
+    const subcategory = typeBySku.get(sku);
+    const unit = sku === 'JWM' ? 'Mono' : pairSkus.has(sku) ? 'Pair' : 'Dozen';
+    const { data, error } = await sb.from('products').update({ subcategory, unit }).eq('id', product.id).select('id');
     if (error || !(data || []).length) { failed++; if (!firstErr) firstErr = error?.message || 'No row returned'; }
-    else { product.subcategory = subcategory; updated++; }
+    else { product.subcategory = subcategory; product.unit = unit; updated++; }
     btn.textContent = 'Applying types… ' + (updated + failed) + '/' + targets.length;
   }
   btn.disabled = false;

@@ -307,6 +307,7 @@
               origin: row.origin || '',
               standard: row.standard || '',
               packing: row.packing || '',
+              unit: row.unit || 'Piece',
               gsm: row.gsm || '',
               dimensions: row.dimensions || '',
               page: row.catalogue_page || 0

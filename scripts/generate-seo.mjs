@@ -27,6 +27,8 @@ const esc = (value = '') => String(value).replace(/[&<>"']/g, c => ({
 }[c]));
 const clean = (value = '') => String(value).replace(/\s+/g, ' ').trim();
 const money = value => `AED ${Number(value || 0).toFixed(2).replace(/\.00$/, '')}`;
+const saleUnit = p => ({ pairs: 'pair', pair: 'pair', doz: 'dozen', dozen: 'dozen', mono: 'mono', pcs: 'piece', piece: 'piece' }[clean(p.unit).toLowerCase()] || clean(p.unit).toLowerCase() || 'piece');
+const saleUnitLabel = p => saleUnit(p).replace(/^./, value => value.toUpperCase());
 const uid = p => `${p.category}-${String(p.sku).toLowerCase()}`;
 const productUrl = p => `${origin}/products/${encodeURIComponent(p.slug)}/`;
 const categoryUrl = slug => `${origin}/category/${encodeURIComponent(slug)}/`;
@@ -237,7 +239,7 @@ function staticProductBody(p) {
   const image = p.images[0];
   const description = clean(p.description || p.features?.[0] || `${p.title} supplied for trade and project orders in Dubai and across the UAE.`);
   const specs = [
-    ['SKU', p.sku], ['Material', p.material], ['Colour', p.colour], ['Standard', p.standard],
+    ['SKU', p.sku], ['Unit of sale', saleUnitLabel(p)], ['Material', p.material], ['Colour', p.colour], ['Standard', p.standard],
     ['Origin', p.origin], ['Packing', p.packing], ['Available sizes', p.sizes.join(', ')]
   ].filter(([, v]) => clean(v));
   return `<nav aria-label="Breadcrumb" class="mb-3" style="font-size:.85rem"><a href="/">Home</a> / <a href="/category/${esc(p.category)}/">${esc(p.categoryName)}</a> / <span>${esc(p.title)}</span></nav>
@@ -246,7 +248,7 @@ function staticProductBody(p) {
     <div class="col-lg-6"><span class="product-card__cat">${esc(p.categoryName)}</span><h1 class="mt-1">${esc(p.title)}</h1>
       ${p.sku ? `<p class="product-sku">SKU: <strong>${esc(p.sku)}</strong></p>` : ''}
       ${p.subtitle ? `<p class="text-muted-xo">${esc(p.subtitle)}</p>` : ''}
-      <p><strong>${money(p.price)}</strong> per piece, excluding VAT${p.priceStatus === 'indicative' ? ' - indicative and confirmed on quotation' : ''}.</p>
+      <p><strong>${money(p.price)}</strong> per ${esc(saleUnit(p))}, excluding VAT${p.priceStatus === 'indicative' ? ' - indicative and confirmed on quotation' : ''}.</p>
       <p>${esc(description)}</p>
       <p><a class="btn btn-xo" href="/product.html?p=${encodeURIComponent(p.uid)}">Choose sizes and order</a></p>
       <ul class="spec-list">${specs.map(([k, v]) => `<li><b>${esc(k)}</b><span>${esc(v)}</span></li>`).join('')}</ul>
@@ -293,7 +295,7 @@ function generateProduct(p) {
 
 function productCard(p) {
   const image = p.images[0];
-  return `<div class="col-6 col-lg-4 col-xl-3"><article class="product-card"><a class="product-card__media" href="/products/${encodeURIComponent(p.slug)}/">${image ? `<img src="${esc(image)}" alt="${esc(p.title)}" loading="lazy" decoding="async" width="600" height="600">` : ''}</a><div class="product-card__body"><span class="product-card__cat">${esc(p.subcategory || p.categoryName)}</span>${p.sku ? `<div class="product-card__sku">SKU: ${esc(p.sku)}</div>` : ''}<h3 class="product-card__title"><a href="/products/${encodeURIComponent(p.slug)}/">${esc(p.title)}</a></h3><div class="product-card__foot"><div class="product-card__price"><b>${money(p.price)}</b><span>${p.priceStatus === 'fixed' ? 'per piece, ex VAT' : 'indicative, ex VAT'}</span></div><a class="btn btn-xo btn-sm-xo" href="/products/${encodeURIComponent(p.slug)}/">View</a></div></div></article></div>`;
+  return `<div class="col-6 col-lg-4 col-xl-3"><article class="product-card"><a class="product-card__media" href="/products/${encodeURIComponent(p.slug)}/">${image ? `<img src="${esc(image)}" alt="${esc(p.title)}" loading="lazy" decoding="async" width="600" height="600">` : ''}</a><div class="product-card__body"><span class="product-card__cat">${esc(p.subcategory || p.categoryName)}</span>${p.sku ? `<div class="product-card__sku">SKU: ${esc(p.sku)}</div>` : ''}<h3 class="product-card__title"><a href="/products/${encodeURIComponent(p.slug)}/">${esc(p.title)}</a></h3><div class="product-card__foot"><div class="product-card__price"><b>${money(p.price)}</b><span>${p.priceStatus === 'fixed' ? `per ${esc(saleUnit(p))}, ex VAT` : `indicative per ${esc(saleUnit(p))}, ex VAT`}</span></div><a class="btn btn-xo btn-sm-xo" href="/products/${encodeURIComponent(p.slug)}/">View</a></div></div></article></div>`;
 }
 
 function workwearFamilyPage(family, items) {
