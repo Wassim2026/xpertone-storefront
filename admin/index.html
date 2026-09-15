@@ -52,7 +52,7 @@ main{padding:26px;max-width:1540px;margin:0 auto}.pagehead{display:flex;align-it
     <button class="g" id="outBtn">Sign out</button>
   </header>
   <main>
-    <div class="pagehead"><div><h1>Products</h1><p>Find, price and publish catalogue items.</p></div><span class="sp"></span><button class="g" id="applyEyeHearingTypesBtn">Apply Eye/Hearing types</button><button class="d" id="deleteHiddenBtn">Delete all hidden products</button><button class="g" id="applyPricePolicyBtn">Apply current price policy</button><button class="y" id="newTopBtn">+ Add product</button></div>
+    <div class="pagehead"><div><h1>Products</h1><p>Find, price and publish catalogue items.</p></div><span class="sp"></span><button class="d" id="deleteHiddenBtn">Delete all hidden products</button><button class="g" id="applyPricePolicyBtn">Apply current price policy</button><button class="y" id="newTopBtn">+ Add product</button></div>
     <div class="stats">
       <div class="stat">All products <b id="sCount">—</b></div>
       <div class="stat live">Visible on site <b id="sVisible">—</b></div>
@@ -474,37 +474,6 @@ function productPhotoPath(url){
   try { return decodeURIComponent(value.slice(at + marker.length).split('?')[0]); }
   catch { return value.slice(at + marker.length).split('?')[0]; }
 }
-
-$('applyEyeHearingTypesBtn').onclick = async () => {
-  const groups = {
-    'Safety Spectacles': ['B661','B671','KMS','KPB','M091','THB','V01','V02','V131','V19','V30','V406','V46','V61','V69','V701','V71','V81','V89','V901','V91'],
-    'Anti-Fog Safety Spectacles': ['AFC','KAL','V100','V101','V103','V104','V107','V110','V121','V181','V191','V201','V51','V702','V72','V83'],
-    'Safety Goggles': ['CGO','CHR','V351'],
-    'Specialty Lens Eyewear': ['V49','V73','V771'],
-    'Eyewear Accessories': ['CORD2'],
-    'Disposable Respirators & Dust Masks': ['BPK','CAT','FUN','HIT','MAP','QBP','V-CN95','VMK'],
-    'Reusable Half Masks': ['HFM'],
-    'Respirator Filters & Cartridges': ['ABH','COP','HRK','RKV'],
-    'Earplugs': ['HND','LUC','USD','VPC','VPU'],
-    'Earmuffs': ['NDG']
-  };
-  const typeBySku = new Map(Object.entries(groups).flatMap(([type, skus]) => skus.map(sku => [sku, type])));
-  const targets = PRODUCTS.filter(p => p.category_slug === 'eye-face-protection' || p.category_slug === 'hearing-respiratory');
-  const unmapped = targets.filter(p => !typeBySku.has(String(p.sku || '').toUpperCase()));
-  if (targets.length !== 63 || unmapped.length) return note('amsg', 'Safety check stopped the update: found ' + targets.length + ' records and ' + unmapped.length + ' unmapped SKU(s).', 'e');
-  const btn = $('applyEyeHearingTypesBtn');
-  btn.disabled = true;
-  const results = await Promise.all(targets.map(async p => {
-    const subcategory = typeBySku.get(String(p.sku || '').toUpperCase());
-    const { data, error } = await sb.from('products').update({ subcategory }).eq('id', p.id).select('id');
-    if (error || !data?.length) return { ok:false, error:error?.message || 'Record was not updated' };
-    p.subcategory = subcategory; return { ok:true };
-  }));
-  const updated = results.filter(result => result.ok).length;
-  const failed = results.length - updated;
-  render(); btn.disabled = false; btn.textContent = 'Apply Eye/Hearing types';
-  note('amsg', failed ? updated + ' categorized; ' + failed + ' failed — ' + results.find(result => !result.ok)?.error : updated + ' Eye & Face / Hearing & Respiratory products categorized.', failed ? 'e' : 's');
-};
 
 $('deleteHiddenBtn').onclick = async () => {
   const hidden = PRODUCTS.filter(p => !isLive(p));
