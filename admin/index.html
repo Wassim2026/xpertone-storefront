@@ -52,7 +52,7 @@ main{padding:26px;max-width:1540px;margin:0 auto}.pagehead{display:flex;align-it
     <button class="g" id="outBtn">Sign out</button>
   </header>
   <main>
-    <div class="pagehead"><div><h1>Products</h1><p>Find, price and publish catalogue items.</p></div><span class="sp"></span><button class="d" id="deleteHiddenBtn">Delete all hidden products</button><button class="g" id="applyPricePolicyBtn">Apply current price policy</button><button class="y" id="newTopBtn">+ Add product</button></div>
+    <div class="pagehead"><div><h1>Products</h1><p>Find, price and publish catalogue items.</p></div><span class="sp"></span><button class="d" id="deleteHighCostShoesBtn">Delete confirmed shoes over AED 50</button><button class="d" id="deleteHiddenBtn">Delete all hidden products</button><button class="g" id="applyPricePolicyBtn">Apply current price policy</button><button class="y" id="newTopBtn">+ Add product</button></div>
     <div class="stats">
       <div class="stat">All products <b id="sCount">—</b></div>
       <div class="stat live">Visible on site <b id="sVisible">—</b></div>
@@ -474,6 +474,40 @@ function productPhotoPath(url){
   try { return decodeURIComponent(value.slice(at + marker.length).split('?')[0]); }
   catch { return value.slice(at + marker.length).split('?')[0]; }
 }
+
+$('deleteHighCostShoesBtn').onclick = async () => {
+  const targets = PRODUCTS.filter(p => p.category_slug === 'safety-shoes' && Number(p.cost_price) > 50);
+  if (!targets.length) return note('amsg','There are no Safety Shoes above AED 50 SBM price.','s');
+  if (targets.length !== 42) return note('amsg','Safety stop: expected 42 products but found ' + targets.length + '. Nothing was deleted.','e');
+  const targetIds = new Set(targets.map(p => p.id));
+  const retainedPaths = new Set(PRODUCTS.filter(p => !targetIds.has(p.id))
+    .flatMap(p => (p.images || []).map(productPhotoPath).filter(Boolean)));
+  const removablePaths = [...new Set(targets.flatMap(p => (p.images || []).map(productPhotoPath).filter(Boolean))]
+    .filter(path => !retainedPaths.has(path));
+  const btn = $('deleteHighCostShoesBtn');
+  btn.disabled = true;
+  let removedPhotos = 0, failedPhotos = 0, removedProducts = 0, failedProducts = 0, firstErr = '';
+  for (let i = 0; i < removablePaths.length; i += 100){
+    const batch = removablePaths.slice(i, i + 100);
+    const { data, error } = await sb.storage.from('product-photos').remove(batch);
+    if (error){ failedPhotos += batch.length; if (!firstErr) firstErr = error.message; }
+    else removedPhotos += (data || []).length;
+    btn.textContent = 'Deleting photos… ' + Math.min(i + 100, removablePaths.length) + '/' + removablePaths.length;
+  }
+  for (let i = 0; i < targets.length; i += 100){
+    const batch = targets.slice(i, i + 100);
+    const { data, error } = await sb.from('products').delete().in('id', batch.map(p => p.id)).select('id');
+    if (error){ failedProducts += batch.length; if (!firstErr) firstErr = error.message; }
+    else removedProducts += (data || []).length;
+    btn.textContent = 'Deleting products… ' + Math.min(i + 100, targets.length) + '/' + targets.length;
+  }
+  btn.disabled = false;
+  btn.textContent = 'Delete confirmed shoes over AED 50';
+  await load();
+  const failed = failedProducts || failedPhotos;
+  note('amsg', removedProducts + ' Safety Shoes and ' + removedPhotos + ' unshared stored photos deleted.' +
+    (failed ? ' Failures: ' + failedProducts + ' products, ' + failedPhotos + ' photos — ' + firstErr : ''), failed ? 'e' : 's');
+};
 
 $('deleteHiddenBtn').onclick = async () => {
   const hidden = PRODUCTS.filter(p => !isLive(p));
