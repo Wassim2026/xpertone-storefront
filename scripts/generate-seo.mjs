@@ -764,7 +764,8 @@ const staticUrls = [
   [`${origin}/`, 'weekly', '1.0'], [`${origin}/shop.html`, 'daily', '0.8'],
   [`${origin}/about.html`, 'monthly', '0.6'], [`${origin}/contact.html`, 'monthly', '0.7'],
   [`${origin}/sitemap.html`, 'weekly', '0.5'],
-  [`${origin}/blog/embroidery-vs-dtf-printing-company-uniforms-dubai/`, 'monthly', '0.8']
+  [`${origin}/blog/embroidery-vs-dtf-printing-company-uniforms-dubai/`, 'monthly', '0.8'],
+  [`${origin}/blog/construction-uniform-supplier-dubai/`, 'monthly', '0.8']
 ];
 const xml = rows => `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${rows.map(([url, freq, priority]) => `  <url><loc>${esc(url)}</loc><lastmod>${today}</lastmod><changefreq>${freq}</changefreq><priority>${priority}</priority></url>`).join('\n')}\n</urlset>\n`;
 write(path.join(root, 'sitemap-pages.xml'), xml(staticUrls));
