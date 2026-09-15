@@ -38,10 +38,11 @@ const rows = products.map(product => {
     || primary;
   const categoryAfter = correctedCategory(product);
   const imageMismatch = Boolean(primary && preferred && primary !== preferred && !imageMatchesSku(primary, product.sku));
-  const watermarkRisk = watermarkMockups.has(product.sku);
-  const mockupUrl = watermarkRisk
+  const mockupCreated = watermarkMockups.has(product.sku);
+  const mockupUrl = mockupCreated
     ? `https://www.xpertonecreative.com/assets/img/audit-mockups/${product.sku}.jpg`
     : '';
+  const watermarkRisk = Boolean(mockupUrl && primary !== mockupUrl);
   return {
     id: product.id,
     sku: product.sku,
@@ -55,7 +56,8 @@ const rows = products.map(product => {
     category_mismatch: categoryAfter !== product.category,
     image_mismatch: imageMismatch,
     watermark_risk: watermarkRisk,
-    generated_file: watermarkRisk ? path.join(outDir, `${product.sku}.jpg`) : '',
+    mockup_created: mockupCreated,
+    generated_file: mockupCreated ? path.join(outDir, `${product.sku}.jpg`) : '',
     status: categoryAfter !== product.category || imageMismatch || watermarkRisk ? 'correction-required' : 'verified'
   };
 });
