@@ -108,8 +108,12 @@ const safetyVestFamilies = [
   { slug: 'supervisor-vests', name: 'Supervisor Safety Vests', label: 'AED 15–20', description: 'Supervisor vests with practical closures, pockets and enhanced site visibility.' },
   { slug: 'engineer-management-vests', name: 'Engineer & Management Safety Vests', label: 'Above AED 20', description: 'Premium vest options suited to engineers, managers and senior site personnel.' }
 ];
+const supervisorVestSkus = new Set(['ICS', 'GSO', 'LVS', 'FAT']);
+const generalVestSkus = new Set(['BUP', 'IFS', 'RSJ', 'VOS']);
 
 function safetyVestFamily(p) {
+  if (supervisorVestSkus.has(String(p.sku).toUpperCase())) return safetyVestFamilies[1];
+  if (generalVestSkus.has(String(p.sku).toUpperCase())) return safetyVestFamilies[0];
   if (Number(p.price) < 15) return safetyVestFamilies[0];
   if (Number(p.price) <= 20) return safetyVestFamilies[1];
   return safetyVestFamilies[2];
