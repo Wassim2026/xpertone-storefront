@@ -222,10 +222,10 @@ function hearingRespiratoryFamily(p) {
 }
 
 const trafficSafetyFamilies = [
-  { slug: 'traffic-cones-posts', name: 'Traffic Cones & Posts', description: 'Traffic cones, delineator posts and reflective road posts for temporary traffic control and site routing.' },
-  { slug: 'traffic-warning-lights', name: 'Traffic Warning & Solar Lights', description: 'Solar and LED warning lights for traffic cones, barriers and temporary road-safety installations.' },
-  { slug: 'traffic-batons', name: 'Traffic Batons', description: 'Handheld illuminated traffic batons for marshals, parking teams and controlled vehicle movement.' },
-  { slug: 'barrier-mesh-fencing', name: 'Barrier Mesh & Safety Fencing', description: 'High-visibility mesh and temporary fencing for work-zone boundaries, crowd guidance and restricted areas.' }
+  { slug: 'traffic-cones-posts', name: 'Traffic Cones & Posts', thumbnail: '/assets/img/category/traffic-safety/traffic-cones-posts.png', description: 'Traffic cones, delineator posts and reflective road posts for temporary traffic control and site routing.' },
+  { slug: 'traffic-warning-lights', name: 'Traffic Warning & Solar Lights', thumbnail: '/assets/img/category/traffic-safety/traffic-warning-lights.png', description: 'Solar and LED warning lights for traffic cones, barriers and temporary road-safety installations.' },
+  { slug: 'traffic-batons', name: 'Traffic Batons', thumbnail: '/assets/img/category/traffic-safety/traffic-batons.png', description: 'Handheld illuminated traffic batons for marshals, parking teams and controlled vehicle movement.' },
+  { slug: 'barrier-mesh-fencing', name: 'Barrier Mesh & Safety Fencing', thumbnail: '/assets/img/category/traffic-safety/barrier-mesh-fencing.png', description: 'High-visibility mesh and temporary fencing for work-zone boundaries, crowd guidance and restricted areas.' }
 ];
 const trafficSafetySkuGroups = new Map(Object.entries({
   'traffic-cones-posts': ['TAC','UDP','WPN'],
@@ -239,14 +239,14 @@ function trafficSafetyFamily(p) {
 }
 
 const hardwareToolFamilies = [
-  { slug: 'hammers-striking-tools', name: 'Hammers & Striking Tools', description: 'Machinist, claw, chipping and sledge hammers for workshop, construction and maintenance work.' },
-  { slug: 'cutting-saw-blades', name: 'Cutting & Saw Blades', description: 'Diamond and TCT cutting blades for compatible workshop and construction equipment.' },
-  { slug: 'fire-blankets', name: 'Fire Blankets', description: 'Fire blankets in multiple sizes for suitable emergency response points and workplace installations.' },
-  { slug: 'warning-reflective-tapes-chains', name: 'Warning Tapes, Reflective Tapes & Chains', description: 'Printed warning tapes, reflective tapes and plastic chains for marking hazards and controlled areas.' },
-  { slug: 'scaffolding-tags', name: 'Scaffolding Tags', description: 'Scaffolding tag holders and marker sets for inspection-status identification on compatible systems.' },
-  { slug: 'lifting-lashing-equipment', name: 'Lifting & Lashing Equipment', description: 'Cargo lashing and polyester webbing slings for compatible load-control and material-handling tasks.' },
-  { slug: 'spill-waste-management', name: 'Spill & Waste Management', description: 'Absorbent and disposal products for routine workplace spill response and waste handling.' },
-  { slug: 'site-utility-supplies', name: 'Site Utility Supplies', description: 'Additional site and workforce utility products used across construction and industrial workplaces.' }
+  { slug: 'hammers-striking-tools', name: 'Hammers & Striking Tools', thumbnail: '/assets/img/category/hardware-tools/hammers-striking-tools.png', description: 'Machinist, claw, chipping and sledge hammers for workshop, construction and maintenance work.' },
+  { slug: 'cutting-saw-blades', name: 'Cutting & Saw Blades', thumbnail: '/assets/img/category/hardware-tools/cutting-saw-blades.png', description: 'Diamond and TCT cutting blades for compatible workshop and construction equipment.' },
+  { slug: 'fire-blankets', name: 'Fire Blankets', thumbnail: '/assets/img/category/hardware-tools/fire-blankets.png', description: 'Fire blankets in multiple sizes for suitable emergency response points and workplace installations.' },
+  { slug: 'warning-reflective-tapes-chains', name: 'Warning Tapes, Reflective Tapes & Chains', thumbnail: '/assets/img/category/hardware-tools/warning-reflective-tapes-chains.png', description: 'Printed warning tapes, reflective tapes and plastic chains for marking hazards and controlled areas.' },
+  { slug: 'scaffolding-tags', name: 'Scaffolding Tags', thumbnail: '/assets/img/category/hardware-tools/scaffolding-tags.png', description: 'Scaffolding tag holders and marker sets for inspection-status identification on compatible systems.' },
+  { slug: 'lifting-lashing-equipment', name: 'Lifting & Lashing Equipment', thumbnail: '/assets/img/category/hardware-tools/lifting-lashing-equipment.png', description: 'Cargo lashing and polyester webbing slings for compatible load-control and material-handling tasks.' },
+  { slug: 'spill-waste-management', name: 'Spill & Waste Management', thumbnail: '/assets/img/category/hardware-tools/spill-waste-management.png', description: 'Absorbent and disposal products for routine workplace spill response and waste handling.' },
+  { slug: 'site-utility-supplies', name: 'Site Utility Supplies', thumbnail: '/assets/img/category/hardware-tools/site-utility-supplies.png', description: 'Additional site and workforce utility products used across construction and industrial workplaces.' }
 ];
 const hardwareToolSkuGroups = new Map(Object.entries({
   'hammers-striking-tools': ['EAO','BDQ','VVL','ESN','IAV','PSC','QER','JOK'],
@@ -486,7 +486,7 @@ function workwearHub(familyGroups, otherItems) {
   ]).size;
   const familyCard = f => {
     const items = familyGroups.get(f.slug) || [];
-    const image = items[0]?.images?.[0];
+    const image = f.thumbnail || items[0]?.images?.[0];
     return `<div class="col-md-6 col-xl-4"><article class="workwear-family-card${items.length ? '' : ' is-empty'}">${image ? `<img src="${esc(image)}" alt="${esc(f.name)}" loading="lazy" width="600" height="420">` : ''}<div><p class="workwear-family-card__eyebrow">${esc(f.material)}</p><h2>${items.length ? `<a href="/category/uniforms/${f.slug}/">${esc(f.name)}</a>` : esc(f.name)}</h2><p>${items.length ? `${items.length} colour variation${items.length === 1 ? '' : 's'} available` : 'No published colour variations at present'}</p>${items.length ? `<a class="btn btn-xo btn-sm-xo" href="/category/uniforms/${f.slug}/">View colours</a>` : ''}</div></article></div>`;
   };
   const coreCards = workwearFamilies.filter(f => f.core).map(familyCard).join('');
@@ -614,7 +614,7 @@ function ppeFamilyPage(categorySlug, categoryName, family, items, guidance) {
 function ppeFamilyHub(categorySlug, categoryName, families, groups, description, guide) {
   const cards = families.map(family => {
     const items = groups.get(family.slug) || [];
-    const image = items[0]?.images?.[0];
+    const image = family.thumbnail || items[0]?.images?.[0];
     return `<div class="col-md-6 col-xl-4"><article class="workwear-family-card">${image ? `<img src="${esc(image)}" alt="${esc(family.name)}" loading="lazy" width="600" height="420">` : ''}<div><p class="workwear-family-card__eyebrow">${items.length} products</p><h2><a href="/category/${categorySlug}/${family.slug}/">${esc(family.name)}</a></h2><p>${esc(family.description)}</p><a class="btn btn-xo btn-sm-xo" href="/category/${categorySlug}/${family.slug}/">View products</a></div></article></div>`;
   }).join('');
   const count = families.reduce((total, family) => total + (groups.get(family.slug) || []).length, 0);
