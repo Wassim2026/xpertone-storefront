@@ -1,0 +1,1559 @@
+[
+  {
+    "id": "d42679de-1f02-4629-8496-1ff7b26bf0ee",
+    "sku": "KMS",
+    "category": "eye-face-protection",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/products/eye-face-protection/KMS.png",
+    "category_mismatch": true,
+    "image_mismatch": true,
+    "watermark_replacement": false
+  },
+  {
+    "id": "0f66189f-71c3-4fed-8df9-edc09dde4981",
+    "sku": "V351",
+    "category": "eye-face-protection",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/products/eye-face-protection/V351.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "4c330d36-56d8-4c8e-a153-d5981a56981a",
+    "sku": "M091",
+    "category": "eye-face-protection",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/products/eye-face-protection/M091.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "34852585-2dd1-433f-b766-5ca34b57581d",
+    "sku": "V771",
+    "category": "eye-face-protection",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/products/eye-face-protection/V771.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "45c2139e-a40c-4fab-8086-25235a442ce3",
+    "sku": "V107",
+    "category": "eye-face-protection",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/products/eye-face-protection/V107.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "d0b021a7-dd83-4789-972a-9199b7a28bb4",
+    "sku": "V103",
+    "category": "eye-face-protection",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/products/eye-face-protection/V103.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "af2cdf24-ecce-4ba0-a0d8-a6b57ca222e1",
+    "sku": "V101",
+    "category": "eye-face-protection",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/products/eye-face-protection/V101.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "6af6ac2b-f85a-46f2-8112-fe071b929069",
+    "sku": "V104",
+    "category": "eye-face-protection",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/products/eye-face-protection/V104.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "9d7c2d1a-dea7-46a7-956a-18f7fc9cd0ca",
+    "sku": "V121",
+    "category": "eye-face-protection",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/products/eye-face-protection/V121.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "bea49fa1-fd6f-4074-bbf8-62c1e22a7b98",
+    "sku": "V181",
+    "category": "eye-face-protection",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/products/eye-face-protection/V181.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "57111ab0-0b2e-4a70-931e-ba780adcdc4b",
+    "sku": "V201",
+    "category": "eye-face-protection",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/products/eye-face-protection/V201.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "ade3fd64-2267-48e0-8ff1-015ce29e889f",
+    "sku": "V72",
+    "category": "eye-face-protection",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/products/eye-face-protection/V72.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "915abe5d-829a-48c9-8330-ead3ea8abbf7",
+    "sku": "KAL",
+    "category": "eye-face-protection",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/products/eye-face-protection/KAL.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "8062c0bb-6f96-4a3e-95f2-b5410723dd7c",
+    "sku": "V49",
+    "category": "eye-face-protection",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/products/eye-face-protection/V49.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "308c9f68-8023-4a56-8a67-560913000776",
+    "sku": "V02",
+    "category": "eye-face-protection",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/products/eye-face-protection/V02.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "9e07962f-ac44-41c4-a460-bb8b89d4bde8",
+    "sku": "V131",
+    "category": "eye-face-protection",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/products/eye-face-protection/V131.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "17b0243e-7c0a-4cb3-9bc1-caa0f5e724e8",
+    "sku": "V19",
+    "category": "eye-face-protection",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/products/eye-face-protection/V19.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "113417cd-9832-4483-9c56-18b3b373a288",
+    "sku": "V406",
+    "category": "eye-face-protection",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/products/eye-face-protection/V406.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "1a7776f5-9031-413f-b896-35cd9f0ed6aa",
+    "sku": "V46",
+    "category": "eye-face-protection",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/products/eye-face-protection/V46.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "c945a7a5-ad57-4270-b913-6e98b7dc3f4a",
+    "sku": "V61",
+    "category": "eye-face-protection",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/products/eye-face-protection/V61.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "00bf1f23-5a94-4d59-b1a1-f79367aaba69",
+    "sku": "V69",
+    "category": "eye-face-protection",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/products/eye-face-protection/V69.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "7d3111e2-2592-4ad1-afc2-e01b68712034",
+    "sku": "V71",
+    "category": "eye-face-protection",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/products/eye-face-protection/V71.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "2ae8fd75-50b7-4bde-9b08-bef6c909dcdd",
+    "sku": "V81",
+    "category": "eye-face-protection",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/products/eye-face-protection/V81.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "2e18381f-c988-4450-9cb3-38e67ee9adc1",
+    "sku": "AFC",
+    "category": "eye-face-protection",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/products/eye-face-protection/AFC.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "1f0cce1a-397b-47f5-8d64-eb86a9b3fb8b",
+    "sku": "PCR",
+    "category": "hand-protection",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/products/hand-protection/PCR.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "c4f181f3-cf17-4b1b-a976-3e9ba3b64d80",
+    "sku": "IJT10",
+    "category": "hand-protection",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/products/hand-protection/IJT10.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "00da6eb1-adef-4e7b-a09d-0aaf1885aeac",
+    "sku": "MOK",
+    "category": "hand-protection",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/products/hand-protection/MOK.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "b9ed31c4-9ab9-4c4f-9748-6e20759b025b",
+    "sku": "JWM",
+    "category": "hand-protection",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/products/hand-protection/JWM.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "da2b6455-a910-419c-be1f-225f185f111c",
+    "sku": "LHE",
+    "category": "hand-protection",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/products/hand-protection/LHE.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "92a86e7c-e81b-4d25-a9dd-831702dddc88",
+    "sku": "DSC",
+    "category": "hand-protection",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/products/hand-protection/DSC.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "73c16f0b-dd13-421c-856d-b090e3fc2808",
+    "sku": "RUB72",
+    "category": "hand-protection",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/products/hand-protection/RUB72.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "f675c5aa-e731-423e-8d32-cb9bcc7618a5",
+    "sku": "LBG",
+    "category": "hand-protection",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/products/hand-protection/LBG.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "8ac91cf9-b1ed-482a-a6c9-7da922858560",
+    "sku": "LOL",
+    "category": "hand-protection",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/products/hand-protection/LOL.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "6879509e-649c-43a0-a525-998059bc6e44",
+    "sku": "HJO",
+    "category": "hand-protection",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/products/hand-protection/HJO.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "8a2ed9ed-15ea-4a85-9959-3605ec53e13b",
+    "sku": "KTP",
+    "category": "hand-protection",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/products/hand-protection/KTP.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "d233b62d-5f82-45ae-a9eb-62dfacee3aad",
+    "sku": "NBR",
+    "category": "hand-protection",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/products/hand-protection/NBR.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "ec13bf12-6ef6-4e73-8465-0b68d8edd0dc",
+    "sku": "JKL",
+    "category": "hand-protection",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/products/hand-protection/JKL.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "f8e4e16a-befe-4bdd-a021-b8f2007fefc5",
+    "sku": "LLR",
+    "category": "hand-protection",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/products/hand-protection/LLR.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "0a715d15-fece-4736-8add-08165cf3455b",
+    "sku": "USA",
+    "category": "hand-protection",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/products/hand-protection/USA.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "4766a4c8-132d-414c-b994-4702e92c9e2a",
+    "sku": "QUV",
+    "category": "hand-protection",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/products/hand-protection/QUV.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "f0903a83-d804-49ce-b8b9-f674e1a6e515",
+    "sku": "EAO",
+    "category": "hardware-tools",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/products/hardware-tools/EAO.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "e6c2a25c-df70-46a7-bfb7-af9bf6b0b04b",
+    "sku": "PMM",
+    "category": "hardware-tools",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/products/hardware-tools/PMM.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "515dc9c0-e725-4745-8d48-8b5892626e23",
+    "sku": "FB18",
+    "category": "hardware-tools",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/products/hardware-tools/FB18.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "f6952125-ae00-4c54-a269-319864df356d",
+    "sku": "SOR",
+    "category": "hardware-tools",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/products/hardware-tools/SOR.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "043aee69-d220-4f4b-8bf9-67ab833cc4d7",
+    "sku": "HHR",
+    "category": "hardware-tools",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/products/hardware-tools/HHR.png",
+    "category_mismatch": false,
+    "image_mismatch": true,
+    "watermark_replacement": false
+  },
+  {
+    "id": "23bc8dd8-07a9-4ecc-9ce6-7356e2a24278",
+    "sku": "RGO",
+    "category": "hardware-tools",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/audit-mockups/RGO.jpg",
+    "category_mismatch": false,
+    "image_mismatch": false,
+    "watermark_replacement": true
+  },
+  {
+    "id": "ad69262a-f977-4af7-a708-5844c12d4bf8",
+    "sku": "NGR",
+    "category": "hardware-tools",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/products/hardware-tools/NGR.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "cc46631f-c4d5-47b9-af83-ec1ae56b4a18",
+    "sku": "QER",
+    "category": "hardware-tools",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/products/hardware-tools/QER.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "05d7b586-a03e-4a40-9c99-b7d344474da1",
+    "sku": "VHRT",
+    "category": "helmets",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/VHRT/1789069237665-VHRT.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "40956af7-d626-4eb6-8a48-9ba6aea43597",
+    "sku": "VHVR",
+    "category": "helmets",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/VHVR/1789069251463-VHVR.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "0739a35c-1f74-4151-916f-d78bc18df102",
+    "sku": "DJG",
+    "category": "safety-shoes",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/DJG/1789064501621-DJG.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "f07bf6fa-33ce-46f3-ad50-a653748e052a",
+    "sku": "QKM",
+    "category": "safety-shoes",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/QKM/1789064513513-QKM.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "f56b82d6-d01d-49e8-99e0-6f0c68c64154",
+    "sku": "CMG",
+    "category": "safety-shoes",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/CMG/1789064527292-CMG.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "8b717d9b-f198-4898-9096-34df31cf52ab",
+    "sku": "RKP",
+    "category": "safety-shoes",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/RKP/1789064539078-RKP.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "c210dc33-e362-4d12-89ee-8fc2ee3e4b76",
+    "sku": "JER",
+    "category": "safety-shoes",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/JER/1789064572681-JER.png",
+    "category_mismatch": false,
+    "image_mismatch": true,
+    "watermark_replacement": false
+  },
+  {
+    "id": "e2dd9d2a-4a54-4dad-b1d2-8c0341f98bce",
+    "sku": "BEA",
+    "category": "safety-shoes",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/BEA/1789064613061-BEA.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "9513d1e4-687b-458c-a850-50eb58cb4bca",
+    "sku": "SOH",
+    "category": "safety-shoes",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/SOH/1789064625060-SOH.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "bd3e9ee1-8616-419d-8aee-3cc32b6f2f68",
+    "sku": "TCL",
+    "category": "safety-shoes",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/TCL/1789064640151-TCL.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "7d0ff840-27e9-4ad1-8a54-1857f9b4d7bb",
+    "sku": "RGP",
+    "category": "safety-shoes",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/RGP/1789064651140-RGP.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "ff9a20f0-889f-4e4c-b7e4-081160640383",
+    "sku": "KIM",
+    "category": "safety-shoes",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/KIM/1789064681590-KIM.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "cbedc711-1948-446d-b357-27f175d9a9ba",
+    "sku": "VE3",
+    "category": "safety-shoes",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/VE3/1789064986984-VE3.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "4c0f99dc-b182-421e-9a88-d1db565f8d03",
+    "sku": "SGB",
+    "category": "safety-shoes",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/SGB/1789065011566-SGB.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "5c4df428-416b-410a-a7ea-6c4173a4710f",
+    "sku": "SGK",
+    "category": "safety-shoes",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/SGK/1789065023830-SGK.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "44d6312a-b4a0-4694-9cfb-e0a6c17d098b",
+    "sku": "SGM",
+    "category": "safety-shoes",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/SGM/1789065033914-SGM.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "6b350d1d-9fe5-4973-b3fb-778519dff20b",
+    "sku": "LEO",
+    "category": "safety-shoes",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/LEO/1789065106192-LEO.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "e71735b0-f865-4758-a0bf-9c6e96b216e1",
+    "sku": "SG6",
+    "category": "safety-shoes",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/SG6/1789065117779-SG6.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "f3e59ccd-db60-4b2f-b86c-f99b1faceb24",
+    "sku": "VJS6",
+    "category": "safety-shoes",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/VJS6/1789065135584-VJS6.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "a08809e7-5ee8-4150-8c5c-60c2c294d039",
+    "sku": "SG7",
+    "category": "safety-shoes",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/SG7/1789065236462-SG7.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "3904876b-371b-407e-9357-c82c999dfbce",
+    "sku": "NBI",
+    "category": "safety-shoes",
+    "primary_image": "https://sbmmarketplace.com/backend/public/uploads/2022/04/nbi-04.jpg",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "bcf62ebd-511e-42da-9dfb-5d20cd739701",
+    "sku": "PEN",
+    "category": "safety-shoes",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/PEN/1789065467759-PEN.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "1a328882-f0dd-43b7-8975-7b11b2c59936",
+    "sku": "SJK",
+    "category": "safety-shoes",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/SJK/1789065512879-SJK.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "4c4dee70-7597-474b-b3ca-00245b09c28b",
+    "sku": "STN",
+    "category": "safety-shoes",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/STN/1789065344880-STN.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "705dd55f-7fd9-4235-9318-8fb0a2115a34",
+    "sku": "PHD",
+    "category": "safety-shoes",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/PHD/1789065601466-PHD.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "1301395f-fdaa-41c2-a803-7271ae5e87fb",
+    "sku": "HEX",
+    "category": "safety-shoes",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/HEX/1789065690378-HEX.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "1b1d2e97-d260-4409-8579-b4982b4c7d2a",
+    "sku": "VKB",
+    "category": "safety-shoes",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/VKB/1789065748737-VKB.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "09b02d6e-3a4a-40ad-9f0b-9fe1c2bc5eee",
+    "sku": "RBK",
+    "category": "safety-shoes",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/RBK/1789065849375-RBK.png",
+    "category_mismatch": false,
+    "image_mismatch": true,
+    "watermark_replacement": false
+  },
+  {
+    "id": "d444cb87-efaf-4f33-b9e9-c749cdf9d6eb",
+    "sku": "PQR",
+    "category": "safety-shoes",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/PQR/1789065859783-PQR.png",
+    "category_mismatch": true,
+    "image_mismatch": true,
+    "watermark_replacement": false
+  },
+  {
+    "id": "daa2383a-877f-4965-b6b3-7a2c202e40cb",
+    "sku": "S1317",
+    "category": "traffic-safety",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/products/traffic-safety/S1317.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "3da8083b-91cf-4a64-8b1b-e825f7f319ac",
+    "sku": "S1317RED",
+    "category": "traffic-safety",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/products/traffic-safety/S1317RED.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "a220376d-b359-407b-bc42-221b433b6944",
+    "sku": "ISO",
+    "category": "traffic-safety",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/products/traffic-safety/ISO.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "93391878-f27d-4a4f-a112-acdfc0db1957",
+    "sku": "PAT",
+    "category": "uniforms",
+    "primary_image": "https://sbmmarketplace.com/backend/public/uploads/2025/09/pat-1.jpg",
+    "category_mismatch": false,
+    "image_mismatch": true,
+    "watermark_replacement": false
+  },
+  {
+    "id": "8e8e0007-aa3a-456c-a3b2-6055c0a69046",
+    "sku": "PMY",
+    "category": "uniforms",
+    "primary_image": "https://sbmmarketplace.com/backend/public/uploads/2024/10/pmy-1.jpg",
+    "category_mismatch": false,
+    "image_mismatch": true,
+    "watermark_replacement": false
+  },
+  {
+    "id": "bd5b20dc-255c-490f-bde0-913e5e97d7ea",
+    "sku": "OMW",
+    "category": "uniforms",
+    "primary_image": "https://sbmmarketplace.com/backend/public/uploads/2024/10/omw-1.jpg",
+    "category_mismatch": false,
+    "image_mismatch": true,
+    "watermark_replacement": false
+  },
+  {
+    "id": "2b1666fc-9e0d-43e6-bf1f-d2ebc792bb02",
+    "sku": "FMT",
+    "category": "uniforms",
+    "primary_image": "https://sbmmarketplace.com/backend/public/uploads/2024/10/fmt-1.jpg",
+    "category_mismatch": false,
+    "image_mismatch": true,
+    "watermark_replacement": false
+  },
+  {
+    "id": "55272b72-e40e-4ef7-90df-e48af4b58a34",
+    "sku": "VBC",
+    "category": "uniforms",
+    "primary_image": "https://sbmmarketplace.com/backend/public/uploads/2025/06/vbc-1.jpg",
+    "category_mismatch": false,
+    "image_mismatch": true,
+    "watermark_replacement": false
+  },
+  {
+    "id": "2fe94ff7-7aa3-493b-bd70-b4bc5acde08d",
+    "sku": "APC",
+    "category": "uniforms",
+    "primary_image": "https://sbmmarketplace.com/backend/public/uploads/2025/05/apc-2.jpg",
+    "category_mismatch": false,
+    "image_mismatch": true,
+    "watermark_replacement": false
+  },
+  {
+    "id": "d4596fb2-41f4-4414-b583-95be10cab05c",
+    "sku": "GLE",
+    "category": "uniforms",
+    "primary_image": "https://sbmmarketplace.com/backend/public/uploads/2025/12/gle-1.jpg",
+    "category_mismatch": false,
+    "image_mismatch": true,
+    "watermark_replacement": false
+  },
+  {
+    "id": "806a5ccc-a422-4665-9f0f-deffffb83f78",
+    "sku": "OTP",
+    "category": "uniforms",
+    "primary_image": "https://sbmmarketplace.com/backend/public/uploads/2025/07/otp-1.jpg",
+    "category_mismatch": false,
+    "image_mismatch": true,
+    "watermark_replacement": false
+  },
+  {
+    "id": "7f152348-fc10-4740-89bd-e5f825bbe3b7",
+    "sku": "MUA",
+    "category": "uniforms",
+    "primary_image": "https://sbmmarketplace.com/backend/public/uploads/2022/05/mua-main-image.jpg",
+    "category_mismatch": false,
+    "image_mismatch": true,
+    "watermark_replacement": false
+  },
+  {
+    "id": "b7aac010-7f13-495d-a09d-5850f713c85d",
+    "sku": "DRQ",
+    "category": "uniforms",
+    "primary_image": "https://sbmmarketplace.com/backend/public/uploads/2025/01/drq-1.jpg",
+    "category_mismatch": false,
+    "image_mismatch": true,
+    "watermark_replacement": false
+  },
+  {
+    "id": "d4c62ba8-f067-4c63-8b2d-fff18613dfa1",
+    "sku": "BDK",
+    "category": "uniforms",
+    "primary_image": "https://sbmmarketplace.com/backend/public/uploads/2025/01/bdk-1.jpg",
+    "category_mismatch": false,
+    "image_mismatch": true,
+    "watermark_replacement": false
+  },
+  {
+    "id": "ba970c0c-6144-4976-84df-6008e72033d7",
+    "sku": "ASO",
+    "category": "uniforms",
+    "primary_image": "https://sbmmarketplace.com/backend/public/uploads/2024/11/aso-2.jpg",
+    "category_mismatch": false,
+    "image_mismatch": true,
+    "watermark_replacement": false
+  },
+  {
+    "id": "d19ed2c8-1b52-4de2-a455-b6c9fe453126",
+    "sku": "FSO",
+    "category": "uniforms",
+    "primary_image": "https://sbmmarketplace.com/backend/public/uploads/2025/01/fso-1.jpg",
+    "category_mismatch": false,
+    "image_mismatch": true,
+    "watermark_replacement": false
+  },
+  {
+    "id": "24258897-ef72-4795-a56b-9ddac02c2be6",
+    "sku": "TPO",
+    "category": "uniforms",
+    "primary_image": "https://sbmmarketplace.com/backend/public/uploads/2024/06/tpo.jpg",
+    "category_mismatch": false,
+    "image_mismatch": true,
+    "watermark_replacement": false
+  },
+  {
+    "id": "ec6e8504-9f85-4f33-b48a-af4663e49e8e",
+    "sku": "VED",
+    "category": "uniforms",
+    "primary_image": "https://sbmmarketplace.com/backend/public/uploads/2024/11/VED-1.jpg",
+    "category_mismatch": false,
+    "image_mismatch": true,
+    "watermark_replacement": false
+  },
+  {
+    "id": "d94de24d-0df6-4c16-a752-40cbec5be0a0",
+    "sku": "DIA",
+    "category": "uniforms",
+    "primary_image": "https://sbmmarketplace.com/backend/public/uploads/2024/11/dia-2.jpg",
+    "category_mismatch": false,
+    "image_mismatch": true,
+    "watermark_replacement": false
+  },
+  {
+    "id": "e002b8ca-3541-40da-a98c-1efe30cb991c",
+    "sku": "DTE",
+    "category": "uniforms",
+    "primary_image": "https://sbmmarketplace.com/backend/public/uploads/2025/06/dte.jpg",
+    "category_mismatch": false,
+    "image_mismatch": true,
+    "watermark_replacement": false
+  },
+  {
+    "id": "69dde50b-8dd9-483b-8b59-21ecfd4e716d",
+    "sku": "RGF",
+    "category": "uniforms",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/audit-mockups/RGF.jpg",
+    "category_mismatch": false,
+    "image_mismatch": true,
+    "watermark_replacement": true
+  },
+  {
+    "id": "57582a82-8856-4ce9-be59-3543224182f3",
+    "sku": "IDA",
+    "category": "uniforms",
+    "primary_image": "https://sbmmarketplace.com/backend/public/uploads/2024/11/ida-2.jpg",
+    "category_mismatch": false,
+    "image_mismatch": true,
+    "watermark_replacement": false
+  },
+  {
+    "id": "2a106ee0-cb4e-4138-9555-3ee689886378",
+    "sku": "UJG",
+    "category": "uniforms",
+    "primary_image": "https://sbmmarketplace.com/backend/public/uploads/2025/05/ujg-1.jpg",
+    "category_mismatch": false,
+    "image_mismatch": true,
+    "watermark_replacement": false
+  },
+  {
+    "id": "5b3033a0-65ab-415b-9392-ca7bdb67f080",
+    "sku": "ADN",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/ADN/1789030799386-ADN.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "9dd6addf-8b69-456c-8e75-f98980af7198",
+    "sku": "VON",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/VON/1789030805188-VON.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "2fd86cc4-9db6-4d84-b2ee-06322482e8af",
+    "sku": "FBI",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/FBI/1789030810556-FBI.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "3c330baa-1d94-42e2-9e67-3c80989b8a5f",
+    "sku": "HEV",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/HEV/1789030816192-HEV.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "ad76a434-1b78-4f8a-8994-a14fabaff2fe",
+    "sku": "NDJ",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/NDJ/1789030821275-NDJ.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "c1b5d949-e8e0-42cb-a450-6f6ff2b50f05",
+    "sku": "JDN",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/JDN/1789030827803-JDN.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "621c91a6-0434-49b6-b28d-6aeb4d20b3f9",
+    "sku": "LAO",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/LAO/1789030832728-LAO.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "9b1b4a0f-4515-4eca-b468-37d0c9cfddca",
+    "sku": "NOL",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/NOL/1789030837451-NOL.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "2d40ae10-6317-4b30-a00f-91dcca22eda1",
+    "sku": "ONC",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/ONC/1789030842452-ONC.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "8caebdd5-14d8-4271-8124-bd9b39daf20a",
+    "sku": "KPA",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/KPA/1789030868556-KPA.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "b5c6c8ed-4eee-4b30-bf97-c949de6baa45",
+    "sku": "LCV",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/LCV/1789030873081-LCV.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "8079673e-bef0-482b-825e-fff027cd1446",
+    "sku": "TSK",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/TSK/1789030925595-TSK.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "e3f9f821-3dff-4d00-8c66-8f22f86d8bc2",
+    "sku": "YOW",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/YOW/1789030930279-YOW.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "721ea12d-9b67-43e5-8a07-7f5dba75eb62",
+    "sku": "1GRV",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/1GRV/1789030934757-1GRV.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "8803ffbd-95eb-4c88-91d8-ac8f94043cbc",
+    "sku": "1OV",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/1OV/1789030939211-1OV.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "a3932090-4f84-4a28-a1f6-feb50d955dda",
+    "sku": "1PV",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/1PV/1789030943832-1PV.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "06b8269d-c913-454c-85e3-08985ab44df9",
+    "sku": "AGC",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/AGC/1789030948218-AGC.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "b9106b25-01e7-47eb-8298-c55be36fc7c8",
+    "sku": "OHG",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/OHG/1789030952718-OHG.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "08a28c68-c9f5-4364-84af-8d050a00c7b3",
+    "sku": "CBV",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/CBV/1789030957456-CBV.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "02675e32-62d4-4203-a7b1-99ec75536cb6",
+    "sku": "CGV",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/CGV/1789030962125-CGV.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "dec4f1f4-7206-4ce9-925a-dc8711a96df3",
+    "sku": "CPV",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/CPV/1789039807552-CPV.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "49622080-d10e-4e83-9ee6-e7f78d202958",
+    "sku": "SKO",
+    "category": "uniforms",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/audit-mockups/SKO.jpg",
+    "category_mismatch": false,
+    "image_mismatch": false,
+    "watermark_replacement": true
+  },
+  {
+    "id": "f05adaaa-be6e-4ad3-8cc1-2a352585e06d",
+    "sku": "LDC",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/LDC/1789030994607-LDC.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "23c178a0-be07-436c-a2a9-54407eb30ceb",
+    "sku": "WWB",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/WWB/1789030999142-WWB.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "8f0006e2-9464-4edf-a76f-2a8e80f298f7",
+    "sku": "MJT",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/MJT/1789031004142-MJT.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "12d6d7f0-90c5-4b64-b422-688e1775a1c9",
+    "sku": "CNV",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/CNV/1789031008805-CNV.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "e6893788-6ee7-4cd2-a2ad-547698b19ce5",
+    "sku": "WWP",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/WWP/1789031013875-WWP.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "2445a0fe-fc3f-4e44-998a-253484afbb42",
+    "sku": "TIE",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/TIE/1789031018917-TIE.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "4143844e-33e9-425c-bbcf-c0ebbf40801e",
+    "sku": "MSG",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/MSG/1789031023847-MSG.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "136c3bfa-90cd-4152-80d8-0afade0c1c7b",
+    "sku": "EAU",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/EAU/1789031028486-EAU.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "89b05758-9603-4290-9d60-adfdab7793cc",
+    "sku": "UXV",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/UXV/1789031033125-UXV.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "646b3501-ca85-47bd-a6bc-3373223fa55e",
+    "sku": "MUN",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/MUN/1789031037798-MUN.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "acfe7177-0432-413b-becc-e201d41b109b",
+    "sku": "NXG",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/NXG/1789031064882-NXG.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "cdaf8079-fcef-4be1-976f-d989ded80701",
+    "sku": "DCL",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/DCL/1789031070565-DCL.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "3d27ec7b-12f6-4f79-91ca-2792917aace9",
+    "sku": "CSO",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/CSO/1789039943558-CSO.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "c1ca3cbc-4f0a-4ed5-b508-f9ef895daa42",
+    "sku": "DUE",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/DUE/1789031081993-DUE.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "101e48b8-e8d3-4aad-b18a-10c4b8f29e8d",
+    "sku": "MPG",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/MPG/1789031087509-MPG.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "1d7e9548-8880-45c5-9f7e-e2fc8590d148",
+    "sku": "TDB",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/TDB/1789031094299-TDB.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "6f035560-cc26-4388-b83b-fec6981a5263",
+    "sku": "DNE",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/DNE/1789031100398-DNE.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "092e8e7c-fb45-4fa1-b1dc-f77f7468d919",
+    "sku": "TCA",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/TCA/1789031105797-TCA.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "8d3e3bd3-ddbb-47dd-a292-ab2e6a13ff89",
+    "sku": "EUD",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/EUD/1789031111873-EUD.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "791bcd11-95d1-49ea-a62c-ecf4507cac9a",
+    "sku": "QNQ",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/QNQ/1789031118139-QNQ.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "a96e8bed-7057-48a5-abde-0204309df79a",
+    "sku": "PJM",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/PJM/1789031124579-PJM.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "1ef2485c-5180-4cee-9337-58d4bc1b6d73",
+    "sku": "LBFRN",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/LBFRN/1789031161539-LBFRN.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "7cfe0cbc-0d24-4500-8468-412edbdd1f65",
+    "sku": "LBFRO",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/LBFRO/1789031168877-LBFRO.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "e2e05b8c-1436-4eeb-91f3-9d7504a40eee",
+    "sku": "LBFRR",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/LBFRR/1789031175275-LBFRR.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "6311f4b3-4695-432f-8945-f0023d43aaa3",
+    "sku": "ECN",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/ECN/1789031181666-ECN.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "9011e7ce-ae79-437f-9098-795bb962da37",
+    "sku": "NCE",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/NCE/1789031266571-NCE.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "b01ddc3e-fae2-4abf-8d1d-5a4d683688e6",
+    "sku": "SOU",
+    "category": "uniforms",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/audit-mockups/SOU.jpg",
+    "category_mismatch": false,
+    "image_mismatch": false,
+    "watermark_replacement": true
+  },
+  {
+    "id": "b3f62969-5180-45b8-bfdd-1db5f5e62f88",
+    "sku": "FBM",
+    "category": "uniforms",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/audit-mockups/FBM.jpg",
+    "category_mismatch": false,
+    "image_mismatch": false,
+    "watermark_replacement": true
+  },
+  {
+    "id": "bbf35e04-cc57-492b-810a-39e5f1591c21",
+    "sku": "AZI",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/AZI/1789031449270-AZI.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "f33d6b37-7fc8-4be8-a3b0-526179c1cf2d",
+    "sku": "UBN",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/UBN/1789031456456-UBN.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "5fc6c430-4ea7-4710-9450-36f335ee532f",
+    "sku": "DEN",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/DEN/1789031463118-DEN.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "7a1209d2-26f3-4be6-8a73-855eccacc460",
+    "sku": "BEE",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/BEE/1789031469932-BEE.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "308f0491-a934-4cc0-818d-f5189045c088",
+    "sku": "PGA",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/PGA/1789040827436-PGA.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "febdefe7-4aa2-43b9-ae1a-dde7bdd0f21d",
+    "sku": "NLQ",
+    "category": "uniforms",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/audit-mockups/NLQ.jpg",
+    "category_mismatch": false,
+    "image_mismatch": false,
+    "watermark_replacement": true
+  },
+  {
+    "id": "a01eefeb-923d-475b-8fdf-462ae62eea18",
+    "sku": "AKH",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/AKH/1789036515998-AKH.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "254a2b8d-7e88-4a05-bb46-6f8d843fed36",
+    "sku": "KIP",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/KIP/1789036558815-KIP.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "3cd48792-3634-4898-bc05-74e657d971ab",
+    "sku": "JGN",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/JGN/1789036566250-JGN.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "ad435b77-c446-4c5b-861c-0e6a03717580",
+    "sku": "JGO",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/JGO/1789036573689-JGO.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "b6b98462-631c-4186-866b-77f39e7651ff",
+    "sku": "JGY",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/JGY/1789036581275-JGY.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "e152d39e-f33b-4581-b024-6c998df17156",
+    "sku": "SYD",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/SYD/1789036588653-SYD.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "6f755ef0-af9b-4cef-a351-96da416a4290",
+    "sku": "IAX",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/IAX/1789040339253-IAX.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "4aa67f1c-62d8-4fc4-aa3e-399cd2a0aa03",
+    "sku": "TPF",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/TPF/1789036631069-TPF.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "1bcac768-fd0e-4d23-a8bf-495dd2afba5d",
+    "sku": "DNO",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/DNO/1789036647611-DNO.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "3de11f15-aaa6-4dbf-ab8f-8b5425e7358c",
+    "sku": "ADG",
+    "category": "uniforms",
+    "primary_image": "https://www.xpertonecreative.com/assets/img/audit-mockups/ADG.jpg",
+    "category_mismatch": false,
+    "image_mismatch": false,
+    "watermark_replacement": true
+  },
+  {
+    "id": "13604b35-b715-4f97-803c-904653979e8f",
+    "sku": "BPC",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/BPC/1789040381355-BPC.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "c4990a95-fea5-4358-8eb1-c1239c77b22f",
+    "sku": "WPV",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/WPV/1789036662563-WPV.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "ddd3148a-a333-4edf-9864-24ecb2f66d24",
+    "sku": "2GWL",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/2GWL/1789036694810-2GWL.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "869abad9-d94a-47b4-a9e3-f72f38f144e4",
+    "sku": "2PWL",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/2PWL/1789036701859-2PWL.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "813373da-bd56-44be-9f7e-574278a335de",
+    "sku": "PXT",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/PXT/1789036709413-PXT.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "ac8167d2-9ca4-4175-ad8f-948868faeeea",
+    "sku": "WKD",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/WKD/1789040449709-WKD.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  },
+  {
+    "id": "1e979eb8-0d44-4abb-b986-0d83865b3f60",
+    "sku": "PKW",
+    "category": "uniforms",
+    "primary_image": "https://myodfvshmusywmhdozwt.supabase.co/storage/v1/object/public/product-photos/PKW/1789036731212-PKW.png",
+    "category_mismatch": true,
+    "image_mismatch": false,
+    "watermark_replacement": false
+  }
+]
