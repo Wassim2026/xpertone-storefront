@@ -104,9 +104,9 @@ const extraWorkwearFamilies = [
 workwearFamilies.push(...extraWorkwearFamilies);
 
 const safetyVestFamilies = [
-  { slug: 'general-vests', name: 'General Safety Vests', label: 'Under AED 15', description: 'Affordable safety vests for visitors, general crews and short-duration site use.' },
-  { slug: 'supervisor-vests', name: 'Supervisor Safety Vests', label: 'AED 15–20', description: 'Supervisor vests with practical closures, pockets and enhanced site visibility.' },
-  { slug: 'engineer-management-vests', name: 'Engineer & Management Safety Vests', label: 'Above AED 20', description: 'Premium vest options suited to engineers, managers and senior site personnel.' }
+  { slug: 'general-vests', name: 'General Safety Vests', label: 'Under AED 15', thumbnail: '/assets/img/category/safety-vests/general-vests.webp', description: 'Affordable safety vests for visitors, general crews and short-duration site use.' },
+  { slug: 'supervisor-vests', name: 'Supervisor Safety Vests', label: 'AED 15–20', thumbnail: '/assets/img/category/safety-vests/supervisor-vests.webp', description: 'Supervisor vests with practical closures, pockets and enhanced site visibility.' },
+  { slug: 'engineer-management-vests', name: 'Engineer & Management Safety Vests', label: 'Above AED 20', thumbnail: '/assets/img/category/safety-vests/engineer-management-vests.webp', description: 'Premium vest options suited to engineers, managers and senior site personnel.' }
 ];
 const supervisorVestSkus = new Set(['ICS', 'GSO', 'LVS', 'FAT']);
 const generalVestSkus = new Set(['BUP', 'IFS', 'RSJ', 'VOS']);
@@ -319,8 +319,8 @@ function safetyVestFamilyPage(family, items) {
 function safetyVestHub(groups) {
   const cards = safetyVestFamilies.map(family => {
     const items = groups.get(family.slug) || [];
-    const image = items[0]?.images?.[0];
-    return `<div class="col-md-6 col-xl-4"><article class="workwear-family-card">${image ? `<img src="${esc(image)}" alt="${esc(family.name)}" loading="lazy" width="600" height="420">` : ''}<div><p class="workwear-family-card__eyebrow">${esc(family.label)}</p><h2><a href="/category/safety-vests/${family.slug}/">${esc(family.name)}</a></h2><p>${esc(family.description)}</p><p>${items.length} products available</p><a class="btn btn-xo btn-sm-xo" href="/category/safety-vests/${family.slug}/">View products</a></div></article></div>`;
+    const image = family.thumbnail || items[0]?.images?.[0];
+    return `<div class="col-md-6 col-xl-4"><article class="workwear-family-card safety-vest-family-card">${image ? `<img src="${esc(image)}" alt="${esc(family.name)}" loading="lazy" width="900" height="900">` : ''}<div><p class="workwear-family-card__eyebrow">${esc(family.label)}</p><h2><a href="/category/safety-vests/${family.slug}/">${esc(family.name)}</a></h2><p>${esc(family.description)}</p><p>${items.length} products available</p><a class="btn btn-xo btn-sm-xo" href="/category/safety-vests/${family.slug}/">View products</a></div></article></div>`;
   }).join('');
   const count = safetyVestFamilies.reduce((n, family) => n + groups.get(family.slug).length, 0);
   const canonical = categoryUrl('safety-vests');
