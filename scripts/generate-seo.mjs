@@ -461,6 +461,49 @@ function productCard(p) {
   return `<div class="col-6 col-lg-4 col-xl-3"><article class="product-card"><a class="product-card__media" href="/products/${encodeURIComponent(p.slug)}/">${image ? `<img src="${esc(image)}" alt="${esc(p.title)}" loading="lazy" decoding="async" width="600" height="600">` : ''}</a><div class="product-card__body"><span class="product-card__cat">${esc(p.subcategory || p.categoryName)}</span>${p.sku ? `<div class="product-card__sku">SKU: ${esc(p.sku)}</div>` : ''}<h3 class="product-card__title"><a href="/products/${encodeURIComponent(p.slug)}/">${esc(p.title)}</a></h3><div class="product-card__foot"><div class="product-card__price"><b>${money(p.price)}</b><span>${p.priceStatus === 'fixed' ? `per ${esc(saleUnit(p))}, ex VAT` : `indicative per ${esc(saleUnit(p))}, ex VAT`}</span></div><a class="btn btn-xo btn-sm-xo" href="/products/${encodeURIComponent(p.slug)}/">View</a></div></div></article></div>`;
 }
 
+const thumbnailFeatures = {
+  uniforms: ['VERIFIED RANGE', 'COLOUR OPTIONS', 'TEAM READY', 'UAE SUPPLY'],
+  'hand-protection': ['TASK FOCUSED', 'GRIP OPTIONS', 'MULTIPLE SIZES', 'SITE READY'],
+  'safety-shoes': ['PROTECTIVE FIT', 'WORKPLACE READY', 'MULTIPLE STYLES', 'UAE SUPPLY'],
+  helmets: ['HEAD PROTECTION', 'FIT OPTIONS', 'SITE READY', 'VERIFIED RANGE'],
+  'eye-face-protection': ['CLEAR VISION', 'COMFORT FIT', 'WORKPLACE READY', 'VERIFIED RANGE'],
+  'hearing-respiratory': ['PPE RANGE', 'FIT OPTIONS', 'WORKPLACE READY', 'VERIFIED RANGE']
+};
+
+function familyThumbnailAsset(categorySlug, family, items) {
+  if (!items.length || !thumbnailFeatures[categorySlug]) return '';
+  const imagePath = `/assets/img/category/${categorySlug}/${family.slug}.png`;
+  const filePath = path.join(root, 'assets', 'img', 'category', categorySlug, `${family.slug}.svg`);
+  const words = family.name.toUpperCase().split(/\s+/);
+  const lines = [];
+  for (const word of words) {
+    const current = lines.at(-1) || '';
+    if (!current || `${current} ${word}`.length > 28) lines.push(word);
+    else lines[lines.length - 1] = `${current} ${word}`;
+  }
+  while (lines.length > 2) lines[1] = `${lines[1]} ${lines.splice(2, 1)[0]}`;
+  const title = lines.map((line, index) => `<text x="512" y="${76 + index * 58}" text-anchor="middle" font-family="Arial Narrow,Arial,sans-serif" font-size="${lines.length > 1 ? 50 : 58}" font-weight="900" fill="${index === lines.length - 1 ? '#d50000' : '#031a3d'}">${esc(line)}</text>`).join('');
+  const productImages = items.slice(0, 3).map((product, index) => {
+    const boxes = [[35, 185, 550, 560], [610, 205, 365, 255], [610, 495, 365, 255]];
+    const [x, y, width, height] = boxes[index];
+    if (!product.images?.[0]) return '';
+    const pathname = new URL(product.images[0], origin).pathname.replace(/^\//, '');
+    const localFile = path.join(root, ...pathname.split('/'));
+    if (!fs.existsSync(localFile)) return '';
+    const extension = path.extname(localFile).slice(1).toLowerCase();
+    const mime = extension === 'jpg' || extension === 'jpeg' ? 'image/jpeg' : extension === 'png' ? 'image/png' : 'image/webp';
+    const source = `data:${mime};base64,${fs.readFileSync(localFile).toString('base64')}`;
+    return `<image href="${source}" x="${x}" y="${y}" width="${width}" height="${height}" preserveAspectRatio="xMidYMid meet"/>`;
+  }).join('');
+  const features = thumbnailFeatures[categorySlug].map((feature, index) => {
+    const x = 26 + index * 250;
+    return `<g transform="translate(${x} 888)"><circle cx="34" cy="34" r="27" fill="none" stroke="#fff" stroke-width="4"/><path d="M22 34h24M34 22v24" stroke="#fff" stroke-width="4" stroke-linecap="round"/><text x="70" y="42" font-family="Arial,sans-serif" font-size="18" font-weight="800" fill="#fff">${esc(feature)}</text></g>`;
+  }).join('');
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024"><rect width="1024" height="1024" fill="#fff"/><rect x="0" y="0" width="1024" height="154" fill="#fff"/>${title}<path d="M72 154h880" stroke="#d50000" stroke-width="5"/><rect x="26" y="176" width="972" height="608" rx="22" fill="#f7f8fa" stroke="#d9dee7" stroke-width="2"/>${productImages}<text x="512" y="835" text-anchor="middle" font-family="Arial,sans-serif" font-size="24" font-weight="800" fill="#031a3d">${esc(items.length)} PRODUCTS IN THIS RANGE</text><rect x="0" y="864" width="1024" height="160" fill="#031a3d"/>${features}</svg>`;
+  write(filePath, svg);
+  return imagePath;
+}
+
 function workwearFamilyPage(family, items) {
   const canonical = workwearUrl(family.slug);
   const colours = [...new Set(items.map(colourOf).filter(Boolean))];
@@ -486,7 +529,7 @@ function workwearHub(familyGroups, otherItems) {
   ]).size;
   const familyCard = f => {
     const items = familyGroups.get(f.slug) || [];
-    const image = f.thumbnail || items[0]?.images?.[0];
+    const image = f.thumbnail || familyThumbnailAsset('uniforms', f, items) || items[0]?.images?.[0];
     return `<div class="col-md-6 col-xl-4"><article class="workwear-family-card${items.length ? '' : ' is-empty'}">${image ? `<img src="${esc(image)}" alt="${esc(f.name)}" loading="lazy" width="600" height="420">` : ''}<div><p class="workwear-family-card__eyebrow">${esc(f.material)}</p><h2>${items.length ? `<a href="/category/uniforms/${f.slug}/">${esc(f.name)}</a>` : esc(f.name)}</h2><p>${items.length ? `${items.length} colour variation${items.length === 1 ? '' : 's'} available` : 'No published colour variations at present'}</p>${items.length ? `<a class="btn btn-xo btn-sm-xo" href="/category/uniforms/${f.slug}/">View colours</a>` : ''}</div></article></div>`;
   };
   const coreCards = workwearFamilies.filter(f => f.core).map(familyCard).join('');
@@ -539,7 +582,7 @@ function handProtectionFamilyPage(family, items) {
 function handProtectionHub(groups) {
   const cards = handProtectionFamilies.map(family => {
     const items = groups.get(family.slug) || [];
-    const image = items[0]?.images?.[0];
+    const image = familyThumbnailAsset('hand-protection', family, items) || items[0]?.images?.[0];
     return `<div class="col-md-6 col-xl-4"><article class="workwear-family-card">${image ? `<img src="${esc(image)}" alt="${esc(family.name)}" loading="lazy" width="600" height="420">` : ''}<div><p class="workwear-family-card__eyebrow">${items.length} products</p><h2><a href="/category/hand-protection/${family.slug}/">${esc(family.name)}</a></h2><p>${esc(family.description)}</p><a class="btn btn-xo btn-sm-xo" href="/category/hand-protection/${family.slug}/">View products</a></div></article></div>`;
   }).join('');
   const count = handProtectionFamilies.reduce((total, family) => total + (groups.get(family.slug) || []).length, 0);
@@ -564,7 +607,7 @@ function safetyShoeFamilyPage(family, items) {
 function safetyShoeHub(groups) {
   const cards = safetyShoeFamilies.map(family => {
     const items = groups.get(family.slug) || [];
-    const image = items[0]?.images?.[0];
+    const image = familyThumbnailAsset('safety-shoes', family, items) || items[0]?.images?.[0];
     return `<div class="col-md-6 col-xl-4"><article class="workwear-family-card">${image ? `<img src="${esc(image)}" alt="${esc(family.name)}" loading="lazy" width="600" height="420">` : ''}<div><p class="workwear-family-card__eyebrow">${items.length} products</p><h2><a href="/category/safety-shoes/${family.slug}/">${esc(family.name)}</a></h2><p>${esc(family.description)}</p><a class="btn btn-xo btn-sm-xo" href="/category/safety-shoes/${family.slug}/">View products</a></div></article></div>`;
   }).join('');
   const count = safetyShoeFamilies.reduce((total, family) => total + (groups.get(family.slug) || []).length, 0);
@@ -589,7 +632,7 @@ function headProtectionFamilyPage(family, items) {
 function headProtectionHub(groups) {
   const cards = headProtectionFamilies.map(family => {
     const items = groups.get(family.slug) || [];
-    const image = items[0]?.images?.[0];
+    const image = familyThumbnailAsset('helmets', family, items) || items[0]?.images?.[0];
     return `<div class="col-md-6 col-xl-4"><article class="workwear-family-card">${image ? `<img src="${esc(image)}" alt="${esc(family.name)}" loading="lazy" width="600" height="420">` : ''}<div><p class="workwear-family-card__eyebrow">${items.length} products</p><h2><a href="/category/helmets/${family.slug}/">${esc(family.name)}</a></h2><p>${esc(family.description)}</p><a class="btn btn-xo btn-sm-xo" href="/category/helmets/${family.slug}/">View products</a></div></article></div>`;
   }).join('');
   const count = headProtectionFamilies.reduce((total, family) => total + (groups.get(family.slug) || []).length, 0);
@@ -614,7 +657,7 @@ function ppeFamilyPage(categorySlug, categoryName, family, items, guidance) {
 function ppeFamilyHub(categorySlug, categoryName, families, groups, description, guide) {
   const cards = families.map(family => {
     const items = groups.get(family.slug) || [];
-    const image = family.thumbnail || items[0]?.images?.[0];
+    const image = family.thumbnail || familyThumbnailAsset(categorySlug, family, items) || items[0]?.images?.[0];
     return `<div class="col-md-6 col-xl-4"><article class="workwear-family-card">${image ? `<img src="${esc(image)}" alt="${esc(family.name)}" loading="lazy" width="600" height="420">` : ''}<div><p class="workwear-family-card__eyebrow">${items.length} products</p><h2><a href="/category/${categorySlug}/${family.slug}/">${esc(family.name)}</a></h2><p>${esc(family.description)}</p><a class="btn btn-xo btn-sm-xo" href="/category/${categorySlug}/${family.slug}/">View products</a></div></article></div>`;
   }).join('');
   const count = families.reduce((total, family) => total + (groups.get(family.slug) || []).length, 0);
