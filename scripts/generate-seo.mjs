@@ -35,7 +35,7 @@ const categoryUrl = slug => `${origin}/category/${encodeURIComponent(slug)}/`;
 const workwearUrl = slug => `${origin}/category/uniforms/${encodeURIComponent(slug)}/`;
 const write = (file, content) => {
   fs.mkdirSync(path.dirname(file), { recursive: true });
-  fs.writeFileSync(file, content);
+  fs.writeFileSync(file, `${String(content).replace(/\r\n?/g, '\n').replace(/[ \t]+$/gm, '').trimEnd()}\n`);
 };
 
 const categoryCopy = {
@@ -285,7 +285,7 @@ function normalise(p) {
     uid: uid(p),
     categoryName: p.category_name,
     priceStatus: p.price_is_fixed ? 'fixed' : 'indicative',
-    images: Array.isArray(p.images) ? p.images : [],
+    images: Array.isArray(p.images) ? p.images.map(image => String(image || '').replace(/(\/assets\/img\/products\/[^?#]+)\.png(?=([?#]|$))/i, '$1.webp')) : [],
     sizes: Array.isArray(p.sizes) ? p.sizes : []
   };
   if (workwearFamily(item)) {
@@ -353,7 +353,17 @@ function staticProductBody(p) {
       <p><a class="btn btn-xo" href="/product.html?p=${encodeURIComponent(p.uid)}">Choose sizes and order</a></p>
       <ul class="spec-list">${specs.map(([k, v]) => `<li><b>${esc(k)}</b><span>${esc(v)}</span></li>`).join('')}</ul>
     </div>
-  </div>`;
+  </div>
+  <section class="mt-5" aria-labelledby="product-ordering-guide"><h2 id="product-ordering-guide">Ordering ${esc(p.title)} in the UAE</h2><p>Review the product description, available options, unit of sale and current stock information before ordering. Protective equipment must be selected for the actual workplace hazard and should not be chosen by appearance alone. Where a safety standard, performance rating or compatibility requirement applies, confirm that the specification shown for this exact SKU matches your company risk assessment.</p><p>Xpertone Creative supplies trade and project orders from Al Quoz, Dubai, with delivery available across the UAE. For mixed quantities or a technical requirement, send the SKU, required quantity, delivery location and required date to our sales team. You can also <a href="/category/${esc(p.category)}/">compare more ${esc(p.categoryName.toLowerCase())}</a>, <a href="/shop.html">browse the complete product catalogue</a>, use the <a href="/sitemap.html">HTML catalogue index</a>, or <a href="/contact.html#quote">request a quotation</a>.</p></section>`;
+}
+
+function productSeoTitle(p) {
+  const suffix = ' | Xpertone Dubai';
+  const limit = 60 - suffix.length;
+  const source = clean(p.title);
+  if (source.length <= limit) return `${source}${suffix}`;
+  const shortened = source.slice(0, limit + 1).replace(/\s+\S*$/, '').replace(/[,:;\s-]+$/, '');
+  return `${shortened}${suffix}`;
 }
 
 function productSchema(p) {
@@ -384,12 +394,15 @@ function generateProduct(p) {
   };
   let html = productTemplate
     .replace('<head>', '<head>\n<base href="/">')
-    .replace('<title>Product — Xpertone Creative LLC-FZ</title>', `<title>${esc(p.title)} | ${esc(p.categoryName)} Dubai</title>`)
+    .replace('<title>Product — Xpertone Creative LLC-FZ</title>', `<title>${esc(productSeoTitle(p))}</title>`)
     .replace(/<meta name="description" content="[^"]*">/, `<meta name="description" content="${esc(description)}">\n<link rel="canonical" href="${canonical}">\n<meta property="og:type" content="product">\n<meta property="og:title" content="${esc(p.title)}">\n<meta property="og:description" content="${esc(description)}">\n<meta property="og:url" content="${canonical}">\n<meta property="og:image" content="${esc(image)}">\n<script type="application/ld+json" data-static-product-schema>${JSON.stringify(productSchema(p))}</script>\n<script type="application/ld+json">${JSON.stringify(breadcrumb)}</script>`)
     .replace('<meta name="robots" content="noindex,follow">', '<meta name="robots" content="index,follow">')
-    .replace(/<div class="container py-4" id="pdp">[\s\S]*?<\/div>\n\n  <section class="section section--alt" id="relatedWrap"/, `<div class="container py-4" id="pdp">${staticProductBody(p)}</div>\n\n  <section class="section section--alt" id="relatedWrap"`)
     .replace(/<script src="assets\/js\/config\.js(?:\?v=[^"]+)?"><\/script>/,
       match => `<script>window.XO_STATIC_PRODUCT_UID=${JSON.stringify(p.uid)};</script>\n${match}`);
+  const pdpStart = html.indexOf('<div class="container py-4" id="pdp">');
+  const relatedStart = html.indexOf('  <section class="section section--alt" id="relatedWrap"', pdpStart);
+  if (pdpStart < 0 || relatedStart < 0) throw new Error(`Product template markers missing for ${p.uid}`);
+  html = `${html.slice(0, pdpStart)}<div class="container py-4" id="pdp">${staticProductBody(p)}</div>\n\n${html.slice(relatedStart)}`;
   write(path.join(root, 'products', p.slug, 'index.html'), html);
 }
 
@@ -673,7 +686,8 @@ for (const family of hearingRespiratoryFamilies) {
 
 const staticUrls = [
   [`${origin}/`, 'weekly', '1.0'], [`${origin}/shop.html`, 'daily', '0.8'],
-  [`${origin}/about.html`, 'monthly', '0.6'], [`${origin}/contact.html`, 'monthly', '0.7']
+  [`${origin}/about.html`, 'monthly', '0.6'], [`${origin}/contact.html`, 'monthly', '0.7'],
+  [`${origin}/sitemap.html`, 'weekly', '0.5']
 ];
 const xml = rows => `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${rows.map(([url, freq, priority]) => `  <url><loc>${esc(url)}</loc><lastmod>${today}</lastmod><changefreq>${freq}</changefreq><priority>${priority}</priority></url>`).join('\n')}\n</urlset>\n`;
 write(path.join(root, 'sitemap-pages.xml'), xml(staticUrls));
@@ -685,6 +699,9 @@ for (const family of safetyShoeFamilies) categoryRows.push([`${categoryUrl('safe
 for (const family of headProtectionFamilies) categoryRows.push([`${categoryUrl('helmets')}${family.slug}/`, 'weekly', '0.8']);
 for (const family of eyeFaceFamilies) categoryRows.push([`${categoryUrl('eye-face-protection')}${family.slug}/`, 'weekly', '0.8']);
 for (const family of hearingRespiratoryFamilies) categoryRows.push([`${categoryUrl('hearing-respiratory')}${family.slug}/`, 'weekly', '0.8']);
+const htmlSitemapCategories = categoryRows.map(([url]) => `<li><a href="${esc(url)}">${esc(url.replace(`${origin}/category/`, '').replace(/\/$/, '').replaceAll('-', ' '))}</a></li>`).join('');
+const htmlSitemapProducts = list.map(p => `<li><a href="${esc(productUrl(p))}">${esc(p.title)}${p.sku ? ` — SKU ${esc(p.sku)}` : ''}</a></li>`).join('');
+write(path.join(root, 'sitemap.html'), `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Product Catalogue Index | Xpertone Dubai</title><meta name="description" content="Browse every published Xpertone Creative product and category from one crawlable catalogue index."><link rel="canonical" href="${origin}/sitemap.html"><link rel="stylesheet" href="assets/css/main.css?v=20260914sku"></head><body><main id="main" class="container py-5"><nav aria-label="Breadcrumb"><a href="/">Home</a> / Catalogue index</nav><h1>Product Catalogue Index</h1><p>Browse every published product category and SKU supplied by Xpertone Creative in Dubai and across the UAE.</p><h2>Categories</h2><ul>${htmlSitemapCategories}</ul><h2>Products</h2><ul>${htmlSitemapProducts}</ul></main></body></html>`);
 write(path.join(root, 'sitemap-categories.xml'), xml(categoryRows));
 write(path.join(root, 'sitemap-products.xml'), xml(list.map(p => [productUrl(p), 'weekly', '0.6'])));
 write(path.join(root, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <sitemap><loc>${origin}/sitemap-pages.xml</loc><lastmod>${today}</lastmod></sitemap>\n  <sitemap><loc>${origin}/sitemap-categories.xml</loc><lastmod>${today}</lastmod></sitemap>\n  <sitemap><loc>${origin}/sitemap-products.xml</loc><lastmod>${today}</lastmod></sitemap>\n</sitemapindex>\n`);

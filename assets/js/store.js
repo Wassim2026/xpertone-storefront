@@ -13,6 +13,14 @@
 
   var CFG = window.XO_CONFIG;
 
+  function optimisedProductImage(url) {
+    return String(url || '').replace(/(\/assets\/img\/products\/[^?#]+)\.png(?=([?#]|$))/i, '$1.webp');
+  }
+
+  function optimisedProductImages(images) {
+    return (images || []).map(optimisedProductImage);
+  }
+
   /* =======================================================================
      XO — helpers
      ======================================================================= */
@@ -245,7 +253,9 @@
           /* The snapshot is already normalised, but run it through the same
              pipeline so both paths behave identically. */
           return rows.map(function (row) {
-            return row.uid ? row : self._normalise(row, row.source || 'products');
+            var product = row.uid ? row : self._normalise(row, row.source || 'products');
+            if (product) product.images = optimisedProductImages(product.images);
+            return product;
           }).filter(Boolean);
         });
     },
@@ -295,7 +305,7 @@
               price: Number(row.price),
               priceStatus: row.price_is_fixed ? 'fixed' : 'indicative',
               sizes: row.sizes || [],
-              images: row.images || [],
+              images: optimisedProductImages(row.images),
               imageSource: 'remart',
               attribute: row.attribute || '',
               description: row.description || '',
