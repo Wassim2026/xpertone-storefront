@@ -99,7 +99,7 @@ const extraWorkwearFamilies = [
   ['specialist-coveralls', 'Specialist Protective Coveralls', /coverall|bib\s*overall|chemical\s*suit|fire\s*fighting\s*suit/i],
   ['other-pant-shirt-sets', 'Other Pant & Shirt Sets', /pant\s*(?:&|and)?\s*shirt|pant\s+shirt|shirt\s*(?:&|and)\s*pant/i],
   ['workwear-trousers-pants', 'Workwear Trousers & Pants', /\bpant\b|\btrouser\b/i],
-  ['workwear-accessories', 'Workwear Accessories', /^(?:[^,]+,\s*)?reflective\s*tape|fire\s*fighter\s*hood/i]
+  ['workwear-accessories', 'Workwear Accessories', /fire\s*fighter\s*hood/i]
 ].map(([slug, name, matcher]) => ({ slug, name, matcher, material: 'Additional workwear range', core: false }));
 workwearFamilies.push(...extraWorkwearFamilies);
 
