@@ -52,7 +52,7 @@ main{padding:26px;max-width:1540px;margin:0 auto}.pagehead{display:flex;align-it
     <button class="g" id="outBtn">Sign out</button>
   </header>
   <main>
-    <div class="pagehead"><div><h1>Products</h1><p>Find, price and publish catalogue items.</p></div><span class="sp"></span><button class="g" id="applyShoeTypesBtn">Apply Safety Shoes types</button><button class="d" id="deleteHiddenBtn">Delete all hidden products</button><button class="g" id="applyPricePolicyBtn">Apply current price policy</button><button class="y" id="newTopBtn">+ Add product</button></div>
+    <div class="pagehead"><div><h1>Products</h1><p>Find, price and publish catalogue items.</p></div><span class="sp"></span><button class="d" id="deleteHiddenBtn">Delete all hidden products</button><button class="g" id="applyPricePolicyBtn">Apply current price policy</button><button class="y" id="newTopBtn">+ Add product</button></div>
     <div class="stats">
       <div class="stat">All products <b id="sCount">—</b></div>
       <div class="stat live">Visible on site <b id="sVisible">—</b></div>
@@ -474,44 +474,6 @@ function productPhotoPath(url){
   try { return decodeURIComponent(value.slice(at + marker.length).split('?')[0]); }
   catch { return value.slice(at + marker.length).split('?')[0]; }
 }
-
-$('applyShoeTypesBtn').onclick = async () => {
-  const groups = {
-    'Low-Ankle Safety Shoes': ['DJG','QKM','CMG','GQF','SOH','VE25','VE12','SGM','DVR','AMJ','NBI','SEU','PEN','AIO','JJO','VIM'],
-    'High-Ankle Safety Boots': ['VOA','OXP','LMV','RKP','RSC','SKNS','PRI','MFC','SGB','SGK','VBL','MDU','LEO','SG6','VJS6','SG7','USB','SHP'],
-    'Executive & Slip-On Safety Shoes': ['VI8','VE7','VE5','VE3','VE1','PMC','RUQ','VTI','MKN','PUR','HOF','JPU'],
-    'Rigger Safety Boots': ['YRA','UBA'],
-    'Safety Gumboots & Rain Boots': ['RBS12','RBT','JGP','PKN'],
-    'Kitchen & Anti-Slip Clogs': ['DHA'],
-    'General Protective Footwear': ['GOP','PAS','LBW','FAR','PAM','PDH','YAK','RBK']
-  };
-  const typeBySku = new Map(Object.entries(groups).flatMap(([type, skus]) => skus.map(sku => [sku, type])));
-  const targets = PRODUCTS.filter(p => p.category_slug === 'safety-shoes');
-  const unmapped = targets.filter(p => !typeBySku.has(String(p.sku || '').toUpperCase()));
-  if (targets.length !== 61 || unmapped.length) {
-    return note('amsg', 'Safety check stopped the update: found ' + targets.length + ' Safety Shoes records and ' + unmapped.length + ' unmapped SKU(s).', 'e');
-  }
-  const btn = $('applyShoeTypesBtn');
-  btn.disabled = true;
-  let updated = 0, failed = 0, firstErr = '';
-  for (let i = 0; i < targets.length; i += 20) {
-    const batch = targets.slice(i, i + 20);
-    const results = await Promise.all(batch.map(async p => {
-      const subcategory = typeBySku.get(String(p.sku || '').toUpperCase());
-      const { data, error } = await sb.from('products').update({ subcategory, unit: 'Pair' }).eq('id', p.id).select('id');
-      if (error || !data?.length) { if (!firstErr) firstErr = error?.message || 'Record was not updated'; return false; }
-      p.subcategory = subcategory; p.unit = 'Pair';
-      return true;
-    }));
-    updated += results.filter(Boolean).length;
-    failed += results.filter(ok => !ok).length;
-    btn.textContent = 'Applying… ' + (updated + failed) + '/' + targets.length;
-  }
-  render();
-  btn.disabled = false;
-  btn.textContent = 'Apply Safety Shoes types';
-  note('amsg', failed ? updated + ' categorized; ' + failed + ' failed — ' + firstErr : updated + ' Safety Shoes products categorized.', failed ? 'e' : 's');
-};
 
 $('deleteHiddenBtn').onclick = async () => {
   const hidden = PRODUCTS.filter(p => !isLive(p));
