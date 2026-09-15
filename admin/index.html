@@ -52,7 +52,7 @@ main{padding:26px;max-width:1540px;margin:0 auto}.pagehead{display:flex;align-it
     <button class="g" id="outBtn">Sign out</button>
   </header>
   <main>
-    <div class="pagehead"><div><h1>Products</h1><p>Find, price and publish catalogue items.</p></div><span class="sp"></span><button class="g" id="applyHeadTypesBtn">Apply Head Protection types</button><button class="d" id="deleteHiddenBtn">Delete all hidden products</button><button class="g" id="applyPricePolicyBtn">Apply current price policy</button><button class="y" id="newTopBtn">+ Add product</button></div>
+    <div class="pagehead"><div><h1>Products</h1><p>Find, price and publish catalogue items.</p></div><span class="sp"></span><button class="d" id="deleteHiddenBtn">Delete all hidden products</button><button class="g" id="applyPricePolicyBtn">Apply current price policy</button><button class="y" id="newTopBtn">+ Add product</button></div>
     <div class="stats">
       <div class="stat">All products <b id="sCount">—</b></div>
       <div class="stat live">Visible on site <b id="sVisible">—</b></div>
@@ -474,33 +474,6 @@ function productPhotoPath(url){
   try { return decodeURIComponent(value.slice(at + marker.length).split('?')[0]); }
   catch { return value.slice(at + marker.length).split('?')[0]; }
 }
-
-$('applyHeadTypesBtn').onclick = async () => {
-  const groups = {
-    'Industrial Safety Helmets': ['ABU','LGB','ORT','VH','VHRT','VHT','VHV','VHVR'],
-    'Bump Caps': ['ADC','CDA','ESO','JHM','KEH'],
-    'Face Shields & Windows': ['GOA','KPY','MRO'],
-    'Welding Helmets': ['PNB'],
-    'Full-Brim Protective Headwear': ['YOL'],
-    'Helmet Accessories': ['ACB']
-  };
-  const typeBySku = new Map(Object.entries(groups).flatMap(([type, skus]) => skus.map(sku => [sku, type])));
-  const targets = PRODUCTS.filter(p => p.category_slug === 'helmets');
-  const unmapped = targets.filter(p => !typeBySku.has(String(p.sku || '').toUpperCase()));
-  if (targets.length !== 19 || unmapped.length) return note('amsg', 'Safety check stopped the update: found ' + targets.length + ' Head Protection records and ' + unmapped.length + ' unmapped SKU(s).', 'e');
-  const btn = $('applyHeadTypesBtn');
-  btn.disabled = true;
-  const results = await Promise.all(targets.map(async p => {
-    const subcategory = typeBySku.get(String(p.sku || '').toUpperCase());
-    const { data, error } = await sb.from('products').update({ subcategory, unit: 'Pcs' }).eq('id', p.id).select('id');
-    if (error || !data?.length) return { ok:false, error:error?.message || 'Record was not updated' };
-    p.subcategory = subcategory; p.unit = 'Pcs'; return { ok:true };
-  }));
-  const updated = results.filter(result => result.ok).length;
-  const failed = results.length - updated;
-  render(); btn.disabled = false; btn.textContent = 'Apply Head Protection types';
-  note('amsg', failed ? updated + ' categorized; ' + failed + ' failed — ' + results.find(result => !result.ok)?.error : updated + ' Head Protection products categorized.', failed ? 'e' : 's');
-};
 
 $('deleteHiddenBtn').onclick = async () => {
   const hidden = PRODUCTS.filter(p => !isLive(p));
