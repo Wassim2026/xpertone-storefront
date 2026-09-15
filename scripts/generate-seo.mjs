@@ -182,6 +182,44 @@ function headProtectionFamily(p) {
   const slug = headProtectionSkuGroups.get(String(p.sku || '').toUpperCase());
   return headProtectionFamilies.find(family => family.slug === slug) || null;
 }
+
+const eyeFaceFamilies = [
+  { slug: 'safety-spectacles', name: 'Safety Spectacles', description: 'General-purpose protective spectacles for workplace eye protection and everyday site use.' },
+  { slug: 'anti-fog-safety-spectacles', name: 'Anti-Fog Safety Spectacles', description: 'Protective spectacles with stated anti-fog coatings for humid or changing-temperature workplaces.' },
+  { slug: 'safety-goggles', name: 'Safety Goggles', description: 'Enclosed protective goggles for dust, particles and other applications stated on each product page.' },
+  { slug: 'specialty-lens-eyewear', name: 'Specialty Lens Eyewear', description: 'Protective eyewear with polarized, indoor-outdoor or other specifically stated lens treatments.' },
+  { slug: 'eyewear-accessories', name: 'Eyewear Accessories', description: 'Compatible cords and accessories for suitable protective eyewear.' }
+];
+const eyeFaceSkuGroups = new Map(Object.entries({
+  'anti-fog-safety-spectacles': ['AFC','KAL','V100','V101','V103','V104','V107','V110','V121','V181','V191','V201','V51','V702','V72','V83'],
+  'safety-goggles': ['CGO','CHR','V351'],
+  'specialty-lens-eyewear': ['V49','V73','V771'],
+  'eyewear-accessories': ['CORD2'],
+  'safety-spectacles': ['B661','B671','KMS','KPB','M091','THB','V01','V02','V131','V19','V30','V406','V46','V61','V69','V701','V71','V81','V89','V901','V91']
+}).flatMap(([slug, skus]) => skus.map(sku => [sku, slug])));
+function eyeFaceFamily(p) {
+  const slug = eyeFaceSkuGroups.get(String(p.sku || '').toUpperCase());
+  return eyeFaceFamilies.find(family => family.slug === slug) || null;
+}
+
+const hearingRespiratoryFamilies = [
+  { slug: 'disposable-respirators-dust-masks', name: 'Disposable Respirators & Dust Masks', description: 'Disposable FFP2, KN95, cup-style and dust-mask options for their stated applications.' },
+  { slug: 'reusable-half-masks', name: 'Reusable Half Masks', description: 'Reusable industrial half-mask respirators for use with verified compatible filters or cartridges.' },
+  { slug: 'respirator-filters-cartridges', name: 'Respirator Filters & Cartridges', description: 'Replacement filters and cartridges for verified compatible respirator systems.' },
+  { slug: 'earplugs', name: 'Earplugs', description: 'Corded, uncorded and disposable earplugs for workplace hearing protection.' },
+  { slug: 'earmuffs', name: 'Earmuffs', description: 'Over-ear hearing protection with the stated attenuation and wearing configuration.' }
+];
+const hearingRespiratorySkuGroups = new Map(Object.entries({
+  'disposable-respirators-dust-masks': ['BPK','CAT','FUN','HIT','MAP','QBP','V-CN95','VMK'],
+  'reusable-half-masks': ['HFM'],
+  'respirator-filters-cartridges': ['ABH','COP','HRK','RKV'],
+  'earplugs': ['HND','LUC','USD','VPC','VPU'],
+  'earmuffs': ['NDG']
+}).flatMap(([slug, skus]) => skus.map(sku => [sku, slug])));
+function hearingRespiratoryFamily(p) {
+  const slug = hearingRespiratorySkuGroups.get(String(p.sku || '').toUpperCase());
+  return hearingRespiratoryFamilies.find(family => family.slug === slug) || null;
+}
 const supervisorVestSkus = new Set(['ICS', 'GSO', 'LVS', 'FAT']);
 const generalVestSkus = new Set(['BUP', 'IFS', 'RSJ', 'VOS']);
 
@@ -270,6 +308,14 @@ function normalise(p) {
   }
   if (item.category === 'helmets') {
     const family = headProtectionFamily(item);
+    if (family) item.subcategory = family.name;
+  }
+  if (item.category === 'eye-face-protection') {
+    const family = eyeFaceFamily(item);
+    if (family) item.subcategory = family.name;
+  }
+  if (item.category === 'hearing-respiratory') {
+    const family = hearingRespiratoryFamily(item);
     if (family) item.subcategory = family.name;
   }
   return item;
@@ -489,6 +535,30 @@ function headProtectionHub(groups) {
   return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><base href="/"><title>Head Protection by Type Dubai | Xpertone Creative</title><meta name="description" content="${description}"><link rel="canonical" href="${canonical}"><meta property="og:type" content="website"><meta property="og:title" content="Head Protection by Type Dubai"><meta property="og:description" content="${description}"><meta property="og:url" content="${canonical}"><meta property="og:image" content="${origin}/assets/img/brand/og-xpertone.png"><link rel="icon" type="image/png" sizes="32x32" href="assets/img/brand/favicon-32.png"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"><link rel="stylesheet" href="assets/css/main.css?v=20260914sku"></head><body data-page="shop"><a class="skip-link" href="#main">Skip to content</a><div id="siteHeader"></div><main id="main"><section class="section section--alt"><div class="container"><nav aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/shop.html">Shop</a> / <span>Head Protection</span></nav><h1 class="mt-3">Head Protection</h1><p class="lead">Choose head and face protection by product type and intended use. Every item remains clearly identified by SKU with its live stock, unit and pricing information.</p><p>${count} published products are organized into ${headProtectionFamilies.length} protection types.</p></div></section><section class="section"><div class="container"><h2>Shop Head Protection by Type</h2><div class="row g-4">${cards}</div></div></section><section class="section section--alt"><div class="container"><h2>Head protection supplier in Dubai and the UAE</h2><p>Compare industrial helmets, bump caps, face shields, welding helmets and compatible accessories. Review the verified specification on each product before ordering.</p></div></section></main><div id="siteFooter"></div><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script><script src="assets/js/config.js?v=20260914sku"></script><script src="assets/js/store.js?v=20260914sku"></script><script src="assets/js/ui.js?v=20260914sku"></script></body></html>`;
 }
 
+function ppeFamilyPage(categorySlug, categoryName, family, items, guidance) {
+  const canonical = `${categoryUrl(categorySlug)}${family.slug}/`;
+  const description = `Shop ${family.name.toLowerCase()} in Dubai and across the UAE. Compare ${items.length} products with SKU, stock, unit and current pricing.`;
+  const itemList = { '@context': 'https://schema.org', '@type': 'ItemList', name: family.name,
+    itemListElement: items.map((p, i) => ({ '@type': 'ListItem', position: i + 1, url: productUrl(p), name: p.title })) };
+  const breadcrumb = { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: `${origin}/` },
+    { '@type': 'ListItem', position: 2, name: categoryName, item: categoryUrl(categorySlug) },
+    { '@type': 'ListItem', position: 3, name: family.name, item: canonical }
+  ]};
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><base href="/"><title>${esc(family.name)} Dubai & UAE | Xpertone Creative</title><meta name="description" content="${esc(description)}"><link rel="canonical" href="${canonical}"><meta property="og:type" content="website"><meta property="og:title" content="${esc(family.name)} Dubai & UAE"><meta property="og:description" content="${esc(description)}"><meta property="og:url" content="${canonical}"><meta property="og:image" content="${origin}/assets/img/brand/og-xpertone.png"><link rel="icon" type="image/png" sizes="32x32" href="assets/img/brand/favicon-32.png"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"><link rel="stylesheet" href="assets/css/main.css?v=20260914sku"><script type="application/ld+json">${JSON.stringify(itemList)}</script><script type="application/ld+json">${JSON.stringify(breadcrumb)}</script></head><body data-page="shop"><a class="skip-link" href="#main">Skip to content</a><div id="siteHeader"></div><main id="main"><section class="section section--alt"><div class="container"><nav aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/category/${categorySlug}/">${esc(categoryName)}</a> / <span>${esc(family.name)}</span></nav><h1 class="mt-3">${esc(family.name)} in Dubai</h1><p class="lead">${esc(family.description)}</p><p>${items.length} products currently available. See each product page for its exact unit of sale.</p></div></section><section class="section"><div class="container"><div class="row g-4">${items.map(productCard).join('')}</div></div></section><section class="section section--alt"><div class="container"><h2>Choosing ${esc(family.name)}</h2><p>${esc(guidance)}</p></div></section></main><div id="siteFooter"></div><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script><script src="assets/js/config.js?v=20260914sku"></script><script src="assets/js/store.js?v=20260914sku"></script><script src="assets/js/ui.js?v=20260914sku"></script></body></html>`;
+}
+
+function ppeFamilyHub(categorySlug, categoryName, families, groups, description, guide) {
+  const cards = families.map(family => {
+    const items = groups.get(family.slug) || [];
+    const image = items[0]?.images?.[0];
+    return `<div class="col-md-6 col-xl-4"><article class="workwear-family-card">${image ? `<img src="${esc(image)}" alt="${esc(family.name)}" loading="lazy" width="600" height="420">` : ''}<div><p class="workwear-family-card__eyebrow">${items.length} products</p><h2><a href="/category/${categorySlug}/${family.slug}/">${esc(family.name)}</a></h2><p>${esc(family.description)}</p><a class="btn btn-xo btn-sm-xo" href="/category/${categorySlug}/${family.slug}/">View products</a></div></article></div>`;
+  }).join('');
+  const count = families.reduce((total, family) => total + (groups.get(family.slug) || []).length, 0);
+  const canonical = categoryUrl(categorySlug);
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><base href="/"><title>${esc(categoryName)} by Type Dubai | Xpertone Creative</title><meta name="description" content="${esc(description)}"><link rel="canonical" href="${canonical}"><meta property="og:type" content="website"><meta property="og:title" content="${esc(categoryName)} by Type Dubai"><meta property="og:description" content="${esc(description)}"><meta property="og:url" content="${canonical}"><meta property="og:image" content="${origin}/assets/img/brand/og-xpertone.png"><link rel="icon" type="image/png" sizes="32x32" href="assets/img/brand/favicon-32.png"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"><link rel="stylesheet" href="assets/css/main.css?v=20260914sku"></head><body data-page="shop"><a class="skip-link" href="#main">Skip to content</a><div id="siteHeader"></div><main id="main"><section class="section section--alt"><div class="container"><nav aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/shop.html">Shop</a> / <span>${esc(categoryName)}</span></nav><h1 class="mt-3">${esc(categoryName)}</h1><p class="lead">${esc(description)}</p><p>${count} published products are organized into ${families.length} practical product types.</p></div></section><section class="section"><div class="container"><h2>Shop ${esc(categoryName)} by Type</h2><div class="row g-4">${cards}</div></div></section><section class="section section--alt"><div class="container"><h2>${esc(categoryName)} supplier in Dubai and the UAE</h2><p>${esc(guide)}</p></div></section></main><div id="siteFooter"></div><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script><script src="assets/js/config.js?v=20260914sku"></script><script src="assets/js/store.js?v=20260914sku"></script><script src="assets/js/ui.js?v=20260914sku"></script></body></html>`;
+}
+
 function categoryPage(slug, items, page) {
   const name = items[0].categoryName;
   const copy = categoryCopy[slug] || defaultCategoryCopy(name, items.length);
@@ -513,7 +583,7 @@ fs.rmSync(path.join(root, 'products'), { recursive: true, force: true });
 fs.rmSync(path.join(root, 'category'), { recursive: true, force: true });
 for (const p of list) generateProduct(p);
 for (const [slug, items] of groups) {
-  if (slug === 'uniforms' || slug === 'safety-vests' || slug === 'hand-protection' || slug === 'safety-shoes' || slug === 'helmets') continue;
+  if (slug === 'uniforms' || slug === 'safety-vests' || slug === 'hand-protection' || slug === 'safety-shoes' || slug === 'helmets' || slug === 'eye-face-protection' || slug === 'hearing-respiratory') continue;
   const pages = Math.ceil(items.length / PAGE_SIZE);
   for (let page = 1; page <= pages; page++) {
     const target = page === 1 ? path.join(root, 'category', slug, 'index.html') : path.join(root, 'category', slug, 'page', String(page), 'index.html');
@@ -575,6 +645,32 @@ for (const family of headProtectionFamilies) {
   write(path.join(root, 'category', 'helmets', family.slug, 'index.html'), headProtectionFamilyPage(family, headProtectionGroups.get(family.slug)));
 }
 
+const eyeFaceItems = groups.get('eye-face-protection') || [];
+const eyeFaceGroups = new Map(eyeFaceFamilies.map(family => [family.slug, []]));
+for (const product of eyeFaceItems) {
+  const family = eyeFaceFamily(product);
+  if (family) eyeFaceGroups.get(family.slug).push(product);
+}
+write(path.join(root, 'category', 'eye-face-protection', 'index.html'), ppeFamilyHub('eye-face-protection', 'Eye & Face Protection', eyeFaceFamilies, eyeFaceGroups,
+  'Shop eye and face protection in Dubai by type, including safety spectacles, anti-fog eyewear, safety goggles, specialty lenses and accessories.',
+  'Compare lens treatment, impact protection, coverage and compatibility. Use the verified product specification and workplace risk assessment when selecting protective eyewear.'));
+for (const family of eyeFaceFamilies) {
+  write(path.join(root, 'category', 'eye-face-protection', family.slug, 'index.html'), ppeFamilyPage('eye-face-protection', 'Eye & Face Protection', family, eyeFaceGroups.get(family.slug), 'Match the verified lens treatment, coverage, impact rating and compatibility to the workplace hazard and task.'));
+}
+
+const hearingRespiratoryItems = groups.get('hearing-respiratory') || [];
+const hearingRespiratoryGroups = new Map(hearingRespiratoryFamilies.map(family => [family.slug, []]));
+for (const product of hearingRespiratoryItems) {
+  const family = hearingRespiratoryFamily(product);
+  if (family) hearingRespiratoryGroups.get(family.slug).push(product);
+}
+write(path.join(root, 'category', 'hearing-respiratory', 'index.html'), ppeFamilyHub('hearing-respiratory', 'Hearing & Respiratory Protection', hearingRespiratoryFamilies, hearingRespiratoryGroups,
+  'Shop hearing and respiratory protection in Dubai by type, including disposable respirators, reusable masks, filters, earplugs and earmuffs.',
+  'Compare the verified filtration or attenuation rating, fit, compatibility and unit of sale. Select protection according to the workplace exposure assessment.'));
+for (const family of hearingRespiratoryFamilies) {
+  write(path.join(root, 'category', 'hearing-respiratory', family.slug, 'index.html'), ppeFamilyPage('hearing-respiratory', 'Hearing & Respiratory Protection', family, hearingRespiratoryGroups.get(family.slug), 'Match the verified protection rating, fit, compatibility and replacement schedule to the workplace exposure assessment.'));
+}
+
 const staticUrls = [
   [`${origin}/`, 'weekly', '1.0'], [`${origin}/shop.html`, 'daily', '0.8'],
   [`${origin}/about.html`, 'monthly', '0.6'], [`${origin}/contact.html`, 'monthly', '0.7']
@@ -587,6 +683,8 @@ for (const family of safetyVestFamilies) categoryRows.push([`${categoryUrl('safe
 for (const family of handProtectionFamilies) categoryRows.push([`${categoryUrl('hand-protection')}${family.slug}/`, 'weekly', '0.8']);
 for (const family of safetyShoeFamilies) categoryRows.push([`${categoryUrl('safety-shoes')}${family.slug}/`, 'weekly', '0.8']);
 for (const family of headProtectionFamilies) categoryRows.push([`${categoryUrl('helmets')}${family.slug}/`, 'weekly', '0.8']);
+for (const family of eyeFaceFamilies) categoryRows.push([`${categoryUrl('eye-face-protection')}${family.slug}/`, 'weekly', '0.8']);
+for (const family of hearingRespiratoryFamilies) categoryRows.push([`${categoryUrl('hearing-respiratory')}${family.slug}/`, 'weekly', '0.8']);
 write(path.join(root, 'sitemap-categories.xml'), xml(categoryRows));
 write(path.join(root, 'sitemap-products.xml'), xml(list.map(p => [productUrl(p), 'weekly', '0.6'])));
 write(path.join(root, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <sitemap><loc>${origin}/sitemap-pages.xml</loc><lastmod>${today}</lastmod></sitemap>\n  <sitemap><loc>${origin}/sitemap-categories.xml</loc><lastmod>${today}</lastmod></sitemap>\n  <sitemap><loc>${origin}/sitemap-products.xml</loc><lastmod>${today}</lastmod></sitemap>\n</sitemapindex>\n`);
