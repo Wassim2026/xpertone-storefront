@@ -52,7 +52,7 @@ main{padding:26px;max-width:1540px;margin:0 auto}.pagehead{display:flex;align-it
     <button class="g" id="outBtn">Sign out</button>
   </header>
   <main>
-    <div class="pagehead"><div><h1>Products</h1><p>Find, price and publish catalogue items.</p></div><span class="sp"></span><button class="d" id="deleteHiddenBtn">Delete all hidden products</button><button class="g" id="applyPricePolicyBtn">Apply current price policy</button><button class="y" id="newTopBtn">+ Add product</button></div>
+    <div class="pagehead"><div><h1>Products</h1><p>Find, price and publish catalogue items.</p></div><span class="sp"></span><button class="g" id="applyHandTypesBtn">Apply Hand Protection types</button><button class="d" id="deleteHiddenBtn">Delete all hidden products</button><button class="g" id="applyPricePolicyBtn">Apply current price policy</button><button class="y" id="newTopBtn">+ Add product</button></div>
     <div class="stats">
       <div class="stat">All products <b id="sCount">—</b></div>
       <div class="stat live">Visible on site <b id="sVisible">—</b></div>
@@ -474,6 +474,38 @@ function productPhotoPath(url){
   try { return decodeURIComponent(value.slice(at + marker.length).split('?')[0]); }
   catch { return value.slice(at + marker.length).split('?')[0]; }
 }
+
+$('applyHandTypesBtn').onclick = async () => {
+  const groups = {
+    'Cut-Resistant Gloves': ['ACM','ANZ','JNU','LBG','LOL','RUB72','SAO','SEG','YES'],
+    'Nitrile-Coated Gloves': ['CAB','KTP','NBR','ORD','USA'],
+    'Latex & Rubber-Coated Gloves': ['DRC','DSC','MWC','PEV','RGS','USC','WRY'],
+    'Leather, Driving & Welding Gloves': ['BAK','DPX','EGY','GKR','HJO','IJT10','SAF','TZA','UKP'],
+    'Cotton, Knitted & Heat-Resistant Gloves': ['BCK60','CKG','LHE','PCR','RTP'],
+    'Impact & Anti-Vibration Gloves': ['AFH','MOK','QUV','UFO'],
+    'Chemical, PVC & Long-Cuff Gloves': ['JKL','LLR','MLX','NEP','PLR','TNC'],
+    'Disposable & Examination Gloves': ['JWM']
+  };
+  const typeBySku = new Map(Object.entries(groups).flatMap(([type, skus]) => skus.map(sku => [sku, type])));
+  const targets = PRODUCTS.filter(p => p.category_slug === 'hand-protection');
+  if (targets.length !== 46 || targets.some(p => !typeBySku.has(String(p.sku).toUpperCase()))) {
+    return note('amsg','Safety stop: expected 46 mapped Hand Protection products. Nothing was changed.','e');
+  }
+  const btn = $('applyHandTypesBtn');
+  btn.disabled = true;
+  let updated = 0, failed = 0, firstErr = '';
+  for (const product of targets) {
+    const subcategory = typeBySku.get(String(product.sku).toUpperCase());
+    const { data, error } = await sb.from('products').update({ subcategory }).eq('id', product.id).select('id');
+    if (error || !(data || []).length) { failed++; if (!firstErr) firstErr = error?.message || 'No row returned'; }
+    else { product.subcategory = subcategory; updated++; }
+    btn.textContent = 'Applying types… ' + (updated + failed) + '/' + targets.length;
+  }
+  btn.disabled = false;
+  btn.textContent = 'Apply Hand Protection types';
+  render();
+  note('amsg', updated + ' Hand Protection products categorized.' + (failed ? ' ' + failed + ' failed — ' + firstErr : ''), failed ? 'e' : 's');
+};
 
 $('deleteHiddenBtn').onclick = async () => {
   const hidden = PRODUCTS.filter(p => !isLive(p));

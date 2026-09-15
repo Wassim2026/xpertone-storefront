@@ -2535,61 +2535,6 @@
     "stock_updated_at": "2026-08-14T09:26:32.485648+00:00"
   },
   {
-    "id": "ba5b64b2-d030-4d19-8a9a-46b2cecfc743",
-    "sku": "BCK60",
-    "title": "Bleached Cotton Knitted Gloves",
-    "slug": "bleached-cotton-knitted-gloves-2",
-    "category": "hand-protection",
-    "category_name": "Hand Protection",
-    "subcategory": "Nitrile Coated",
-    "subcategory_slug": "nitrile-coated",
-    "price": 9,
-    "price_is_fixed": true,
-    "sizes": [
-      "Doz"
-    ],
-    "images": [
-      "https://www.xpertonecreative.com/assets/img/products/hand-protection/BCK60.png",
-      "https://www.xpertonecreative.com/assets/img/products/hand-protection/BCK60.png",
-      "https://sbmmarketplace.com/backend/public/uploads/2023/04/bck6005.jpg",
-      "https://sbmmarketplace.com/backend/public/uploads/2023/04/BCK6001.jpg",
-      "https://sbmmarketplace.com/backend/public/uploads/2023/04/BCK6002.jpg",
-      "https://sbmmarketplace.com/backend/public/uploads/2023/04/BCK6003.jpg",
-      "https://sbmmarketplace.com/backend/public/uploads/2023/04/BCK6004.jpg"
-    ],
-    "subtitle": "The BCK60  is a bleached cotton Glove with an attractive appearance. It is crafted in classic design with an extremely soft texture to provide Exceptional Comfort & Reduced Hand Fatigue.",
-    "description": "The BCK60  is a bleached cotton Glove with an attractive appearance. It is crafted in classic design with an extremely soft texture to provide Exceptional Comfort & Reduced Hand Fatigue. It is designed to be skin-friendly, long-lasting, & breathable. BCK60 provides excellent grip in dry conditions which further aid in safe & secure handling with comfort.",
-    "features": [
-      "Origin: China",
-      "Weight: 450 grams/ doz",
-      "Colour: white",
-      "Washable",
-      "Excellent Grip In Dry Conditions For Safe And Secure Handling",
-      "Extremely Soft Feeling And Exceptional Comfort",
-      "Reduced Hand Fatigue",
-      "Skin Friendly",
-      "Lasting And Breathable"
-    ],
-    "material": "",
-    "colour": "",
-    "origin": "",
-    "standard": "",
-    "packing": "Net Weight /Carton (Kg.): 27 Gross Weight /Carton (Kg.): 28 Carton Dimension (Cms.): 62 x 51 x 24",
-    "gsm": "",
-    "dimensions": "",
-    "attribute": "",
-    "catalogue_page": null,
-    "sort_order": 154,
-    "unit": "Dz",
-    "carton_qty": 60,
-    "stock_total": 13586,
-    "stock_by_size": {
-      "Doz": 13586
-    },
-    "in_stock": true,
-    "stock_updated_at": "2026-08-14T09:26:32.485648+00:00"
-  },
-  {
     "id": "9c963e66-9ad7-497f-9139-4fc598962110",
     "sku": "CKG",
     "title": "Bleached Cotton Knitted Gloves",

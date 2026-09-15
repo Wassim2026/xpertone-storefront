@@ -108,6 +108,32 @@ const safetyVestFamilies = [
   { slug: 'supervisor-vests', name: 'Supervisor Safety Vests', label: 'AED 15–20', thumbnail: '/assets/img/category/safety-vests/supervisor-vests.webp', description: 'Supervisor vests with practical closures, pockets and enhanced site visibility.' },
   { slug: 'engineer-management-vests', name: 'Engineer & Management Safety Vests', label: 'Above AED 20', thumbnail: '/assets/img/category/safety-vests/engineer-management-vests.webp', description: 'Premium vest options suited to engineers, managers and senior site personnel.' }
 ];
+
+const handProtectionFamilies = [
+  { slug: 'cut-resistant-gloves', name: 'Cut-Resistant Gloves', description: 'Gloves designed for tasks requiring verified cut-resistance construction and coated grip.' },
+  { slug: 'nitrile-coated-gloves', name: 'Nitrile-Coated Gloves', description: 'General handling gloves with nitrile foam, flat or micro-foam palm coatings.' },
+  { slug: 'latex-rubber-coated-gloves', name: 'Latex & Rubber-Coated Gloves', description: 'Latex and rubber-coated gloves for grip-focused handling and general site work.' },
+  { slug: 'leather-driving-welding-gloves', name: 'Leather, Driving & Welding Gloves', description: 'Leather gloves for driving, fabrication, welding and heavy-duty handling tasks.' },
+  { slug: 'cotton-knitted-heat-resistant-gloves', name: 'Cotton, Knitted & Heat-Resistant Gloves', description: 'Cotton and knitted gloves, including hot-mill styles for suitable heat-handling work.' },
+  { slug: 'impact-anti-vibration-gloves', name: 'Impact & Anti-Vibration Gloves', description: 'Specialist gloves for mechanical impact protection and vibration-intensive work.' },
+  { slug: 'chemical-pvc-long-cuff-gloves', name: 'Chemical, PVC & Long-Cuff Gloves', description: 'Long-cuff, PVC, nitrile and latex styles intended for chemical or wet handling applications.' },
+  { slug: 'disposable-examination-gloves', name: 'Disposable & Examination Gloves', description: 'Single-use examination gloves for hygiene-sensitive and general disposable applications.' }
+];
+const handProtectionSkuGroups = new Map(Object.entries({
+  'cut-resistant-gloves': ['ACM','ANZ','JNU','LBG','LOL','RUB72','SAO','SEG','YES'],
+  'nitrile-coated-gloves': ['CAB','KTP','NBR','ORD','USA'],
+  'latex-rubber-coated-gloves': ['DRC','DSC','MWC','PEV','RGS','USC','WRY'],
+  'leather-driving-welding-gloves': ['BAK','DPX','EGY','GKR','HJO','IJT10','SAF','TZA','UKP'],
+  'cotton-knitted-heat-resistant-gloves': ['BCK60','CKG','LHE','PCR','RTP'],
+  'impact-anti-vibration-gloves': ['AFH','MOK','QUV','UFO'],
+  'chemical-pvc-long-cuff-gloves': ['JKL','LLR','MLX','NEP','PLR','TNC'],
+  'disposable-examination-gloves': ['JWM']
+}).flatMap(([slug, skus]) => skus.map(sku => [sku, slug])));
+
+function handProtectionFamily(p) {
+  const slug = handProtectionSkuGroups.get(String(p.sku || '').toUpperCase());
+  return handProtectionFamilies.find(family => family.slug === slug) || null;
+}
 const supervisorVestSkus = new Set(['ICS', 'GSO', 'LVS', 'FAT']);
 const generalVestSkus = new Set(['BUP', 'IFS', 'RSJ', 'VOS']);
 
@@ -185,6 +211,10 @@ function normalise(p) {
       item.category = correctedCategory;
       item.categoryName = categoryNames[correctedCategory];
     }
+  }
+  if (item.category === 'hand-protection') {
+    const family = handProtectionFamily(item);
+    if (family) item.subcategory = family.name;
   }
   return item;
 }
@@ -328,6 +358,31 @@ function safetyVestHub(groups) {
   return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><base href="/"><title>Safety Vests by Role & Price Dubai | Xpertone Creative</title><meta name="description" content="${description}"><link rel="canonical" href="${canonical}"><meta property="og:type" content="website"><meta property="og:title" content="Safety Vests by Role & Price Dubai"><meta property="og:description" content="${description}"><meta property="og:url" content="${canonical}"><meta property="og:image" content="${origin}/assets/img/brand/og-xpertone.png"><link rel="icon" type="image/png" sizes="32x32" href="assets/img/brand/favicon-32.png"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"><link rel="stylesheet" href="assets/css/main.css?v=20260914sku"></head><body data-page="shop"><a class="skip-link" href="#main">Skip to content</a><div id="siteHeader"></div><main id="main"><section class="section section--alt"><div class="container"><nav aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/shop.html">Shop</a> / <span>Safety Vests</span></nav><h1 class="mt-3">Safety Vests</h1><p class="lead">Choose a vest range by role and current catalogue price. Colours and designs remain as individual products inside each dedicated range.</p><p>${count} published safety vests are available.</p></div></section><section class="section"><div class="container"><h2>Safety Vest Categories</h2><div class="row g-4">${cards}</div></div></section><section class="section section--alt"><div class="container"><h2>Safety vest printing in Dubai</h2><p>Add an approved company logo, department name or role title to suitable vest designs. Open a range to compare available colours, SKUs, sizes and current pricing.</p></div></section></main><div id="siteFooter"></div><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script><script src="assets/js/config.js?v=20260914sku"></script><script src="assets/js/store.js?v=20260914sku"></script><script src="assets/js/ui.js?v=20260914sku"></script></body></html>`;
 }
 
+function handProtectionFamilyPage(family, items) {
+  const canonical = `${categoryUrl('hand-protection')}${family.slug}/`;
+  const description = `Shop ${family.name.toLowerCase()} in Dubai and across the UAE. Compare verified product details, SKUs, sizes, stock and prices for ${items.length} available gloves.`;
+  const itemList = { '@context': 'https://schema.org', '@type': 'ItemList', name: family.name,
+    itemListElement: items.map((p, i) => ({ '@type': 'ListItem', position: i + 1, url: productUrl(p), name: p.title })) };
+  const breadcrumb = { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: `${origin}/` },
+    { '@type': 'ListItem', position: 2, name: 'Hand Protection', item: categoryUrl('hand-protection') },
+    { '@type': 'ListItem', position: 3, name: family.name, item: canonical }
+  ]};
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><base href="/"><title>${esc(family.name)} Dubai & UAE | Xpertone Creative</title><meta name="description" content="${esc(description)}"><link rel="canonical" href="${canonical}"><meta property="og:type" content="website"><meta property="og:title" content="${esc(family.name)} Dubai & UAE"><meta property="og:description" content="${esc(description)}"><meta property="og:url" content="${canonical}"><meta property="og:image" content="${origin}/assets/img/brand/og-xpertone.png"><link rel="icon" type="image/png" sizes="32x32" href="assets/img/brand/favicon-32.png"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"><link rel="stylesheet" href="assets/css/main.css?v=20260914sku"><script type="application/ld+json">${JSON.stringify(itemList)}</script><script type="application/ld+json">${JSON.stringify(breadcrumb)}</script></head><body data-page="shop"><a class="skip-link" href="#main">Skip to content</a><div id="siteHeader"></div><main id="main"><section class="section section--alt"><div class="container"><nav aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/category/hand-protection/">Hand Protection</a> / <span>${esc(family.name)}</span></nav><h1 class="mt-3">${esc(family.name)} in Dubai</h1><p class="lead">${esc(family.description)}</p><p>${items.length} products currently available.</p></div></section><section class="section"><div class="container"><div class="row g-4">${items.map(productCard).join('')}</div></div></section><section class="section section--alt"><div class="container"><h2>Choosing ${esc(family.name)}</h2><p>Check the individual product page for its material, coating, cuff, size and verified resistance information. Select hand protection according to the workplace risk assessment and intended task.</p></div></section></main><div id="siteFooter"></div><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script><script src="assets/js/config.js?v=20260914sku"></script><script src="assets/js/store.js?v=20260914sku"></script><script src="assets/js/ui.js?v=20260914sku"></script></body></html>`;
+}
+
+function handProtectionHub(groups) {
+  const cards = handProtectionFamilies.map(family => {
+    const items = groups.get(family.slug) || [];
+    const image = items[0]?.images?.[0];
+    return `<div class="col-md-6 col-xl-4"><article class="workwear-family-card">${image ? `<img src="${esc(image)}" alt="${esc(family.name)}" loading="lazy" width="600" height="420">` : ''}<div><p class="workwear-family-card__eyebrow">${items.length} products</p><h2><a href="/category/hand-protection/${family.slug}/">${esc(family.name)}</a></h2><p>${esc(family.description)}</p><a class="btn btn-xo btn-sm-xo" href="/category/hand-protection/${family.slug}/">View products</a></div></article></div>`;
+  }).join('');
+  const count = handProtectionFamilies.reduce((total, family) => total + (groups.get(family.slug) || []).length, 0);
+  const canonical = categoryUrl('hand-protection');
+  const description = 'Shop safety gloves in Dubai by type: nitrile-coated, cut-resistant, latex, leather, welding, cotton, impact, chemical and disposable hand protection.';
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><base href="/"><title>Safety Gloves by Type Dubai | Xpertone Creative</title><meta name="description" content="${description}"><link rel="canonical" href="${canonical}"><meta property="og:type" content="website"><meta property="og:title" content="Safety Gloves by Type Dubai"><meta property="og:description" content="${description}"><meta property="og:url" content="${canonical}"><meta property="og:image" content="${origin}/assets/img/brand/og-xpertone.png"><link rel="icon" type="image/png" sizes="32x32" href="assets/img/brand/favicon-32.png"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"><link rel="stylesheet" href="assets/css/main.css?v=20260914sku"></head><body data-page="shop"><a class="skip-link" href="#main">Skip to content</a><div id="siteHeader"></div><main id="main"><section class="section section--alt"><div class="container"><nav aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/shop.html">Shop</a> / <span>Hand Protection</span></nav><h1 class="mt-3">Hand Protection</h1><p class="lead">Choose gloves by construction and intended use. Each product stays available under one clear glove type with its SKU, sizes and live stock information.</p><p>${count} published products are organized into ${handProtectionFamilies.length} glove types.</p></div></section><section class="section"><div class="container"><h2>Shop Safety Gloves by Type</h2><div class="row g-4">${cards}</div></div></section><section class="section section--alt"><div class="container"><h2>Hand protection supplier in Dubai and the UAE</h2><p>Compare nitrile, latex, cut-resistant, leather, welding, cotton, impact, chemical and disposable glove options. Always match the verified product specification to the workplace hazard and task.</p></div></section></main><div id="siteFooter"></div><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script><script src="assets/js/config.js?v=20260914sku"></script><script src="assets/js/store.js?v=20260914sku"></script><script src="assets/js/ui.js?v=20260914sku"></script></body></html>`;
+}
+
 function categoryPage(slug, items, page) {
   const name = items[0].categoryName;
   const copy = categoryCopy[slug] || defaultCategoryCopy(name, items.length);
@@ -352,7 +407,7 @@ fs.rmSync(path.join(root, 'products'), { recursive: true, force: true });
 fs.rmSync(path.join(root, 'category'), { recursive: true, force: true });
 for (const p of list) generateProduct(p);
 for (const [slug, items] of groups) {
-  if (slug === 'uniforms' || slug === 'safety-vests') continue;
+  if (slug === 'uniforms' || slug === 'safety-vests' || slug === 'hand-protection') continue;
   const pages = Math.ceil(items.length / PAGE_SIZE);
   for (let page = 1; page <= pages; page++) {
     const target = page === 1 ? path.join(root, 'category', slug, 'index.html') : path.join(root, 'category', slug, 'page', String(page), 'index.html');
@@ -381,6 +436,17 @@ for (const family of safetyVestFamilies) {
   write(path.join(root, 'category', 'safety-vests', family.slug, 'index.html'), safetyVestFamilyPage(family, safetyVestGroups.get(family.slug)));
 }
 
+const handProtectionItems = groups.get('hand-protection') || [];
+const handProtectionGroups = new Map(handProtectionFamilies.map(family => [family.slug, []]));
+for (const product of handProtectionItems) {
+  const family = handProtectionFamily(product);
+  if (family) handProtectionGroups.get(family.slug).push(product);
+}
+write(path.join(root, 'category', 'hand-protection', 'index.html'), handProtectionHub(handProtectionGroups));
+for (const family of handProtectionFamilies) {
+  write(path.join(root, 'category', 'hand-protection', family.slug, 'index.html'), handProtectionFamilyPage(family, handProtectionGroups.get(family.slug)));
+}
+
 const staticUrls = [
   [`${origin}/`, 'weekly', '1.0'], [`${origin}/shop.html`, 'daily', '0.8'],
   [`${origin}/about.html`, 'monthly', '0.6'], [`${origin}/contact.html`, 'monthly', '0.7']
@@ -390,6 +456,7 @@ write(path.join(root, 'sitemap-pages.xml'), xml(staticUrls));
 const categoryRows = [...groups.keys()].map(slug => [categoryUrl(slug), 'weekly', '0.8']);
 for (const family of workwearFamilies) if (workwearGroups.get(family.slug).length) categoryRows.push([workwearUrl(family.slug), 'weekly', '0.8']);
 for (const family of safetyVestFamilies) categoryRows.push([`${categoryUrl('safety-vests')}${family.slug}/`, 'weekly', '0.8']);
+for (const family of handProtectionFamilies) categoryRows.push([`${categoryUrl('hand-protection')}${family.slug}/`, 'weekly', '0.8']);
 write(path.join(root, 'sitemap-categories.xml'), xml(categoryRows));
 write(path.join(root, 'sitemap-products.xml'), xml(list.map(p => [productUrl(p), 'weekly', '0.6'])));
 write(path.join(root, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <sitemap><loc>${origin}/sitemap-pages.xml</loc><lastmod>${today}</lastmod></sitemap>\n  <sitemap><loc>${origin}/sitemap-categories.xml</loc><lastmod>${today}</lastmod></sitemap>\n  <sitemap><loc>${origin}/sitemap-products.xml</loc><lastmod>${today}</lastmod></sitemap>\n</sitemapindex>\n`);
