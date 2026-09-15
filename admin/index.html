@@ -482,7 +482,7 @@ $('deleteHighCostShoesBtn').onclick = async () => {
   const targetIds = new Set(targets.map(p => p.id));
   const retainedPaths = new Set(PRODUCTS.filter(p => !targetIds.has(p.id))
     .flatMap(p => (p.images || []).map(productPhotoPath).filter(Boolean)));
-  const removablePaths = [...new Set(targets.flatMap(p => (p.images || []).map(productPhotoPath).filter(Boolean))]
+  const removablePaths = [...new Set(targets.flatMap(p => (p.images || []).map(productPhotoPath).filter(Boolean)))]
     .filter(path => !retainedPaths.has(path));
   const btn = $('deleteHighCostShoesBtn');
   btn.disabled = true;
