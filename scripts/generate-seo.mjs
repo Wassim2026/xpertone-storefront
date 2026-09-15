@@ -126,7 +126,7 @@ const handProtectionSkuGroups = new Map(Object.entries({
   'nitrile-coated-gloves': ['CAB','KTP','NBR','ORD','USA'],
   'latex-rubber-coated-gloves': ['DRC','DSC','MWC','PEV','RGS','USC','WRY'],
   'leather-driving-welding-gloves': ['BAK','DPX','EGY','GKR','HJO','IJT10','SAF','TZA','UKP'],
-  'cotton-knitted-heat-resistant-gloves': ['BCK60','CKG','LHE','PCR','RTP'],
+  'cotton-knitted-heat-resistant-gloves': ['BCK60','CKG','LHE','PCR','RTP','PMI'],
   'impact-anti-vibration-gloves': ['AFH','MOK','QUV','UFO'],
   'chemical-pvc-long-cuff-gloves': ['JKL','LLR','MLX','NEP','PLR','TNC'],
   'disposable-examination-gloves': ['JWM']
