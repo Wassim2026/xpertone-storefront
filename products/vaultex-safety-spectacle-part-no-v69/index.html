@@ -114,6 +114,7 @@ document.addEventListener('DOMContentLoaded', function () {
       ['Fabric weight', p.gsm],
       ['Standard', p.standard],
       ['Packing', p.packing],
+      ['Unit of sale', p.unit],
       ['Country of origin', p.origin]
     ];
     return rows.filter(function (r) { return r[1]; }).map(function (r) {
@@ -146,6 +147,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     var ind = XO.indicative(p);
+    var unit = ({ pairs: 'pair', pair: 'pair', doz: 'dozen', dozen: 'dozen', mono: 'mono', pcs: 'piece', piece: 'piece' }[String(p.unit || '').toLowerCase()] || String(p.unit || 'piece').toLowerCase());
     var img = p.images[0];
     var desc = p.description || (isCustomisable
       ? 'Supplied in bulk from our Al Quoz warehouse, with optional logo and text printing. ' +
@@ -183,7 +185,7 @@ document.addEventListener('DOMContentLoaded', function () {
           '<div class="d-flex align-items-baseline gap-2 mt-3">' +
             '<span class="num" style="font-size:2rem;font-weight:800;color:var(--xo-ink);letter-spacing:-.03em">' +
               XO.money(p.price) + '</span>' +
-            '<span class="text-muted-xo">per piece · ex VAT</span>' +
+            '<span class="text-muted-xo">per ' + XO.esc(unit) + ' · ex VAT</span>' +
           '</div>' +
           (ind ? '<p class="price-note mt-2 mb-0"><i class="fa-solid fa-circle-info"></i> ' +
                  XO.esc(XO_CONFIG.INDICATIVE.long) + '</p>' : '') +
