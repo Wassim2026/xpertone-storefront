@@ -220,6 +220,48 @@ function hearingRespiratoryFamily(p) {
   const slug = hearingRespiratorySkuGroups.get(String(p.sku || '').toUpperCase());
   return hearingRespiratoryFamilies.find(family => family.slug === slug) || null;
 }
+
+const trafficSafetyFamilies = [
+  { slug: 'traffic-cones-posts', name: 'Traffic Cones & Posts', description: 'Traffic cones, delineator posts and reflective road posts for temporary traffic control and site routing.' },
+  { slug: 'traffic-warning-lights', name: 'Traffic Warning & Solar Lights', description: 'Solar and LED warning lights for traffic cones, barriers and temporary road-safety installations.' },
+  { slug: 'traffic-batons', name: 'Traffic Batons', description: 'Handheld illuminated traffic batons for marshals, parking teams and controlled vehicle movement.' },
+  { slug: 'barrier-mesh-fencing', name: 'Barrier Mesh & Safety Fencing', description: 'High-visibility mesh and temporary fencing for work-zone boundaries, crowd guidance and restricted areas.' }
+];
+const trafficSafetySkuGroups = new Map(Object.entries({
+  'traffic-cones-posts': ['TAC','UDP','WPN'],
+  'traffic-warning-lights': ['S1359B','S1325','S1317','S1317RED'],
+  'traffic-batons': ['ISO','PKA','ROJ'],
+  'barrier-mesh-fencing': ['HVK','MSO']
+}).flatMap(([slug, skus]) => skus.map(sku => [sku, slug])));
+function trafficSafetyFamily(p) {
+  const slug = trafficSafetySkuGroups.get(String(p.sku || '').toUpperCase());
+  return trafficSafetyFamilies.find(family => family.slug === slug) || null;
+}
+
+const hardwareToolFamilies = [
+  { slug: 'hammers-striking-tools', name: 'Hammers & Striking Tools', description: 'Machinist, claw, chipping and sledge hammers for workshop, construction and maintenance work.' },
+  { slug: 'cutting-saw-blades', name: 'Cutting & Saw Blades', description: 'Diamond and TCT cutting blades for compatible workshop and construction equipment.' },
+  { slug: 'fire-blankets', name: 'Fire Blankets', description: 'Fire blankets in multiple sizes for suitable emergency response points and workplace installations.' },
+  { slug: 'warning-reflective-tapes-chains', name: 'Warning Tapes, Reflective Tapes & Chains', description: 'Printed warning tapes, reflective tapes and plastic chains for marking hazards and controlled areas.' },
+  { slug: 'scaffolding-tags', name: 'Scaffolding Tags', description: 'Scaffolding tag holders and marker sets for inspection-status identification on compatible systems.' },
+  { slug: 'lifting-lashing-equipment', name: 'Lifting & Lashing Equipment', description: 'Cargo lashing and polyester webbing slings for compatible load-control and material-handling tasks.' },
+  { slug: 'spill-waste-management', name: 'Spill & Waste Management', description: 'Absorbent and disposal products for routine workplace spill response and waste handling.' },
+  { slug: 'site-utility-supplies', name: 'Site Utility Supplies', description: 'Additional site and workforce utility products used across construction and industrial workplaces.' }
+];
+const hardwareToolSkuGroups = new Map(Object.entries({
+  'hammers-striking-tools': ['EAO','BDQ','VVL','ESN','IAV','PSC','QER','JOK'],
+  'cutting-saw-blades': ['DMD','TCT','TCB'],
+  'fire-blankets': ['FB1240','FB12.1830','FB18'],
+  'warning-reflective-tapes-chains': ['SEP','FAB','HED','RGO','RGG','RFC','KDL','NGR'],
+  'scaffolding-tags': ['ADD','JCR'],
+  'lifting-lashing-equipment': ['HHR','RAB'],
+  'spill-waste-management': ['OVP','PMM'],
+  'site-utility-supplies': ['SOR']
+}).flatMap(([slug, skus]) => skus.map(sku => [sku, slug])));
+function hardwareToolFamily(p) {
+  const slug = hardwareToolSkuGroups.get(String(p.sku || '').toUpperCase());
+  return hardwareToolFamilies.find(family => family.slug === slug) || null;
+}
 const supervisorVestSkus = new Set(['ICS', 'GSO', 'LVS', 'FAT']);
 const generalVestSkus = new Set(['BUP', 'IFS', 'RSJ', 'VOS']);
 
@@ -316,6 +358,14 @@ function normalise(p) {
   }
   if (item.category === 'hearing-respiratory') {
     const family = hearingRespiratoryFamily(item);
+    if (family) item.subcategory = family.name;
+  }
+  if (item.category === 'traffic-safety') {
+    const family = trafficSafetyFamily(item);
+    if (family) item.subcategory = family.name;
+  }
+  if (item.category === 'hardware-tools') {
+    const family = hardwareToolFamily(item);
     if (family) item.subcategory = family.name;
   }
   return item;
@@ -596,7 +646,7 @@ fs.rmSync(path.join(root, 'products'), { recursive: true, force: true });
 fs.rmSync(path.join(root, 'category'), { recursive: true, force: true });
 for (const p of list) generateProduct(p);
 for (const [slug, items] of groups) {
-  if (slug === 'uniforms' || slug === 'safety-vests' || slug === 'hand-protection' || slug === 'safety-shoes' || slug === 'helmets' || slug === 'eye-face-protection' || slug === 'hearing-respiratory') continue;
+  if (slug === 'uniforms' || slug === 'safety-vests' || slug === 'hand-protection' || slug === 'safety-shoes' || slug === 'helmets' || slug === 'eye-face-protection' || slug === 'hearing-respiratory' || slug === 'traffic-safety' || slug === 'hardware-tools') continue;
   const pages = Math.ceil(items.length / PAGE_SIZE);
   for (let page = 1; page <= pages; page++) {
     const target = page === 1 ? path.join(root, 'category', slug, 'index.html') : path.join(root, 'category', slug, 'page', String(page), 'index.html');
@@ -684,6 +734,32 @@ for (const family of hearingRespiratoryFamilies) {
   write(path.join(root, 'category', 'hearing-respiratory', family.slug, 'index.html'), ppeFamilyPage('hearing-respiratory', 'Hearing & Respiratory Protection', family, hearingRespiratoryGroups.get(family.slug), 'Match the verified protection rating, fit, compatibility and replacement schedule to the workplace exposure assessment.'));
 }
 
+const trafficSafetyItems = groups.get('traffic-safety') || [];
+const trafficSafetyGroups = new Map(trafficSafetyFamilies.map(family => [family.slug, []]));
+for (const product of trafficSafetyItems) {
+  const family = trafficSafetyFamily(product);
+  if (family) trafficSafetyGroups.get(family.slug).push(product);
+}
+write(path.join(root, 'category', 'traffic-safety', 'index.html'), ppeFamilyHub('traffic-safety', 'Traffic & Road Safety', trafficSafetyFamilies, trafficSafetyGroups,
+  'Shop traffic and road-safety products in Dubai by type, including cones, posts, warning lights, traffic batons, barrier mesh and temporary safety fencing.',
+  'Choose road-safety equipment for the traffic plan, visibility conditions, installation environment and verified product specification. Confirm site and authority requirements before deployment.'));
+for (const family of trafficSafetyFamilies) {
+  write(path.join(root, 'category', 'traffic-safety', family.slug, 'index.html'), ppeFamilyPage('traffic-safety', 'Traffic & Road Safety', family, trafficSafetyGroups.get(family.slug), 'Match the product dimensions, visibility features, power source and installation method to the approved traffic-management plan.'));
+}
+
+const hardwareToolItems = groups.get('hardware-tools') || [];
+const hardwareToolGroups = new Map(hardwareToolFamilies.map(family => [family.slug, []]));
+for (const product of hardwareToolItems) {
+  const family = hardwareToolFamily(product);
+  if (family) hardwareToolGroups.get(family.slug).push(product);
+}
+write(path.join(root, 'category', 'hardware-tools', 'index.html'), ppeFamilyHub('hardware-tools', 'Hardware & Tools', hardwareToolFamilies, hardwareToolGroups,
+  'Shop hardware, tools and site supplies in Dubai by type, including hammers, cutting blades, fire blankets, warning tapes, scaffolding tags and lifting equipment.',
+  'Select tools and site supplies by the intended task, compatible equipment, load or size requirement and verified product specification. Follow workplace procedures and manufacturer guidance.'));
+for (const family of hardwareToolFamilies) {
+  write(path.join(root, 'category', 'hardware-tools', family.slug, 'index.html'), ppeFamilyPage('hardware-tools', 'Hardware & Tools', family, hardwareToolGroups.get(family.slug), 'Confirm the required size, capacity, compatibility and verified specification before ordering for workplace use.'));
+}
+
 const staticUrls = [
   [`${origin}/`, 'weekly', '1.0'], [`${origin}/shop.html`, 'daily', '0.8'],
   [`${origin}/about.html`, 'monthly', '0.6'], [`${origin}/contact.html`, 'monthly', '0.7'],
@@ -700,6 +776,8 @@ for (const family of safetyShoeFamilies) categoryRows.push([`${categoryUrl('safe
 for (const family of headProtectionFamilies) categoryRows.push([`${categoryUrl('helmets')}${family.slug}/`, 'weekly', '0.8']);
 for (const family of eyeFaceFamilies) categoryRows.push([`${categoryUrl('eye-face-protection')}${family.slug}/`, 'weekly', '0.8']);
 for (const family of hearingRespiratoryFamilies) categoryRows.push([`${categoryUrl('hearing-respiratory')}${family.slug}/`, 'weekly', '0.8']);
+for (const family of trafficSafetyFamilies) categoryRows.push([`${categoryUrl('traffic-safety')}${family.slug}/`, 'weekly', '0.8']);
+for (const family of hardwareToolFamilies) categoryRows.push([`${categoryUrl('hardware-tools')}${family.slug}/`, 'weekly', '0.8']);
 const htmlSitemapCategories = categoryRows.map(([url]) => `<li><a href="${esc(url)}">${esc(url.replace(`${origin}/category/`, '').replace(/\/$/, '').replaceAll('-', ' '))}</a></li>`).join('');
 const htmlSitemapProducts = list.map(p => `<li><a href="${esc(productUrl(p))}">${esc(p.title)}${p.sku ? ` — SKU ${esc(p.sku)}` : ''}</a></li>`).join('');
 write(path.join(root, 'sitemap.html'), `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Product Catalogue Index | Xpertone Dubai</title><meta name="description" content="Browse every published Xpertone Creative product and safety category by SKU, with direct links to workwear, PPE, footwear and industrial supplies in Dubai."><link rel="canonical" href="${origin}/sitemap.html"><link rel="stylesheet" href="assets/css/main.css?v=20260914sku"></head><body><main id="main" class="container py-5"><nav aria-label="Breadcrumb"><a href="/">Home</a> / Catalogue index</nav><h1>Product Catalogue Index</h1><p>Browse every published product category and SKU supplied by Xpertone Creative in Dubai and across the UAE.</p><h2>Categories</h2><ul>${htmlSitemapCategories}</ul><h2>Products</h2><ul>${htmlSitemapProducts}</ul></main></body></html>`);
