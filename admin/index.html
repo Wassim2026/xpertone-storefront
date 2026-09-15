@@ -471,7 +471,7 @@ $('applyCatalogueAuditBtn').onclick = async () => {
   btn.disabled = true;
   let corrections;
   try {
-    const response = await fetch('/data/catalogue-audit-corrections.json?audit=20260915', { cache: 'no-store' });
+    const response = await fetch('https://www.xpertonecreative.com/data/catalogue-audit-corrections.json?audit=20260915', { cache: 'no-store' });
     if (!response.ok) throw new Error('Could not load the confirmed audit corrections.');
     corrections = await response.json();
   } catch (error) {
