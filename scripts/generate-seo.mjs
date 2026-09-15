@@ -160,6 +160,28 @@ function safetyShoeFamily(p) {
   const slug = safetyShoeSkuGroups.get(String(p.sku || '').toUpperCase());
   return safetyShoeFamilies.find(family => family.slug === slug) || null;
 }
+
+const headProtectionFamilies = [
+  { slug: 'industrial-safety-helmets', name: 'Industrial Safety Helmets', description: 'Protective site helmets with plastic, textile, ratchet and ventilated suspension options.' },
+  { slug: 'bump-caps', name: 'Bump Caps', description: 'Lightweight bump caps for low-risk indoor environments where industrial safety helmets are not required.' },
+  { slug: 'face-shields-windows', name: 'Face Shields & Windows', description: 'Face-shield assemblies, frames and replacement windows for compatible workplace protection systems.' },
+  { slug: 'welding-helmets', name: 'Welding Helmets', description: 'Purpose-built welding head and face protection for compatible welding applications.' },
+  { slug: 'full-brim-headwear', name: 'Full-Brim Protective Headwear', description: 'Full-brim protective headwear for outdoor visibility and broader coverage.' },
+  { slug: 'helmet-accessories', name: 'Helmet Accessories', description: 'Compatible helmet accessories such as chin straps and suspension-related components.' }
+];
+const headProtectionSkuGroups = new Map(Object.entries({
+  'industrial-safety-helmets': ['ABU','LGB','ORT','VH','VHRT','VHT','VHV','VHVR'],
+  'bump-caps': ['ADC','CDA','ESO','JHM','KEH'],
+  'face-shields-windows': ['GOA','KPY','MRO'],
+  'welding-helmets': ['PNB'],
+  'full-brim-headwear': ['YOL'],
+  'helmet-accessories': ['ACB']
+}).flatMap(([slug, skus]) => skus.map(sku => [sku, slug])));
+
+function headProtectionFamily(p) {
+  const slug = headProtectionSkuGroups.get(String(p.sku || '').toUpperCase());
+  return headProtectionFamilies.find(family => family.slug === slug) || null;
+}
 const supervisorVestSkus = new Set(['ICS', 'GSO', 'LVS', 'FAT']);
 const generalVestSkus = new Set(['BUP', 'IFS', 'RSJ', 'VOS']);
 
@@ -244,6 +266,10 @@ function normalise(p) {
   }
   if (item.category === 'safety-shoes') {
     const family = safetyShoeFamily(item);
+    if (family) item.subcategory = family.name;
+  }
+  if (item.category === 'helmets') {
+    const family = headProtectionFamily(item);
     if (family) item.subcategory = family.name;
   }
   return item;
@@ -438,6 +464,31 @@ function safetyShoeHub(groups) {
   return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><base href="/"><title>Safety Shoes by Type Dubai | Xpertone Creative</title><meta name="description" content="${description}"><link rel="canonical" href="${canonical}"><meta property="og:type" content="website"><meta property="og:title" content="Safety Shoes by Type Dubai"><meta property="og:description" content="${description}"><meta property="og:url" content="${canonical}"><meta property="og:image" content="${origin}/assets/img/brand/og-xpertone.png"><link rel="icon" type="image/png" sizes="32x32" href="assets/img/brand/favicon-32.png"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"><link rel="stylesheet" href="assets/css/main.css?v=20260914sku"></head><body data-page="shop"><a class="skip-link" href="#main">Skip to content</a><div id="siteHeader"></div><main id="main"><section class="section section--alt"><div class="container"><nav aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/shop.html">Shop</a> / <span>Safety Shoes</span></nav><h1 class="mt-3">Safety Shoes</h1><p class="lead">Choose safety footwear by ankle height, closure and intended workplace use. Each model stays in one clear category with its SKU, sizes, unit and stock information.</p><p>${count} published products are organized into ${safetyShoeFamilies.length} footwear types.</p></div></section><section class="section"><div class="container"><h2>Shop Safety Shoes by Type</h2><div class="row g-4">${cards}</div></div></section><section class="section section--alt"><div class="container"><h2>Safety footwear supplier in Dubai and the UAE</h2><p>Compare low-ankle shoes, high-ankle boots, executive and slip-on styles, rigger boots, gumboots and anti-slip clogs. Check the verified specification on each product before ordering.</p></div></section></main><div id="siteFooter"></div><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script><script src="assets/js/config.js?v=20260914sku"></script><script src="assets/js/store.js?v=20260914sku"></script><script src="assets/js/ui.js?v=20260914sku"></script></body></html>`;
 }
 
+function headProtectionFamilyPage(family, items) {
+  const canonical = `${categoryUrl('helmets')}${family.slug}/`;
+  const description = `Shop ${family.name.toLowerCase()} in Dubai and across the UAE. Compare ${items.length} products with SKU, stock, unit and current pricing.`;
+  const itemList = { '@context': 'https://schema.org', '@type': 'ItemList', name: family.name,
+    itemListElement: items.map((p, i) => ({ '@type': 'ListItem', position: i + 1, url: productUrl(p), name: p.title })) };
+  const breadcrumb = { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: `${origin}/` },
+    { '@type': 'ListItem', position: 2, name: 'Head Protection', item: categoryUrl('helmets') },
+    { '@type': 'ListItem', position: 3, name: family.name, item: canonical }
+  ]};
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><base href="/"><title>${esc(family.name)} Dubai & UAE | Xpertone Creative</title><meta name="description" content="${esc(description)}"><link rel="canonical" href="${canonical}"><meta property="og:type" content="website"><meta property="og:title" content="${esc(family.name)} Dubai & UAE"><meta property="og:description" content="${esc(description)}"><meta property="og:url" content="${canonical}"><meta property="og:image" content="${origin}/assets/img/brand/og-xpertone.png"><link rel="icon" type="image/png" sizes="32x32" href="assets/img/brand/favicon-32.png"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"><link rel="stylesheet" href="assets/css/main.css?v=20260914sku"><script type="application/ld+json">${JSON.stringify(itemList)}</script><script type="application/ld+json">${JSON.stringify(breadcrumb)}</script></head><body data-page="shop"><a class="skip-link" href="#main">Skip to content</a><div id="siteHeader"></div><main id="main"><section class="section section--alt"><div class="container"><nav aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/category/helmets/">Head Protection</a> / <span>${esc(family.name)}</span></nav><h1 class="mt-3">${esc(family.name)} in Dubai</h1><p class="lead">${esc(family.description)}</p><p>${items.length} products currently available. Unit of sale: piece.</p></div></section><section class="section"><div class="container"><div class="row g-4">${items.map(productCard).join('')}</div></div></section><section class="section section--alt"><div class="container"><h2>Choosing ${esc(family.name)}</h2><p>Match the verified standard, construction, suspension and accessory compatibility to your workplace risk assessment. Follow the manufacturer’s inspection and replacement guidance.</p></div></section></main><div id="siteFooter"></div><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script><script src="assets/js/config.js?v=20260914sku"></script><script src="assets/js/store.js?v=20260914sku"></script><script src="assets/js/ui.js?v=20260914sku"></script></body></html>`;
+}
+
+function headProtectionHub(groups) {
+  const cards = headProtectionFamilies.map(family => {
+    const items = groups.get(family.slug) || [];
+    const image = items[0]?.images?.[0];
+    return `<div class="col-md-6 col-xl-4"><article class="workwear-family-card">${image ? `<img src="${esc(image)}" alt="${esc(family.name)}" loading="lazy" width="600" height="420">` : ''}<div><p class="workwear-family-card__eyebrow">${items.length} products</p><h2><a href="/category/helmets/${family.slug}/">${esc(family.name)}</a></h2><p>${esc(family.description)}</p><a class="btn btn-xo btn-sm-xo" href="/category/helmets/${family.slug}/">View products</a></div></article></div>`;
+  }).join('');
+  const count = headProtectionFamilies.reduce((total, family) => total + (groups.get(family.slug) || []).length, 0);
+  const canonical = categoryUrl('helmets');
+  const description = 'Shop head protection in Dubai by type: industrial safety helmets, bump caps, face shields, welding helmets, full-brim headwear and helmet accessories.';
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><base href="/"><title>Head Protection by Type Dubai | Xpertone Creative</title><meta name="description" content="${description}"><link rel="canonical" href="${canonical}"><meta property="og:type" content="website"><meta property="og:title" content="Head Protection by Type Dubai"><meta property="og:description" content="${description}"><meta property="og:url" content="${canonical}"><meta property="og:image" content="${origin}/assets/img/brand/og-xpertone.png"><link rel="icon" type="image/png" sizes="32x32" href="assets/img/brand/favicon-32.png"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"><link rel="stylesheet" href="assets/css/main.css?v=20260914sku"></head><body data-page="shop"><a class="skip-link" href="#main">Skip to content</a><div id="siteHeader"></div><main id="main"><section class="section section--alt"><div class="container"><nav aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/shop.html">Shop</a> / <span>Head Protection</span></nav><h1 class="mt-3">Head Protection</h1><p class="lead">Choose head and face protection by product type and intended use. Every item remains clearly identified by SKU with its live stock, unit and pricing information.</p><p>${count} published products are organized into ${headProtectionFamilies.length} protection types.</p></div></section><section class="section"><div class="container"><h2>Shop Head Protection by Type</h2><div class="row g-4">${cards}</div></div></section><section class="section section--alt"><div class="container"><h2>Head protection supplier in Dubai and the UAE</h2><p>Compare industrial helmets, bump caps, face shields, welding helmets and compatible accessories. Review the verified specification on each product before ordering.</p></div></section></main><div id="siteFooter"></div><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script><script src="assets/js/config.js?v=20260914sku"></script><script src="assets/js/store.js?v=20260914sku"></script><script src="assets/js/ui.js?v=20260914sku"></script></body></html>`;
+}
+
 function categoryPage(slug, items, page) {
   const name = items[0].categoryName;
   const copy = categoryCopy[slug] || defaultCategoryCopy(name, items.length);
@@ -462,7 +513,7 @@ fs.rmSync(path.join(root, 'products'), { recursive: true, force: true });
 fs.rmSync(path.join(root, 'category'), { recursive: true, force: true });
 for (const p of list) generateProduct(p);
 for (const [slug, items] of groups) {
-  if (slug === 'uniforms' || slug === 'safety-vests' || slug === 'hand-protection' || slug === 'safety-shoes') continue;
+  if (slug === 'uniforms' || slug === 'safety-vests' || slug === 'hand-protection' || slug === 'safety-shoes' || slug === 'helmets') continue;
   const pages = Math.ceil(items.length / PAGE_SIZE);
   for (let page = 1; page <= pages; page++) {
     const target = page === 1 ? path.join(root, 'category', slug, 'index.html') : path.join(root, 'category', slug, 'page', String(page), 'index.html');
@@ -513,6 +564,17 @@ for (const family of safetyShoeFamilies) {
   write(path.join(root, 'category', 'safety-shoes', family.slug, 'index.html'), safetyShoeFamilyPage(family, safetyShoeGroups.get(family.slug)));
 }
 
+const headProtectionItems = groups.get('helmets') || [];
+const headProtectionGroups = new Map(headProtectionFamilies.map(family => [family.slug, []]));
+for (const product of headProtectionItems) {
+  const family = headProtectionFamily(product);
+  if (family) headProtectionGroups.get(family.slug).push(product);
+}
+write(path.join(root, 'category', 'helmets', 'index.html'), headProtectionHub(headProtectionGroups));
+for (const family of headProtectionFamilies) {
+  write(path.join(root, 'category', 'helmets', family.slug, 'index.html'), headProtectionFamilyPage(family, headProtectionGroups.get(family.slug)));
+}
+
 const staticUrls = [
   [`${origin}/`, 'weekly', '1.0'], [`${origin}/shop.html`, 'daily', '0.8'],
   [`${origin}/about.html`, 'monthly', '0.6'], [`${origin}/contact.html`, 'monthly', '0.7']
@@ -524,6 +586,7 @@ for (const family of workwearFamilies) if (workwearGroups.get(family.slug).lengt
 for (const family of safetyVestFamilies) categoryRows.push([`${categoryUrl('safety-vests')}${family.slug}/`, 'weekly', '0.8']);
 for (const family of handProtectionFamilies) categoryRows.push([`${categoryUrl('hand-protection')}${family.slug}/`, 'weekly', '0.8']);
 for (const family of safetyShoeFamilies) categoryRows.push([`${categoryUrl('safety-shoes')}${family.slug}/`, 'weekly', '0.8']);
+for (const family of headProtectionFamilies) categoryRows.push([`${categoryUrl('helmets')}${family.slug}/`, 'weekly', '0.8']);
 write(path.join(root, 'sitemap-categories.xml'), xml(categoryRows));
 write(path.join(root, 'sitemap-products.xml'), xml(list.map(p => [productUrl(p), 'weekly', '0.6'])));
 write(path.join(root, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <sitemap><loc>${origin}/sitemap-pages.xml</loc><lastmod>${today}</lastmod></sitemap>\n  <sitemap><loc>${origin}/sitemap-categories.xml</loc><lastmod>${today}</lastmod></sitemap>\n  <sitemap><loc>${origin}/sitemap-products.xml</loc><lastmod>${today}</lastmod></sitemap>\n</sitemapindex>\n`);
