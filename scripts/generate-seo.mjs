@@ -270,8 +270,8 @@ function workwearFamilyPage(family, items) {
 function workwearHub(familyGroups, otherItems) {
   const available = workwearFamilies.filter(f => (familyGroups.get(f.slug) || []).length);
   const count = new Set([
-    ...available.flatMap(f => familyGroups.get(f.slug).map(p => p.id)),
-    ...otherItems.map(p => p.id)
+    ...available.flatMap(f => familyGroups.get(f.slug).map(p => p.uid)),
+    ...otherItems.map(p => p.uid)
   ]).size;
   const familyCard = f => {
     const items = familyGroups.get(f.slug) || [];
