@@ -567,7 +567,7 @@ function handProtectionFamilyPage(family, items) {
 function handProtectionHub(groups) {
   const cards = handProtectionFamilies.map(family => {
     const items = groups.get(family.slug) || [];
-    const image = items[0]?.images?.[0];
+    const image = familyThumbnailAsset('hand-protection', family, items) || items[0]?.images?.[0];
     return `<div class="col-md-6 col-xl-4"><article class="workwear-family-card">${image ? `<img src="${esc(image)}" alt="${esc(family.name)}" loading="lazy" width="600" height="420">` : ''}<div><p class="workwear-family-card__eyebrow">${items.length} products</p><h2><a href="/category/hand-protection/${family.slug}/">${esc(family.name)}</a></h2><p>${esc(family.description)}</p><a class="btn btn-xo btn-sm-xo" href="/category/hand-protection/${family.slug}/">View products</a></div></article></div>`;
   }).join('');
   const count = handProtectionFamilies.reduce((total, family) => total + (groups.get(family.slug) || []).length, 0);
@@ -592,7 +592,7 @@ function safetyShoeFamilyPage(family, items) {
 function safetyShoeHub(groups) {
   const cards = safetyShoeFamilies.map(family => {
     const items = groups.get(family.slug) || [];
-    const image = items[0]?.images?.[0];
+    const image = familyThumbnailAsset('safety-shoes', family, items) || items[0]?.images?.[0];
     return `<div class="col-md-6 col-xl-4"><article class="workwear-family-card">${image ? `<img src="${esc(image)}" alt="${esc(family.name)}" loading="lazy" width="600" height="420">` : ''}<div><p class="workwear-family-card__eyebrow">${items.length} products</p><h2><a href="/category/safety-shoes/${family.slug}/">${esc(family.name)}</a></h2><p>${esc(family.description)}</p><a class="btn btn-xo btn-sm-xo" href="/category/safety-shoes/${family.slug}/">View products</a></div></article></div>`;
   }).join('');
   const count = safetyShoeFamilies.reduce((total, family) => total + (groups.get(family.slug) || []).length, 0);
@@ -617,7 +617,7 @@ function headProtectionFamilyPage(family, items) {
 function headProtectionHub(groups) {
   const cards = headProtectionFamilies.map(family => {
     const items = groups.get(family.slug) || [];
-    const image = items[0]?.images?.[0];
+    const image = familyThumbnailAsset('helmets', family, items) || items[0]?.images?.[0];
     return `<div class="col-md-6 col-xl-4"><article class="workwear-family-card">${image ? `<img src="${esc(image)}" alt="${esc(family.name)}" loading="lazy" width="600" height="420">` : ''}<div><p class="workwear-family-card__eyebrow">${items.length} products</p><h2><a href="/category/helmets/${family.slug}/">${esc(family.name)}</a></h2><p>${esc(family.description)}</p><a class="btn btn-xo btn-sm-xo" href="/category/helmets/${family.slug}/">View products</a></div></article></div>`;
   }).join('');
   const count = headProtectionFamilies.reduce((total, family) => total + (groups.get(family.slug) || []).length, 0);
