@@ -1,6 +1,82 @@
 [
-  {"title":"Embroidery vs DTF Printing for Company Uniforms in Dubai","url":"/blog/embroidery-vs-dtf-printing-company-uniforms-dubai/","category":"Printing & Embroidery","date":"2026-09-14","dateLabel":"14 September 2026","excerpt":"Compare logo detail, durability, garment suitability, placement and cost factors before branding a bulk uniform order.","image":"/assets/img/workwear/page-1/armstrong-100-twill-pant-shirt-navy-blue-color.png","imageAlt":"Navy company work uniform suitable for embroidery or logo printing Dubai"},
-  {"title":"Construction Uniform Supplier Dubai: What UAE Buyers Should Check","url":"/blog/construction-uniform-supplier-dubai/","category":"Construction Workwear","date":"2026-09-14","dateLabel":"14 September 2026","excerpt":"A commercial buyer guide covering fabric, GSM, reflective requirements, sizing, logo branding, lead times and repeat orders.","image":"/assets/img/workwear/page-1/armstrong-100-twill-pant-shirt-orange-color.png","imageAlt":"Orange construction work uniform pant and shirt set in Dubai"},
-  {"title":"How to Choose a Work Uniform Supplier in Dubai","url":"/blog/work-uniform-supplier-dubai-guide/","category":"Workwear","date":"2026-09-14","dateLabel":"14 September 2026","excerpt":"A buyer-focused checklist covering fabric, GSM, sizing, logo branding, lead time and repeat orders.","image":"/assets/img/workwear/page-1/armstrong-100-twill-pant-shirt-navy-blue-color.png","imageAlt":"Navy blue work uniform pant and shirt set for Dubai companies"},
-  {"title":"Coverall Fabric & GSM Guide for UAE Worksites","url":"/blog/coverall-fabric-gsm-uae-guide/","category":"Coveralls","date":"2026-09-14","dateLabel":"14 September 2026","excerpt":"How to choose practical coverall weight and fabric for heat, durability, reflective requirements and branding.","image":"/assets/img/workwear/page-1/american-tag-35-65-coverall-petrol-blue-color.png","imageAlt":"Petrol blue industrial coverall for UAE work sites"}
+  {
+    "title": "Custom Safety Vest Printing in Dubai: A Buyer’s Guide for UAE Companies",
+    "url": "/blog/custom-safety-vest-printing-dubai/",
+    "category": "Safety Vests",
+    "date": "2026-09-16",
+    "dateLabel": "16 September 2026",
+    "excerpt": "Need custom safety vests in Dubai? Compare vest styles, logo printing options, quantities, turnaround and ordering tips for UAE construction and site teams.",
+    "image": "/assets/img/blog/custom-safety-vest-printing-dubai/custom-safety-vest-printing-dubai-hero.webp",
+    "imageAlt": "Custom reflective safety vests prepared for company logo printing in Dubai"
+  },
+  {
+    "title": "Polo Shirt Embroidery in Dubai: A Practical Guide for Company Uniform Buyers",
+    "url": "/blog/polo-shirt-embroidery-dubai/",
+    "category": "Printing & Embroidery",
+    "date": "2026-09-16",
+    "dateLabel": "16 September 2026",
+    "excerpt": "Ordering embroidered polo shirts in Dubai? Choose suitable fabric, logo placement, colours, sizing and branding for professional UAE company uniforms.",
+    "image": "/assets/img/blog/polo-shirt-embroidery-dubai/polo-shirt-embroidery-dubai-hero.webp",
+    "imageAlt": "Embroidered company polo shirts for a Dubai business team"
+  },
+  {
+    "title": "Safety Helmet Printing in Dubai: A Practical Guide for UAE Construction Buyers",
+    "url": "/blog/safety-helmet-printing-dubai/",
+    "category": "Safety Helmets",
+    "date": "2026-09-16",
+    "dateLabel": "16 September 2026",
+    "excerpt": "Need safety helmet printing in Dubai? Choose helmet colours, logo placement, artwork, quantities and ordering details for UAE construction teams.",
+    "image": "/assets/img/blog/safety-helmet-printing-dubai/safety-helmet-printing-dubai-hero.webp",
+    "imageAlt": "Branded safety helmets for Dubai construction teams"
+  },
+  {
+    "title": "T-Shirt Printing in Dubai for Companies: What to Decide Before You Order",
+    "url": "/blog/t-shirt-printing-dubai-for-companies/",
+    "category": "T-Shirt Printing",
+    "date": "2026-09-16",
+    "dateLabel": "16 September 2026",
+    "excerpt": "Ordering company T-shirts in Dubai? Compare fabric, DTF printing, logo placement, sizing and bulk-order details for UAE staff and event teams.",
+    "image": "/assets/img/blog/t-shirt-printing-dubai-for-companies/t-shirt-printing-dubai-for-companies-hero.webp",
+    "imageAlt": "Printed company T-shirts for staff and events in Dubai"
+  },
+  {
+    "title": "Embroidery vs DTF Printing for Company Uniforms in Dubai",
+    "url": "/blog/embroidery-vs-dtf-printing-company-uniforms-dubai/",
+    "category": "Printing & Embroidery",
+    "date": "2026-09-14",
+    "dateLabel": "14 September 2026",
+    "excerpt": "Compare logo detail, durability, garment suitability, placement and cost factors before branding a bulk uniform order.",
+    "image": "/assets/img/workwear/page-1/armstrong-100-twill-pant-shirt-navy-blue-color.png",
+    "imageAlt": "Navy company work uniform suitable for embroidery or logo printing Dubai"
+  },
+  {
+    "title": "Construction Uniform Supplier Dubai: What UAE Buyers Should Check",
+    "url": "/blog/construction-uniform-supplier-dubai/",
+    "category": "Construction Workwear",
+    "date": "2026-09-14",
+    "dateLabel": "14 September 2026",
+    "excerpt": "A commercial buyer guide covering fabric, GSM, reflective requirements, sizing, logo branding, lead times and repeat orders.",
+    "image": "/assets/img/workwear/page-1/armstrong-100-twill-pant-shirt-orange-color.png",
+    "imageAlt": "Orange construction work uniform pant and shirt set in Dubai"
+  },
+  {
+    "title": "How to Choose a Work Uniform Supplier in Dubai",
+    "url": "/blog/work-uniform-supplier-dubai-guide/",
+    "category": "Workwear",
+    "date": "2026-09-14",
+    "dateLabel": "14 September 2026",
+    "excerpt": "A buyer-focused checklist covering fabric, GSM, sizing, logo branding, lead time and repeat orders.",
+    "image": "/assets/img/workwear/page-1/armstrong-100-twill-pant-shirt-navy-blue-color.png",
+    "imageAlt": "Navy blue work uniform pant and shirt set for Dubai companies"
+  },
+  {
+    "title": "Coverall Fabric & GSM Guide for UAE Worksites",
+    "url": "/blog/coverall-fabric-gsm-uae-guide/",
+    "category": "Coveralls",
+    "date": "2026-09-14",
+    "dateLabel": "14 September 2026",
+    "excerpt": "How to choose practical coverall weight and fabric for heat, durability, reflective requirements and branding.",
+    "image": "/assets/img/workwear/page-1/american-tag-35-65-coverall-petrol-blue-color.png",
+    "imageAlt": "Petrol blue industrial coverall for UAE work sites"
+  }
 ]
