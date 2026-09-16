@@ -2,8 +2,8 @@ const fs = require('fs');
 const path = require('path');
 const sharp = require('sharp');
 
-const categories = ['uniforms', 'hand-protection', 'safety-shoes', 'helmets', 'eye-face-protection', 'hearing-respiratory'];
-const imagePattern = /<image href="data:([^;]+);base64,([^"]+)" x="(\d+)" y="(\d+)" width="(\d+)" height="(\d+)" preserveAspectRatio="xMidYMid meet"\/>/g;
+const categories = ['uniforms', 'safety-vests', 'hand-protection', 'safety-shoes', 'helmets', 'eye-face-protection', 'hearing-respiratory', 'traffic-safety', 'hardware-tools'];
+const imagePattern = /<image href="([^"]+)" x="(\d+)" y="(\d+)" width="(\d+)" height="(\d+)" preserveAspectRatio="xMidYMid meet"\/>/g;
 
 (async () => {
   let rendered = 0;
@@ -15,14 +15,17 @@ const imagePattern = /<image href="data:([^;]+);base64,([^"]+)" x="(\d+)" y="(\d
       svg = svg.replace(imagePattern, '');
       const layers = [];
       for (const product of products) {
-        const width = Number(product[5]);
-        const height = Number(product[6]);
-        const input = Buffer.from(product[2], 'base64');
+        const width = Number(product[4]);
+        const height = Number(product[5]);
+        const source = product[1].replaceAll('&amp;', '&');
+        const input = source.startsWith('data:')
+          ? Buffer.from(source.slice(source.indexOf(',') + 1), 'base64')
+          : Buffer.from(await (await fetch(source)).arrayBuffer());
         const resized = await sharp(input).resize(width, height, {
           fit: 'contain',
           background: { r: 247, g: 248, b: 250, alpha: 0 }
         }).png().toBuffer();
-        layers.push({ input: resized, left: Number(product[3]), top: Number(product[4]) });
+        layers.push({ input: resized, left: Number(product[2]), top: Number(product[3]) });
       }
       const background = await sharp(Buffer.from(svg)).png().toBuffer();
       const output = path.join(directory, filename.replace(/\.svg$/, '.png'));

@@ -463,6 +463,34 @@ function productCard(p) {
   return `<div class="col-6 col-lg-4 col-xl-3"><article class="product-card"><a class="product-card__media" href="/products/${encodeURIComponent(p.slug)}/">${image ? `<img src="${esc(image)}" alt="${esc(p.title)}" loading="lazy" decoding="async" width="600" height="600">` : ''}</a><div class="product-card__body"><span class="product-card__cat">${esc(p.subcategory || p.categoryName)}</span>${p.sku ? `<div class="product-card__sku">SKU: ${esc(p.sku)}</div>` : ''}<h3 class="product-card__title"><a href="/products/${encodeURIComponent(p.slug)}/">${esc(p.title)}</a></h3><div class="product-card__foot"><div class="product-card__price"><b>${money(p.price)}</b><span>${p.priceStatus === 'fixed' ? `per ${esc(saleUnit(p))}, ex VAT` : `indicative per ${esc(saleUnit(p))}, ex VAT`}</span></div><a class="btn btn-xo btn-sm-xo" href="/products/${encodeURIComponent(p.slug)}/">View</a></div></div></article></div>`;
 }
 
+const thumbnailCategories = new Set([
+  'uniforms', 'safety-vests', 'hand-protection', 'safety-shoes', 'helmets',
+  'eye-face-protection', 'hearing-respiratory', 'traffic-safety', 'hardware-tools'
+]);
+
+function familyThumbnailAsset(categorySlug, family, items) {
+  if (!items.length || !thumbnailCategories.has(categorySlug)) return '';
+  const imagePath = `/assets/img/category/${categorySlug}/${family.slug}.png`;
+  const filePath = path.join(root, 'assets', 'img', 'category', categorySlug, `${family.slug}.svg`);
+  const selectedItems = items.slice(0, 1);
+  const boxes = [[112, 102, 800, 800]];
+  const productImages = selectedItems.map((product, index) => {
+    const [x, y, width, height] = boxes[index];
+    if (!product.images?.[0]) return '';
+    const pathname = new URL(product.images[0], origin).pathname.replace(/^\//, '');
+    const localFile = path.join(root, ...pathname.split('/'));
+    let source = product.images[0];
+    if (fs.existsSync(localFile)) {
+      const extension = path.extname(localFile).slice(1).toLowerCase();
+      const mime = extension === 'jpg' || extension === 'jpeg' ? 'image/jpeg' : extension === 'png' ? 'image/png' : 'image/webp';
+      source = `data:${mime};base64,${fs.readFileSync(localFile).toString('base64')}`;
+    }
+    return `<image href="${esc(source)}" x="${x}" y="${y}" width="${width}" height="${height}" preserveAspectRatio="xMidYMid meet"/>`;
+  }).join('');
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024"><defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#f2f4f7"/></linearGradient><radialGradient id="halo"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#eef1f5"/></radialGradient></defs><rect width="1024" height="1024" fill="url(#bg)"/><circle cx="798" cy="176" r="270" fill="#e8edf3" opacity=".58"/><circle cx="154" cy="860" r="230" fill="#efe9dc" opacity=".52"/><ellipse cx="512" cy="506" rx="430" ry="412" fill="url(#halo)"/><path d="M72 72h108" stroke="#c8a24b" stroke-width="8" stroke-linecap="round"/><path d="M844 952h108" stroke="#0a274d" stroke-width="8" stroke-linecap="round"/>${productImages}</svg>`;
+  write(filePath, svg);
+  return imagePath;
+}
 function workwearFamilyPage(family, items) {
   const canonical = workwearUrl(family.slug);
   const colours = [...new Set(items.map(colourOf).filter(Boolean))];
@@ -488,7 +516,7 @@ function workwearHub(familyGroups, otherItems) {
   ]).size;
   const familyCard = f => {
     const items = familyGroups.get(f.slug) || [];
-    const image = f.thumbnail || items[0]?.images?.[0];
+    const image = familyThumbnailAsset('uniforms', f, items) || f.thumbnail || items[0]?.images?.[0];
     return `<div class="col-md-6 col-xl-4"><article class="workwear-family-card${items.length ? '' : ' is-empty'}">${image ? `<img src="${esc(image)}" alt="${esc(f.name)}" loading="lazy" width="600" height="420">` : ''}<div><p class="workwear-family-card__eyebrow">${esc(f.material)}</p><h2>${items.length ? `<a href="/category/uniforms/${f.slug}/">${esc(f.name)}</a>` : esc(f.name)}</h2><p>${items.length ? `${items.length} colour variation${items.length === 1 ? '' : 's'} available` : 'No published colour variations at present'}</p>${items.length ? `<a class="btn btn-xo btn-sm-xo" href="/category/uniforms/${f.slug}/">View colours</a>` : ''}</div></article></div>`;
   };
   const coreCards = workwearFamilies.filter(f => f.core).map(familyCard).join('');
@@ -516,7 +544,7 @@ function safetyVestFamilyPage(family, items) {
 function safetyVestHub(groups) {
   const cards = safetyVestFamilies.map(family => {
     const items = groups.get(family.slug) || [];
-    const image = family.thumbnail || items[0]?.images?.[0];
+    const image = familyThumbnailAsset('safety-vests', family, items) || family.thumbnail || items[0]?.images?.[0];
     return `<div class="col-md-6 col-xl-4"><article class="workwear-family-card safety-vest-family-card">${image ? `<img src="${esc(image)}" alt="${esc(family.name)}" loading="lazy" width="900" height="900">` : ''}<div><p class="workwear-family-card__eyebrow">${esc(family.label)}</p><h2><a href="/category/safety-vests/${family.slug}/">${esc(family.name)}</a></h2><p>${esc(family.description)}</p><p>${items.length} products available</p><a class="btn btn-xo btn-sm-xo" href="/category/safety-vests/${family.slug}/">View products</a></div></article></div>`;
   }).join('');
   const count = safetyVestFamilies.reduce((n, family) => n + groups.get(family.slug).length, 0);
@@ -616,7 +644,7 @@ function ppeFamilyPage(categorySlug, categoryName, family, items, guidance) {
 function ppeFamilyHub(categorySlug, categoryName, families, groups, description, guide) {
   const cards = families.map(family => {
     const items = groups.get(family.slug) || [];
-    const image = family.thumbnail || items[0]?.images?.[0];
+    const image = familyThumbnailAsset(categorySlug, family, items) || family.thumbnail || items[0]?.images?.[0];
     return `<div class="col-md-6 col-xl-4"><article class="workwear-family-card">${image ? `<img src="${esc(image)}" alt="${esc(family.name)}" loading="lazy" width="600" height="420">` : ''}<div><p class="workwear-family-card__eyebrow">${items.length} products</p><h2><a href="/category/${categorySlug}/${family.slug}/">${esc(family.name)}</a></h2><p>${esc(family.description)}</p><a class="btn btn-xo btn-sm-xo" href="/category/${categorySlug}/${family.slug}/">View products</a></div></article></div>`;
   }).join('');
   const count = families.reduce((total, family) => total + (groups.get(family.slug) || []).length, 0);
