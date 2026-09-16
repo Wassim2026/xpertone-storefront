@@ -834,6 +834,14 @@ write(path.join(root, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<
 const redirect = (to, title) => `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex,follow"><link rel="canonical" href="${to}"><meta http-equiv="refresh" content="0;url=${to}"><title>${esc(title)}</title></head><body><p>This page moved to <a href="${to}">${esc(title)}</a>.</p></body></html>`;
 write(path.join(root, 'category', 'shoes', 'index.html'), redirect(`${origin}/category/safety-shoes/`, 'Safety Shoes'));
 
+// Keep the legacy redirect function self-contained when Vercel bundles it.
+// Reading the catalogue from disk at runtime is unreliable in a serverless
+// function because files outside /api are not guaranteed to be packaged.
+write(
+  path.join(root, 'api', 'product-redirect-data.js'),
+  `export default ${JSON.stringify(list.map(({ category, sku, slug }) => ({ category, sku, slug })))};\n`
+);
+
 // Normalize every public HTML document after generation. This keeps search
 // snippets concise and supplies complete Open Graph and X card metadata even
 // for hand-authored pages such as the homepage and blog articles.

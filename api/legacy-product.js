@@ -1,8 +1,4 @@
-import fs from 'node:fs';
-
-const products = JSON.parse(
-  fs.readFileSync(new URL('../data/products-live.json', import.meta.url), 'utf8')
-);
+import products from './product-redirect-data.js';
 
 const paths = new Map(products.map(product => [
   `${product.category}-${String(product.sku).toLowerCase()}`,
