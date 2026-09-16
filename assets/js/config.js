@@ -255,8 +255,8 @@ window.XO_CONFIG = {
   /* ---------------------------------------------------------------------
      CATEGORY MODEL
      ---------------------------------------------------------------------
-     nav: true puts the range in the top navigation. Everything else is still
-     reachable from Shop All and from the category tiles on the home page. */
+     Every range is shown as its own top-navigation tab. The legacy nav flag
+     remains for compatibility with printable-range selection elsewhere. */
   CATEGORIES: [
     {
       slug: 'safety-vests', printable: true, name: 'Safety Vests', nav: true,

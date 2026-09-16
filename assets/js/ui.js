@@ -26,26 +26,6 @@
   /* =======================================================================
      Header / footer
      ======================================================================= */
-    /* ---------------------------------------------------------------------
-     Navigation model
-     ---------------------------------------------------------------------
-     Fourteen flat ranges will not fit in a bar, and someone hunting for
-     gloves should not have to guess which link hides them. So the ranges
-     are grouped into four shopping intents; each group opens a panel
-     listing the categories under it with a live product count. A category
-     holding nothing is dropped rather than shown as an empty dead end.
-     --------------------------------------------------------------------- */
-  var NAV_GROUPS = [
-    { key: 'workwear', label: 'Workwear',
-      cats: ['safety-vests', 'uniforms', 'rainwear-marine'] },
-    { key: 'ppe', label: 'Personal Protection',
-      cats: ['safety-shoes', 'hand-protection', 'helmets', 'eye-face-protection', 'hearing-respiratory'] },
-    { key: 'site', label: 'Site & Traffic',
-      cats: ['traffic-safety'] },
-    { key: 'tools', label: 'Tools & Equipment',
-      cats: ['hardware-tools', 'automotive'] }
-  ];
-
   var CAT_COUNTS = null;
   var SUBS = {};
   var WORKWEAR_SUBS = [
@@ -76,21 +56,17 @@
     var n = 0; for (var k in CAT_COUNTS) { n += CAT_COUNTS[k]; } return n;
   }
 
-  /* Before counts land we show everything, so the first paint is never bare. */
-  function visibleCats(g) {
-    return g.cats.filter(function (s) { var n = catCount(s); return n === null ? true : n > 0; });
-  }
-
   function headerStyles() {
     if (document.getElementById('xoNavCss')) return;
     var css =
       '.xo-nav{background:#12151b}' +
-      '.xo-nav__inner{display:flex;align-items:stretch;gap:2px;flex-wrap:nowrap;overflow:visible}' +
-      '.xo-nav a,.xo-nav button{color:#e8eaed;text-decoration:none;font-weight:600;font-size:14px;background:none;border:0;padding:13px 14px;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;line-height:1}' +
+      '.xo-nav__inner{display:flex;align-items:stretch;justify-content:center;gap:1px;flex-wrap:wrap;overflow:visible}' +
+      '.xo-nav a,.xo-nav button{color:#e8eaed;text-decoration:none;font-weight:650;font-size:12px;background:none;border:0;padding:12px 9px;display:inline-flex;align-items:center;gap:5px;white-space:nowrap;line-height:1}' +
       '.xo-nav a:hover,.xo-nav button:hover,.xo-nav a.is-active{color:#f5b301}' +
       '.xo-nav a.is-active{box-shadow:inset 0 -3px 0 #f5b301}' +
       '.xo-grp{position:relative;display:inline-flex}' +
-      '.xo-mega{position:absolute;left:0;top:100%;z-index:1050;min-width:560px;background:#fff;border:1px solid #e6e8ec;border-radius:0 0 14px 14px;box-shadow:0 20px 44px rgba(15,17,21,.2);padding:14px;display:none}' +
+      '.xo-mega{position:absolute;left:0;top:100%;z-index:1050;width:340px;max-height:70vh;overflow:auto;background:#fff;border:1px solid #e6e8ec;border-radius:0 0 14px 14px;box-shadow:0 20px 44px rgba(15,17,21,.2);padding:10px;display:none}' +
+      '.xo-grp:nth-last-child(-n+3) .xo-mega{left:auto;right:0}' +
       '.xo-grp:hover .xo-mega,.xo-grp:focus-within .xo-mega{display:block}' +
       '.xo-mega__grid{display:grid;grid-template-columns:1fr 1fr;gap:2px}' +
       '.xo-mega a{color:#12151b;padding:10px 11px;border-radius:9px;display:flex;justify-content:space-between;align-items:center;gap:10px;font-weight:600;font-size:14px}' +
@@ -129,53 +105,38 @@
       (n === null ? '' : '<span class="xo-mega__n">' + n + '</span>') + '</a>';
   }
 
-  function megaFor(g) {
-    var cats = visibleCats(g);
-    var cols = cats.map(function (slug) {
-      var m = catMeta(slug), n = catCount(slug);
-      var allSubs = slug === 'uniforms' ? WORKWEAR_SUBS : (SUBS[slug] || []);
-      var subs = allSubs.slice(0, 5);
-      var head = '<a class="xo-col__head" href="/category/' + slug + '/">' +
-        '<span>' + XO.esc(m.name) + (m.printable ? ' <span class="xo-tag">logo</span>' : '') + '</span>' +
-        (n === null ? '' : '<span class="xo-mega__n">' + n + '</span>') + '</a>';
-      var kids = subs.map(function (s) {
-        var href = slug === 'uniforms' ? '/category/uniforms/' + s.slug + '/' : '/category/' + slug + '/';
-        return '<a class="xo-col__sub" href="' + href + '"><span>' + XO.esc(s.name) +
-          '</span>' + (s.n == null ? '' : '<span class="xo-mega__n">' + s.n + '</span>') + '</a>';
-      }).join('');
-      var more = allSubs.length > 5
-        ? '<a class="xo-col__more" href="/category/' + slug + '/">All ' + XO.esc(m.name) + '</a>' : '';
-      return '<div>' + head + kids + more + '</div>';
+  function categoryDropdown(slug) {
+    var m = catMeta(slug), n = catCount(slug);
+    var subs = (slug === 'uniforms' ? WORKWEAR_SUBS : (SUBS[slug] || [])).filter(function (s) { return !!s.slug; });
+    var all = '<a class="xo-col__head" href="/category/' + slug + '/"><span>View all ' + XO.esc(m.name) +
+      '</span>' + (n === null ? '' : '<span class="xo-mega__n">' + n + '</span>') + '</a>';
+    var kids = subs.map(function (s) {
+      return '<a class="xo-col__sub" href="/category/' + slug + '/' + s.slug + '/"><span>' + XO.esc(s.name) +
+        '</span>' + (s.n == null ? '' : '<span class="xo-mega__n">' + s.n + '</span>') + '</a>';
     }).join('');
-    var tot = totalCount();
-    var wide = cats.length > 3;
-    return '<div class="xo-mega"' + (wide ? ' style="min-width:760px"' : '') + '>' +
-      '<div class="xo-mega__cols" style="grid-template-columns:repeat(' + Math.min(cats.length, 3) + ',minmax(220px,1fr))">' + cols + '</div>' +
-      '<a class="xo-mega__all" href="shop.html">Browse all' + (tot ? ' ' + tot : '') + ' products</a></div>';
+    return '<div class="xo-mega">' + all + kids + '</div>';
   }
 
   function navBar(active) {
-    var out = '<a href="/"' + (active === 'home' ? ' class="is-active"' : '') + '>Home</a>' +
-              '<a href="shop.html"' + (active === 'shop' ? ' class="is-active"' : '') + '>Shop All</a>';
-    NAV_GROUPS.forEach(function (g) {
-      if (!visibleCats(g).length) return;
-      out += '<span class="xo-grp"><button type="button" aria-haspopup="true">' + XO.esc(g.label) +
-             ' <i class="fa-solid fa-chevron-down" style="font-size:9px;opacity:.7"></i></button>' + megaFor(g) + '</span>';
+    var out = '<a href="/" aria-label="Home" title="Home"' + (active === 'home' ? ' class="is-active"' : '') +
+      '><i class="fa-solid fa-house"></i></a>';
+    (CFG.CATEGORIES || []).forEach(function (m) {
+      out += '<span class="xo-grp"><button type="button" aria-haspopup="true">' + XO.esc(m.name) +
+        ' <i class="fa-solid fa-chevron-down" style="font-size:8px;opacity:.7"></i></button>' + categoryDropdown(m.slug) + '</span>';
     });
-    out += '<a href="about.html"' + (active === 'about' ? ' class="is-active"' : '') + '>About</a>' +
-           '<a href="contact.html"' + (active === 'contact' ? ' class="is-active"' : '') + '>Contact</a>';
+    out += '<a href="/shop.html?q=t-shirt">T-Shirts</a>';
     return out;
   }
 
   function mobileNavHtml() {
-    var out = '<a href="/">Home</a><a href="/shop.html">Shop All</a>';
-    NAV_GROUPS.forEach(function (g) {
-      var cats = visibleCats(g);
-      if (!cats.length) return;
-      out += '<details><summary>' + XO.esc(g.label) + '<i class="fa-solid fa-chevron-down" style="font-size:11px;opacity:.5"></i></summary>' +
-             '<div style="padding-bottom:8px">' + cats.map(function (s) { return catLink(s, false); }).join('') + '</div></details>';
+    var out = '<a href="/">Home</a>';
+    (CFG.CATEGORIES || []).forEach(function (m) {
+      var subs = (m.slug === 'uniforms' ? WORKWEAR_SUBS : (SUBS[m.slug] || [])).filter(function (s) { return !!s.slug; });
+      out += '<details><summary>' + XO.esc(m.name) + '<i class="fa-solid fa-chevron-down" style="font-size:11px;opacity:.5"></i></summary>' +
+        '<div style="padding-bottom:8px"><a href="/category/' + m.slug + '/">View all ' + XO.esc(m.name) + '</a>' +
+        subs.map(function (s) { return '<a href="/category/' + m.slug + '/' + s.slug + '/">' + XO.esc(s.name) + '</a>'; }).join('') + '</div></details>';
     });
-    out += '<a href="about.html">About</a><a href="contact.html">Contact</a>';
+    out += '<a href="/shop.html?q=t-shirt">T-Shirts</a><a href="about.html">About</a><a href="contact.html">Contact</a>';
     return out;
   }
 
