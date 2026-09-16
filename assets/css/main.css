@@ -1154,22 +1154,51 @@ hr { border: 0; border-top: 1px solid var(--xo-line); opacity: 1; margin: 2rem 0
 }
 .bk-pal__reset:hover { border-color: var(--xo-ink); color: var(--xo-ink); }
 
-/* Workwear landing-page families and colour variations. */
-.workwear-family-card { height: 100%; overflow: hidden; background: #fff; border: 1px solid rgba(10,39,77,.11); border-radius: 18px; box-shadow: 0 10px 30px rgba(10,39,77,.07); transition: transform .38s cubic-bezier(.2,.8,.2,1), box-shadow .38s ease, border-color .38s ease; }
-.workwear-family-card img { display: block; width: 100%; height: auto; aspect-ratio: 1 / 1; object-fit: contain; background: #f5f7f9; transition: transform .55s cubic-bezier(.2,.8,.2,1), filter .4s ease; }
-.workwear-family-card:hover { transform: translateY(-7px); border-color: rgba(200,162,75,.4); box-shadow: 0 20px 46px rgba(10,39,77,.14); }
+/* Premium category-family galleries: deep corporate navy, restrained gold and
+   an image-first layout that stays calm even when a hub has many families. */
+main .section:has(.workwear-family-card) {
+  position: relative; overflow: hidden;
+  background:
+    radial-gradient(circle at 8% 6%, rgba(199,164,89,.18), transparent 27rem),
+    radial-gradient(circle at 92% 88%, rgba(56,103,151,.19), transparent 30rem),
+    linear-gradient(145deg, #edf2f6 0%, #dfe7ee 100%);
+}
+main .section:has(.workwear-family-card)::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .34;
+  background-image: linear-gradient(rgba(16,37,68,.045) 1px, transparent 1px), linear-gradient(90deg, rgba(16,37,68,.045) 1px, transparent 1px);
+  background-size: 52px 52px;
+}
+main .section:has(.workwear-family-card) > .container { position: relative; z-index: 1; }
+main .section:has(.workwear-family-card) > .container > h2 { color: #102544; letter-spacing: -.025em; }
+.workwear-family-card {
+  position: relative; height: 100%; overflow: hidden; color: #e8eef5;
+  background: linear-gradient(155deg, #122b4d 0%, #0a1d37 100%);
+  border: 1px solid rgba(255,255,255,.1); border-radius: 22px;
+  box-shadow: 0 18px 48px rgba(9,27,51,.18);
+  transition: transform .38s cubic-bezier(.2,.8,.2,1), box-shadow .38s ease, border-color .38s ease;
+}
+.workwear-family-card::after {
+  content: ""; position: absolute; top: -45%; left: -65%; width: 42%; height: 170%;
+  transform: rotate(18deg); pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.11), transparent);
+  transition: left .7s cubic-bezier(.2,.8,.2,1);
+}
+.workwear-family-card img { display: block; width: 100%; height: auto; aspect-ratio: 1 / 1; object-fit: contain; background: radial-gradient(circle at 50% 42%, #f9fafb 0%, #e8edf1 68%, #d6dfe7 100%); border-bottom: 1px solid rgba(255,255,255,.11); transition: transform .55s cubic-bezier(.2,.8,.2,1), filter .4s ease; }
+.workwear-family-card:hover { transform: translateY(-8px); border-color: rgba(209,177,107,.58); box-shadow: 0 28px 65px rgba(9,27,51,.29); }
+.workwear-family-card:hover::after { left: 125%; }
 .workwear-family-card:hover img { transform: scale(1.035); filter: saturate(1.03) contrast(1.015); }
 .workwear-family-card:focus-within { outline: 3px solid rgba(200,162,75,.45); outline-offset: 3px; }
 @media (prefers-reduced-motion: reduce) {
   .workwear-family-card, .workwear-family-card img { transition: none; }
   .workwear-family-card:hover, .workwear-family-card:hover img { transform: none; }
 }
-.safety-vest-family-card img { height: auto; aspect-ratio: 1 / 1; object-fit: contain; background: #fff; }
-.workwear-family-card > div { padding: 22px; }
+.safety-vest-family-card img { height: auto; aspect-ratio: 1 / 1; object-fit: contain; background: radial-gradient(circle at 50% 42%, #fff 0%, #e8edf1 72%, #d5dee6 100%); }
+.workwear-family-card > div { padding: 24px 24px 26px; }
 .workwear-family-card h2 { font-size: 1.18rem; line-height: 1.3; margin: .2rem 0 .55rem; }
-.workwear-family-card h2 a { color: inherit; text-decoration: none; }
-.workwear-family-card h2 a:hover { color: #8a6100; }
-.workwear-family-card__eyebrow { margin: 0; color: #8a6100; font-size: .75rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; }
-.workwear-family-card.is-empty { opacity: .7; background: #f7f8fa; }
+.workwear-family-card h2 a { color: #fff; text-decoration: none; }
+.workwear-family-card h2 a:hover { color: #e6c77e; }
+.workwear-family-card p:not(.workwear-family-card__eyebrow) { color: #bac7d5; }
+.workwear-family-card__eyebrow { margin: 0; color: #e4c472; font-size: .72rem; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
+.workwear-family-card.is-empty { opacity: .72; background: #26384d; }
 .workwear-colours { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .workwear-colour { display: inline-flex; padding: 5px 10px; border: 1px solid #d9dde3; border-radius: 999px; background: #fff; font-size: .82rem; font-weight: 650; }

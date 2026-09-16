@@ -305,7 +305,11 @@
               price: Number(row.price),
               priceStatus: row.price_is_fixed ? 'fixed' : 'indicative',
               sizes: row.sizes || [],
-              images: optimisedProductImages(row.images),
+              images: (/^https?:\/\/[^/]*sbmmarketplace\.com\//i.test((row.images || [])[0] || ''))
+                ? ['/assets/img/products/clean-reference/' + encodeURIComponent(row.category) + '/' + encodeURIComponent(row.sku) + '.webp?v=20260916exact']
+                : optimisedProductImages((row.images || []).filter(function (image) {
+                    return !/^https?:\/\/[^/]*sbmmarketplace\.com\//i.test(image || '');
+                  })),
               imageSource: 'remart',
               attribute: row.attribute || '',
               description: row.description || '',

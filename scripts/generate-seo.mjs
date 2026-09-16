@@ -9,7 +9,6 @@ try {
   const response = await fetch(publicProductsUrl, { headers: { apikey: publishableKey } });
   if (!response.ok) throw new Error(`Supabase responded ${response.status}`);
   products = await response.json();
-  fs.writeFileSync(path.join(root, 'data/products-live.json'), `${JSON.stringify(products, null, 2)}\n`);
 } catch (error) {
   const saved = path.join(root, 'data/products-live.json');
   const fallback = fs.existsSync(saved) ? saved : path.join(root, 'data/products.json');
@@ -17,6 +16,16 @@ try {
   products = JSON.parse(fs.readFileSync(fallback, 'utf8'));
   console.warn(`Using saved product snapshot: ${error.message}`);
 }
+const generatedProductImagesFile = path.join(root, 'data/generated-product-images.json');
+const generatedProductImages = fs.existsSync(generatedProductImagesFile)
+  ? JSON.parse(fs.readFileSync(generatedProductImagesFile, 'utf8'))
+  : {};
+products = products.map(product => {
+  const replacement = generatedProductImages[product.sku];
+  const cleanImages = (product.images || []).filter(image => !/^https?:\/\/[^/]*sbmmarketplace\.com\//i.test(image || ''));
+  return { ...product, images: replacement ? replacement.images : cleanImages };
+});
+fs.writeFileSync(path.join(root, 'data/products-live.json'), `${JSON.stringify(products, null, 2)}\n`);
 const productTemplate = fs.readFileSync(path.join(root, 'product.html'), 'utf8');
 const origin = 'https://www.xpertonecreative.com';
 const today = new Date().toISOString().slice(0, 10);
