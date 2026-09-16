@@ -409,7 +409,7 @@ function staticProductBody(p) {
       ${p.subtitle ? `<p class="text-muted-xo">${esc(p.subtitle)}</p>` : ''}
       <p><strong>${money(p.price)}</strong> per ${esc(saleUnit(p))}, excluding VAT${p.priceStatus === 'indicative' ? ' - indicative and confirmed on quotation' : ''}.</p>
       <p>${esc(description)}</p>
-      <p><a class="btn btn-xo" href="/product.html?p=${encodeURIComponent(p.uid)}">Choose sizes and order</a></p>
+      <p><a class="btn btn-xo" href="/products/${encodeURIComponent(p.slug)}/#order-options">Choose sizes and order</a></p>
       <ul class="spec-list">${specs.map(([k, v]) => `<li><b>${esc(k)}</b><span>${esc(v)}</span></li>`).join('')}</ul>
     </div>
   </div>
@@ -477,7 +477,12 @@ const thumbnailCategories = new Set([
 
 function familyThumbnailAsset(categorySlug, family, items) {
   if (!items.length || !thumbnailCategories.has(categorySlug)) return '';
-  const imagePath = `/assets/img/category/${categorySlug}/${family.slug}.png`;
+  const optimizedJpegs = new Set([
+    'safety-vests/supervisor-vests',
+    'hand-protection/cut-resistant-gloves'
+  ]);
+  const key = `${categorySlug}/${family.slug}`;
+  const imagePath = `/assets/img/category/${key}.${optimizedJpegs.has(key) ? 'jpg' : 'png'}`;
   const filePath = path.join(root, 'assets', 'img', 'category', categorySlug, `${family.slug}.svg`);
   const selectedItems = items.slice(0, 1);
   const boxes = [[112, 102, 800, 800]];
@@ -828,5 +833,58 @@ write(path.join(root, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<
 
 const redirect = (to, title) => `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex,follow"><link rel="canonical" href="${to}"><meta http-equiv="refresh" content="0;url=${to}"><title>${esc(title)}</title></head><body><p>This page moved to <a href="${to}">${esc(title)}</a>.</p></body></html>`;
 write(path.join(root, 'category', 'shoes', 'index.html'), redirect(`${origin}/category/safety-shoes/`, 'Safety Shoes'));
+
+// Normalize every public HTML document after generation. This keeps search
+// snippets concise and supplies complete Open Graph and X card metadata even
+// for hand-authored pages such as the homepage and blog articles.
+function shortenAtWord(value, limit) {
+  const text = clean(value).replace(/\s+LLC-FZ\b/g, '');
+  if (text.length <= limit) return text;
+  return `${text.slice(0, limit - 1).replace(/\s+\S*$/, '').replace(/[,:;|\s-]+$/, '')}…`;
+}
+
+function normalizeSeoHtml(html) {
+  const titleMatch = html.match(/<title>([\s\S]*?)<\/title>/i);
+  const descriptionMatch = html.match(/<meta\s+name="description"\s+content="([^"]*)"/i);
+  const canonicalMatch = html.match(/<link\s+rel="canonical"\s+href="([^"]*)"/i);
+  if (!titleMatch) return html;
+
+  const title = shortenAtWord(titleMatch[1], 60);
+  const description = descriptionMatch ? shortenAtWord(descriptionMatch[1], 155) : '';
+  const canonical = canonicalMatch ? canonicalMatch[1] : '';
+  html = html.replace(titleMatch[0], `<title>${title}</title>`);
+  if (descriptionMatch) html = html.replace(descriptionMatch[1], description);
+
+  const ogTitle = html.match(/<meta\s+property="og:title"\s+content="([^"]*)"/i)?.[1] || title;
+  const ogDescription = html.match(/<meta\s+property="og:description"\s+content="([^"]*)"/i)?.[1] || description;
+  const ogUrl = html.match(/<meta\s+property="og:url"\s+content="([^"]*)"/i)?.[1] || canonical;
+  const ogImage = html.match(/<meta\s+property="og:image"\s+content="([^"]*)"/i)?.[1] || `${origin}/assets/img/brand/og-xpertone.png`;
+  const additions = [];
+  if (!/property="og:title"/i.test(html)) additions.push(`<meta property="og:title" content="${ogTitle}">`);
+  if (ogDescription && !/property="og:description"/i.test(html)) additions.push(`<meta property="og:description" content="${ogDescription}">`);
+  if (ogUrl && !/property="og:url"/i.test(html)) additions.push(`<meta property="og:url" content="${ogUrl}">`);
+  if (!/property="og:image"/i.test(html)) additions.push(`<meta property="og:image" content="${ogImage}">`);
+  if (!/property="og:type"/i.test(html)) additions.push('<meta property="og:type" content="website">');
+  if (!/name="twitter:card"/i.test(html)) {
+    additions.push('<meta name="twitter:card" content="summary_large_image">');
+    additions.push(`<meta name="twitter:title" content="${ogTitle}">`);
+    if (ogDescription) additions.push(`<meta name="twitter:description" content="${ogDescription}">`);
+    additions.push(`<meta name="twitter:image" content="${ogImage}">`);
+  }
+  return additions.length ? html.replace('</head>', `${additions.join('\n')}\n</head>`) : html;
+}
+
+function allHtmlFiles(directory) {
+  return fs.readdirSync(directory, { withFileTypes: true }).flatMap(entry => {
+    const target = path.join(directory, entry.name);
+    if (entry.isDirectory()) return ['.git', 'admin', 'crm'].includes(entry.name) ? [] : allHtmlFiles(target);
+    return entry.isFile() && entry.name.endsWith('.html') ? [target] : [];
+  });
+}
+
+for (const htmlFile of allHtmlFiles(root)) {
+  const current = fs.readFileSync(htmlFile, 'utf8');
+  fs.writeFileSync(htmlFile, normalizeSeoHtml(current));
+}
 
 console.log(JSON.stringify({ products: list.length, categories: groups.size, categoryPages: [...groups.values()].reduce((n, x) => n + Math.ceil(x.length / PAGE_SIZE), 0) }));

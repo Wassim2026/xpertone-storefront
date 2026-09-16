@@ -1,5 +1,11 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "rewrites": [
+    {
+      "source": "/product.html",
+      "destination": "/api/legacy-product"
+    }
+  ],
   "redirects": [
     {
       "source": "/contact",
