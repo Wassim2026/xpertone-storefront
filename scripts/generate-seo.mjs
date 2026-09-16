@@ -108,9 +108,7 @@ workwearFamilies.push(...extraWorkwearFamilies);
 const safetyVestFamilies = [
   { slug: 'general-vests', name: 'General Safety Vests', label: 'Under AED 15', thumbnail: '/assets/img/category/safety-vests/general-vests.webp', description: 'Affordable safety vests for visitors, general crews and short-duration site use.' },
   { slug: 'supervisor-vests', name: 'Supervisor Safety Vests', label: 'AED 15–20', thumbnail: '/assets/img/category/safety-vests/supervisor-vests.webp', description: 'Supervisor vests with practical closures, pockets and enhanced site visibility.' },
-  { slug: 'engineer-management-vests', name: 'Engineer & Management Safety Vests', label: 'Above AED 20', thumbnail: '/assets/img/category/safety-vests/engineer-management-vests.webp', description: 'Premium vest options suited to engineers, managers and senior site personnel.' },
-  [`${origin}/blog/work-uniform-supplier-dubai-guide/`, 'monthly', '0.8'],
-  [`${origin}/blog/coverall-fabric-gsm-uae-guide/`, 'monthly', '0.8']
+  { slug: 'engineer-management-vests', name: 'Engineer & Management Safety Vests', label: 'Above AED 20', thumbnail: '/assets/img/category/safety-vests/engineer-management-vests.webp', description: 'Premium vest options suited to engineers, managers and senior site personnel.' }
 ];
 
 const handProtectionFamilies = [
@@ -489,7 +487,7 @@ function familyThumbnailAsset(categorySlug, family, items) {
   }).join('');
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024"><defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#f2f4f7"/></linearGradient><radialGradient id="halo"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#eef1f5"/></radialGradient></defs><rect width="1024" height="1024" fill="url(#bg)"/><circle cx="798" cy="176" r="270" fill="#e8edf3" opacity=".58"/><circle cx="154" cy="860" r="230" fill="#efe9dc" opacity=".52"/><ellipse cx="512" cy="506" rx="430" ry="412" fill="url(#halo)"/><path d="M72 72h108" stroke="#c8a24b" stroke-width="8" stroke-linecap="round"/><path d="M844 952h108" stroke="#0a274d" stroke-width="8" stroke-linecap="round"/>${productImages}</svg>`;
   write(filePath, svg);
-  return imagePath;
+  return `${imagePath}?v=20260916premium`;
 }
 function workwearFamilyPage(family, items) {
   const canonical = workwearUrl(family.slug);
@@ -795,7 +793,9 @@ const staticUrls = [
   [`${origin}/about.html`, 'monthly', '0.6'], [`${origin}/contact.html`, 'monthly', '0.7'],
   [`${origin}/sitemap.html`, 'weekly', '0.5'],
   [`${origin}/blog/embroidery-vs-dtf-printing-company-uniforms-dubai/`, 'monthly', '0.8'],
-  [`${origin}/blog/construction-uniform-supplier-dubai/`, 'monthly', '0.8']
+  [`${origin}/blog/construction-uniform-supplier-dubai/`, 'monthly', '0.8'],
+  [`${origin}/blog/work-uniform-supplier-dubai-guide/`, 'monthly', '0.8'],
+  [`${origin}/blog/coverall-fabric-gsm-uae-guide/`, 'monthly', '0.8']
 ];
 const xml = rows => `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${rows.map(([url, freq, priority]) => `  <url><loc>${esc(url)}</loc><lastmod>${today}</lastmod><changefreq>${freq}</changefreq><priority>${priority}</priority></url>`).join('\n')}\n</urlset>\n`;
 write(path.join(root, 'sitemap-pages.xml'), xml(staticUrls));
