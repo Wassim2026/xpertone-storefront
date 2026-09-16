@@ -1,0 +1,5 @@
+# High-resolution generation masters and local QA references. Optimized WebP
+# derivatives are committed for the live storefront; masters stay in outputs.
+assets/img/products/clean-reference/**/*.png
+assets/img/products/generated/
+tmp/
