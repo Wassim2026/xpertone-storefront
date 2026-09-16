@@ -11452,7 +11452,7 @@
     "category_name": "Safety Vests",
     "subcategory": "Safety Jacket",
     "subcategory_slug": "safety-jacket",
-    "price": 5,
+    "price": 12,
     "price_is_fixed": true,
     "sizes": [
       "2XL",
@@ -12141,7 +12141,7 @@
     "category_name": "Safety Vests",
     "subcategory": "Reflective Tape",
     "subcategory_slug": "reflective-tape",
-    "price": 7,
+    "price": 20,
     "price_is_fixed": true,
     "sizes": [
       "2XL/3XL",
@@ -12186,7 +12186,7 @@
     "category_name": "Safety Vests",
     "subcategory": "Safety Jacket",
     "subcategory_slug": "safety-jacket",
-    "price": 7,
+    "price": 12,
     "price_is_fixed": true,
     "sizes": [
       "2XL",
@@ -12249,7 +12249,7 @@
     "category_name": "Safety Vests",
     "subcategory": "Reflective Tape",
     "subcategory_slug": "reflective-tape",
-    "price": 7,
+    "price": 20,
     "price_is_fixed": true,
     "sizes": [
       "2XL/3XL",
@@ -13070,7 +13070,7 @@
     "category_name": "Safety Vests",
     "subcategory": "Safety Jacket",
     "subcategory_slug": "safety-jacket",
-    "price": 7,
+    "price": 12,
     "price_is_fixed": true,
     "sizes": [
       "2XL",
@@ -13343,7 +13343,7 @@
     "category_name": "Safety Vests",
     "subcategory": "Safety Jacket",
     "subcategory_slug": "safety-jacket",
-    "price": 4,
+    "price": 12,
     "price_is_fixed": true,
     "sizes": [
       "2XL",
@@ -13510,7 +13510,7 @@
     "category_name": "Safety Vests",
     "subcategory": "Reflective Tape",
     "subcategory_slug": "reflective-tape",
-    "price": 10,
+    "price": 12,
     "price_is_fixed": true,
     "sizes": [
       "2XL",

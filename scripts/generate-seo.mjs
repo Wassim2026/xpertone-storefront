@@ -117,8 +117,7 @@ workwearFamilies.push(...extraWorkwearFamilies);
 const safetyVestFamilies = [
   { slug: 'general-vests', name: 'General Safety Vests', label: 'Under AED 15', thumbnail: '/assets/img/category/safety-vests/general-vests.webp', description: 'Affordable safety vests for visitors, general crews and short-duration site use.' },
   { slug: 'supervisor-vests', name: 'Supervisor Safety Vests', label: 'AED 15–20', thumbnail: '/assets/img/category/safety-vests/supervisor-vests.webp', description: 'Supervisor vests with practical closures, pockets and enhanced site visibility.' },
-  { slug: 'engineer-management-vests', name: 'Engineer & Management Safety Vests', label: 'Above AED 20', thumbnail: '/assets/img/category/safety-vests/engineer-management-vests.webp', description: 'Premium vest options suited to engineers, managers and senior site personnel.' },
-  [`${origin}/blog/`, 'weekly', '0.7']
+  { slug: 'engineer-management-vests', name: 'Engineer & Management Safety Vests', label: 'Above AED 20', thumbnail: '/assets/img/category/safety-vests/engineer-management-vests.webp', description: 'Premium vest options suited to engineers, managers and senior site personnel.' }
 ];
 
 const handProtectionFamilies = [
@@ -802,6 +801,7 @@ const staticUrls = [
   [`${origin}/`, 'weekly', '1.0'], [`${origin}/shop.html`, 'daily', '0.8'],
   [`${origin}/about.html`, 'monthly', '0.6'], [`${origin}/contact.html`, 'monthly', '0.7'],
   [`${origin}/sitemap.html`, 'weekly', '0.5'],
+  [`${origin}/blog/`, 'weekly', '0.7'],
   [`${origin}/blog/embroidery-vs-dtf-printing-company-uniforms-dubai/`, 'monthly', '0.8'],
   [`${origin}/blog/construction-uniform-supplier-dubai/`, 'monthly', '0.8'],
   [`${origin}/blog/work-uniform-supplier-dubai-guide/`, 'monthly', '0.8'],
