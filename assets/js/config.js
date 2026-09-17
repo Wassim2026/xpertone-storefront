@@ -1,3 +1,23 @@
+/* Meta Pixel: base PageView tracking for the shared storefront */
+(function(w, d, s, src, pixelId) {
+  if (w.fbq) return;
+  var fbq = w.fbq = function() {
+    fbq.callMethod ? fbq.callMethod.apply(fbq, arguments) : fbq.queue.push(arguments);
+  };
+  if (!w._fbq) w._fbq = fbq;
+  fbq.push = fbq;
+  fbq.loaded = true;
+  fbq.version = '2.0';
+  fbq.queue = [];
+  var script = d.createElement(s);
+  script.async = true;
+  script.src = src;
+  var firstScript = d.getElementsByTagName(s)[0];
+  firstScript.parentNode.insertBefore(script, firstScript);
+  fbq('init', pixelId);
+  fbq('track', 'PageView');
+})(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js', '1242823653732605');
+
 /* =========================================================================
    Xpertone Creative LLC-FZ - Runtime configuration
    -------------------------------------------------------------------------
