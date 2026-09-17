@@ -435,7 +435,17 @@ function productSchema(p) {
   if (p.priceStatus === 'fixed') schema.offers = {
     '@type': 'Offer', priceCurrency: 'AED', price: p.price,
     availability: 'https://schema.org/InStock', itemCondition: 'https://schema.org/NewCondition',
-    seller: { '@id': `${origin}/#business` }, url: productUrl(p)
+    seller: { '@id': `${origin}/#business` }, url: productUrl(p),
+    shippingDetails: {
+      '@type': 'OfferShippingDetails',
+      shippingRate: { '@type': 'MonetaryAmount', value: 30, currency: 'AED' },
+      shippingDestination: { '@type': 'DefinedRegion', addressCountry: 'AE' },
+      deliveryTime: {
+        '@type': 'ShippingDeliveryTime',
+        handlingTime: { '@type': 'QuantitativeValue', minValue: 0, maxValue: 1, unitCode: 'DAY' },
+        transitTime: { '@type': 'QuantitativeValue', minValue: 1, maxValue: 4, unitCode: 'DAY' }
+      }
+    }
   };
   return schema;
 }
