@@ -8,6 +8,11 @@
   ],
   "redirects": [
     {
+      "source": "/products/premium-100-polyester-safety-fabric-vest-yellow-color/",
+      "destination": "/products/vaultex-100-polyester-safety-fabric-vest-yellow-color/",
+      "permanent": true
+    },
+    {
       "source": "/products/site-equipment-plmt-40-dry-cell-battery/",
       "destination": "/category/traffic-safety/",
       "permanent": true
