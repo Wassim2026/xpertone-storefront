@@ -147,7 +147,9 @@ window.XO_CONFIG = {
   DELIVERY_FEE: 30,            // AED, below the threshold
 
   LOGO_PRINTING: {
-    enabled: true,
+    /* Product-page visual customisation is intentionally disabled. Artwork
+       for Safety Vests and Workwear is collected once at checkout instead. */
+    enabled: false,
     // Set to 0 to quote logo printing manually instead of charging inline.
     pricePerUnit: 0,
     note: 'Front and back logo printing available - priced per artwork, confirmed on your quote.'

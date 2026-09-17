@@ -43,10 +43,9 @@
 <div id="siteFooter"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="assets/js/config.js?v=20260914sku"></script>
+<script src="assets/js/config.js?v=20260917artwork"></script>
 <script src="assets/js/store.js?v=20260914sku"></script>
 <script src="assets/js/ui.js?v=20260914sku"></script>
-<script src="assets/js/designer.js?v=20260914sku"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -61,48 +60,37 @@ document.addEventListener('DOMContentLoaded', function () {
     return;
   }
 
-  /* Every design the customer approved on the product pages, in cart order. */
-  function orderDesigns() {
-    return Cart.lines().map(function (l) {
-      var d = Designs.get(l.key);
-      return d ? { line: l, design: d } : null;
-    }).filter(Boolean);
+  function hasArtworkProducts() {
+    return Cart.lines().some(function (line) {
+      return ['safety-vests', 'uniforms'].indexOf(line.category) !== -1;
+    });
   }
 
-  function designReview() {
-    var items = orderDesigns();
-    var hasCustomisableProduct = Cart.lines().some(function (line) {
-      return ['safety-vests', 'uniforms', 'helmets'].indexOf(line.category) !== -1;
-    });
-    if (!items.length && !hasCustomisableProduct) return '';
-    if (!items.length) {
-      return '<h2 class="h5 mt-4 mb-3">Artwork</h2>' +
-        '<div class="p-3 p-lg-4 border rounded-3" style="background:var(--xo-surface-alt)">' +
-          '<p class="mb-2" style="font-size:.93rem"><b style="color:var(--xo-ink)">' +
-            'No artwork on this order.</b></p>' +
-          '<p class="form-text mb-0">Want your logo or company name printed? Open any product, ' +
-          'switch on <b>Customise this item</b>, upload your logo and type your text in English or ' +
-          'Arabic — you will see it on the product before you order. ' +
-          '<a href="shop.html">Back to the catalogue</a>.</p>' +
-        '</div>';
-    }
-
-    return '<h2 class="h5 mt-4 mb-3">Your artwork</h2>' +
+  function artworkSubmission() {
+    if (!hasArtworkProducts()) return '';
+    return '<h2 class="h5 mt-4 mb-3">Artwork for printing</h2>' +
       '<div class="p-3 p-lg-4 border rounded-3" style="background:var(--xo-surface-alt)">' +
-        '<p class="form-text mt-0 mb-3">This is exactly what we will print. ' +
-        'To change anything, reopen the product and edit your design.</p>' +
-        '<div class="design-review">' +
-          items.map(function (it) {
-            var d = it.design;
-            return '<figure>' +
-              (d.mockup ? '<img src="' + d.mockup + '" alt="Your design on ' + XO.esc(d.product) + '">' : '') +
-              '<figcaption><b>' + XO.esc(it.line.title) + '</b>' +
-              (d.en ? 'EN: ' + XO.esc(d.en) + '<br>' : '') +
-              (d.ar ? '<span dir="rtl" style="font-family:Noto Sans Arabic,Tahoma,Arial,sans-serif">AR: ' +
-                      XO.esc(d.ar) + '</span><br>' : '') +
-              XO.esc(d.placement) + ' · ' + XO.esc(d.colour) +
-              '</figcaption></figure>';
-          }).join('') +
+        '<p class="mb-3" style="font-size:.93rem"><b style="color:var(--xo-ink)">' +
+          'Optional for Safety Vests and Workwear.</b> Upload your company logo or finished artwork. ' +
+          'We will check it and send a proof before production.</p>' +
+        '<div class="row g-3">' +
+          '<div class="col-12"><label class="form-label" for="f_artwork">Logo / artwork file</label>' +
+            '<input class="form-control" id="f_artwork" name="artwork" type="file" ' +
+              'accept="' + XO.esc(XO_CONFIG.PRINTING.accept) + '">' +
+            '<div class="form-text">PDF, AI, EPS, SVG, PNG, JPG, WEBP or ZIP. Maximum ' +
+              XO_CONFIG.PRINTING.maxFileMB + ' MB.</div></div>' +
+          '<div class="col-md-6"><label class="form-label" for="f_placement">Preferred placement</label>' +
+            '<select class="form-select" id="f_placement" name="artwork_placement">' +
+              XO_CONFIG.PRINTING.placements.map(function (placement) {
+                return '<option>' + XO.esc(placement) + '</option>';
+              }).join('') +
+            '</select></div>' +
+          '<div class="col-md-6"><label class="form-label" for="f_print_text">Text to print <span class="text-muted-xo">(optional)</span></label>' +
+            '<input class="form-control" id="f_print_text" name="print_text" ' +
+              'placeholder="Company name, role or department"></div>' +
+          '<div class="col-12"><label class="form-label" for="f_artwork_notes">Artwork instructions <span class="text-muted-xo">(optional)</span></label>' +
+            '<textarea class="form-control" id="f_artwork_notes" name="artwork_notes" rows="2" ' +
+              'placeholder="Colours, dimensions, products to print, or any special instruction"></textarea></div>' +
         '</div>' +
       '</div>';
   }
@@ -145,7 +133,7 @@ document.addEventListener('DOMContentLoaded', function () {
             'placeholder="Building, street, site name, any gate or access instructions"></textarea></div>' +
         '</div>' +
 
-        designReview() +
+        artworkSubmission() +
 
         '<h2 class="h5 mt-4 mb-3">How you would like to pay</h2>' +
         '<label class="pay-option is-selected" data-pay>' +
@@ -214,6 +202,8 @@ document.addEventListener('DOMContentLoaded', function () {
   function collect() {
     var f = XO.el('#coForm');
     var d = new FormData(f);
+    var artworkInput = XO.el('#f_artwork');
+    var artworkFile = artworkInput && artworkInput.files ? artworkInput.files[0] : null;
     return {
       company: d.get('company') || '',
       name: d.get('name') || '',
@@ -223,26 +213,99 @@ document.addEventListener('DOMContentLoaded', function () {
       emirate: d.get('emirate') || '',
       area: d.get('area') || '',
       address: d.get('address') || '',
-      logo: orderDesigns().length > 0,
+      logo: !!artworkFile,
+      artworkFile: artworkFile,
+      artworkFileName: artworkFile ? artworkFile.name : '',
+      artworkPlacement: d.get('artwork_placement') || '',
+      printText: d.get('print_text') || '',
+      artworkNotes: d.get('artwork_notes') || '',
       payment: d.get('payment') || '',
       notes: d.get('notes') || ''
     };
   }
 
-  /* Printing brief, built from the designs the customer approved. */
-  function printingSummary() {
-    var items = orderDesigns();
-    if (!items.length) return 'No';
-    return items.map(function (it, i) {
-      return (i + 1) + '. ' + it.line.title + ' -> ' + Designs.describe(it.design);
-    }).join('\n');
+  function printingSummary(customer) {
+    if (!hasArtworkProducts()) return 'Not applicable to the ordered products';
+    if (!customer || !customer.logo) return 'No artwork submitted';
+    return [
+      'Artwork file: ' + customer.artworkFileName,
+      'Preferred placement: ' + (customer.artworkPlacement || 'Not specified'),
+      'Text to print: ' + (customer.printText || 'None'),
+      'Instructions: ' + (customer.artworkNotes || 'None')
+    ].join('\n');
   }
 
   /* WhatsApp copy of the order, with the printing details appended. */
   function orderMessage(c) {
     var m = Cart.asMessage(c);
-    if (c && c.logo) m += '\nArtwork:\n' + printingSummary();
+    if (hasArtworkProducts()) m += '\n\nArtwork for printing:\n' + printingSummary(c);
     return m;
+  }
+
+  /* FormSubmit renders each property as one email-table row. Keep every
+     product, size split and price in its own named row so orders remain easy
+     to scan on desktop and mobile instead of hiding everything in one long
+     "Full order" cell. */
+  function sizeBreakdown(line) {
+    var sizes = Object.keys(line.qty || {}).sort(function (a, b) {
+      var ai = XO_CONFIG.SIZE_ORDER.indexOf(a);
+      var bi = XO_CONFIG.SIZE_ORDER.indexOf(b);
+      if (ai < 0) ai = 999;
+      if (bi < 0) bi = 999;
+      return ai === bi ? a.localeCompare(b) : ai - bi;
+    });
+    return sizes.map(function (size) {
+      return size + ': ' + line.qty[size] + ' pcs';
+    }).join('  |  ') || 'One size: ' + Cart.lineQty(line) + ' pcs';
+  }
+
+  function emailOrderFields(customer, lines, totals) {
+    var indicative = lines.some(function (line) { return XO.indicative(line); });
+    var fields = {
+      _subject: XO_CONFIG.EMAIL.orderSubject + ' — ' +
+        (customer.company || customer.name || 'website') + ' — ' +
+        totals.units + ' pcs — ' + XO.money(totals.total),
+      _template: 'table',
+      _replyto: customer.email,
+
+      'ORDER STATUS': indicative
+        ? 'INDICATIVE PRICING — prepare and confirm a manual quotation'
+        : 'CATALOGUE PRICING — confirm stock and issue the invoice',
+      'CUSTOMER / COMPANY': customer.company || '—',
+      'CONTACT PERSON': customer.name || '—',
+      'PHONE': customer.phone || '—',
+      'EMAIL': customer.email || '—',
+      'TRN': customer.trn || '—',
+      'DELIVERY LOCATION': [customer.area, customer.emirate].filter(Boolean).join(', ') || '—',
+      'FULL ADDRESS': customer.address || '—',
+      'PAYMENT METHOD': customer.payment || '—',
+      'CUSTOMER NOTES': customer.notes || '—'
+    };
+
+    lines.forEach(function (line, index) {
+      var number = String(index + 1).padStart(2, '0');
+      var qty = Cart.lineQty(line);
+      var sku = line.id || 'No SKU';
+      fields['ITEM ' + number + ' — SKU ' + sku] = line.title;
+      fields['ITEM ' + number + ' — SIZES / QUANTITIES'] = sizeBreakdown(line);
+      fields['ITEM ' + number + ' — PRICE'] =
+        qty + ' pcs × ' + XO.money(Pricing.unitPrice(line.price, qty)) +
+        ' each = ' + XO.money(Pricing.lineTotal(line.price, qty));
+      fields['ITEM ' + number + ' — LOGO PRINTING'] =
+        customer.logo && ['safety-vests', 'uniforms'].indexOf(line.category) !== -1
+          ? 'YES — use the attached order artwork' : 'NO';
+      if (line.note) fields['ITEM ' + number + ' — NOTE'] = line.note;
+    });
+
+    fields['PRINTING / ARTWORK BRIEF'] = printingSummary(customer);
+    fields['TOTAL PRODUCT LINES'] = lines.length;
+    fields['TOTAL PIECES'] = totals.units;
+    fields['SUBTOTAL — EX VAT'] = XO.money(totals.subtotal);
+    fields['VOLUME DISCOUNT'] = totals.savings > 0 ? '-' + XO.money(totals.savings) : 'None';
+    fields['DELIVERY'] = totals.delivery ? XO.money(totals.delivery) : 'Free';
+    fields['VAT — 5%'] = XO.money(totals.vat);
+    fields['GRAND TOTAL — INCL VAT'] = XO.money(totals.total);
+    return fields;
   }
 
   function validate() {
@@ -253,6 +316,14 @@ document.addEventListener('DOMContentLoaded', function () {
       el.classList.toggle('is-invalid', bad);
       if (bad && ok) { el.focus(); ok = false; }
     });
+    var artwork = XO.el('#f_artwork');
+    if (artwork && artwork.files && artwork.files[0] &&
+        artwork.files[0].size > XO_CONFIG.PRINTING.maxFileMB * 1024 * 1024) {
+      artwork.classList.add('is-invalid');
+      XO.toast('Artwork must be ' + XO_CONFIG.PRINTING.maxFileMB + ' MB or smaller', 'fa-triangle-exclamation');
+      artwork.focus();
+      ok = false;
+    }
     if (!ok) XO.toast('Please complete the highlighted fields', 'fa-triangle-exclamation');
     return ok;
   }
@@ -281,7 +352,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }));
       } catch (err) {}
       Cart.clear();
-      Designs.clear();
       window.location.href = 'order-confirmation.html';
     }
 
@@ -300,85 +370,56 @@ document.addEventListener('DOMContentLoaded', function () {
       var t2 = Cart.totals();
       var linesAtOrder = Cart.lines();
 
-      var fields = {
-        _subject: E.orderSubject + ' — ' + (customer.company || customer.name || 'website'),
-        _template: 'table',
-        Company: customer.company,
-        Contact: customer.name,
-        Phone: customer.phone,
-        Email: customer.email,
-        TRN: customer.trn || '—',
-        Emirate: customer.emirate,
-        Area: customer.area || '—',
-        Address: customer.address,
-        Payment: customer.payment,
-        'Logo / text printing': printingSummary(),
-        Notes: customer.notes || '—',
-        'Total pieces': t2.units,
-        'Subtotal ex VAT': XO.money(t2.subtotal),
-        'Volume discount': t2.savings > 0 ? '-' + XO.money(t2.savings) : 'none',
-        Delivery: t2.delivery ? XO.money(t2.delivery) : 'Free',
-        'VAT 5%': XO.money(t2.vat),
-        'Total incl VAT': XO.money(t2.total),
-        'Pricing status': linesAtOrder.some(function (l) { return XO.indicative(l); })
-          ? 'INDICATIVE — quote this order manually before confirming' : 'Catalogue prices',
-        'Full order': orderMessage(customer)
-      };
+      var fields = emailOrderFields(customer, linesAtOrder, t2);
 
-      /* ---- Artwork on the order: send it as a real image attachment so
-              sales can see the design the customer approved. A multipart
-              post is the only way to carry a file, so the page navigates to
-              the relay and comes straight back to the confirmation. ---- */
-      if (orderDesigns().length) {
-        DesignSheet.build().then(function (file) {
-          if (!file) throw new Error('Could not build the artwork sheet');
+      /* Artwork is attached directly for eligible Safety Vest and Workwear
+         orders. Multipart submission is only used when a customer supplied a
+         file; ordinary orders continue through the faster background request. */
+      if (customer.artworkFile) {
+        try {
+          sessionStorage.setItem('xo_last_order', JSON.stringify({
+            reference: '', customer: customer, payload: payload,
+            message: orderMessage(customer)
+          }));
+        } catch (err) {}
 
-          try {
-            sessionStorage.setItem('xo_last_order', JSON.stringify({
-              reference: '', customer: customer, payload: payload,
-              message: orderMessage(customer)
-            }));
-          } catch (err) {}
+        var relay = document.createElement('form');
+        relay.method = 'POST';
+        relay.action = E.uploadEndpoint;
+        relay.enctype = 'multipart/form-data';
+        relay.style.display = 'none';
 
-          var relay = document.createElement('form');
-          relay.method = 'POST';
-          relay.action = E.uploadEndpoint;
-          relay.enctype = 'multipart/form-data';
-          relay.style.display = 'none';
+        Object.keys(fields).forEach(function (k) {
+          var input = document.createElement('input');
+          input.type = 'hidden';
+          input.name = k;
+          input.value = fields[k];
+          relay.appendChild(input);
+        });
 
-          Object.keys(fields).forEach(function (k) {
-            var input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = k;
-            input.value = fields[k];
-            relay.appendChild(input);
-          });
+        var next = document.createElement('input');
+        next.type = 'hidden';
+        next.name = '_next';
+        next.value = location.href.replace(/[^/]*$/, '') + 'order-confirmation.html';
+        relay.appendChild(next);
 
-          var next = document.createElement('input');
-          next.type = 'hidden';
-          next.name = '_next';
-          next.value = location.href.replace(/[^/]*$/, '') + 'order-confirmation.html';
-          relay.appendChild(next);
+        var noCaptcha = document.createElement('input');
+        noCaptcha.type = 'hidden';
+        noCaptcha.name = '_captcha';
+        noCaptcha.value = 'false';
+        relay.appendChild(noCaptcha);
 
-          var noCaptcha = document.createElement('input');
-          noCaptcha.type = 'hidden';
-          noCaptcha.name = '_captcha';
-          noCaptcha.value = 'false';
-          relay.appendChild(noCaptcha);
+        var fileInput = document.createElement('input');
+        fileInput.type = 'file';
+        fileInput.name = 'attachment';
+        var dt = new DataTransfer();
+        dt.items.add(customer.artworkFile);
+        fileInput.files = dt.files;
+        relay.appendChild(fileInput);
 
-          var fileInput = document.createElement('input');
-          fileInput.type = 'file';
-          fileInput.name = 'attachment';
-          var dt = new DataTransfer();
-          dt.items.add(file);
-          fileInput.files = dt.files;
-          relay.appendChild(fileInput);
-
-          document.body.appendChild(relay);
-          Cart.clear();
-          Designs.clear();
-          relay.submit();
-        }).catch(failToWhatsApp);
+        document.body.appendChild(relay);
+        Cart.clear();
+        relay.submit();
         return;
       }
 
