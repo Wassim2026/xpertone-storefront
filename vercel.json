@@ -8,18 +8,6 @@
   ],
   "redirects": [
     {
-      "source": "/shop.html",
-      "has": [{"type": "query", "key": "category", "value": "fall-protection"}],
-      "destination": "/shop.html",
-      "permanent": true
-    },
-    {
-      "source": "/shop.html",
-      "has": [{"type": "query", "key": "category", "value": "automotive"}],
-      "destination": "/shop.html",
-      "permanent": true
-    },
-    {
       "source": "/products/site-equipment-plmt-40-dry-cell-battery/",
       "destination": "/category/traffic-safety/",
       "permanent": true
