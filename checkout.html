@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var body = XO.el('#checkoutBody');
   var gift = window.Giveaway ? Giveaway.claim() : null;
 
-  if (!Cart.lines().length) {
+  if (!Cart.lines().length && !gift) {
     body.innerHTML = '<div class="empty-state">' +
       '<div class="empty-state__icon"><i class="fa-solid fa-receipt"></i></div>' +
       '<h2>Nothing to check out yet</h2>' +
