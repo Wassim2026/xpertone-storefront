@@ -74,12 +74,12 @@
     },
     {
       "source": "/shop",
-      "destination": "/shop.html",
+      "destination": "/",
       "permanent": true
     },
     {
       "source": "/product/:legacyId*",
-      "destination": "/shop.html",
+      "destination": "/",
       "permanent": true
     },
     {
@@ -211,6 +211,12 @@
       ],
       "destination": "/api/legacy-category",
       "permanent": true
+    },
+    {
+      "source": "/shop.html",
+      "destination": "/",
+      "permanent": true
     }
   ]
 }
+
