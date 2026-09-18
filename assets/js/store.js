@@ -524,7 +524,12 @@
       });
 
       subtotal = Math.round(subtotal * 100) / 100;
-      var delivery = (units === 0 || subtotal >= CFG.FREE_DELIVERY_THRESHOLD) ? 0 : CFG.DELIVERY_FEE;
+      var giveawayActive = false;
+      try { giveawayActive = !!JSON.parse(localStorage.getItem('xo_giveaway_claim_v1') || 'null'); } catch (e) {}
+      /* Giveaway orders always carry the advertised AED 30 delivery fee. */
+      var delivery = giveawayActive && units > 0
+        ? CFG.DELIVERY_FEE
+        : ((units === 0 || subtotal >= CFG.FREE_DELIVERY_THRESHOLD) ? 0 : CFG.DELIVERY_FEE);
       var vat = Math.round((subtotal + delivery) * CFG.VAT_RATE * 100) / 100;
       var grand = Math.round((subtotal + delivery + vat) * 100) / 100;
 
@@ -620,3 +625,4 @@
   };
 
 })();
+
