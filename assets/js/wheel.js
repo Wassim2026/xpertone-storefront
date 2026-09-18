@@ -25,9 +25,9 @@
   overlay.className = 'xo-wheel-overlay';
   overlay.setAttribute('role','dialog'); overlay.setAttribute('aria-modal','true'); overlay.setAttribute('aria-labelledby','xoWheelTitle');
   overlay.innerHTML = '<div class="xo-wheel-card"><div class="xo-wheel-grid" id="xoWheelIntro">' +
-    '<div class="xo-wheel-copy"><div class="xo-wheel-kicker">Meta visitor giveaway</div><h2 id="xoWheelTitle">Spin & win free safety gear</h2>' +
+    '<div class="xo-wheel-copy"><div class="xo-wheel-kicker">Meta visitor giveaway</div><h2 id="xoWheelTitle">Spin & win free <span>safety gear</span></h2>' +
     '<p>Every spin wins. Your gift is worth up to AED 60 and is yours with AED 100 of products plus AED 30 delivery.</p>' +
-    '<p class="xo-wheel-terms">One gift per customer. UAE delivery only. Stock, colours and sizes are confirmed with our team.</p></div>' +
+    '<p class="xo-wheel-terms">One gift per customer. UAE delivery only. Stock, colours and sizes are confirmed with our team.</p><div class="xo-wheel-motto"><i></i><span>Safer people<br>Brighter tomorrows</span></div></div>' +
     '<div class="xo-wheel-stage"><div class="xo-wheel-pointer"></div><div class="xo-wheel-disc" id="xoDisc">' +
     prizes.map(function(p){return '<span class="xo-wheel-label"><img src="'+p.image+'" alt=""><b>'+esc(p.short)+'</b></span>';}).join('')+'</div>' +
     '<button class="xo-wheel-spin" id="xoSpin" type="button">SPIN</button></div></div><div class="xo-wheel-panel xo-wheel-hidden" id="xoLead"></div></div>';
