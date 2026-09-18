@@ -10,6 +10,7 @@ export default function handler(request, response) {
   const productId = Array.isArray(value) ? value[0] : value;
   const destination = paths.get(String(productId || '').toLowerCase());
 
-  response.setHeader('Location', destination || '/shop.html');
+  response.setHeader('Location', destination || '/');
   return response.status(308).end();
 }
+
