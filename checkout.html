@@ -46,10 +46,12 @@
 <script src="assets/js/config.js?v=20260917artwork"></script>
 <script src="assets/js/store.js?v=20260914sku"></script>
 <script src="assets/js/ui.js?v=20260914sku"></script>
+<script src="assets/js/wheel.js?v=20260918"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
 
   var body = XO.el('#checkoutBody');
+  var gift = window.Giveaway ? Giveaway.claim() : null;
 
   if (!Cart.lines().length) {
     body.innerHTML = '<div class="empty-state">' +
@@ -57,6 +59,14 @@ document.addEventListener('DOMContentLoaded', function () {
       '<h2>Nothing to check out yet</h2>' +
       '<p class="text-muted-xo">Your order is empty — add a few products and come back.</p>' +
       '<a class="btn btn-xo" href="shop.html">Browse the catalogue</a></div>';
+    return;
+  }
+
+  if (gift && Cart.totals().subtotal < XO_CONFIG.GIVEAWAY_MIN_SPEND) {
+    body.innerHTML = '<div class="empty-state"><div class="empty-state__icon"><i class="fa-solid fa-gift"></i></div>' +
+      '<h2>Add a few products to redeem your gift</h2><p class="text-muted-xo">Your ' + XO.esc(gift.prize.label) +
+      ' is reserved. Giveaway checkout needs at least ' + XO.money(XO_CONFIG.GIVEAWAY_MIN_SPEND) +
+      ' in paid products, plus AED 30 delivery.</p><a class="btn btn-xo" href="shop.html">Add products</a></div>';
     return;
   }
 
@@ -155,6 +165,9 @@ document.addEventListener('DOMContentLoaded', function () {
       '<div class="col-lg-5">' +
         '<div class="summary-card">' +
           '<h2 class="h5 mb-3">Order summary</h2>' +
+          (gift ? '<div class="d-flex gap-2 justify-content-between py-2" style="border-bottom:1px solid var(--xo-line);color:#654d00">' +
+            '<div style="font-size:.88rem"><b><i class="fa-solid fa-gift"></i> FREE: ' + XO.esc(gift.prize.label) + '</b>' +
+            '<div>' + XO.esc(Giveaway.sizeText(gift)) + '</div></div><b class="num">AED 0</b></div>' : '') +
           '<div style="max-height:280px;overflow:auto;margin:-.25rem -.25rem .5rem;padding:.25rem">' +
             Cart.lines().map(function (l) {
               var q = Cart.lineQty(l);
@@ -282,6 +295,13 @@ document.addEventListener('DOMContentLoaded', function () {
       'CUSTOMER NOTES': customer.notes || '—'
     };
 
+    if (gift) {
+      fields['FREE WHEEL PRIZE'] = gift.prize.label + ' (' + gift.prize.sku + ')';
+      fields['GIFT SIZE SPLIT'] = Giveaway.sizeText(gift);
+      fields['GIVEAWAY LEAD PHONE'] = gift.phone;
+      fields['GIVEAWAY LEAD EMAIL'] = gift.email;
+    }
+
     lines.forEach(function (line, index) {
       var number = String(index + 1).padStart(2, '0');
       var qty = Cart.lineQty(line);
@@ -352,6 +372,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }));
       } catch (err) {}
       Cart.clear();
+      if (gift) localStorage.removeItem(Giveaway.key);
       window.location.href = 'order-confirmation.html';
     }
 
@@ -419,6 +440,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         document.body.appendChild(relay);
         Cart.clear();
+        if (gift) localStorage.removeItem(Giveaway.key);
         relay.submit();
         return;
       }
@@ -462,3 +484,4 @@ document.addEventListener('DOMContentLoaded', function () {
   <script src="assets/js/crm-hook.js?v=20260914sku"></script>
 </body>
 </html>
+
