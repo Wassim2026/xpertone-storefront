@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function () {
       '<h2>Your order is empty</h2>' +
       '<p class="text-muted-xo">Add products from the catalogue and your size split will show up here.</p>' +
       '<div class="d-flex gap-2 justify-content-center flex-wrap">' +
-        '<a class="btn btn-xo" href="shop.html">Browse the catalogue</a>' +
+        '<a class="btn btn-xo" href="/">Browse products</a>' +
         '<a class="btn btn-wa" href="' + XO.waLink('Hello, I would like to place an order.') +
         '" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> Order on WhatsApp</a>' +
       '</div></div>';
@@ -141,7 +141,7 @@ document.addEventListener('DOMContentLoaded', function () {
           (gift ? giftLineHtml(gift) : '') +
           lines.map(lineHtml).join('') +
           '<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mt-4">' +
-            '<a class="btn btn-outline-xo" href="shop.html"><i class="fa-solid fa-arrow-left"></i> Continue shopping</a>' +
+            '<a class="btn btn-outline-xo" href="/"><i class="fa-solid fa-arrow-left"></i> Continue shopping</a>' +
             '<button class="btn btn-link p-0" id="clearBtn" type="button" ' +
               'style="color:var(--xo-muted);text-decoration:none;font-size:.88rem">Clear order</button>' +
           '</div>' +

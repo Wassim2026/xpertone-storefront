@@ -124,7 +124,7 @@
       out += '<span class="xo-grp"><button type="button" aria-haspopup="true">' + XO.esc(m.name) +
         ' <i class="fa-solid fa-chevron-down" style="font-size:8px;opacity:.7"></i></button>' + categoryDropdown(m.slug) + '</span>';
     });
-    out += '<a href="/shop.html?q=t-shirt">T-Shirts</a>';
+    out += '<a href="/">T-Shirts</a>';
     return out;
   }
 
@@ -136,7 +136,7 @@
         '<div style="padding-bottom:8px"><a href="/category/' + m.slug + '/">View all ' + XO.esc(m.name) + '</a>' +
         subs.map(function (s) { return '<a href="/category/' + m.slug + '/' + s.slug + '/">' + XO.esc(s.name) + '</a>'; }).join('') + '</div></details>';
     });
-    out += '<a href="/shop.html?q=t-shirt">T-Shirts</a><a href="about.html">About</a><a href="contact.html">Contact</a>';
+    out += '<a href="/">T-Shirts</a><a href="about.html">About</a><a href="contact.html">Contact</a>';
     return out;
   }
 
@@ -243,7 +243,7 @@
       f.addEventListener('submit', function (e) {
         e.preventDefault();
         var v = (document.getElementById(inputId).value || '').trim();
-        location.href = 'shop.html' + (v ? '?q=' + encodeURIComponent(v) : '');
+        location.href = '/';
       });
     }
     wireSearch('xoSearchForm', 'xoSearchInput');
@@ -296,12 +296,12 @@
             '<i class="fa-brands fa-whatsapp"></i> Chat with sales</a>' +
           '</div>' +
           '<div class="col-6 col-lg-2"><h4>Shop</h4><ul>' + catLinks +
-            '<li><a href="shop.html">All products</a></li></ul></div>' +
+            '<li><a href="/">All products</a></li></ul></div>' +
           '<div class="col-6 col-lg-2"><h4>Company</h4><ul>' +
             '<li><a href="about.html">About us</a></li>' +
             '<li><a href="contact.html">Contact</a></li>' +
             '<li><a href="contact.html#quote">Request a quote</a></li>' +
-            '<li><a href="shop.html">Bulk pricing</a></li></ul></div>' +
+            '<li><a href="/">Bulk pricing</a></li></ul></div>' +
           '<div class="col-lg-4"><h4>Get in touch</h4><ul class="footer-contact">' +
             '<li><i class="fa-solid fa-location-dot"></i><span>' + XO.esc(C.address) + '</span></li>' +
             '<li><i class="fa-solid fa-phone"></i><a href="tel:+' + C.phoneRaw + '">' + XO.esc(C.phone) + '</a></li>' +
@@ -533,3 +533,4 @@
   document.addEventListener('cart:change', syncCartBadge);
 
 })();
+
