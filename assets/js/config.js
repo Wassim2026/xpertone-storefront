@@ -143,6 +143,7 @@ window.XO_CONFIG = {
   },
 
   MOQ: 10,                     // minimum order quantity per product line
+  GIVEAWAY_MIN_SPEND: 100,     // paid products required to redeem a wheel prize
   FREE_DELIVERY_THRESHOLD: 1000,   // AED, ex-VAT - Dubai
   DELIVERY_FEE: 30,            // AED, below the threshold
 
@@ -340,3 +341,4 @@ window.XO_CONFIG = {
   /* localStorage key for the cart. Bump the suffix to invalidate old carts. */
   CART_KEY: 'xo_cart_v1'
 };
+
