@@ -70,14 +70,14 @@
   function showDone(record){
     var panel=document.getElementById('xoLead');
     panel.innerHTML='<div class="xo-wheel-done"><i class="fa-solid fa-circle-check"></i><h2>Gift reserved</h2><p><b>'+esc(record.prize.label)+'</b><br>'+esc(sizeText(record))+'</p>'+
-      '<p>Add AED 100 or more in products. Your free gift will appear at checkout, with AED 30 delivery.</p>'+
-      '<button class="xo-wheel-shop" id="xoRedeem" type="button"><i class="fa-solid fa-cart-shopping"></i> Shop products to redeem</button></div>';
+      '<p>Your free gift is ready for your cart. Add AED 100 or more in paid products to redeem it, with AED 30 delivery.</p>'+
+      '<button class="xo-wheel-shop" id="xoRedeem" type="button"><i class="fa-solid fa-cart-shopping"></i> Redeem gift &amp; continue shopping</button></div>';
     document.getElementById('xoRedeem').addEventListener('click',enableNotificationsAndShop);
   }
 
   function enableNotificationsAndShop(){
     var btn=document.getElementById('xoRedeem');
-    var goToShop=function(){window.location.href='/shop.html';};
+    var goToShop=function(){window.location.href='/';};
     btn.disabled=true;
     btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Opening shop…';
     if(!('Notification' in window)){goToShop();return;}
