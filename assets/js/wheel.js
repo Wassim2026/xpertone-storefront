@@ -3,10 +3,10 @@
 
   var CLAIM_KEY = 'xo_giveaway_claim_v1';
   var prizes = [
-    { id:'orb', sku:'ORB', label:'Pack of 5 ORB Safety Vests', qty:5, sizes:['S','M','L','XL','2XL','3XL','5XL'], value:60 },
-    { id:'suv', sku:'SUV', label:'Pack of 3 SUV Safety Vests', qty:3, sizes:['S','M','L','XL','2XL','3XL','4XL'], value:60 },
-    { id:'dlm', sku:'DLM', label:'Pack of 2 DLM Safety Vests', qty:2, sizes:['S','M','L','XL','2XL','3XL'], value:50 },
-    { id:'gloves', sku:'NEP', label:'1 Dozen Vaultex Work Gloves', qty:12, sizes:['M','L','XL'], value:48 }
+    { id:'orb', sku:'ORB', label:'5 Yellow Hi-Vis Safety Vests', short:'5 Hi-Vis Vests', qty:5, sizes:['S','M','L','XL','2XL','3XL','5XL'], value:60, image:'/assets/img/wheel/orb.webp' },
+    { id:'suv', sku:'SUV', label:'3 Pocketed Executive Safety Vests', short:'3 Pocket Vests', qty:3, sizes:['S','M','L','XL','2XL','3XL','4XL'], value:60, image:'/assets/img/wheel/suv.webp' },
+    { id:'dlm', sku:'DLM', label:'2 Yellow & Black Executive Vests', short:'2 Executive Vests', qty:2, sizes:['S','M','L','XL','2XL','3XL','4XL','5XL'], value:50, image:'/assets/img/wheel/dlm.webp' },
+    { id:'gloves', sku:'NEP', label:'12 Pairs of Latex Work Gloves', short:'12 Work Gloves', qty:12, sizes:['M','L','XL'], value:48, image:'/assets/img/wheel/gloves.webp' }
   ];
 
   function claim() { try { return JSON.parse(localStorage.getItem(CLAIM_KEY) || 'null'); } catch (e) { return null; } }
@@ -29,7 +29,7 @@
     '<p>Every spin wins. Your gift is worth up to AED 60 and is yours with AED 100 of products plus AED 30 delivery.</p>' +
     '<p class="xo-wheel-terms">One gift per customer. UAE delivery only. Stock, colours and sizes are confirmed with our team.</p></div>' +
     '<div class="xo-wheel-stage"><div class="xo-wheel-pointer"></div><div class="xo-wheel-disc" id="xoDisc">' +
-    '<span class="xo-wheel-label">5 ORB<br>Vests</span><span class="xo-wheel-label">3 SUV<br>Vests</span><span class="xo-wheel-label">2 DLM<br>Vests</span><span class="xo-wheel-label">12 Work<br>Gloves</span></div>' +
+    prizes.map(function(p){return '<span class="xo-wheel-label"><img src="'+p.image+'" alt=""><b>'+esc(p.short)+'</b></span>';}).join('')+'</div>' +
     '<button class="xo-wheel-spin" id="xoSpin" type="button">SPIN</button></div></div><div class="xo-wheel-panel xo-wheel-hidden" id="xoLead"></div></div>';
   document.body.appendChild(overlay); document.documentElement.classList.add('xo-wheel-lock');
 
@@ -37,7 +37,7 @@
     var defaults = {}; defaults[selected.sizes.indexOf('L')>=0?'L':selected.sizes[0]] = selected.qty;
     document.getElementById('xoWheelIntro').classList.add('xo-wheel-hidden');
     var panel=document.getElementById('xoLead'); panel.classList.remove('xo-wheel-hidden');
-    panel.innerHTML='<div class="xo-wheel-kicker">Congratulations</div><h2>You won!</h2><div class="xo-wheel-win">'+esc(selected.label)+'</div>'+
+    panel.innerHTML='<div class="xo-wheel-kicker">Congratulations</div><h2>You won!</h2><div class="xo-wheel-prize"><img src="'+selected.image+'" alt="'+esc(selected.label)+'"><div class="xo-wheel-win">'+esc(selected.label)+'</div></div>'+
       '<p>Choose the size split, then add your contact details so we can reserve the gift and email our sales team.</p>'+
       '<form class="xo-wheel-form" id="xoLeadForm"><div><b>Sizes — total must equal '+selected.qty+'</b><div class="xo-wheel-sizes">'+selected.sizes.map(function(s){return '<label>'+s+'<input type="number" min="0" max="'+selected.qty+'" inputmode="numeric" name="size_'+esc(s)+'" value="'+(defaults[s]||0)+'"></label>';}).join('')+'</div></div>'+
       '<div class="xo-wheel-contact"><label>UAE mobile / WhatsApp<input name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="05X XXX XXXX" required></label><label>Email address<input name="email" type="email" autocomplete="email" placeholder="name@company.com" required></label></div>'+
