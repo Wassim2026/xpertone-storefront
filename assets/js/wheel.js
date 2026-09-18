@@ -71,21 +71,26 @@
     var panel=document.getElementById('xoLead');
     panel.innerHTML='<div class="xo-wheel-done"><i class="fa-solid fa-circle-check"></i><h2>Gift reserved</h2><p><b>'+esc(record.prize.label)+'</b><br>'+esc(sizeText(record))+'</p>'+
       '<p>Add AED 100 or more in products. Your free gift will appear at checkout, with AED 30 delivery.</p>'+
-      '<button class="xo-wheel-notify" id="xoNotify" type="button"><i class="fa-solid fa-bell"></i> Enable prize notifications</button>'+
-      '<a class="xo-wheel-shop" href="/shop.html"><i class="fa-solid fa-cart-shopping"></i> Shop products to redeem</a></div>';
-    document.getElementById('xoNotify').addEventListener('click',enableNotifications);
+      '<button class="xo-wheel-shop" id="xoRedeem" type="button"><i class="fa-solid fa-cart-shopping"></i> Shop products to redeem</button></div>';
+    document.getElementById('xoRedeem').addEventListener('click',enableNotificationsAndShop);
   }
 
-  function enableNotifications(){
-    var btn=document.getElementById('xoNotify');
-    if(!('Notification' in window)){btn.textContent='Notifications are not supported on this browser';btn.disabled=true;return;}
+  function enableNotificationsAndShop(){
+    var btn=document.getElementById('xoRedeem');
+    var goToShop=function(){window.location.href='/shop.html';};
+    btn.disabled=true;
+    btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Opening shop…';
+    if(!('Notification' in window)){goToShop();return;}
     Notification.requestPermission().then(function(permission){
-      if(permission!=='granted'){btn.textContent='Notifications were not enabled';btn.disabled=true;return;}
+      if(permission!=='granted'){goToShop();return;}
       var title='Your Xpertone gift is reserved 🎁'; var opts={body:selected.label+' — add AED 100 in products to redeem. AED 30 delivery.',icon:'/assets/img/brand/favicon-32.png',tag:'xpertone-prize'};
-      if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').then(function(reg){return reg.showNotification(title,opts);}).catch(function(){new Notification(title,opts);});}
-      else new Notification(title,opts);
-      btn.textContent='Prize notifications enabled';btn.disabled=true;
-    });
+      if('serviceWorker' in navigator){
+        navigator.serviceWorker.register('/sw.js').then(function(reg){return reg.showNotification(title,opts);}).catch(function(){try{new Notification(title,opts);}catch(e){}}).then(goToShop,goToShop);
+      } else {
+        try{new Notification(title,opts);}catch(e){}
+        goToShop();
+      }
+    }).catch(goToShop);
   }
 
   document.getElementById('xoSpin').addEventListener('click',function(){
