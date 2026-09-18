@@ -373,7 +373,7 @@ document.addEventListener('DOMContentLoaded', function () {
       } catch (err) {}
       Cart.clear();
       if (gift) localStorage.removeItem(Giveaway.key);
-      window.location.href = 'order-confirmation.html';
+      window.location.href = gift ? '/' : 'order-confirmation.html';
     }
 
     var mode = XO_CONFIG.ORDER_MODE;
@@ -421,7 +421,7 @@ document.addEventListener('DOMContentLoaded', function () {
         var next = document.createElement('input');
         next.type = 'hidden';
         next.name = '_next';
-        next.value = location.href.replace(/[^/]*$/, '') + 'order-confirmation.html';
+        next.value = gift ? location.origin + '/' : location.href.replace(/[^/]*$/, '') + 'order-confirmation.html';
         relay.appendChild(next);
 
         var noCaptcha = document.createElement('input');
