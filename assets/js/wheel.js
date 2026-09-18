@@ -25,9 +25,9 @@
   overlay.className = 'xo-wheel-overlay';
   overlay.setAttribute('role','dialog'); overlay.setAttribute('aria-modal','true'); overlay.setAttribute('aria-labelledby','xoWheelTitle');
   overlay.innerHTML = '<div class="xo-wheel-card"><div class="xo-wheel-grid" id="xoWheelIntro">' +
-    '<div class="xo-wheel-copy"><div class="xo-wheel-kicker">Meta visitor giveaway</div><h2 id="xoWheelTitle">Spin & win free safety gear</h2>' +
+    '<div class="xo-wheel-copy"><div class="xo-wheel-kicker">Meta visitor giveaway</div><h2 id="xoWheelTitle">Spin & win free <span>safety gear</span></h2>' +
     '<p>Every spin wins. Your gift is worth up to AED 60 and is yours with AED 100 of products plus AED 30 delivery.</p>' +
-    '<p class="xo-wheel-terms">One gift per customer. UAE delivery only. Stock, colours and sizes are confirmed with our team.</p></div>' +
+    '<p class="xo-wheel-terms">One gift per customer. UAE delivery only. Stock, colours and sizes are confirmed with our team.</p><div class="xo-wheel-motto"><i></i><span>Safer people<br>Brighter tomorrows</span></div></div>' +
     '<div class="xo-wheel-stage"><div class="xo-wheel-pointer"></div><div class="xo-wheel-disc" id="xoDisc">' +
     prizes.map(function(p){return '<span class="xo-wheel-label"><img src="'+p.image+'" alt=""><b>'+esc(p.short)+'</b></span>';}).join('')+'</div>' +
     '<button class="xo-wheel-spin" id="xoSpin" type="button">SPIN</button></div></div><div class="xo-wheel-panel xo-wheel-hidden" id="xoLead"></div></div>';
@@ -71,21 +71,26 @@
     var panel=document.getElementById('xoLead');
     panel.innerHTML='<div class="xo-wheel-done"><i class="fa-solid fa-circle-check"></i><h2>Gift reserved</h2><p><b>'+esc(record.prize.label)+'</b><br>'+esc(sizeText(record))+'</p>'+
       '<p>Add AED 100 or more in products. Your free gift will appear at checkout, with AED 30 delivery.</p>'+
-      '<button class="xo-wheel-notify" id="xoNotify" type="button"><i class="fa-solid fa-bell"></i> Enable prize notifications</button>'+
-      '<a class="xo-wheel-shop" href="/shop.html"><i class="fa-solid fa-cart-shopping"></i> Shop products to redeem</a></div>';
-    document.getElementById('xoNotify').addEventListener('click',enableNotifications);
+      '<button class="xo-wheel-shop" id="xoRedeem" type="button"><i class="fa-solid fa-cart-shopping"></i> Shop products to redeem</button></div>';
+    document.getElementById('xoRedeem').addEventListener('click',enableNotificationsAndShop);
   }
 
-  function enableNotifications(){
-    var btn=document.getElementById('xoNotify');
-    if(!('Notification' in window)){btn.textContent='Notifications are not supported on this browser';btn.disabled=true;return;}
+  function enableNotificationsAndShop(){
+    var btn=document.getElementById('xoRedeem');
+    var goToShop=function(){window.location.href='/shop.html';};
+    btn.disabled=true;
+    btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Opening shop…';
+    if(!('Notification' in window)){goToShop();return;}
     Notification.requestPermission().then(function(permission){
-      if(permission!=='granted'){btn.textContent='Notifications were not enabled';btn.disabled=true;return;}
+      if(permission!=='granted'){goToShop();return;}
       var title='Your Xpertone gift is reserved 🎁'; var opts={body:selected.label+' — add AED 100 in products to redeem. AED 30 delivery.',icon:'/assets/img/brand/favicon-32.png',tag:'xpertone-prize'};
-      if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').then(function(reg){return reg.showNotification(title,opts);}).catch(function(){new Notification(title,opts);});}
-      else new Notification(title,opts);
-      btn.textContent='Prize notifications enabled';btn.disabled=true;
-    });
+      if('serviceWorker' in navigator){
+        navigator.serviceWorker.register('/sw.js').then(function(reg){return reg.showNotification(title,opts);}).catch(function(){try{new Notification(title,opts);}catch(e){}}).then(goToShop,goToShop);
+      } else {
+        try{new Notification(title,opts);}catch(e){}
+        goToShop();
+      }
+    }).catch(goToShop);
   }
 
   document.getElementById('xoSpin').addEventListener('click',function(){
