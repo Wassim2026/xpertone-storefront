@@ -442,7 +442,11 @@
     lines: function () { return this._read(); },
 
     count: function () {
-      return this._read().reduce(function (n, l) { return n + Cart.lineQty(l); }, 0);
+      var count = this._read().reduce(function (n, l) { return n + Cart.lineQty(l); }, 0);
+      try {
+        if (JSON.parse(localStorage.getItem('xo_giveaway_claim_v1') || 'null')) count += 1;
+      } catch (e) {}
+      return count;
     },
 
     lineQty: function (line) {
