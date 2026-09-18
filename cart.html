@@ -48,6 +48,7 @@
 <script src="assets/js/config.js?v=20260917artwork"></script>
 <script src="assets/js/store.js?v=20260914sku"></script>
 <script src="assets/js/ui.js?v=20260914sku"></script>
+<script src="assets/js/wheel.js?v=20260918"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -109,10 +110,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
     var t = Cart.totals();
     var moqWarn = lines.filter(function (l) { return Cart.lineQty(l) < XO_CONFIG.MOQ; });
+    var gift = window.Giveaway ? Giveaway.claim() : null;
+    var giftSpendShort = gift && t.subtotal < XO_CONFIG.GIVEAWAY_MIN_SPEND;
 
     body.innerHTML =
       '<div class="row g-4 g-lg-5">' +
         '<div class="col-lg-8">' +
+          (gift ? '<div class="alert d-flex gap-3" style="background:#fff9db;border:1px solid #f4df75;color:#654d00">' +
+            '<i class="fa-solid fa-gift mt-1"></i><div><b>Your free gift: ' + XO.esc(gift.prize.label) + '</b><br>' +
+            '<span style="font-size:.9rem">Sizes: ' + XO.esc(Giveaway.sizeText(gift)) +
+            '. Add at least ' + XO.money(XO_CONFIG.GIVEAWAY_MIN_SPEND) +
+            ' in paid products to redeem it. Delivery is AED 30.</span></div></div>' : '') +
           (moqWarn.length
             ? '<div class="alert d-flex gap-3" style="background:var(--xo-danger-bg);border:1px solid #F5C2C2;color:#8B2C2C">' +
               '<i class="fa-solid fa-triangle-exclamation mt-1"></i><div>' +
@@ -143,8 +151,12 @@ document.addEventListener('DOMContentLoaded', function () {
               '<b class="num">' + XO.money(t.total) + '</b></div>' +
 
             (t.delivery
-              ? '<p class="form-text mt-2">Add ' + XO.money(XO_CONFIG.FREE_DELIVERY_THRESHOLD - t.subtotal) +
-                ' more for free delivery in Dubai.</p>' : '') +
+              ? (gift
+                ? '<p class="form-text mt-2">Giveaway orders include the advertised AED 30 delivery fee.</p>'
+                : '<p class="form-text mt-2">Add ' + XO.money(XO_CONFIG.FREE_DELIVERY_THRESHOLD - t.subtotal) +
+                  ' more for free delivery in Dubai.</p>') : '') +
+            (giftSpendShort ? '<p class="price-note mt-3 mb-0"><i class="fa-solid fa-cart-plus"></i> Add ' +
+              XO.money(XO_CONFIG.GIVEAWAY_MIN_SPEND - t.subtotal) + ' more in products to unlock your gift checkout.</p>' : '') +
 
             (lines.some(function (l) { return XO.indicative(l); })
               ? '<p class="price-note mt-3 mb-0"><i class="fa-solid fa-circle-info"></i> ' +
@@ -181,13 +193,15 @@ document.addEventListener('DOMContentLoaded', function () {
       window.open(XO.waLink(Cart.asMessage()), '_blank', 'noopener');
     });
 
-    if (moqWarn.length) {
+    if (moqWarn.length || giftSpendShort) {
       var b = XO.el('#coBtn');
       b.classList.add('disabled');
       b.setAttribute('aria-disabled', 'true');
       b.addEventListener('click', function (e) {
         e.preventDefault();
-        XO.toast('Minimum order is ' + XO_CONFIG.MOQ + ' pieces per product', 'fa-triangle-exclamation');
+        XO.toast(giftSpendShort
+          ? 'Add at least ' + XO.money(XO_CONFIG.GIVEAWAY_MIN_SPEND) + ' in paid products to redeem your gift'
+          : 'Minimum order is ' + XO_CONFIG.MOQ + ' pieces per product', 'fa-triangle-exclamation');
       });
     }
   }
@@ -197,3 +211,4 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 </body>
 </html>
+
