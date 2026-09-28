@@ -214,7 +214,7 @@
     },
     {
       "source": "/shop.html",
-      "destination": "/",
+      "destination": "/sitemap.html",
       "permanent": true
     }
   ]
