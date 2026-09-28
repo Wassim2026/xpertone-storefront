@@ -296,7 +296,7 @@
             '<i class="fa-brands fa-whatsapp"></i> Chat with sales</a>' +
           '</div>' +
           '<div class="col-6 col-lg-2"><h4>Shop</h4><ul>' + catLinks +
-            '<li><a href="/">All products</a></li></ul></div>' +
+            '<li><a href="/sitemap.html">All products</a></li></ul></div>' +
           '<div class="col-6 col-lg-2"><h4>Company</h4><ul>' +
             '<li><a href="about.html">About us</a></li>' +
             '<li><a href="contact.html">Contact</a></li>' +
