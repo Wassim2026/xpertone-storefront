@@ -266,9 +266,9 @@ window.XO_CONFIG = {
   COMPANY: {
     name: 'Xpertone Creative LLC-FZ',
     legalName: 'Xpertone Creative LLC-FZ',
-    phone: '+971 54 583 2318',
-    phoneRaw: '971545832318',
-    whatsapp: '971545832318',
+    phone: '+971 55 471 2106',
+    phoneRaw: '971554712106',
+    whatsapp: '971554712106',
     email: 'info@xpertonecreative.com',
     address: 'Warehouse No 17M3, Street 15A, Al Quoz 4, Dubai, United Arab Emirates',
     hours: 'Saturday to Thursday, 9:00 - 18:00 (GST)',
