@@ -1940,6 +1940,21 @@
     "title": "Workland, 35/65 Pant & Shirt, Beige Color",
     "replacement_type": "front-and-back"
   },
+  "DLM": {
+    "category": "safety-vests",
+    "images": [
+      "https://www.xpertonecreative.com/assets/img/products/safety-vests/DLM.webp?v=20261005"
+    ],
+    "old_images": [
+      "https://sbmmarketplace.com/backend/public/uploads/2025/10/dlm-1-large.jpg",
+      "https://sbmmarketplace.com/backend/public/uploads/2025/10/dlm-2.jpg",
+      "https://sbmmarketplace.com/backend/public/uploads/2025/10/dlm-3.jpg",
+      "https://sbmmarketplace.com/backend/public/uploads/2025/10/dlm-4.jpg",
+      "https://sbmmarketplace.com/backend/public/uploads/2025/10/dlm-5.jpg"
+    ],
+    "title": "Vaultex, Safety Half Sleeves Fabric Vest with Reflective, Yellow & Black Color",
+    "replacement_type": "front-and-back"
+  },
   "NCA": {
     "id": "2ab68d29-a2c2-42c3-8837-7dd560f654ba",
     "category": "uniforms",
