@@ -43,6 +43,39 @@
     ['100% Cotton Pant & Shirt With Reflector', '100-cotton-pant-shirt-with-reflector']
   ].map(function (x) { return { name: x[0], slug: x[1] }; });
 
+  /* Categories temporarily hidden from the storefront. Product records remain intact. */
+  var HIDDEN_WORKWEAR_SUBS = [
+    '35-65-coverall-without-reflector',
+    '35-65-coverall-with-reflector',
+    '35-65-pant-shirt-without-reflector',
+    '35-65-pant-shirt-with-reflector',
+    'other-pant-shirt-sets',
+    'workwear-trousers-pants',
+    'specialist-coveralls',
+    'work-jackets-trouser-sets'
+  ];
+  WORKWEAR_SUBS = WORKWEAR_SUBS.filter(function (s) {
+    return HIDDEN_WORKWEAR_SUBS.indexOf(s.slug) === -1;
+  });
+
+  function hideWorkwearCategories() {
+    var prefix = '/category/uniforms/';
+    var path = location.pathname.replace(/\\/+$/, '');
+    var current = path.indexOf(prefix) === 0 ? path.slice(prefix.length) : '';
+    if (HIDDEN_WORKWEAR_SUBS.indexOf(current) !== -1) {
+      location.replace('/category/uniforms/');
+      return;
+    }
+    HIDDEN_WORKWEAR_SUBS.forEach(function (slug) {
+      var href = prefix + slug + '/';
+      document.querySelectorAll('a[href="' + href + '"]').forEach(function (link) {
+        var card = link.closest('.col-md-6.col-xl-4');
+        if (card) card.hidden = true;
+        else link.hidden = true;
+      });
+    });
+  }
+
   function catMeta(slug) {
     var list = CFG.CATEGORIES || [];
     for (var i = 0; i < list.length; i++) { if (list[i].slug === slug) return list[i]; }
@@ -516,6 +549,7 @@
      Boot
      ======================================================================= */
   document.addEventListener('DOMContentLoaded', function () {
+    hideWorkwearCategories();
     renderHeader(document.body.getAttribute('data-page') || '');
     renderFooter();
     renderWhatsAppFab();
