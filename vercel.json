@@ -1,5 +1,15 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "headers": [
+    {
+      "source": "/category/:path*",
+      "headers": [{"key":"Content-Security-Policy","value":"img-src 'self' data: blob: https://xpertone-images.pages.dev https://sbmmarketplace.com https://www.facebook.com https://api.xpertoneprints.com"}]
+    },
+    {
+      "source": "/products/:path*",
+      "headers": [{"key":"Content-Security-Policy","value":"img-src 'self' data: blob: https://xpertone-images.pages.dev https://sbmmarketplace.com https://www.facebook.com https://api.xpertoneprints.com"}]
+    }
+  ],
   "rewrites": [
     {
       "source": "/product.html",
@@ -219,4 +229,3 @@
     }
   ]
 }
-
