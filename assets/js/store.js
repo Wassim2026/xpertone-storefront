@@ -270,6 +270,16 @@
 
     _fromLocal: function () {
       var self = this;
+      return fetch('https://admin.xpertonecreative.com/api/catalogue')
+        .then(function (r) { if (!r.ok) throw new Error('Catalogue unavailable'); return r.json(); })
+        .then(function (rows) {
+          if (!Array.isArray(rows)) throw new Error('Invalid catalogue');
+          return rows.map(function (p) { p.images = optimisedProductImages(p.images); return p; });
+        }).catch(function () { return self._fromSnapshot(); });
+    },
+
+    _fromSnapshot: function () {
+      var self = this;
       return Promise.all(Array.from({length:8}, function (_,i) {
           return fetch('/data/recovery/catalogue-' + (i+1) + '.json').then(function(r) {
             if (!r.ok) throw new Error('Catalogue snapshot unavailable'); return r.json();
@@ -656,4 +666,3 @@
   };
 
 })();
-
