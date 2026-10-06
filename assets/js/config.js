@@ -47,7 +47,7 @@ window.XO_CONFIG = {
      If Supabase is ever unreachable the shop automatically falls back to
      data/products.json, so the catalogue never renders empty.
      --------------------------------------------------------------------- */
-  DATA_SOURCE: 'supabase',
+  DATA_SOURCE: 'local',
 
   /* Admin panel database. The key below is a PUBLISHABLE key: it is meant to
      be readable in the browser. It can only read the public catalogue view —
@@ -341,4 +341,3 @@ window.XO_CONFIG = {
   /* localStorage key for the cart. Bump the suffix to invalidate old carts. */
   CART_KEY: 'xo_cart_v1'
 };
-
