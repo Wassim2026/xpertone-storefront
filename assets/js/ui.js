@@ -60,7 +60,7 @@
 
   function hideWorkwearCategories() {
     var prefix = '/category/uniforms/';
-    var path = location.pathname.replace(/\\/+$/, '');
+    var path = location.pathname.replace(/\/+$/, '');
     var current = path.indexOf(prefix) === 0 ? path.slice(prefix.length) : '';
     if (HIDDEN_WORKWEAR_SUBS.indexOf(current) !== -1) {
       location.replace('/category/uniforms/');
