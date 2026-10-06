@@ -168,11 +168,9 @@ main{padding:26px;max-width:1540px;margin:0 auto}.pagehead{display:flex;align-it
 </div></div>
 
 <script type="module">
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+import { createAdminClient } from './server-admin.js';
 
-const SUPABASE_URL = 'https://myodfvshmusywmhdozwt.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_yqVW7IVTIgSarj8nKwVTuQ_zrj80eQ-';
-const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
+const sb = createAdminClient();
 
 const $ = id => document.getElementById(id);
 const esc = s => String(s==null?'':s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -617,7 +615,7 @@ $('dSave').onclick = async () => {
   }
   $('dSave').disabled = false;
   if (error) return note('dmsg', error.message, 'e');
-  closeDrawer(); await load(); note('amsg','Saved. The website picks this up immediately.','s');
+  closeDrawer(); await load(); note('amsg','Saved securely. Live catalogue updates can take up to one minute.','s');
 };
 
 $('dDel').onclick = async () => {
