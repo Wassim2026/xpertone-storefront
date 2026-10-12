@@ -26,7 +26,7 @@
     {"source":"/category/hand-protection/knitted-gloves/","destination":"/category/hand-protection/","permanent":true},
     {"source":"/category/hand-protection/pu-coated/","destination":"/category/hand-protection/","permanent":true},
     {"source":"/category/hand-protection/impact-gloves/","destination":"/category/hand-protection/","permanent":true},
-    {"source":"/category/hand-protection/latex-coated/","destination":"/category/hand-protection/","permanent":true},
+    {"source":"/category/hand-protection/latex-coated/","destination":"/category/hand-protection/latex-rubber-coated-gloves/","permanent":true},
     {"source":"/category/hand-protection/disposable-gloves/","destination":"/category/hand-protection/","permanent":true},
     {"source":"/category/hand-protection/nitrile-foam/","destination":"/category/hand-protection/","permanent":true},
     {"source":"/category/hand-protection/patch-palm/","destination":"/category/hand-protection/","permanent":true},
@@ -46,7 +46,7 @@
     {"source":"/category/hardware-tools/claw-hammer/","destination":"/category/hardware-tools/","permanent":true},
     {"source":"/category/hardware-tools/tata-agrico/","destination":"/category/hardware-tools/","permanent":true},
     {"source":"/category/hardware-tools/fire-blanket-roll/","destination":"/category/hardware-tools/","permanent":true},
-    {"source":"/category/hardware-tools/water-bottles/","destination":"/category/hardware-tools/","permanent":true},
+    {"source":"/category/hardware-tools/water-bottles/","destination":"/category/hardware-tools/site-utility-supplies/","permanent":true},
     {"source":"/category/hardware-tools/safety-tag/","destination":"/category/hardware-tools/","permanent":true},
     {"source":"/category/hardware-tools/2-inch-x-3-tons-x-10-meters/","destination":"/category/hardware-tools/","permanent":true},
     {"source":"/category/hardware-tools/2-ply-7-1/","destination":"/category/hardware-tools/","permanent":true},
@@ -86,7 +86,7 @@
     {"source":"/category/traffic-safety/for-cone/","destination":"/category/traffic-safety/","permanent":true},
     {"source":"/category/traffic-safety/solar-light/","destination":"/category/traffic-safety/","permanent":true},
     {"source":"/category/traffic-safety/with-metal-handle-and-bracket/","destination":"/category/traffic-safety/","permanent":true},
-    {"source":"/category/traffic-safety/single-color/","destination":"/category/traffic-safety/","permanent":true},
+    {"source":"/category/traffic-safety/single-color/","destination":"/category/traffic-safety/traffic-batons/","permanent":true},
     {"source":"/category/traffic-safety/double-color/","destination":"/category/traffic-safety/","permanent":true},
     {"source":"/category/uniforms/protective-coverall/","destination":"/category/uniforms/","permanent":true},
     {"source":"/category/uniforms/pant-shirt-190-gsm/","destination":"/category/uniforms/","permanent":true},
@@ -129,7 +129,7 @@
     },
     {
       "source": "/products/executive-hi-vis-safety-vest-033/",
-      "destination": "/category/safety-vests/",
+      "destination": "/category/safety-vests/engineer-management-vests/",
       "permanent": true
     },
     {
@@ -139,7 +139,7 @@
     },
     {
       "source": "/products/traffic-pvc-reflective-tape-with-arrow/",
-      "destination": "/category/traffic-safety/",
+      "destination": "/category/hardware-tools/warning-reflective-tapes-chains/",
       "permanent": true
     },
     {
@@ -149,7 +149,7 @@
     },
     {
       "source": "/products/metal-fence-expendable/",
-      "destination": "/category/traffic-safety/",
+      "destination": "/category/traffic-safety/barrier-mesh-fencing/",
       "permanent": true
     },
     {
@@ -174,17 +174,17 @@
     },
     {
       "source": "/products/workland-non-matel-sbp-protective-footwear-2/",
-      "destination": "/category/safety-shoes/",
+      "destination": "/category/safety-shoes/general-protective-footwear/",
       "permanent": true
     },
     {
       "source": "/products/welding-gloves-pk-16-red/",
-      "destination": "/category/hand-protection/",
+      "destination": "/category/hand-protection/leather-driving-welding-gloves/",
       "permanent": true
     },
     {
       "source": "/products/3mtm-hard-hat-g3000nuv-vi/",
-      "destination": "/category/helmets/",
+      "destination": "/category/helmets/industrial-safety-helmets/",
       "permanent": true
     },
     {
@@ -199,7 +199,7 @@
     },
     {
       "source": "/products/welding-gloves-pk-16-yellow/",
-      "destination": "/category/hand-protection/",
+      "destination": "/category/hand-protection/leather-driving-welding-gloves/",
       "permanent": true
     },
     {
@@ -209,22 +209,22 @@
     },
     {
       "source": "/products/3mtm-secure-fittm-hard-hat-h-700-series/",
-      "destination": "/category/helmets/",
+      "destination": "/category/helmets/industrial-safety-helmets/",
       "permanent": true
     },
     {
       "source": "/products/hearing-protector-earmuff-002-snr-32db/",
-      "destination": "/category/hearing-respiratory/",
+      "destination": "/category/hearing-respiratory/earmuffs/",
       "permanent": true
     },
     {
       "source": "/products/executive-hi-vis-safety-vest-031/",
-      "destination": "/category/safety-vests/",
+      "destination": "/category/safety-vests/engineer-management-vests/",
       "permanent": true
     },
     {
       "source": "/products/oil-abrasion-resistant-gloves-9112/",
-      "destination": "/category/hand-protection/",
+      "destination": "/category/hand-protection/latex-rubber-coated-gloves/",
       "permanent": true
     },
     {
@@ -234,7 +234,7 @@
     },
     {
       "source": "/products/auto-welding-shield/",
-      "destination": "/category/eye-face-protection/",
+      "destination": "/category/helmets/welding-helmets/",
       "permanent": true
     },
     {
@@ -289,7 +289,7 @@
     },
     {
       "source": "/products/35-cotton-65-polyester-240gsm/",
-      "destination": "/category/uniforms/",
+      "destination": "/category/uniforms/cargo-pants/",
       "permanent": true
     },
     {
@@ -299,7 +299,7 @@
     },
     {
       "source": "/products/warning-tape-7cmx300m/",
-      "destination": "/category/hardware-tools/",
+      "destination": "/category/hardware-tools/warning-reflective-tapes-chains/",
       "permanent": true
     },
     {
@@ -309,7 +309,7 @@
     },
     {
       "source": "/products/3m-6200-half-face-respirator-with-6003-cartridge/",
-      "destination": "/category/hearing-respiratory/",
+      "destination": "/category/hearing-respiratory/reusable-half-masks/",
       "permanent": true
     },
     {
@@ -319,22 +319,22 @@
     },
     {
       "source": "/products/premium-100-cotton-coverall-with-reflective-270g/",
-      "destination": "/category/uniforms/",
+      "destination": "/category/uniforms/100-cotton-coverall-with-reflector/",
       "permanent": true
     },
     {
       "source": "/products/hi-vis-safety-vest-010/",
-      "destination": "/category/safety-vests/",
+      "destination": "/category/safety-vests/general-vests/",
       "permanent": true
     },
     {
       "source": "/products/hearing-protector-earmuff-005-snr-30db/",
-      "destination": "/category/hearing-respiratory/",
+      "destination": "/category/hearing-respiratory/earmuffs/",
       "permanent": true
     },
     {
       "source": "/products/oil-abrasion-resistant-gloves-9074/",
-      "destination": "/category/hand-protection/",
+      "destination": "/category/hand-protection/latex-rubber-coated-gloves/",
       "permanent": true
     },
     {
@@ -344,7 +344,7 @@
     },
     {
       "source": "/products/executive-hi-vis-safety-vest-030/",
-      "destination": "/category/safety-vests/",
+      "destination": "/category/safety-vests/engineer-management-vests/",
       "permanent": true
     },
     {
