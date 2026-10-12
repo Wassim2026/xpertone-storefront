@@ -690,7 +690,8 @@
     if (!mount) return null;
 
     var product = opts.product;
-    var sizes = product.sizes.length ? product.sizes : ['One size'];
+    var sizes = Catalog._sizes(product.sizes);
+    if (!sizes.length) sizes = ['One size'];
     var state = {};
     sizes.forEach(function (s) { state[s] = 0; });
 

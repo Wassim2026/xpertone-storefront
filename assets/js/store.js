@@ -274,7 +274,7 @@
         .then(function (r) { if (!r.ok) throw new Error('Catalogue unavailable'); return r.json(); })
         .then(function (rows) {
           if (!Array.isArray(rows)) throw new Error('Invalid catalogue');
-          return rows.map(function (p) { p.images = optimisedProductImages(p.images); return p; });
+          return rows.map(function (p) { p.images = optimisedProductImages(p.images); p.sizes = self._sizes(p.sizes); return p; });
         }).catch(function () { return self._fromSnapshot(); });
     },
 
@@ -291,7 +291,7 @@
              pipeline so both paths behave identically. */
           return rows.map(function (row) {
             var product = row.uid ? row : self._normalise(row, row.source || 'products');
-            if (product) product.images = optimisedProductImages(product.images);
+            if (product) { product.images = optimisedProductImages(product.images); product.sizes = self._sizes(product.sizes); }
             return product;
           }).filter(Boolean);
         });
@@ -301,6 +301,7 @@
        whatever is in the admin panel right now. Falls back to the bundled
        snapshot if Supabase is ever unreachable, so the shop never goes blank. */
     _fromSupabase: function () {
+      var self = this;
       var s = CFG.SUPABASE || {};
       /* PostgREST returns at most 1000 rows per request, so page through the
          catalogue until a short page comes back. Without this the shop
@@ -341,7 +342,7 @@
               categoryName: row.category_name,
               price: Number(row.price),
               priceStatus: row.price_is_fixed ? 'fixed' : 'indicative',
-              sizes: row.sizes || [],
+              sizes: self._sizes(row.sizes),
               images: (/^https?:\/\/[^/]*sbmmarketplace\.com\//i.test((row.images || [])[0] || ''))
                 ? ['/assets/img/products/clean-reference/' + encodeURIComponent(row.category) + '/' + encodeURIComponent(row.sku) + '.webp?v=20260916exact']
                 : optimisedProductImages((row.images || []).filter(function (image) {
