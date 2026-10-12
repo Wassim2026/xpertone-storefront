@@ -123,11 +123,6 @@
       "permanent": true
     },
     {
-      "source": "/products/site-equipment-plmt-40-dry-cell-battery/",
-      "destination": "/category/traffic-safety/",
-      "permanent": true
-    },
-    {
       "source": "/products/executive-hi-vis-safety-vest-033/",
       "destination": "/category/safety-vests/engineer-management-vests/",
       "permanent": true
@@ -188,11 +183,6 @@
       "permanent": true
     },
     {
-      "source": "/products/speed-hump-with-5-cable-channel/",
-      "destination": "/category/traffic-safety/",
-      "permanent": true
-    },
-    {
       "source": "/products/executives-hsf2406-grey/",
       "destination": "/category/safety-shoes/",
       "permanent": true
@@ -200,11 +190,6 @@
     {
       "source": "/products/welding-gloves-pk-16-yellow/",
       "destination": "/category/hand-protection/leather-driving-welding-gloves/",
-      "permanent": true
-    },
-    {
-      "source": "/products/tape-measure-7-5m/",
-      "destination": "/category/hardware-tools/",
       "permanent": true
     },
     {
@@ -228,18 +213,8 @@
       "permanent": true
     },
     {
-      "source": "/products/life-jacket-red-grey-with-high-reflective/",
-      "destination": "/category/rainwear-marine/",
-      "permanent": true
-    },
-    {
       "source": "/products/auto-welding-shield/",
       "destination": "/category/helmets/welding-helmets/",
-      "permanent": true
-    },
-    {
-      "source": "/products/site-equipment-wheel-stopper183cm/",
-      "destination": "/category/traffic-safety/",
       "permanent": true
     },
     {
@@ -248,53 +223,13 @@
       "permanent": true
     },
     {
-      "source": "/products/site-equipment-mapl-6kg/",
-      "destination": "/category/traffic-safety/",
-      "permanent": true
-    },
-    {
-      "source": "/products/cuation-wet-floor/",
-      "destination": "/category/traffic-safety/",
-      "permanent": true
-    },
-    {
-      "source": "/products/life-jacket-with-hood/",
-      "destination": "/category/rainwear-marine/",
-      "permanent": true
-    },
-    {
-      "source": "/products/face-hood/",
-      "destination": "/category/eye-face-protection/",
-      "permanent": true
-    },
-    {
-      "source": "/products/masking-tape/",
-      "destination": "/category/hardware-tools/",
-      "permanent": true
-    },
-    {
       "source": "/products/traffic-cone-pvc-70cm/",
       "destination": "/category/traffic-safety/traffic-cones-posts/",
       "permanent": true
     },
     {
-      "source": "/products/full-body-harness-with-1-8-2-meter-twin-webbing-/",
-      "destination": "/category/hardware-tools/",
-      "permanent": true
-    },
-    {
-      "source": "/products/site-equipment-plov-40-dry-cell-battery/",
-      "destination": "/category/traffic-safety/",
-      "permanent": true
-    },
-    {
       "source": "/products/35-cotton-65-polyester-240gsm/",
       "destination": "/category/uniforms/cargo-pants/",
-      "permanent": true
-    },
-    {
-      "source": "/products/speed-bump-end-cap/",
-      "destination": "/category/traffic-safety/",
       "permanent": true
     },
     {
@@ -348,18 +283,8 @@
       "permanent": true
     },
     {
-      "source": "/products/medium-6800-en-safety-certified/",
-      "destination": "/category/hearing-respiratory/",
-      "permanent": true
-    },
-    {
       "source": "/products/pe-traffic-fence-expendable/",
       "destination": "/category/traffic-safety/barrier-mesh-fencing/",
-      "permanent": true
-    },
-    {
-      "source": "/signup",
-      "destination": "/contact.html",
       "permanent": true
     },
     {
