@@ -82,7 +82,7 @@
     {"source":"/category/safety-vests/safety-mesh/","destination":"/category/safety-vests/","permanent":true},
     {"source":"/category/traffic-safety/safety-mesh/","destination":"/category/traffic-safety/","permanent":true},
     {"source":"/category/traffic-safety/warning-post/","destination":"/category/traffic-safety/","permanent":true},
-    {"source":"/category/traffic-safety/traffic-cone/","destination":"/category/traffic-safety/","permanent":true},
+    {"source":"/category/traffic-safety/traffic-cone/","destination":"/category/traffic-safety/traffic-cones-posts/","permanent":true},
     {"source":"/category/traffic-safety/for-cone/","destination":"/category/traffic-safety/","permanent":true},
     {"source":"/category/traffic-safety/solar-light/","destination":"/category/traffic-safety/","permanent":true},
     {"source":"/category/traffic-safety/with-metal-handle-and-bracket/","destination":"/category/traffic-safety/","permanent":true},
@@ -173,6 +173,196 @@
       "permanent": true
     },
     {
+      "source": "/products/workland-non-matel-sbp-protective-footwear-2/",
+      "destination": "/category/safety-shoes/",
+      "permanent": true
+    },
+    {
+      "source": "/products/welding-gloves-pk-16-red/",
+      "destination": "/category/hand-protection/",
+      "permanent": true
+    },
+    {
+      "source": "/products/3mtm-hard-hat-g3000nuv-vi/",
+      "destination": "/category/helmets/",
+      "permanent": true
+    },
+    {
+      "source": "/products/speed-hump-with-5-cable-channel/",
+      "destination": "/category/traffic-safety/",
+      "permanent": true
+    },
+    {
+      "source": "/products/executives-hsf2406-grey/",
+      "destination": "/category/safety-shoes/",
+      "permanent": true
+    },
+    {
+      "source": "/products/welding-gloves-pk-16-yellow/",
+      "destination": "/category/hand-protection/",
+      "permanent": true
+    },
+    {
+      "source": "/products/tape-measure-7-5m/",
+      "destination": "/category/hardware-tools/",
+      "permanent": true
+    },
+    {
+      "source": "/products/3mtm-secure-fittm-hard-hat-h-700-series/",
+      "destination": "/category/helmets/",
+      "permanent": true
+    },
+    {
+      "source": "/products/hearing-protector-earmuff-002-snr-32db/",
+      "destination": "/category/hearing-respiratory/",
+      "permanent": true
+    },
+    {
+      "source": "/products/executive-hi-vis-safety-vest-031/",
+      "destination": "/category/safety-vests/",
+      "permanent": true
+    },
+    {
+      "source": "/products/oil-abrasion-resistant-gloves-9112/",
+      "destination": "/category/hand-protection/",
+      "permanent": true
+    },
+    {
+      "source": "/products/life-jacket-red-grey-with-high-reflective/",
+      "destination": "/category/rainwear-marine/",
+      "permanent": true
+    },
+    {
+      "source": "/products/auto-welding-shield/",
+      "destination": "/category/eye-face-protection/",
+      "permanent": true
+    },
+    {
+      "source": "/products/site-equipment-wheel-stopper183cm/",
+      "destination": "/category/traffic-safety/",
+      "permanent": true
+    },
+    {
+      "source": "/products/premium-non-metallic-lsf2408-grey/",
+      "destination": "/category/safety-shoes/",
+      "permanent": true
+    },
+    {
+      "source": "/products/site-equipment-mapl-6kg/",
+      "destination": "/category/traffic-safety/",
+      "permanent": true
+    },
+    {
+      "source": "/products/cuation-wet-floor/",
+      "destination": "/category/traffic-safety/",
+      "permanent": true
+    },
+    {
+      "source": "/products/life-jacket-with-hood/",
+      "destination": "/category/rainwear-marine/",
+      "permanent": true
+    },
+    {
+      "source": "/products/face-hood/",
+      "destination": "/category/eye-face-protection/",
+      "permanent": true
+    },
+    {
+      "source": "/products/masking-tape/",
+      "destination": "/category/hardware-tools/",
+      "permanent": true
+    },
+    {
+      "source": "/products/traffic-cone-pvc-70cm/",
+      "destination": "/category/traffic-safety/traffic-cones-posts/",
+      "permanent": true
+    },
+    {
+      "source": "/products/full-body-harness-with-1-8-2-meter-twin-webbing-/",
+      "destination": "/category/hardware-tools/",
+      "permanent": true
+    },
+    {
+      "source": "/products/site-equipment-plov-40-dry-cell-battery/",
+      "destination": "/category/traffic-safety/",
+      "permanent": true
+    },
+    {
+      "source": "/products/35-cotton-65-polyester-240gsm/",
+      "destination": "/category/uniforms/",
+      "permanent": true
+    },
+    {
+      "source": "/products/speed-bump-end-cap/",
+      "destination": "/category/traffic-safety/",
+      "permanent": true
+    },
+    {
+      "source": "/products/warning-tape-7cmx300m/",
+      "destination": "/category/hardware-tools/",
+      "permanent": true
+    },
+    {
+      "source": "/products/one-piece-full-body-polyester-coating-raincoat/",
+      "destination": "/category/rainwear-marine/",
+      "permanent": true
+    },
+    {
+      "source": "/products/3m-6200-half-face-respirator-with-6003-cartridge/",
+      "destination": "/category/hearing-respiratory/",
+      "permanent": true
+    },
+    {
+      "source": "/products/65-cotton-pants-shirt-190gsm/",
+      "destination": "/category/uniforms/",
+      "permanent": true
+    },
+    {
+      "source": "/products/premium-100-cotton-coverall-with-reflective-270g/",
+      "destination": "/category/uniforms/",
+      "permanent": true
+    },
+    {
+      "source": "/products/hi-vis-safety-vest-010/",
+      "destination": "/category/safety-vests/",
+      "permanent": true
+    },
+    {
+      "source": "/products/hearing-protector-earmuff-005-snr-30db/",
+      "destination": "/category/hearing-respiratory/",
+      "permanent": true
+    },
+    {
+      "source": "/products/oil-abrasion-resistant-gloves-9074/",
+      "destination": "/category/hand-protection/",
+      "permanent": true
+    },
+    {
+      "source": "/products/traffic-cone-pvc-90cm/",
+      "destination": "/category/traffic-safety/traffic-cones-posts/",
+      "permanent": true
+    },
+    {
+      "source": "/products/executive-hi-vis-safety-vest-030/",
+      "destination": "/category/safety-vests/",
+      "permanent": true
+    },
+    {
+      "source": "/products/medium-6800-en-safety-certified/",
+      "destination": "/category/hearing-respiratory/",
+      "permanent": true
+    },
+    {
+      "source": "/products/pe-traffic-fence-expendable/",
+      "destination": "/category/traffic-safety/barrier-mesh-fencing/",
+      "permanent": true
+    },
+    {
+      "source": "/signup",
+      "destination": "/contact.html",
+      "permanent": true
+    },
+    {
       "source": "/contact",
       "destination": "/contact.html",
       "permanent": true
@@ -228,104 +418,3 @@
     },
     {
       "source": "/shop.html",
-      "has": [
-        {
-          "type": "query",
-          "key": "category",
-          "value": "hardware-tools"
-        }
-      ],
-      "destination": "/category/hardware-tools/",
-      "permanent": true
-    },
-    {
-      "source": "/shop.html",
-      "has": [
-        {
-          "type": "query",
-          "key": "category",
-          "value": "hearing-respiratory"
-        }
-      ],
-      "destination": "/category/hearing-respiratory/",
-      "permanent": true
-    },
-    {
-      "source": "/shop.html",
-      "has": [
-        {
-          "type": "query",
-          "key": "category",
-          "value": "helmets"
-        }
-      ],
-      "destination": "/category/helmets/",
-      "permanent": true
-    },
-    {
-      "source": "/shop.html",
-      "has": [
-        {
-          "type": "query",
-          "key": "category",
-          "value": "rainwear-marine"
-        }
-      ],
-      "destination": "/category/rainwear-marine/",
-      "permanent": true
-    },
-    {
-      "source": "/shop.html",
-      "has": [
-        {
-          "type": "query",
-          "key": "category",
-          "value": "safety-shoes"
-        }
-      ],
-      "destination": "/category/safety-shoes/",
-      "permanent": true
-    },
-    {
-      "source": "/shop.html",
-      "has": [
-        {
-          "type": "query",
-          "key": "category",
-          "value": "traffic-safety"
-        }
-      ],
-      "destination": "/category/traffic-safety/",
-      "permanent": true
-    },
-    {
-      "source": "/shop.html",
-      "has": [
-        {
-          "type": "query",
-          "key": "category",
-          "value": "uniforms"
-        }
-      ],
-      "destination": "/category/uniforms/",
-      "permanent": true
-    },
-    {
-      "source": "/shop.html",
-      "has": [
-        {
-          "type": "query",
-          "key": "category",
-          "value": "safety-vests"
-        }
-      ],
-      "destination": "/api/legacy-category",
-      "permanent": true
-    },
-    {
-      "source": "/shop.html",
-      "destination": "/sitemap.html",
-      "permanent": true
-    }
-  ]
-}
