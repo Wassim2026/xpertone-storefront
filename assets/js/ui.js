@@ -426,7 +426,6 @@
       out += '<span class="xo-grp"><button type="button" aria-expanded="false" aria-controls="xo-menu-' + m.slug + '">' + XO.esc(m.name) +
         ' <i class="fa-solid fa-chevron-down" style="font-size:8px;opacity:.7"></i></button>' + categoryDropdown(m.slug) + '</span>';
     });
-    out += '<a href="/">T-Shirts</a>';
     return out;
   }
 
@@ -436,7 +435,7 @@
       out += '<details><summary>' + XO.esc(m.name) + '<i class="fa-solid fa-chevron-down" style="font-size:11px;opacity:.5"></i></summary>' +
         '<div class="xo-mobile-category">' + categoryMenu(m.slug) + '</div></details>';
     });
-    out += '<a href="/">T-Shirts</a><a href="/about.html">About</a><a href="/contact.html">Contact</a>';
+    out += '<a href="/about.html">About</a><a href="/contact.html">Contact</a>';
     return out;
   }
 
