@@ -419,11 +419,13 @@ function staticProductBody(p) {
 }
 
 function productSeoTitle(p) {
-  const suffix = ' | Xpertone Dubai';
-  const limit = 60 - suffix.length;
-  const source = clean(p.title);
-  if (source.length <= limit) return `${source}${suffix}`;
-  const shortened = source.slice(0, limit + 1).replace(/\s+\S*$/, '').replace(/[,:;\s-]+$/, '');
+  const sku = clean(p.sku).toUpperCase();
+  const suffix = sku ? ` | SKU ${sku} | Xpertone` : ' | Xpertone Dubai';
+  let shortened = clean(p.title);
+  while (esc(`${shortened}${suffix}`).length > 60) {
+    const next = shortened.replace(/\s+\S*$/, '').replace(/[,:;\s-]+$/, '');
+    shortened = next && next !== shortened ? next : shortened.slice(0, -1).replace(/[,:;\s-]+$/, '');
+  }
   return `${shortened}${suffix}`;
 }
 
@@ -456,6 +458,7 @@ function generateProduct(p) {
   const canonical = productUrl(p);
   const description = metaDescription(p);
   const image = p.images[0] || `${origin}/assets/img/brand/og-xpertone.png`;
+  const seoTitle = productSeoTitle(p);
   const breadcrumb = {
     '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: `${origin}/` },
@@ -463,10 +466,15 @@ function generateProduct(p) {
       { '@type': 'ListItem', position: 3, name: p.title, item: canonical }
     ]
   };
+  // Product pages inherit the shared template, but their search/social
+  // metadata must be unique. Remove template defaults before inserting the
+  // product-specific set so future regeneration cannot create duplicates.
   let html = productTemplate
+    .replace(/<link\s+rel="canonical"[^>]*>\s*/gi, '')
+    .replace(/<meta\s+(?:property="og:[^"]+"|name="twitter:[^"]+")[^>]*>\s*/gi, '')
     .replace('<head>', '<head>\n<base href="/">')
-    .replace('<title>Product — Xpertone Creative LLC-FZ</title>', `<title>${esc(productSeoTitle(p))}</title>`)
-    .replace(/<meta name="description" content="[^"]*">/, `<meta name="description" content="${esc(description)}">\n<link rel="canonical" href="${canonical}">\n<meta property="og:type" content="product">\n<meta property="og:title" content="${esc(p.title)}">\n<meta property="og:description" content="${esc(description)}">\n<meta property="og:url" content="${canonical}">\n<meta property="og:image" content="${esc(image)}">\n<script type="application/ld+json" data-static-product-schema>${JSON.stringify(productSchema(p))}</script>\n<script type="application/ld+json">${JSON.stringify(breadcrumb)}</script>`)
+    .replace(/<title>[\s\S]*?<\/title>/i, `<title>${esc(seoTitle)}</title>`)
+    .replace(/<meta name="description" content="[^"]*">/, `<meta name="description" content="${esc(description)}">\n<link rel="canonical" href="${canonical}">\n<meta property="og:type" content="product">\n<meta property="og:title" content="${esc(seoTitle)}">\n<meta property="og:description" content="${esc(description)}">\n<meta property="og:url" content="${canonical}">\n<meta property="og:image" content="${esc(image)}">\n<meta name="twitter:card" content="summary_large_image">\n<meta name="twitter:title" content="${esc(seoTitle)}">\n<meta name="twitter:description" content="${esc(description)}">\n<meta name="twitter:image" content="${esc(image)}">\n<script type="application/ld+json" data-static-product-schema>${JSON.stringify(productSchema(p))}</script>\n<script type="application/ld+json">${JSON.stringify(breadcrumb)}</script>`)
     .replace('<meta name="robots" content="noindex,follow">', '<meta name="robots" content="index,follow">')
     .replace(/<script src="assets\/js\/config\.js(?:\?v=[^"]+)?"><\/script>/,
       match => `<script>window.XO_STATIC_PRODUCT_UID=${JSON.stringify(p.uid)};</script>\n${match}`);
@@ -574,7 +582,7 @@ function safetyVestHub(groups) {
   const count = safetyVestFamilies.reduce((n, family) => n + groups.get(family.slug).length, 0);
   const canonical = categoryUrl('safety-vests');
   const description = 'Shop safety vests in Dubai grouped for general workers, supervisors, engineers and management, with SKU, colour, price and bulk logo-printing details.';
-  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><base href="/"><title>Safety Vests by Role & Price Dubai | Xpertone Creative</title><meta name="description" content="${description}"><link rel="canonical" href="${canonical}"><meta property="og:type" content="website"><meta property="og:title" content="Safety Vests by Role & Price Dubai"><meta property="og:description" content="${description}"><meta property="og:url" content="${canonical}"><meta property="og:image" content="${origin}/assets/img/brand/og-xpertone.png"><link rel="icon" type="image/png" sizes="32x32" href="assets/img/brand/favicon-32.png"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"><link rel="stylesheet" href="assets/css/main.css?v=20260914sku"></head><body data-page="shop"><a class="skip-link" href="#main">Skip to content</a><div id="siteHeader"></div><main id="main"><section class="section section--alt"><div class="container"><nav aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/sitemap.html">Shop</a> / <span>Safety Vests</span></nav><h1 class="mt-3">Safety Vests</h1><p class="lead">Choose a vest range by role and current catalogue price. Colours and designs remain as individual products inside each dedicated range.</p><p>${count} published safety vests are available.</p></div></section><section class="section"><div class="container"><h2>Safety Vest Categories</h2><div class="row g-4">${cards}</div></div></section><section class="section section--alt"><div class="container"><h2>Safety vest printing in Dubai</h2><p>Add an approved company logo, department name or role title to suitable vest designs. Open a range to compare available colours, SKUs, sizes and current pricing.</p></div></section></main><div id="siteFooter"></div><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script><script src="assets/js/config.js?v=20260914sku"></script><script src="assets/js/store.js?v=20260914sku"></script><script src="assets/js/ui.js?v=20260914sku"></script></body></html>`;
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><base href="/"><title>Safety Vests by Role & Price Dubai | Xpertone Creative</title><meta name="description" content="${description}"><link rel="canonical" href="${canonical}"><meta property="og:type" content="website"><meta property="og:title" content="Safety Vests by Role & Price Dubai"><meta property="og:description" content="${description}"><meta property="og:url" content="${canonical}"><meta property="og:image" content="${origin}/assets/img/brand/og-xpertone.png"><link rel="icon" type="image/png" sizes="32x32" href="assets/img/brand/favicon-32.png"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"><link rel="stylesheet" href="assets/css/main.css?v=20260914sku"></head><body data-page="shop"><a class="skip-link" href="#main">Skip to content</a><div id="siteHeader"></div><main id="main"><section class="section section--alt"><div class="container"><nav aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/sitemap.html">Shop</a> / <span>Safety Vests</span></nav><h1 class="mt-3">Safety Vests</h1><p class="lead">Choose a vest range by role and current catalogue price. Colours and designs remain as individual products inside each dedicated range.</p><p>${count} published safety vests are available.</p></div></section><section class="section"><div class="container"><h2>Safety Vest Categories</h2><div class="row g-4">${cards}</div></div></section><section class="section section--alt"><div class="container"><h2>Safety vest printing in Dubai</h2><p>Add an approved company logo, department name or role title to suitable vest designs. Open a range to compare available colours, SKUs, sizes and current pricing. Use our <a href="/blog/safety-vest-buying-logo-printing-checklist-uae/">safety-vest buying and logo checklist</a> to prepare a model-specific enquiry before approval.</p></div></section></main><div id="siteFooter"></div><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script><script src="assets/js/config.js?v=20260914sku"></script><script src="assets/js/store.js?v=20260914sku"></script><script src="assets/js/ui.js?v=20260914sku"></script></body></html>`;
 }
 
 function handProtectionFamilyPage(family, items) {
@@ -818,15 +826,16 @@ for (const family of hardwareToolFamilies) {
 const staticUrls = [
   [`${origin}/`, 'weekly', '1.0'],
   [`${origin}/about.html`, 'monthly', '0.6'], [`${origin}/contact.html`, 'monthly', '0.7'],
-  [`${origin}/sitemap.html`, 'weekly', '0.5'],
-  [`${origin}/blog/`, 'weekly', '0.7'],
-  [`${origin}/blog/embroidery-vs-dtf-printing-company-uniforms-dubai/`, 'monthly', '0.8'],
-  [`${origin}/blog/construction-uniform-supplier-dubai/`, 'monthly', '0.8'],
-  [`${origin}/blog/work-uniform-supplier-dubai-guide/`, 'monthly', '0.8'],
-  [`${origin}/blog/coverall-fabric-gsm-uae-guide/`, 'monthly', '0.8']
+  [`${origin}/sitemap.html`, 'weekly', '0.5']
 ];
 const xml = rows => `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${rows.map(([url, freq, priority]) => `  <url><loc>${esc(url)}</loc><lastmod>${today}</lastmod><changefreq>${freq}</changefreq><priority>${priority}</priority></url>`).join('\n')}\n</urlset>\n`;
 write(path.join(root, 'sitemap-pages.xml'), xml(staticUrls));
+const blogPosts = JSON.parse(fs.readFileSync(path.join(root, 'data', 'blog-posts.json'), 'utf8'));
+const blogRows = [
+  [`${origin}/blog/`, 'weekly', '0.8'],
+  ...blogPosts.map(post => [`${origin}${post.url}`, 'monthly', '0.8'])
+];
+write(path.join(root, 'sitemap-blog.xml'), xml(blogRows));
 const categoryRows = [...groups.keys()].map(slug => [categoryUrl(slug), 'weekly', '0.8']);
 for (const family of workwearFamilies) if (!retiredWorkwearPages.has(family.slug) && workwearGroups.get(family.slug).length) categoryRows.push([workwearUrl(family.slug), 'weekly', '0.8']);
 for (const family of safetyVestFamilies) categoryRows.push([`${categoryUrl('safety-vests')}${family.slug}/`, 'weekly', '0.8']);
@@ -842,7 +851,7 @@ const htmlSitemapProducts = list.map(p => `<li><a href="${esc(productUrl(p))}">$
 write(path.join(root, 'sitemap.html'), `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Product Catalogue Index | Xpertone Dubai</title><meta name="description" content="Browse every published Xpertone Creative product and safety category by SKU, with direct links to workwear, PPE, footwear and industrial supplies in Dubai."><link rel="canonical" href="${origin}/sitemap.html"><link rel="stylesheet" href="assets/css/main.css?v=20260914sku"></head><body><main id="main" class="container py-5"><nav aria-label="Breadcrumb"><a href="/">Home</a> / Catalogue index</nav><h1>Product Catalogue Index</h1><p>Browse every published product category and SKU supplied by Xpertone Creative in Dubai and across the UAE.</p><h2>Categories</h2><ul>${htmlSitemapCategories}</ul><h2>Products</h2><ul>${htmlSitemapProducts}</ul></main></body></html>`);
 write(path.join(root, 'sitemap-categories.xml'), xml(categoryRows));
 write(path.join(root, 'sitemap-products.xml'), xml(list.map(p => [productUrl(p), 'weekly', '0.6'])));
-write(path.join(root, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <sitemap><loc>${origin}/sitemap-pages.xml</loc><lastmod>${today}</lastmod></sitemap>\n  <sitemap><loc>${origin}/sitemap-categories.xml</loc><lastmod>${today}</lastmod></sitemap>\n  <sitemap><loc>${origin}/sitemap-products.xml</loc><lastmod>${today}</lastmod></sitemap>\n</sitemapindex>\n`);
+write(path.join(root, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <sitemap><loc>${origin}/sitemap-pages.xml</loc><lastmod>${today}</lastmod></sitemap>\n  <sitemap><loc>${origin}/sitemap-categories.xml</loc><lastmod>${today}</lastmod></sitemap>\n  <sitemap><loc>${origin}/sitemap-products.xml</loc><lastmod>${today}</lastmod></sitemap>\n  <sitemap><loc>${origin}/sitemap-blog.xml</loc><lastmod>${today}</lastmod></sitemap>\n</sitemapindex>\n`);
 
 const redirect = (to, title) => `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex,follow"><link rel="canonical" href="${to}"><meta http-equiv="refresh" content="0;url=${to}"><title>${esc(title)}</title></head><body><p>This page moved to <a href="${to}">${esc(title)}</a>.</p></body></html>`;
 write(path.join(root, 'category', 'shoes', 'index.html'), redirect(`${origin}/category/safety-shoes/`, 'Safety Shoes'));

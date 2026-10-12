@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function () {
       '<div class="empty-state__icon"><i class="fa-solid fa-magnifying-glass"></i></div>' +
       '<h2>Product not found</h2>' +
       '<p class="text-muted-xo">That link may be out of date. Browse the full catalogue instead.</p>' +
-      '<a class="btn btn-xo" href="shop.html">View all products</a></div>';
+      '<a class="btn btn-xo" href="/sitemap.html">View all products</a></div>';
   }
 
   Catalog.byUid(uid).then(function (p) {
@@ -119,11 +119,21 @@ document.addEventListener('DOMContentLoaded', function () {
     }).join('');
   }
 
+  function productSeoTitle(p) {
+    var sku = String(p.sku || p.code || '').trim().toUpperCase();
+    var suffix = sku ? ' | SKU ' + sku + ' | Xpertone' : ' | Xpertone Dubai';
+    var source = String(p.title || 'Product').replace(/\s+/g, ' ').trim();
+    var limit = 60 - suffix.length;
+    if (source.length <= limit) return source + suffix;
+    var shortened = source.slice(0, limit + 1).replace(/\s+\S*$/, '').replace(/[,:;|\s-]+$/, '');
+    return shortened + suffix;
+  }
+
   function render(p) {
     /* Per-product visual customisation is intentionally unavailable. Artwork
        is collected once at checkout for Safety Vest and Workwear orders. */
     var isCustomisable = false;
-    document.title = p.title + ' — Xpertone Creative LLC-FZ';
+    document.title = productSeoTitle(p);
     var meta = document.querySelector('meta[name=description]');
     if (meta && p.description) meta.setAttribute('content', p.description.slice(0, 160));
     var canonical = document.querySelector('link[rel=canonical]') || document.createElement('link');
