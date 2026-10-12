@@ -27,21 +27,267 @@
      Header / footer
      ======================================================================= */
   var CAT_COUNTS = null;
-  var SUBS = {};
-  var WORKWEAR_SUBS = [
-    ['35/65 Coverall Without Reflector', '35-65-coverall-without-reflector'],
-    ['35/65 Coverall With Reflector', '35-65-coverall-with-reflector'],
-    ['35/65 Pant & Shirt Without Reflector', '35-65-pant-shirt-without-reflector'],
-    ['35/65 Pant & Shirt With Reflector', '35-65-pant-shirt-with-reflector'],
-    ['100% Twill Coverall Without Reflector', '100-twill-coverall-without-reflector'],
-    ['100% Twill Coverall With Reflector', '100-twill-coverall-with-reflector'],
-    ['100% Twill Pant & Shirt Without Reflector', '100-twill-pant-shirt-without-reflector'],
-    ['100% Twill Pant & Shirt With Reflector', '100-twill-pant-shirt-with-reflector'],
-    ['100% Cotton Coverall Without Reflector', '100-cotton-coverall-without-reflector'],
-    ['100% Cotton Coverall With Reflector', '100-cotton-coverall-with-reflector'],
-    ['100% Cotton Pant & Shirt Without Reflector', '100-cotton-pant-shirt-without-reflector'],
-    ['100% Cotton Pant & Shirt With Reflector', '100-cotton-pant-shirt-with-reflector']
-  ].map(function (x) { return { name: x[0], slug: x[1] }; });
+  // Only real, published category pages belong in navigation.
+  var NAV_CATEGORIES = {
+    "eye-face-protection": [
+      {
+        "name": "Anti Fog Safety Spectacles",
+        "slug": "anti-fog-safety-spectacles"
+      },
+      {
+        "name": "Eyewear Accessories",
+        "slug": "eyewear-accessories"
+      },
+      {
+        "name": "Safety Goggles",
+        "slug": "safety-goggles"
+      },
+      {
+        "name": "Safety Spectacles",
+        "slug": "safety-spectacles"
+      },
+      {
+        "name": "Specialty Lens Eyewear",
+        "slug": "specialty-lens-eyewear"
+      }
+    ],
+    "hand-protection": [
+      {
+        "name": "Chemical, PVC & Long-Cuff Gloves",
+        "slug": "chemical-pvc-long-cuff-gloves"
+      },
+      {
+        "name": "Cotton, Knitted & Heat-Resistant Gloves",
+        "slug": "cotton-knitted-heat-resistant-gloves"
+      },
+      {
+        "name": "Cut Resistant Gloves",
+        "slug": "cut-resistant-gloves"
+      },
+      {
+        "name": "Disposable & Examination Gloves",
+        "slug": "disposable-examination-gloves"
+      },
+      {
+        "name": "Impact & Anti-Vibration Gloves",
+        "slug": "impact-anti-vibration-gloves"
+      },
+      {
+        "name": "Latex & Rubber-Coated Gloves",
+        "slug": "latex-rubber-coated-gloves"
+      },
+      {
+        "name": "Leather, Driving & Welding Gloves",
+        "slug": "leather-driving-welding-gloves"
+      },
+      {
+        "name": "Nitrile Coated Gloves",
+        "slug": "nitrile-coated-gloves"
+      }
+    ],
+    "hardware-tools": [
+      {
+        "name": "Cutting & Saw Blades",
+        "slug": "cutting-saw-blades"
+      },
+      {
+        "name": "Fire Blankets",
+        "slug": "fire-blankets"
+      },
+      {
+        "name": "Hammers & Striking Tools",
+        "slug": "hammers-striking-tools"
+      },
+      {
+        "name": "Lifting & Lashing Equipment",
+        "slug": "lifting-lashing-equipment"
+      },
+      {
+        "name": "Scaffolding Tags",
+        "slug": "scaffolding-tags"
+      },
+      {
+        "name": "Site Utility Supplies",
+        "slug": "site-utility-supplies"
+      },
+      {
+        "name": "Spill & Waste Management",
+        "slug": "spill-waste-management"
+      },
+      {
+        "name": "Warning & Reflective Tapes / Chains",
+        "slug": "warning-reflective-tapes-chains"
+      }
+    ],
+    "hearing-respiratory": [
+      {
+        "name": "Disposable Respirators & Dust Masks",
+        "slug": "disposable-respirators-dust-masks"
+      },
+      {
+        "name": "Earmuffs",
+        "slug": "earmuffs"
+      },
+      {
+        "name": "Earplugs",
+        "slug": "earplugs"
+      },
+      {
+        "name": "Respirator Filters & Cartridges",
+        "slug": "respirator-filters-cartridges"
+      },
+      {
+        "name": "Reusable Half Masks",
+        "slug": "reusable-half-masks"
+      }
+    ],
+    "helmets": [
+      {
+        "name": "Bump Caps",
+        "slug": "bump-caps"
+      },
+      {
+        "name": "Face Shields & Windows",
+        "slug": "face-shields-windows"
+      },
+      {
+        "name": "Full Brim Headwear",
+        "slug": "full-brim-headwear"
+      },
+      {
+        "name": "Helmet Accessories",
+        "slug": "helmet-accessories"
+      },
+      {
+        "name": "Industrial Safety Helmets",
+        "slug": "industrial-safety-helmets"
+      },
+      {
+        "name": "Welding Helmets",
+        "slug": "welding-helmets"
+      }
+    ],
+    "safety-shoes": [
+      {
+        "name": "Executive Slip On Safety Shoes",
+        "slug": "executive-slip-on-safety-shoes"
+      },
+      {
+        "name": "General Protective Footwear",
+        "slug": "general-protective-footwear"
+      },
+      {
+        "name": "High Ankle Safety Boots",
+        "slug": "high-ankle-safety-boots"
+      },
+      {
+        "name": "Kitchen Anti Slip Clogs",
+        "slug": "kitchen-anti-slip-clogs"
+      },
+      {
+        "name": "Low Ankle Safety Shoes",
+        "slug": "low-ankle-safety-shoes"
+      },
+      {
+        "name": "Rigger Safety Boots",
+        "slug": "rigger-safety-boots"
+      },
+      {
+        "name": "Safety Gumboots & Rain Boots",
+        "slug": "safety-gumboots-rain-boots"
+      }
+    ],
+    "safety-vests": [
+      {
+        "name": "General Safety Vests",
+        "slug": "general-vests"
+      },
+      {
+        "name": "Supervisor Safety Vests",
+        "slug": "supervisor-vests"
+      },
+      {
+        "name": "Engineer & Management Safety Vests",
+        "slug": "engineer-management-vests"
+      }
+    ],
+    "traffic-safety": [
+      {
+        "name": "Barrier Mesh & Fencing",
+        "slug": "barrier-mesh-fencing"
+      },
+      {
+        "name": "Traffic Batons",
+        "slug": "traffic-batons"
+      },
+      {
+        "name": "Traffic Cones & Posts",
+        "slug": "traffic-cones-posts"
+      },
+      {
+        "name": "Traffic Warning Lights",
+        "slug": "traffic-warning-lights"
+      }
+    ],
+    "uniforms": [
+      {
+        "name": "100% Cotton Coverall With Reflector",
+        "slug": "100-cotton-coverall-with-reflector"
+      },
+      {
+        "name": "100% Cotton Coverall Without Reflector",
+        "slug": "100-cotton-coverall-without-reflector"
+      },
+      {
+        "name": "100% Cotton Pant & Shirt With Reflector",
+        "slug": "100-cotton-pant-shirt-with-reflector"
+      },
+      {
+        "name": "100% Cotton Pant & Shirt Without Reflector",
+        "slug": "100-cotton-pant-shirt-without-reflector"
+      },
+      {
+        "name": "100% Twill Coverall With Reflector",
+        "slug": "100-twill-coverall-with-reflector"
+      },
+      {
+        "name": "100% Twill Coverall Without Reflector",
+        "slug": "100-twill-coverall-without-reflector"
+      },
+      {
+        "name": "100% Twill Pant & Shirt With Reflector",
+        "slug": "100-twill-pant-shirt-with-reflector"
+      },
+      {
+        "name": "100% Twill Pant & Shirt Without Reflector",
+        "slug": "100-twill-pant-shirt-without-reflector"
+      },
+      {
+        "name": "Cargo Pants",
+        "slug": "cargo-pants"
+      },
+      {
+        "name": "Disposable Coveralls",
+        "slug": "disposable-coveralls"
+      },
+      {
+        "name": "Fire Retardant Coveralls",
+        "slug": "fire-retardant-coveralls"
+      },
+      {
+        "name": "Fire Retardant Pant & Shirt",
+        "slug": "fire-retardant-pant-shirt"
+      },
+      {
+        "name": "Lab Coats",
+        "slug": "lab-coats"
+      },
+      {
+        "name": "Workwear Accessories",
+        "slug": "workwear-accessories"
+      }
+    ]
+  };
 
   /* Categories temporarily hidden from the storefront. Product records remain intact. */
   var HIDDEN_WORKWEAR_SUBS = [
@@ -54,9 +300,6 @@
     'specialist-coveralls',
     'work-jackets-trouser-sets'
   ];
-  WORKWEAR_SUBS = WORKWEAR_SUBS.filter(function (s) {
-    return HIDDEN_WORKWEAR_SUBS.indexOf(s.slug) === -1;
-  });
 
   function hideWorkwearCategories() {
     var prefix = '/category/uniforms/';
@@ -99,8 +342,8 @@
       '.xo-nav a.is-active{box-shadow:inset 0 -3px 0 #f5b301}' +
       '.xo-grp{position:relative;display:inline-flex}' +
       '.xo-mega{position:absolute;left:0;top:100%;z-index:1050;width:340px;max-height:70vh;overflow:auto;background:#fff;border:1px solid #e6e8ec;border-radius:0 0 14px 14px;box-shadow:0 20px 44px rgba(15,17,21,.2);padding:10px;display:none}' +
-      '.xo-grp:nth-last-child(-n+3) .xo-mega{left:auto;right:0}' +
-      '.xo-grp:hover .xo-mega,.xo-grp:focus-within .xo-mega{display:block}' +
+      '.xo-grp:nth-last-child(-n+4) .xo-mega{left:auto;right:0}' +
+      '.xo-grp.is-open .xo-mega{display:block}' +
       '.xo-mega__grid{display:grid;grid-template-columns:1fr 1fr;gap:2px}' +
       '.xo-mega a{color:#12151b;padding:10px 11px;border-radius:9px;display:flex;justify-content:space-between;align-items:center;gap:10px;font-weight:600;font-size:14px}' +
       '.xo-mega a:hover{background:#f5f6f8;color:#12151b}' +
@@ -123,8 +366,25 @@
       '.xo-col__sub{display:flex;justify-content:space-between;gap:8px;font-weight:500;font-size:13px;color:#5b6472;padding:5px 8px 5px 16px;border-radius:8px;text-decoration:none}' +
       '.xo-col__sub:hover{background:#f5f6f8;color:#12151b}' +
       '.xo-col__more{display:block;font-size:12px;color:#8a93a2;padding:4px 8px 4px 16px;text-decoration:none}' +
+      '.xo-nav a,.xo-nav button{color:#f8fafc;font-weight:700;line-height:1.3}' +
+      '.xo-grp.is-open>button{color:#ffcf4a;background:#1d2d45}' +
+      '.xo-nav a:focus-visible,.xo-nav button:focus-visible,.xo-mnav a:focus-visible,.xo-mnav summary:focus-visible{outline:3px solid #e4ab00;outline-offset:-3px}' +
+      '.xo-mega{width:360px;max-width:calc(100vw - 32px);padding:14px;border-radius:0 0 14px 14px;max-height:min(75vh,680px)}' +
+      '.xo-mega a{white-space:normal;line-height:1.45;color:#172d4d}' +
+      '.xo-mega a:hover,.xo-mega a:focus-visible,.xo-mnav a:hover{background:#eef3f9;color:#0b274e}' +
+      '.xo-mega .xo-col__head,.xo-mnav .xo-col__head{color:#102b50;font-weight:800;padding:10px 12px;border-bottom:1px solid #d7e0ec;margin-bottom:8px}' +
+      '.xo-mega .xo-col__sub,.xo-mnav .xo-col__sub{color:#253c5c;font-weight:600;font-size:14px;padding:9px 12px;line-height:1.45;white-space:normal}' +
+      '.xo-menu-heading{font-size:15px;font-weight:800;line-height:1.4;color:#102b50;background:#edf2f8;border-left:4px solid #e6ac00;padding:9px 10px;margin:0 0 6px}' +
+      '.xo-mega--workwear{width:760px}' +
+      '.xo-workwear-groups{display:grid;grid-template-columns:1.15fr 1.15fr .8fr;gap:14px}' +
+      '.xo-mnav summary{color:#102b50;font-weight:800}.xo-mobile-category{padding-bottom:12px}' +
+      '.xo-mnav .xo-workwear-groups{display:block}.xo-mnav .xo-menu-section{margin-top:14px}' +
+      '.xo-mnav details[open]>summary{color:#102b50;background:#fff3c4;padding-left:8px;padding-right:8px}' +
+      '.topbar .topbar__item{color:#dbe4ef}.product-card__sku{color:#445471}' +
       '.product-card__sku{margin-top:4px;font-size:11px;letter-spacing:.4px;color:#667085;font-weight:800}' +
-      '@media(max-width:1199.98px){.xo-nav{display:none}}';
+      '.xo-nav>.container{max-width:1600px}' +
+      '@media(min-width:1280px) and (max-width:1599.98px){.xo-nav__inner> a,.xo-grp>button{font-size:11px;padding:12px 2px}}' +
+      '@media(max-width:1279.98px){.xo-nav{display:none!important}.xo-menu-toggle{display:inline-flex!important}}';
     var s = document.createElement('style');
     s.id = 'xoNavCss';
     s.appendChild(document.createTextNode(css));
@@ -139,22 +399,31 @@
   }
 
   function categoryDropdown(slug) {
-    var m = catMeta(slug), n = catCount(slug);
-    var subs = (slug === 'uniforms' ? WORKWEAR_SUBS : (SUBS[slug] || [])).filter(function (s) { return !!s.slug; });
-    var all = '<a class="xo-col__head" href="/category/' + slug + '/"><span>View all ' + XO.esc(m.name) +
-      '</span>' + (n === null ? '' : '<span class="xo-mega__n">' + n + '</span>') + '</a>';
-    var kids = subs.map(function (s) {
-      return '<a class="xo-col__sub" href="/category/' + slug + '/' + s.slug + '/"><span>' + XO.esc(s.name) +
-        '</span>' + (s.n == null ? '' : '<span class="xo-mega__n">' + s.n + '</span>') + '</a>';
-    }).join('');
-    return '<div class="xo-mega">' + all + kids + '</div>';
+    return '<div id="xo-menu-' + slug + '" class="xo-mega' + (slug === 'uniforms' ? ' xo-mega--workwear' : '') + '">' + categoryMenu(slug) + '</div>';
+  }
+
+  function categoryMenu(slug) {
+    var all = '<a class="xo-col__head" href="/category/' + slug + '/">View all ' + XO.esc(catMeta(slug).name) + '</a>';
+    var items = NAV_CATEGORIES[slug] || [];
+    function links(list) {
+      return list.map(function (s) { return '<a class="xo-col__sub" href="/category/' + slug + '/' + s.slug + '/">' + XO.esc(s.name) + '</a>'; }).join('');
+    }
+    if (slug !== 'uniforms') return all + links(items);
+    var groups = [
+      {name:'Coveralls', slugs:['100-twill-coverall-without-reflector','100-twill-coverall-with-reflector','100-cotton-coverall-without-reflector','100-cotton-coverall-with-reflector','fire-retardant-coveralls','disposable-coveralls']},
+      {name:'Pant & Shirt Sets', slugs:['100-twill-pant-shirt-without-reflector','100-twill-pant-shirt-with-reflector','100-cotton-pant-shirt-without-reflector','100-cotton-pant-shirt-with-reflector','fire-retardant-pant-shirt']},
+      {name:'Other Workwear', slugs:['lab-coats','cargo-pants','workwear-accessories']}
+    ];
+    return all + '<div class="xo-workwear-groups">' + groups.map(function (g) {
+      return '<section class="xo-menu-section"><h3 class="xo-menu-heading">' + XO.esc(g.name) + '</h3>' + links(g.slugs.map(function (id) { return items.find(function (s) { return s.slug === id; }); }).filter(Boolean)) + '</section>';
+    }).join('') + '</div>';
   }
 
   function navBar(active) {
     var out = '<a href="/" aria-label="Home" title="Home"' + (active === 'home' ? ' class="is-active"' : '') +
       '><i class="fa-solid fa-house"></i></a>';
     (CFG.CATEGORIES || []).forEach(function (m) {
-      out += '<span class="xo-grp"><button type="button" aria-haspopup="true">' + XO.esc(m.name) +
+      out += '<span class="xo-grp"><button type="button" aria-expanded="false" aria-controls="xo-menu-' + m.slug + '">' + XO.esc(m.name) +
         ' <i class="fa-solid fa-chevron-down" style="font-size:8px;opacity:.7"></i></button>' + categoryDropdown(m.slug) + '</span>';
     });
     out += '<a href="/">T-Shirts</a>';
@@ -164,42 +433,16 @@
   function mobileNavHtml() {
     var out = '<a href="/">Home</a>';
     (CFG.CATEGORIES || []).forEach(function (m) {
-      var subs = (m.slug === 'uniforms' ? WORKWEAR_SUBS : (SUBS[m.slug] || [])).filter(function (s) { return !!s.slug; });
       out += '<details><summary>' + XO.esc(m.name) + '<i class="fa-solid fa-chevron-down" style="font-size:11px;opacity:.5"></i></summary>' +
-        '<div style="padding-bottom:8px"><a href="/category/' + m.slug + '/">View all ' + XO.esc(m.name) + '</a>' +
-        subs.map(function (s) { return '<a href="/category/' + m.slug + '/' + s.slug + '/">' + XO.esc(s.name) + '</a>'; }).join('') + '</div></details>';
+        '<div class="xo-mobile-category">' + categoryMenu(m.slug) + '</div></details>';
     });
-    out += '<a href="/">T-Shirts</a><a href="about.html">About</a><a href="contact.html">Contact</a>';
+    out += '<a href="/">T-Shirts</a><a href="/about.html">About</a><a href="/contact.html">Contact</a>';
     return out;
   }
 
   /* Kept because other pages still call it. */
   function navLinks(active) { return navBar(active); }
 
-  function loadCounts(done) {
-    if (CAT_COUNTS) { done(); return; }
-    try {
-      var cached = sessionStorage.getItem('xo_cat_counts');
-      if (cached) { CAT_COUNTS = JSON.parse(cached); done(); return; }
-    } catch (e) {}
-    Catalog.load()
-      .then(function (rows) {
-        var by = {}, counts = {}, grouped = {};
-        rows.forEach(function (r) {
-          counts[r.category] = (counts[r.category] || 0) + 1;
-          if (!r.subcategory_slug) return;
-          var key = r.category + '/' + r.subcategory_slug;
-          if (!grouped[key]) grouped[key] = {category:r.category, name:r.subcategory, slug:r.subcategory_slug, n:0};
-          grouped[key].n++;
-        });
-        Object.keys(grouped).forEach(function (key) { var r=grouped[key]; (by[r.category]=by[r.category]||[]).push(r); });
-        Object.keys(by).forEach(function (k) { by[k].sort(function (a, b) { return b.n - a.n; }); });
-        SUBS = by;
-        CAT_COUNTS = counts;
-      })
-      ['catch'](function () {})
-      .then(function () { done(); });
-  }
 
   function renderHeader(active) {
     var mount = document.getElementById('siteHeader');
@@ -229,14 +472,14 @@
         '</form>' +
 
         '<div class="header-actions ms-auto ms-lg-0">' +
-          '<a class="btn btn-outline-xo btn-sm-xo d-none d-md-inline-flex" href="contact.html#quote">' +
+          '<a class="btn btn-outline-xo btn-sm-xo d-none d-md-inline-flex" href="/contact.html#quote">' +
             '<i class="fa-solid fa-file-invoice"></i> Request a quote</a>' +
-          '<a class="btn btn-ink btn-sm-xo cart-btn" href="cart.html" aria-label="Cart">' +
+          '<a class="btn btn-ink btn-sm-xo cart-btn" href="/cart.html" aria-label="Cart">' +
             '<i class="fa-solid fa-cart-shopping"></i>' +
             '<span class="d-none d-sm-inline">Cart</span>' +
             '<span class="cart-btn__count" id="cartCount" data-empty="true">0</span>' +
           '</a>' +
-          '<button class="btn btn-outline-xo btn-sm-xo d-xl-none" type="button" ' +
+          '<button class="btn btn-outline-xo btn-sm-xo d-xl-none xo-menu-toggle" type="button" ' +
             'data-bs-toggle="offcanvas" data-bs-target="#mobileNav" aria-label="Menu">' +
             '<i class="fa-solid fa-bars"></i></button>' +
         '</div>' +
@@ -257,7 +500,7 @@
             '<input type="search" id="xoSearchInputM" placeholder="Search products" aria-label="Search products">' +
           '</form>' +
           '<nav class="xo-mnav d-flex flex-column" id="xoMobileNav" aria-label="Main">' + mobileNavHtml() + '</nav>' +
-          '<a class="btn btn-gold w-100 mt-3" href="contact.html#quote">Request a quote</a>' +
+          '<a class="btn btn-gold w-100 mt-3" href="/contact.html#quote">Request a quote</a>' +
         '</div>' +
       '</div>';
 
@@ -268,19 +511,36 @@
       f.addEventListener('submit', function (e) {
         e.preventDefault();
         var v = (document.getElementById(inputId).value || '').trim();
-        location.href = '/';
+        location.href = v ? '/?q=' + encodeURIComponent(v) : '/';
       });
     }
     wireSearch('xoSearchForm', 'xoSearchInput');
     wireSearch('xoSearchFormM', 'xoSearchInputM');
 
-    /* Counts arrive a moment later; redraw so empty ranges disappear. */
-    loadCounts(function () {
-      var d = document.getElementById('xoNavInner');
-      if (d) d.innerHTML = navBar(active);
-      var m = document.getElementById('xoMobileNav');
-      if (m) m.innerHTML = mobileNavHtml();
+    wireCategoryMenus(mount);
+  }
+
+  function wireCategoryMenus(mount) {
+    function closeMenus(except) {
+      mount.querySelectorAll('.xo-grp').forEach(function (group) {
+        if (group !== except) { group.dataset.pinned = 'false'; group.classList.remove('is-open'); group.querySelector('button').setAttribute('aria-expanded','false'); }
+      });
+    }
+    mount.querySelectorAll('.xo-grp').forEach(function (group) {
+      var button = group.querySelector('button');
+      button.addEventListener('click', function () {
+        var open = group.dataset.pinned !== 'true'; closeMenus();
+        group.dataset.pinned = String(open); group.classList.toggle('is-open', open); button.setAttribute('aria-expanded', String(open));
+      });
+      group.addEventListener('mouseenter', function () { closeMenus(group); group.classList.add('is-open'); button.setAttribute('aria-expanded','true'); });
+      group.addEventListener('mouseleave', function () { if (group.dataset.pinned !== 'true') closeMenus(); });
+      group.addEventListener('focusout', function (e) { if (!group.contains(e.relatedTarget)) closeMenus(); });
+      group.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') { closeMenus(); button.focus(); e.preventDefault(); }
+        if (e.key === 'ArrowDown' && e.target === button) { closeMenus(group); group.classList.add('is-open'); button.setAttribute('aria-expanded','true'); group.querySelector('.xo-mega a').focus(); e.preventDefault(); }
+      });
     });
+    document.addEventListener('click', function (e) { if (!e.target.closest('.xo-grp')) closeMenus(); });
   }
 
   /* Carry a header search term into the shop page's own filter. */

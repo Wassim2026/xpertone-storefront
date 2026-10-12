@@ -113,6 +113,8 @@ const extraWorkwearFamilies = [
   ['workwear-accessories', 'Workwear Accessories', /fire\s*fighter\s*hood/i]
 ].map(([slug, name, matcher]) => ({ slug, name, matcher, material: 'Additional workwear range', core: false }));
 workwearFamilies.push(...extraWorkwearFamilies);
+// Retired landing pages stay out of the storefront; product classification is preserved.
+const retiredWorkwearPages = new Set(['35-65-coverall-without-reflector','35-65-coverall-with-reflector','35-65-pant-shirt-without-reflector','35-65-pant-shirt-with-reflector','other-pant-shirt-sets','workwear-trousers-pants','specialist-coveralls','work-jackets-trouser-sets']);
 
 const safetyVestFamilies = [
   { slug: 'general-vests', name: 'General Safety Vests', label: 'Under AED 15', thumbnail: '/assets/img/category/safety-vests/general-vests.webp', description: 'Affordable safety vests for visitors, general crews and short-duration site use.' },
@@ -531,7 +533,7 @@ function workwearFamilyPage(family, items) {
 }
 
 function workwearHub(familyGroups, otherItems) {
-  const available = workwearFamilies.filter(f => (familyGroups.get(f.slug) || []).length);
+  const available = workwearFamilies.filter(f => !retiredWorkwearPages.has(f.slug) && (familyGroups.get(f.slug) || []).length);
   const count = new Set([
     ...available.flatMap(f => familyGroups.get(f.slug).map(p => p.uid)),
     ...otherItems.map(p => p.uid)
@@ -541,8 +543,8 @@ function workwearHub(familyGroups, otherItems) {
     const image = familyThumbnailAsset('uniforms', f, items) || f.thumbnail || items[0]?.images?.[0];
     return `<div class="col-md-6 col-xl-4"><article class="workwear-family-card${items.length ? '' : ' is-empty'}">${image ? `<img src="${esc(image)}" alt="${esc(f.name)}" loading="lazy" width="600" height="420">` : ''}<div><p class="workwear-family-card__eyebrow">${esc(f.material)}</p><h2>${items.length ? `<a href="/category/uniforms/${f.slug}/">${esc(f.name)}</a>` : esc(f.name)}</h2><p>${items.length ? `${items.length} colour variation${items.length === 1 ? '' : 's'} available` : 'No published colour variations at present'}</p>${items.length ? `<a class="btn btn-xo btn-sm-xo" href="/category/uniforms/${f.slug}/">View colours</a>` : ''}</div></article></div>`;
   };
-  const coreCards = workwearFamilies.filter(f => f.core).map(familyCard).join('');
-  const additionalCards = workwearFamilies.filter(f => !f.core && (familyGroups.get(f.slug) || []).length).map(familyCard).join('');
+  const coreCards = workwearFamilies.filter(f => f.core && !retiredWorkwearPages.has(f.slug)).map(familyCard).join('');
+  const additionalCards = workwearFamilies.filter(f => !f.core && !retiredWorkwearPages.has(f.slug) && (familyGroups.get(f.slug) || []).length).map(familyCard).join('');
   const additional = additionalCards ? `<section class="section section--alt"><div class="container"><h2>Additional Workwear Categories</h2><p class="text-muted-xo">Specialist garments and supporting workwear are grouped by product type, with their colour options kept inside each range.</p><div class="row g-4">${additionalCards}</div></div></section>` : '';
   const other = otherItems.length ? `<section class="section"><div class="container"><h2>Unclassified workwear</h2><p class="text-muted-xo">These products need a clearer product name or material specification before they can be placed in a dedicated range.</p><div class="row g-4">${otherItems.map(productCard).join('')}</div></div></section>` : '';
   const canonical = categoryUrl('uniforms');
@@ -715,6 +717,7 @@ for (const p of uniformItems) {
 }
 write(path.join(root, 'category', 'uniforms', 'index.html'), workwearHub(workwearGroups, otherWorkwear));
 for (const family of workwearFamilies) {
+  if (retiredWorkwearPages.has(family.slug)) continue;
   const items = workwearGroups.get(family.slug);
   write(path.join(root, 'category', 'uniforms', family.slug, 'index.html'), workwearFamilyPage(family, items));
 }
@@ -825,7 +828,7 @@ const staticUrls = [
 const xml = rows => `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${rows.map(([url, freq, priority]) => `  <url><loc>${esc(url)}</loc><lastmod>${today}</lastmod><changefreq>${freq}</changefreq><priority>${priority}</priority></url>`).join('\n')}\n</urlset>\n`;
 write(path.join(root, 'sitemap-pages.xml'), xml(staticUrls));
 const categoryRows = [...groups.keys()].map(slug => [categoryUrl(slug), 'weekly', '0.8']);
-for (const family of workwearFamilies) if (workwearGroups.get(family.slug).length) categoryRows.push([workwearUrl(family.slug), 'weekly', '0.8']);
+for (const family of workwearFamilies) if (!retiredWorkwearPages.has(family.slug) && workwearGroups.get(family.slug).length) categoryRows.push([workwearUrl(family.slug), 'weekly', '0.8']);
 for (const family of safetyVestFamilies) categoryRows.push([`${categoryUrl('safety-vests')}${family.slug}/`, 'weekly', '0.8']);
 for (const family of handProtectionFamilies) categoryRows.push([`${categoryUrl('hand-protection')}${family.slug}/`, 'weekly', '0.8']);
 for (const family of safetyShoeFamilies) categoryRows.push([`${categoryUrl('safety-shoes')}${family.slug}/`, 'weekly', '0.8']);
