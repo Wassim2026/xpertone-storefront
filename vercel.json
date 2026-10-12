@@ -418,3 +418,104 @@
     },
     {
       "source": "/shop.html",
+      "has": [
+        {
+          "type": "query",
+          "key": "category",
+          "value": "hardware-tools"
+        }
+      ],
+      "destination": "/category/hardware-tools/",
+      "permanent": true
+    },
+    {
+      "source": "/shop.html",
+      "has": [
+        {
+          "type": "query",
+          "key": "category",
+          "value": "hearing-respiratory"
+        }
+      ],
+      "destination": "/category/hearing-respiratory/",
+      "permanent": true
+    },
+    {
+      "source": "/shop.html",
+      "has": [
+        {
+          "type": "query",
+          "key": "category",
+          "value": "helmets"
+        }
+      ],
+      "destination": "/category/helmets/",
+      "permanent": true
+    },
+    {
+      "source": "/shop.html",
+      "has": [
+        {
+          "type": "query",
+          "key": "category",
+          "value": "rainwear-marine"
+        }
+      ],
+      "destination": "/category/rainwear-marine/",
+      "permanent": true
+    },
+    {
+      "source": "/shop.html",
+      "has": [
+        {
+          "type": "query",
+          "key": "category",
+          "value": "safety-shoes"
+        }
+      ],
+      "destination": "/category/safety-shoes/",
+      "permanent": true
+    },
+    {
+      "source": "/shop.html",
+      "has": [
+        {
+          "type": "query",
+          "key": "category",
+          "value": "traffic-safety"
+        }
+      ],
+      "destination": "/category/traffic-safety/",
+      "permanent": true
+    },
+    {
+      "source": "/shop.html",
+      "has": [
+        {
+          "type": "query",
+          "key": "category",
+          "value": "uniforms"
+        }
+      ],
+      "destination": "/category/uniforms/",
+      "permanent": true
+    },
+    {
+      "source": "/shop.html",
+      "has": [
+        {
+          "type": "query",
+          "key": "category",
+          "value": "safety-vests"
+        }
+      ],
+      "destination": "/api/legacy-category",
+      "permanent": true
+    },
+    {
+      "source": "/shop.html",
+      "destination": "/sitemap.html",
+      "permanent": true
+    }
+  ]
+}
