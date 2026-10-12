@@ -384,7 +384,10 @@
       '.product-card__sku{margin-top:4px;font-size:11px;letter-spacing:.4px;color:#667085;font-weight:800}' +
       '.xo-nav>.container{max-width:1600px}' +
       '@media(min-width:1280px) and (max-width:1599.98px){.xo-nav__inner> a,.xo-grp>button{font-size:11px;padding:12px 2px}}' +
-      '@media(max-width:1279.98px){.xo-nav{display:none!important}.xo-menu-toggle{display:inline-flex!important}}';
+      '.xo-menu-toggle{display:none!important}' +
+      '@media(max-width:1279.98px){.xo-nav__inner{position:relative}.xo-grp{position:static}.xo-mega{top:100%;left:0!important;right:auto!important}.xo-grp>button{padding:12px 7px}}' +
+      '@media(max-width:767.98px){.xo-workwear-groups{grid-template-columns:1fr}}' +
+      '@media(max-width:767.98px) and (hover:none) and (pointer:coarse){.xo-nav{display:none!important}.xo-menu-toggle{display:inline-flex!important}}';
     var s = document.createElement('style');
     s.id = 'xoNavCss';
     s.appendChild(document.createTextNode(css));
@@ -478,13 +481,13 @@
             '<span class="d-none d-sm-inline">Cart</span>' +
             '<span class="cart-btn__count" id="cartCount" data-empty="true">0</span>' +
           '</a>' +
-          '<button class="btn btn-outline-xo btn-sm-xo d-xl-none xo-menu-toggle" type="button" ' +
+          '<button class="btn btn-outline-xo btn-sm-xo xo-menu-toggle" type="button" ' +
             'data-bs-toggle="offcanvas" data-bs-target="#mobileNav" aria-label="Menu">' +
             '<i class="fa-solid fa-bars"></i></button>' +
         '</div>' +
       '</div></div></header>' +
 
-      '<div class="xo-nav d-none d-xl-block"><div class="container"><div class="xo-nav__inner" id="xoNavInner">' +
+      '<div class="xo-nav"><div class="container"><div class="xo-nav__inner" id="xoNavInner">' +
         navBar(active) +
       '</div></div></div>' +
 
