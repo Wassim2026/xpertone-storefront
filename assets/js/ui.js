@@ -571,7 +571,7 @@
 
     mount.innerHTML =
       '<footer class="site-footer"><div class="container">' +
-        '<div class="row g-4 g-lg-5">' +
+        '<div class="row g-4">' +
           '<div class="col-lg-4">' +
             '<span class="brand mb-3"><img class="brand__logo brand__logo--footer" src="/assets/img/brand/xpertone-logo.png" alt="Xpertone Creative LLC-FZ"></span>' +
             '<p style="font-size:.92rem;max-width:34ch">Bulk safety wear and custom uniform printing for UAE ' +
