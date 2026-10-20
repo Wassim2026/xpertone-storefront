@@ -281,6 +281,11 @@ window.XO_CONFIG = {
      remains for compatibility with printable-range selection elsewhere. */
   CATEGORIES: [
     {
+      slug: 't-shirts', printable: true, name: 'T-Shirts', nav: true,
+      blurb: 'Cotton, dry-fit, round-neck and dual-colour shirts with front & back logo print.',
+      apiKeys: [], source: 'xpertone'
+    },
+    {
       slug: 'safety-vests', printable: true, name: 'Safety Vests', nav: true,
       blurb: 'Hi-vis reflective vests - general, supervisor, executive and engineer grade.',
       apiKeys: ['High Visibility Safety Vest', 'Safety Vest'], source: 'remart'

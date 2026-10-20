@@ -29,6 +29,14 @@
   var CAT_COUNTS = null;
   // Only real, published category pages belong in navigation.
   var NAV_CATEGORIES = {
+    "t-shirts": [
+      {name: "Cotton Polo — AED 30", slug: "cotton-polo"},
+      {name: "Dry-Fit Polo — AED 35", slug: "dry-fit-polo"},
+      {name: "Round-Neck T-Shirts", slug: "round-neck"},
+      {name: "Cotton Round-Neck — AED 30", slug: "cotton-round-neck"},
+      {name: "Dry-Fit Round-Neck — AED 35", slug: "dry-fit-round-neck"},
+      {name: "Custom / Dual-Colour — AED 40", slug: "custom-dual-colour"}
+    ],
     "eye-face-protection": [
       {
         "name": "Anti Fog Safety Spectacles",
@@ -585,9 +593,9 @@
           '<div class="col-6 col-lg-2"><h4>Shop</h4><ul>' + catLinks +
             '<li><a href="/sitemap.html">All products</a></li></ul></div>' +
           '<div class="col-6 col-lg-2"><h4>Company</h4><ul>' +
-            '<li><a href="about.html">About us</a></li>' +
-            '<li><a href="contact.html">Contact</a></li>' +
-            '<li><a href="contact.html#quote">Request a quote</a></li>' +
+            '<li><a href="/about.html">About us</a></li>' +
+            '<li><a href="/contact.html">Contact</a></li>' +
+            '<li><a href="/contact.html#quote">Request a quote</a></li>' +
             '<li><a href="/">Bulk pricing</a></li></ul></div>' +
           '<div class="col-lg-4"><h4>Get in touch</h4><ul class="footer-contact">' +
             '<li><i class="fa-solid fa-location-dot"></i><span>' + XO.esc(C.address) + '</span></li>' +

@@ -271,6 +271,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var all = loaded[0];
     var custom = {};
     var categoryFallbacks = {
+      't-shirts': '/assets/img/category/t-shirts/polo-overview.webp',
       'hardware-tools': '/assets/img/category/hardware-tools/hammers-striking-tools.png'
     };
     loaded[1].forEach(function (c) { if (c.display_image_url) custom[c.slug] = c.display_image_url; });
@@ -286,7 +287,7 @@ document.addEventListener('DOMContentLoaded', function () {
         '</div>' +
         '<div class="cat-tile__body"><h3>' + XO.esc(c.name) + '</h3>' +
         '<p>' + XO.esc(c.blurb) + '</p>' +
-        '<span class="cat-tile__more">' + count + ' products <i class="fa-solid fa-arrow-right"></i></span>' +
+        '<span class="cat-tile__more">' + (c.slug === 't-shirts' ? '5 printed ranges' : count + ' products') + ' <i class="fa-solid fa-arrow-right"></i></span>' +
         '</div></a></div>';
     }).join('');
     XO.el('#categoryGrid').innerHTML = cats;
