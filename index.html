@@ -121,7 +121,7 @@
       <div class="section-head">
         <span class="eyebrow">Catalogue</span>
         <h2 class="mt-2">Everything your crew wears on site</h2>
-        <p class="lead mb-0">Ten ranges covering head-to-toe PPE, workwear and site equipment. Logo customization is available on safety vests, uniforms and eligible helmets.</p>
+        <p class="lead mb-0">Eleven ranges covering printed T-shirts, head-to-toe PPE, workwear and site equipment. Logo customization is available on safety vests, uniforms and eligible helmets.</p>
       </div>
       <div class="row g-4" id="categoryGrid"></div>
     </div>
@@ -261,37 +261,35 @@
 <script>
 document.addEventListener('DOMContentLoaded', function () {
 
-  /* Category tiles — image is taken from the first product in each range. */
+  /* Category artwork is bundled with the site, never fetched from retired storage. */
   GridSkeleton('#highlightGrid', 8);
-  var categoryImages = fetch(XO_CONFIG.SUPABASE.url + '/rest/v1/categories?select=slug,display_image_url&is_active=eq.true', {
-    headers: { apikey: XO_CONFIG.SUPABASE.key }, cache: 'no-store'
-  }).then(function (r) { return r.ok ? r.json() : []; }).catch(function () { return []; });
-
-  Promise.all([Catalog.load(), categoryImages]).then(function (loaded) {
-    var all = loaded[0];
-    var custom = {};
-    var categoryFallbacks = {
-      't-shirts': '/assets/img/category/t-shirts/polo-overview.webp',
-      'hardware-tools': '/assets/img/category/hardware-tools/hammers-striking-tools.png'
-    };
-    loaded[1].forEach(function (c) { if (c.display_image_url) custom[c.slug] = c.display_image_url; });
-    var cats = XO_CONFIG.CATEGORIES.map(function (c) {
-      var first = all.filter(function (p) { return p.category === c.slug; })[0];
-      var count = all.filter(function (p) { return p.category === c.slug; }).length;
-      var displayImage = XO.productImage(custom[c.slug] || categoryFallbacks[c.slug] || (first && first.images[0]));
+  var categoryImages = {
+    't-shirts': '/assets/img/category/t-shirts/polo-overview.webp',
+    'safety-vests': '/assets/img/category/home/safety-vests.webp',
+    'uniforms': '/assets/img/category/home/uniforms.webp',
+    'safety-shoes': '/assets/img/category/home/safety-shoes.webp',
+    'helmets': '/assets/img/category/home/helmets.webp',
+    'hand-protection': '/assets/img/category/home/hand-protection.webp',
+    'eye-face-protection': '/assets/img/category/home/eye-face-protection.webp',
+    'hearing-respiratory': '/assets/img/category/home/hearing-respiratory.webp',
+    'rainwear-marine': '/assets/img/category/home/rainwear-marine.webp',
+    'traffic-safety': '/assets/img/category/home/traffic-safety.webp',
+    'hardware-tools': '/assets/img/category/home/hardware-tools.webp'
+  };
+  function renderCategories(all) {
+    XO.el('#categoryGrid').innerHTML = XO_CONFIG.CATEGORIES.map(function (c) {
+      var count = all ? all.filter(function (p) { return p.category === c.slug; }).length : null;
+      var label = c.slug === 't-shirts' ? '5 printed ranges' : (count === null ? 'Browse products' : count + ' products');
       return '<div class="col-6 col-lg-3"><a class="cat-tile" href="/category/' + c.slug + '/">' +
-        '<div class="cat-tile__media">' +
-          (displayImage
-            ? '<img src="' + XO.esc(displayImage) + '" alt="' + XO.esc(c.name) + '" loading="lazy">'
-            : '<i class="fa-solid fa-image fa-2x text-muted-xo"></i>') +
-        '</div>' +
+        '<div class="cat-tile__media"><img src="' + XO.esc(categoryImages[c.slug] || '/assets/img/brand/og-xpertone.png') + '" alt="' + XO.esc(c.name) + '" loading="lazy" width="640" height="640"></div>' +
         '<div class="cat-tile__body"><h3>' + XO.esc(c.name) + '</h3>' +
-        '<p>' + XO.esc(c.blurb) + '</p>' +
-        '<span class="cat-tile__more">' + (c.slug === 't-shirts' ? '5 printed ranges' : count + ' products') + ' <i class="fa-solid fa-arrow-right"></i></span>' +
+        '<p>' + XO.esc(c.blurb) + '</p><span class="cat-tile__more">' + label + ' <i class="fa-solid fa-arrow-right"></i></span>' +
         '</div></a></div>';
     }).join('');
-    XO.el('#categoryGrid').innerHTML = cats;
-  });
+  }
+  // Render immediately, even if the catalogue API is slow or unavailable.
+  renderCategories(null);
+  Catalog.load().then(renderCategories).catch(function () { renderCategories(null); });
 
   Catalog.load().then(function (all) {
     var priority = ['safety-vests', 'uniforms', 'helmets', 'hand-protection', 'safety-shoes'];
