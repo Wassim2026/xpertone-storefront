@@ -23,7 +23,7 @@ const document={
  createElement:()=>new Element(),
  querySelectorAll:()=>[]
 };
-const context={document, window:{addEventListener(){},XO_CONFIG:{COMPANY:{whatsapp:'971554712106'}}},URL,Image:class{},console};
+const context={document, window:{addEventListener(){},XO_CONFIG:{COMPANY:{whatsapp:'971545832318'}}},URL,Image:class{},console};
 context.XO_CONFIG=context.window.XO_CONFIG;
 get('teeInk').value='#ffffff';get('teeNeck').value='polo';get('teeLayout').value='panels';
 get('teeNeck').options=[{text:'Polo'}];get('teeNeck').selectedIndex=0;
@@ -37,7 +37,7 @@ submit();assert.match(get('teeStatus').textContent,/at least one/);assert.equal(
 form.elements.S.value='4';form.elements['5XL'].value='6';
 for(const [range,price] of [['cotton-polo',30],['cotton-round-neck',30],['dry-fit-polo',35],['dry-fit-round-neck',35],['custom-dual-colour',40]]){
  get('teeRange').value=range;update();assert.equal(get('teeQuoteTotal').textContent,'AED '+price*10);
- submit();const u=new URL(sent.at(-1));assert.equal(u.hostname,'wa.me');assert.equal(u.pathname,'/971554712106');
+ submit();const u=new URL(sent.at(-1));assert.equal(u.hostname,'wa.me');assert.equal(u.pathname,'/971545832318');
  const message=u.searchParams.get('text');assert.match(message,/S: 4, 5XL: 6/);assert.ok(message.includes('AED '+price*10));assert.ok(message.includes('Front & back logo print included'));
 }
 form.elements.S.value='-1';update();assert.equal(get('teeQuoteTotal').textContent,'Check quantities');

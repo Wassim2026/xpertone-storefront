@@ -66,7 +66,7 @@ if(custom())lines.push('Accent: '+colours[contrast][0],'Neckline: '+neck.options
 lines.push('Sizes: '+quantities().filter(function(q){return q.value>0;}).map(function(q){return q.size+': '+q.value;}).join(', '),'Total: '+qty()+' shirts / AED '+(qty()*r.price),'Logo text: '+(text.value.trim()||'Company logo'),'Please confirm fabric/colour availability, VAT, lead time and artwork proof.');
 if(logoReady)lines.push('I previewed my logo locally and will attach the original file in this chat.');
 lines.push('Reference: https://www.xpertonecreative.com/category/t-shirts/'+r.slug+'/');
-var phone=(window.XO_CONFIG&&XO_CONFIG.COMPANY&&XO_CONFIG.COMPANY.whatsapp)||'971554712106';
+var phone=(window.XO_CONFIG&&XO_CONFIG.COMPANY&&XO_CONFIG.COMPANY.whatsapp)||'971545832318';
 var a=document.createElement('a');a.href='https://wa.me/'+phone+'?text='+encodeURIComponent(lines.join('\n'));a.target='_blank';a.rel='noopener noreferrer';a.click();status.textContent='Your enquiry opens in WhatsApp. Please attach your logo there; it is not uploaded automatically.';
 });
 update();
