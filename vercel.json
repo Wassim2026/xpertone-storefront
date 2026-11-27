@@ -434,7 +434,7 @@
           "value": "safety-vests"
         }
       ],
-      "destination": "/api/legacy-category",
+      "destination": "/category/safety-vests/",
       "permanent": true
     },
     {
